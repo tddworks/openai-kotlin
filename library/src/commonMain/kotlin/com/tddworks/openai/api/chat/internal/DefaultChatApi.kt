@@ -1,0 +1,48 @@
+package com.tddworks.openai.api.chat.internal
+
+import com.snacks.openai.api.chat.ChatCompletionChunk
+import com.tddworks.openai.api.chat.Chat
+import com.tddworks.openai.api.chat.Chat.Companion.CHAT_COMPLETIONS_PATH
+import com.tddworks.openai.api.chat.ChatCompletion
+import com.tddworks.openai.api.chat.ChatCompletionRequest
+import com.tddworks.openai.api.internal.network.ktor.HttpRequester
+import com.tddworks.openai.api.internal.network.ktor.performRequest
+import com.tddworks.openai.api.internal.network.ktor.streamRequest
+import io.ktor.client.request.*
+import io.ktor.http.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.serialization.ExperimentalSerializationApi
+
+/**
+ * Default implementation of [Chat].
+ * @see [Chat documentation](https://beta.openai.com/docs/api-reference/chat)
+ * @property requester The HttpRequester to use for performing HTTP requests.
+ */
+@OptIn(ExperimentalSerializationApi::class)
+class DefaultChatApi(
+    private val requester: HttpRequester,
+) : Chat {
+    override suspend fun completions(request: ChatCompletionRequest): ChatCompletion {
+        return requester.performRequest<ChatCompletion> {
+            method = HttpMethod.Post
+            url(path = CHAT_COMPLETIONS_PATH)
+            setBody(request)
+            contentType(ContentType.Application.Json)
+        }
+    }
+
+    override fun streamCompletions(request: ChatCompletionRequest): Flow<ChatCompletionChunk> {
+        return requester.streamRequest<ChatCompletionChunk> {
+            method = HttpMethod.Post
+            url(path = CHAT_COMPLETIONS_PATH)
+            setBody(request.asStreamRequest())
+            contentType(ContentType.Application.Json)
+            accept(ContentType.Text.EventStream)
+            headers {
+                append(HttpHeaders.CacheControl, "no-cache")
+                append(HttpHeaders.Connection, "keep-alive")
+            }
+        }
+    }
+
+}

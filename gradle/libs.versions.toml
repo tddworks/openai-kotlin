@@ -1,14 +1,77 @@
 [versions]
 agp = "8.1.0"
 kotlin = "1.9.22"
+
+ktor = "2.3.7"
+kotlinx-serialization = "1.6.2"
+kover = "0.7.5"
+kotlinx-coroutines = "1.7.3"
+
+#logging-versions
+napier = "2.6.1"
+
+junit = "5.10.1"
+mockito-junit-jupiter = "5.8.0"
+mockito-kotlin = "5.2.1"
+assertj-core = "3.24.2"
+
+# plugins
+multiplatform-swiftpackage = "2.2.1"
+
+touchlab-skie = "0.6.1"
+
+touchlab-kmmbridge = "0.5.2"
+
 nexus-publish = "2.0.0-rc-1"
 android-minSdk = "24"
 android-compileSdk = "34"
 
 [libraries]
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 nexus-publish = { module = "io.github.gradle-nexus.publish-plugin:io.github.gradle-nexus.publish-plugin.gradle.plugin", version.ref = "nexus-publish" }
+
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+
+#jvm-libraries
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+
+#apple-libraries
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+
+#logging-libraries
+napier = { module = "io.github.aakira:napier", version.ref = "napier" }
+
+#test-libraries
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+juinit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito-junit-jupiter" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
+ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj-core" }
+
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 
 [plugins]
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+#quality and coverage
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+
+#publishing
+touchlab-kmmbridge = { id = "co.touchlab.kmmbridge", version.ref = "touchlab-kmmbridge" }
+
+
+[bundles]
+ktor-client = ["ktor-client-core", "ktor-serialization-kotlinx-json", "ktor-client-logging", "ktor-client-auth", "ktor-client-content-negotiation"]
+jvm-test = ["juinit-jupiter", "mockito-junit-jupiter", "mockito-kotlin", "ktor-client-mock", "assertj-core"]
+
