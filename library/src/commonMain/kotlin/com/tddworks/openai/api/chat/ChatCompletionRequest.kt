@@ -11,7 +11,6 @@ import kotlinx.serialization.json.*
  *
  * @property messages The user's message.
  * @property model The GPT model to use for generating the chat completion. Default is GPT_3_5_TURBO.
- * @property stream Whether to use streaming or not. Default is true.
  */
 @Serializable
 @ExperimentalSerializationApi
@@ -40,7 +39,7 @@ data class ChatCompletionRequest(
      * @see EncodeDefault.Mode.NEVER
      */
     @EncodeDefault(EncodeDefault.Mode.ALWAYS)
-    val model: Model = Model.GPT_3_5_TURBO,
+    @SerialName("model") val model: Model = Model.GPT_3_5_TURBO,
 ) : StreamableRequest {
     companion object {
 
