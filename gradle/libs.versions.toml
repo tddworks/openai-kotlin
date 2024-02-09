@@ -10,10 +10,12 @@ kotlinx-coroutines = "1.7.3"
 #logging-versions
 napier = "2.6.1"
 
+#test-versions
 junit = "5.10.1"
 mockito-junit-jupiter = "5.8.0"
 mockito-kotlin = "5.2.1"
 assertj-core = "3.24.2"
+app-cash-turbine = "1.0.0"
 
 # plugins
 multiplatform-swiftpackage = "2.2.1"
@@ -58,6 +60,8 @@ ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj-core" }
 
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+
+app-cash-turbine = { module = "app.cash.turbine:turbine", version = "1.0.0" }
 
 [plugins]
 androidLibrary = { id = "com.android.library", version.ref = "agp" }

@@ -1,5 +1,6 @@
 package com.tddworks.openai.api.chat
 
+import app.cash.turbine.test
 import com.snacks.openai.api.chat.*
 import com.tddworks.openai.api.chat.internal.DefaultChatApi
 import com.tddworks.openai.api.internal.network.ktor.DefaultHttpRequester
@@ -73,10 +74,7 @@ class ChatApiTest {
             )
         )
 
-        val r = chat.streamCompletions(request).toList()
-
-        with(r) {
-            assertEquals(1, size)
+        chat.streamCompletions(request).test {
             assertEquals(
                 ChatCompletionChunk(
                     id = "chatcmpl-8ZtRSZzsijxilL2lDBN7ERQc0Zi7Q",
@@ -92,8 +90,9 @@ class ChatApiTest {
                             finishReason = null
                         )
                     )
-                ), get(0)
+                ), awaitItem()
             )
+            awaitComplete()
         }
     }
 
