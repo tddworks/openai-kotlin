@@ -42,7 +42,7 @@ data class ChatDelta(
     companion object {
         fun fake() = ChatDelta(
             content = "fake-content",
-            role = Role.ASSISTANT,
+            role = Role.Assistant,
         )
     }
 

@@ -38,7 +38,7 @@ sealed interface ChatMessage {
         override val content: String,
         @SerialName("role")
         @EncodeDefault(EncodeDefault.Mode.ALWAYS)
-        override val role: Role = Role.SYSTEM,
+        override val role: Role = Role.System,
     ) : ChatMessage
 
     @Serializable
@@ -47,7 +47,7 @@ sealed interface ChatMessage {
         override val content: String,
         @EncodeDefault(EncodeDefault.Mode.ALWAYS)
         @SerialName("role")
-        override val role: Role = Role.USER,
+        override val role: Role = Role.User,
     ) : ChatMessage
 
     @Serializable
@@ -56,7 +56,7 @@ sealed interface ChatMessage {
         override val content: String,
         @SerialName("role")
         @EncodeDefault(EncodeDefault.Mode.ALWAYS)
-        override val role: Role = Role.ASSISTANT,
+        override val role: Role = Role.Assistant,
         @SerialName("tool_calls")
         val toolCalls: List<ToolCall>? = null,
     ) : ChatMessage
@@ -72,7 +72,7 @@ sealed interface ChatMessage {
          * The role of the messages author, in this case tool.
          */
         @SerialName("role")
-        override val role: Role = Role.TOOL,
+        override val role: Role = Role.Tool,
         /**
          * Tool call that this message is responding to.
          */
@@ -95,7 +95,7 @@ sealed interface ChatMessage {
          */
         @EncodeDefault(EncodeDefault.Mode.ALWAYS)
         @SerialName("role")
-        override val role: Role = Role.USER,
+        override val role: Role = Role.User,
     ) : ChatMessage
 }
 
@@ -148,10 +148,10 @@ object ChatMessageSerializer :
         val type = element.jsonObject["role"]?.jsonPrimitive?.content
 
         return when (type) {
-            Role.SYSTEM.name.lowercase() -> ChatMessage.SystemMessage.serializer()
-            Role.USER.name.lowercase() -> ChatMessage.UserMessage.serializer()
-            Role.ASSISTANT.name.lowercase() -> ChatMessage.AssistantMessage.serializer()
-            Role.TOOL.name.lowercase() -> ChatMessage.ToolMessage.serializer()
+            Role.System.name -> ChatMessage.SystemMessage.serializer()
+            Role.User.name -> ChatMessage.UserMessage.serializer()
+            Role.Assistant.name -> ChatMessage.AssistantMessage.serializer()
+            Role.Tool.name -> ChatMessage.ToolMessage.serializer()
             else -> throw IllegalArgumentException("Unknown type")
         }
     }

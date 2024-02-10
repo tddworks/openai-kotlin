@@ -1,22 +1,19 @@
 package com.tddworks.openai.api.chat
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.jvm.JvmInline
 
 /**
- * Enum representing the available message sender roles.
+ * Representing the available message sender roles.
+ * deprecated or obsolete role like `Function` is removed.
  */
+@JvmInline
 @Serializable
-enum class Role {
-    @SerialName("user")
-    USER,
-
-    @SerialName("assistant")
-    ASSISTANT,
-
-    @SerialName("system")
-    SYSTEM,
-
-    @SerialName("tool")
-    TOOL
+value class Role(val name: String) {
+    companion object {
+        val System: Role = Role("system")
+        val User: Role = Role("user")
+        val Assistant: Role = Role("assistant")
+        val Tool: Role = Role("tool")
+    }
 }

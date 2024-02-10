@@ -25,7 +25,7 @@ class ChatChoiceTest {
         with(chatChoice) {
             assertEquals(0, index)
             assertEquals("Hello! How can I assist you today?", message.content)
-            assertEquals("ASSISTANT", message.role.name)
+            assertEquals("assistant", message.role.name)
             assertEquals("stop", finishReason?.value)
         }
     }
