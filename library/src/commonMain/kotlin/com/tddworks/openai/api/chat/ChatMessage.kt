@@ -2,7 +2,10 @@ package com.tddworks.openai.api.chat
 
 import com.tddworks.openai.api.chat.capabilities.vision.VisionMessageContent
 import kotlinx.serialization.*
-import kotlin.jvm.JvmInline
+import kotlinx.serialization.json.JsonContentPolymorphicSerializer
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 
 /**
@@ -12,9 +15,10 @@ import kotlin.jvm.JvmInline
  * @property role The role of the message sender (user or assistant). Default is USER.
  */
 @OptIn(ExperimentalSerializationApi::class)
-@Serializable
+@Serializable(with = ChatMessageSerializer::class)
 sealed interface ChatMessage {
     val role: Role
+    val content: Any
 
     companion object {
         fun system(content: String) = SystemMessage(content)
@@ -31,7 +35,7 @@ sealed interface ChatMessage {
     @Serializable
     data class SystemMessage(
         @SerialName("content")
-        val content: String,
+        override val content: String,
         @SerialName("role")
         @EncodeDefault(EncodeDefault.Mode.ALWAYS)
         override val role: Role = Role.SYSTEM,
@@ -40,7 +44,7 @@ sealed interface ChatMessage {
     @Serializable
     data class UserMessage(
         @SerialName("content")
-        val content: String,
+        override val content: String,
         @EncodeDefault(EncodeDefault.Mode.ALWAYS)
         @SerialName("role")
         override val role: Role = Role.USER,
@@ -49,7 +53,7 @@ sealed interface ChatMessage {
     @Serializable
     data class AssistantMessage(
         @SerialName("content")
-        val content: String,
+        override val content: String,
         @SerialName("role")
         @EncodeDefault(EncodeDefault.Mode.ALWAYS)
         override val role: Role = Role.ASSISTANT,
@@ -63,7 +67,7 @@ sealed interface ChatMessage {
          * The contents of the tool message.
          */
         @SerialName("content")
-        val content: String,
+        override val content: String,
         /**
          * The role of the messages author, in this case tool.
          */
@@ -85,7 +89,7 @@ sealed interface ChatMessage {
          * The contents of the tool message.
          */
         @SerialName("content")
-        val content: List<VisionMessageContent>,
+        override val content: List<VisionMessageContent>,
         /**
          * The role of the messages author, in this case tool.
          */
@@ -136,3 +140,18 @@ data class Function(
     @SerialName("arguments")
     val arguments: String,
 )
+
+object ChatMessageSerializer :
+    JsonContentPolymorphicSerializer<ChatMessage>(ChatMessage::class) {
+    override fun selectDeserializer(element: JsonElement): KSerializer<out ChatMessage> {
+        val type = element.jsonObject["role"]?.jsonPrimitive?.content
+
+        return when (type) {
+            Role.SYSTEM.name.lowercase() -> ChatMessage.SystemMessage.serializer()
+            Role.USER.name.lowercase() -> ChatMessage.UserMessage.serializer()
+            Role.ASSISTANT.name.lowercase() -> ChatMessage.AssistantMessage.serializer()
+            Role.TOOL.name.lowercase() -> ChatMessage.ToolMessage.serializer()
+            else -> throw IllegalArgumentException("Unknown type")
+        }
+    }
+}

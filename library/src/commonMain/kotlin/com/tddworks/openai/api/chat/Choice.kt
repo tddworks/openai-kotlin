@@ -57,6 +57,7 @@ data class ChatChoice(
     /**
      * The generated chat message.
      */
+    @Serializable(with = ChatMessageSerializer::class)
     @SerialName("message") val message: ChatMessage,
 
     /**
@@ -67,7 +68,7 @@ data class ChatChoice(
 
 @Serializable
 @JvmInline
-value class FinishReason(public val value: String) {
+value class FinishReason(val value: String) {
     companion object {
         val Stop: FinishReason = FinishReason("stop")
         val Length: FinishReason = FinishReason("length")
