@@ -21,7 +21,7 @@ data class ChatCompletionRequest(
      * Function message
      */
     @SerialName("messages")
-    val messages: List<ChatMessage<MessageContent<out @Contextual Any>>>,
+    val messages: List<ChatMessage>,
 
     /**
      * Controls whether the target property is serialized when its value is equal to a default value,
@@ -255,20 +255,20 @@ data class ChatCompletionRequest(
 
     companion object {
         fun chatCompletionRequest(
-            messages: List<ChatMessage<MessageContent.TextMessageContent>>,
+            messages: List<ChatMessage>,
             model: Model = Model.GPT_3_5_TURBO,
         ): ChatCompletionRequest {
             return ChatCompletionRequest(
-                messages = messages as List<ChatMessage<MessageContent<out Any>>>, model = model
+                messages = messages, model = model
             )
         }
 
         fun chatCompletionsRequest(
-            messages: List<ChatMessage<MessageContent.TextMessageContent>>,
+            messages: List<ChatMessage>,
             model: Model = Model.GPT_3_5_TURBO,
         ): ChatCompletionRequest {
             return ChatCompletionRequest(
-                messages = messages as List<ChatMessage<MessageContent<out Any>>>, model = model
+                messages = messages, model = model
             )
         }
 
@@ -280,13 +280,13 @@ data class ChatCompletionRequest(
          */
         fun from(question: String): ChatCompletionRequest {
             return ChatCompletionRequest(
-                listOf(ChatMessage.UserMessage(MessageContent.TextMessageContent(question))) as List<ChatMessage<MessageContent<out Any>>>,
+                listOf(ChatMessage.UserMessage(question)),
             )
         }
 
         fun from(question: String, model: Model): ChatCompletionRequest {
             return ChatCompletionRequest(
-                messages = listOf(ChatMessage.UserMessage(MessageContent.TextMessageContent(question))) as List<ChatMessage<MessageContent<out Any>>>,
+                messages = listOf(ChatMessage.UserMessage(question)),
                 model = model,
             )
         }
@@ -298,7 +298,7 @@ data class ChatCompletionRequest(
          */
         fun dummy(): ChatCompletionRequest {
             return ChatCompletionRequest(
-                listOf(ChatMessage.UserMessage(MessageContent.TextMessageContent("dummy-content"))) as List<ChatMessage<MessageContent<out Any>>>,
+                listOf(ChatMessage.UserMessage("dummy-content")),
             )
         }
     }
