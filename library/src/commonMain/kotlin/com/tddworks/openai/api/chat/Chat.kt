@@ -1,6 +1,5 @@
 package com.tddworks.openai.api.chat
 
-import com.snacks.openai.api.chat.ChatCompletionChunk
 import kotlinx.coroutines.flow.Flow
 
 /**

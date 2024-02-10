@@ -1,6 +1,8 @@
 package com.tddworks.openai.api.chat
 
 import com.tddworks.openai.api.JsonLenient
+import io.ktor.client.request.*
+import io.ktor.util.reflect.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.*
 
@@ -24,9 +26,14 @@ sealed interface StreamableRequest {
     fun asStreamRequest(): JsonElement {
         return JsonLenient.encodeToJsonElement(this)
             .jsonObject.toMutableMap()
-            .apply { put(STREAM, JsonPrimitive(true)) }
+            .apply {
+                put(STREAM, JsonPrimitive(true))
+                // Remove type field from kotlinx.serialization
+                remove("type")
+            }
             .let { JsonObject(it) }
     }
+
 
     companion object {
         /**

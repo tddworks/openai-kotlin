@@ -1,11 +1,9 @@
 package com.tddworks.openai.api.chat
 
 import app.cash.turbine.test
-import com.snacks.openai.api.chat.*
 import com.tddworks.openai.api.chat.internal.DefaultChatApi
 import com.tddworks.openai.api.internal.network.ktor.DefaultHttpRequester
 import com.tddworks.openai.api.mockHttpClient
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.junit.jupiter.api.Assertions.assertEquals

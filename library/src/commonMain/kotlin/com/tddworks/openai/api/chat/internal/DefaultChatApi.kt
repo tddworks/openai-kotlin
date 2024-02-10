@@ -1,6 +1,6 @@
 package com.tddworks.openai.api.chat.internal
 
-import com.snacks.openai.api.chat.ChatCompletionChunk
+import com.tddworks.openai.api.chat.ChatCompletionChunk
 import com.tddworks.openai.api.chat.Chat
 import com.tddworks.openai.api.chat.Chat.Companion.CHAT_COMPLETIONS_PATH
 import com.tddworks.openai.api.chat.ChatCompletion

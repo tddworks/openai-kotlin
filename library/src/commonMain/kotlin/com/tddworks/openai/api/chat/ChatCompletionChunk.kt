@@ -1,6 +1,5 @@
-package com.snacks.openai.api.chat
+package com.tddworks.openai.api.chat
 
-import com.tddworks.openai.api.chat.ChatChunk
 import kotlinx.serialization.Serializable
 
 /**
