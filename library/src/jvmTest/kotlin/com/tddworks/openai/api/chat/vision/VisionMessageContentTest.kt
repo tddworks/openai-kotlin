@@ -1,5 +1,7 @@
-package com.tddworks.openai.api.chat.capabilities.vision
+package com.tddworks.openai.api.chat.vision
 
+import com.tddworks.openai.api.chat.vision.ImageUrl
+import com.tddworks.openai.api.chat.vision.VisionMessageContent
 import com.tddworks.openai.api.prettyJson
 import kotlinx.serialization.encodeToString
 import org.junit.jupiter.api.Assertions.assertEquals

@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalSerializationApi::class)
 
-package com.tddworks.openai.api.chat.capabilities.vision
+package com.tddworks.openai.api.chat.vision
 
 import kotlinx.serialization.*
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer

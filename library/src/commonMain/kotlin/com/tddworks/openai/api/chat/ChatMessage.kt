@@ -1,6 +1,6 @@
 package com.tddworks.openai.api.chat
 
-import com.tddworks.openai.api.chat.capabilities.vision.VisionMessageContent
+import com.tddworks.openai.api.chat.vision.VisionMessageContent
 import kotlinx.serialization.*
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
 import kotlinx.serialization.json.JsonElement

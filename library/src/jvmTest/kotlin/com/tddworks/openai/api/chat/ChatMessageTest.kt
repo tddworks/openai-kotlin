@@ -1,7 +1,7 @@
 package com.tddworks.openai.api.chat
 
-import com.tddworks.openai.api.chat.capabilities.vision.ImageUrl
-import com.tddworks.openai.api.chat.capabilities.vision.VisionMessageContent
+import com.tddworks.openai.api.chat.vision.ImageUrl
+import com.tddworks.openai.api.chat.vision.VisionMessageContent
 import com.tddworks.openai.api.prettyJson
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

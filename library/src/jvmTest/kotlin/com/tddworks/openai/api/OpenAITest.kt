@@ -3,8 +3,8 @@ package com.tddworks.openai.api
 import com.tddworks.openai.api.chat.ChatCompletionRequest
 import com.tddworks.openai.api.chat.ChatMessage
 import com.tddworks.openai.api.chat.Model
-import com.tddworks.openai.api.chat.capabilities.vision.ImageUrl
-import com.tddworks.openai.api.chat.capabilities.vision.VisionMessageContent
+import com.tddworks.openai.api.chat.vision.ImageUrl
+import com.tddworks.openai.api.chat.vision.VisionMessageContent
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals

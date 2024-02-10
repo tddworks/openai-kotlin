@@ -13,5 +13,7 @@ value class Model(val value: String) {
         val GPT_4_TURBO_PREVIEW = Model("gpt-4-0125-preview")
         val GPT_4_TURBO = Model("gpt-4-turbo-preview")
         val GPT4_VISION_PREVIEW = Model("gpt-4-vision-preview")
+        val DALL_E_2 = Model("dall-e-2")
+        val DALL_E_3 = Model("dall-e-3")
     }
 }

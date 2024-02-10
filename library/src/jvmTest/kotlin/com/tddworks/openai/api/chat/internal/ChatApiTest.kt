@@ -1,7 +1,7 @@
-package com.tddworks.openai.api.chat
+package com.tddworks.openai.api.chat.internal
 
 import app.cash.turbine.test
-import com.tddworks.openai.api.chat.internal.DefaultChatApi
+import com.tddworks.openai.api.chat.*
 import com.tddworks.openai.api.internal.network.ktor.DefaultHttpRequester
 import com.tddworks.openai.api.mockHttpClient
 import kotlinx.coroutines.runBlocking
