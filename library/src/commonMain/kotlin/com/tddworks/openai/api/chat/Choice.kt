@@ -57,7 +57,7 @@ data class ChatChoice(
     /**
      * The generated chat message.
      */
-    @SerialName("message") val message: ChatMessage,
+    @SerialName("message") val message: ChatMessage<MessageContent.TextMessageContent>,
 
     /**
      * The reason why OpenAI stopped generating.

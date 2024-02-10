@@ -1,7 +1,9 @@
 package com.tddworks.openai.api.chat
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.tddworks.openai.api.chat.capabilities.vision.VisionMessageContent
+import kotlinx.serialization.*
+import kotlin.jvm.JvmInline
+
 
 /**
  * Data class representing a user message.
@@ -9,36 +11,52 @@ import kotlinx.serialization.Serializable
  * @property content The content of the message.
  * @property role The role of the message sender (user or assistant). Default is USER.
  */
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
-sealed interface ChatMessage {
-    val content: String
+sealed interface ChatMessage<T> where T : MessageContent<*> {
+    val content: T
     val role: Role
+
+    companion object {
+        fun system(content: String) = SystemMessage(MessageContent.TextMessageContent(content))
+        fun user(content: String) = UserMessage(MessageContent.TextMessageContent(content))
+        fun assistant(content: String, toolCalls: List<ToolCall>? = null) =
+            AssistantMessage(MessageContent.TextMessageContent(content), toolCalls = toolCalls)
+
+        fun tool(content: String, toolCallId: String) =
+            ToolMessage(content = MessageContent.TextMessageContent(content), toolCallId = toolCallId)
+
+        fun vision(content: List<VisionMessageContent>) = VisionMessage(MessageContent.VisionContent(content))
+    }
 
     @Serializable
     data class SystemMessage(
         @SerialName("content")
-        override val content: String,
+        override val content: MessageContent.TextMessageContent,
         @SerialName("role")
+        @EncodeDefault(EncodeDefault.Mode.ALWAYS)
         override val role: Role = Role.SYSTEM,
-    ) : ChatMessage
+    ) : ChatMessage<MessageContent.TextMessageContent>
 
     @Serializable
     data class UserMessage(
         @SerialName("content")
-        override val content: String,
+        override val content: MessageContent.TextMessageContent,
+        @EncodeDefault(EncodeDefault.Mode.ALWAYS)
         @SerialName("role")
         override val role: Role = Role.USER,
-    ) : ChatMessage
+    ) : ChatMessage<MessageContent.TextMessageContent>
 
     @Serializable
     data class AssistantMessage(
         @SerialName("content")
-        override val content: String,
+        override val content: MessageContent.TextMessageContent,
         @SerialName("role")
+        @EncodeDefault(EncodeDefault.Mode.ALWAYS)
         override val role: Role = Role.ASSISTANT,
         @SerialName("tool_calls")
         val toolCalls: List<ToolCall>? = null,
-    ) : ChatMessage
+    ) : ChatMessage<MessageContent.TextMessageContent>
 
     @Serializable
     data class ToolMessage(
@@ -46,7 +64,7 @@ sealed interface ChatMessage {
          * The contents of the tool message.
          */
         @SerialName("content")
-        override val content: String,
+        override val content: MessageContent.TextMessageContent,
         /**
          * The role of the messages author, in this case tool.
          */
@@ -57,7 +75,41 @@ sealed interface ChatMessage {
          */
         @SerialName("tool_call_id")
         val toolCallId: String,
-    ) : ChatMessage
+    ) : ChatMessage<MessageContent.TextMessageContent>
+
+    /**
+     * @see [Learn how to use GPT-4 to understand images](https://platform.openai.com/docs/guides/vision)
+     */
+    @Serializable
+    data class VisionMessage(
+        /**
+         * The contents of the tool message.
+         */
+        @SerialName("content")
+        override val content: MessageContent.VisionContent,
+        /**
+         * The role of the messages author, in this case tool.
+         */
+        @SerialName("role")
+        override val role: Role = Role.USER,
+    ) : ChatMessage<MessageContent.VisionContent>
+}
+
+@Serializable
+sealed interface MessageContent<T> {
+    val content: T
+
+    @Serializable
+    @JvmInline
+    value class TextMessageContent(
+        override val content: String,
+    ) : MessageContent<String>
+
+    @Serializable
+    @JvmInline
+    value class VisionContent(
+        override val content: List<VisionMessageContent>,
+    ) : MessageContent<List<VisionMessageContent>>
 }
 
 @Serializable

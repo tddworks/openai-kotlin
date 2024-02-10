@@ -1,5 +1,6 @@
 package com.tddworks.openai.api
 
+import com.tddworks.openai.api.chat.capabilities.vision.VisionMessageContent
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
 import io.ktor.client.plugins.*
@@ -9,6 +10,7 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
 
 /**
  * See https://ktor.io/docs/http-client-testing.html#usage
@@ -53,4 +55,5 @@ fun mockHttpClient(mockResponse: String) = HttpClient(MockEngine) {
 internal val JsonLenient = Json {
     isLenient = true
     ignoreUnknownKeys = true
+    encodeDefaults = true
 }

@@ -5,6 +5,8 @@ import kotlinx.coroutines.flow.Flow
 
 /**
  * Chat API - https://platform.openai.com/docs/api-reference/chat
+ * Given a list of messages comprising a conversation, the model will return a response.
+ * Related guide: Chat Completions
  */
 interface Chat {
     /**
