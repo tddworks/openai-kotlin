@@ -66,7 +66,7 @@ class ChatApiTest {
 
     @Test
     fun `should return stream of completions`() = runBlocking {
-        val request = ChatCompletionRequest.chatCompletionsRequest(listOf(ChatMessage("hello")))
+        val request = ChatCompletionRequest.chatCompletionsRequest(listOf(ChatMessage.UserMessage("hello")))
 
         val chat = DefaultChatApi(
             requester = DefaultHttpRequester(

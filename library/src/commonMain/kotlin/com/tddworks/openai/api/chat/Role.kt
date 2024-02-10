@@ -15,5 +15,8 @@ enum class Role {
     ASSISTANT,
 
     @SerialName("system")
-    SYSTEM
+    SYSTEM,
+
+    @SerialName("tool")
+    TOOL
 }

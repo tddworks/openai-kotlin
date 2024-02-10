@@ -18,7 +18,7 @@ import kotlinx.serialization.json.*
 sealed interface StreamableRequest {
     /**
      * Converts the request to a stream request as a [JsonElement].
-     *
+     * If set, partial message deltas will be sent, like in ChatGPT. Tokens will be sent as data-only server-sent events as they become available, with the stream terminated by a data: [DONE]
      * @return The converted stream request as a [JsonElement].
      */
     fun asStreamRequest(): JsonElement {
