@@ -12,5 +12,6 @@ value class Model(val value: String) {
         val GPT_4 = Model("gpt-4")
         val GPT_4_TURBO_PREVIEW = Model("gpt-4-0125-preview")
         val GPT_4_TURBO = Model("gpt-4-turbo-preview")
+        val GPT4_VISION_PREVIEW = Model("gpt-4-vision-preview")
     }
 }

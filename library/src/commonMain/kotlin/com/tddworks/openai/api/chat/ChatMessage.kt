@@ -93,6 +93,7 @@ sealed interface ChatMessage {
         /**
          * The role of the messages author, in this case tool.
          */
+        @EncodeDefault(EncodeDefault.Mode.ALWAYS)
         @SerialName("role")
         override val role: Role = Role.USER,
     ) : ChatMessage

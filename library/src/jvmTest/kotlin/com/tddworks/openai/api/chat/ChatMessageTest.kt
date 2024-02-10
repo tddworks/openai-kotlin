@@ -36,7 +36,8 @@ class ChatMessageTest {
                 "detail": "auto"
               }
             }
-          ]
+          ],
+          "role": "user"
         }
         """.trimIndent()
 
