@@ -16,7 +16,7 @@ dependencies {
 
 subprojects {
     group = "com.tddworks"
-    apply(plugin = "kotlin-multiplatform")
+    apply(plugin = rootProject.libs.plugins.kotlinMultiplatform.get().pluginId)
 }
 
 koverReport {
