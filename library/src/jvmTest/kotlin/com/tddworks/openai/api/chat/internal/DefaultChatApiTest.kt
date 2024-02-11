@@ -1,16 +1,16 @@
 package com.tddworks.openai.api.chat.internal
 
 import app.cash.turbine.test
-import com.tddworks.openai.api.chat.*
+import com.tddworks.openai.api.chat.api.*
+import com.tddworks.openai.api.common.mockHttpClient
 import com.tddworks.openai.api.internal.network.ktor.DefaultHttpRequester
-import com.tddworks.openai.api.mockHttpClient
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalSerializationApi::class)
-class ChatApiTest {
+class DefaultChatApiTest {
 
     @Test
     fun `should return chat completion`() = runBlocking {

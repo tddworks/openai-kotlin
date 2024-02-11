@@ -1,9 +1,9 @@
 package com.tddworks.openai.api
 
 import com.tddworks.openai.api.OpenAI.Companion.BASE_URL
-import com.tddworks.openai.api.chat.Chat
+import com.tddworks.openai.api.chat.api.Chat
 import com.tddworks.openai.api.chat.internal.DefaultChatApi
-import com.tddworks.openai.api.images.Images
+import com.tddworks.openai.api.images.api.Images
 import com.tddworks.openai.api.images.internal.DefaultImagesApi
 import com.tddworks.openai.api.internal.network.ktor.HttpRequester
 import com.tddworks.openai.api.internal.network.ktor.default

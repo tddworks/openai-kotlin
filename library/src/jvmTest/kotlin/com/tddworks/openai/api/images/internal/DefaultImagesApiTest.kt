@@ -1,11 +1,11 @@
 package com.tddworks.openai.api.images.internal
 
-import com.tddworks.openai.api.chat.Model
-import com.tddworks.openai.api.images.ImageCreate
+import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.common.mockHttpClient
+import com.tddworks.openai.api.images.api.ImageCreate
 import com.tddworks.openai.api.internal.network.ktor.DefaultHttpRequester
-import com.tddworks.openai.api.mockHttpClient
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class DefaultImagesApiTest {

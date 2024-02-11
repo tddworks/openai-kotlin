@@ -1,6 +1,6 @@
-package com.tddworks.openai.api.chat
+package com.tddworks.openai.api.chat.api
 
-import com.tddworks.openai.api.JsonLenient
+import com.tddworks.openai.api.common.JsonLenient
 import io.ktor.client.request.*
 import io.ktor.util.reflect.*
 import kotlinx.serialization.Serializable

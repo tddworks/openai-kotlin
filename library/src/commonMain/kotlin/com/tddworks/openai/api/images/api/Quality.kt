@@ -1,4 +1,4 @@
-package com.tddworks.openai.api.images
+package com.tddworks.openai.api.images.api
 
 import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmInline

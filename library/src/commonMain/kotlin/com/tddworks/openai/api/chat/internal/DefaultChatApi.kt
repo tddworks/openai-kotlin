@@ -1,10 +1,10 @@
 package com.tddworks.openai.api.chat.internal
 
-import com.tddworks.openai.api.chat.ChatCompletionChunk
-import com.tddworks.openai.api.chat.Chat
-import com.tddworks.openai.api.chat.Chat.Companion.CHAT_COMPLETIONS_PATH
-import com.tddworks.openai.api.chat.ChatCompletion
-import com.tddworks.openai.api.chat.ChatCompletionRequest
+import com.tddworks.openai.api.chat.api.ChatCompletionChunk
+import com.tddworks.openai.api.chat.api.Chat
+import com.tddworks.openai.api.chat.api.Chat.Companion.CHAT_COMPLETIONS_PATH
+import com.tddworks.openai.api.chat.api.ChatCompletion
+import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.internal.network.ktor.HttpRequester
 import com.tddworks.openai.api.internal.network.ktor.performRequest
 import com.tddworks.openai.api.internal.network.ktor.streamRequest

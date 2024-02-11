@@ -1,6 +1,6 @@
-package com.tddworks.openai.api.images
+package com.tddworks.openai.api.images.api
 
-import com.tddworks.openai.api.chat.Model
+import com.tddworks.openai.api.chat.api.Model
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

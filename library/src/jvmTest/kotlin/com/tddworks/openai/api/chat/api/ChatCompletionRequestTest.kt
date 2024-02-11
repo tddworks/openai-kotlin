@@ -1,6 +1,6 @@
-package com.tddworks.openai.api.chat
+package com.tddworks.openai.api.chat.api
 
-import com.tddworks.openai.api.prettyJson
+import com.tddworks.openai.api.common.prettyJson
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encodeToString
 import org.junit.jupiter.api.Assertions.*

@@ -1,4 +1,4 @@
-package com.tddworks.openai.api.images
+package com.tddworks.openai.api.images.api
 
 import com.tddworks.openai.api.common.ListResponse
 

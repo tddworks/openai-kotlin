@@ -1,6 +1,6 @@
 package com.tddworks.openai.api.internal.network.ktor
 
-import com.tddworks.openai.api.mockHttpClient
+import com.tddworks.openai.api.common.mockHttpClient
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.runBlocking

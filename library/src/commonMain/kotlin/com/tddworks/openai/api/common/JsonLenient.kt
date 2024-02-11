@@ -1,4 +1,4 @@
-package com.tddworks.openai.api
+package com.tddworks.openai.api.common
 
 import kotlinx.serialization.json.Json
 

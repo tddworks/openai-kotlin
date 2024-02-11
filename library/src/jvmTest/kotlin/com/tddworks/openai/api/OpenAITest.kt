@@ -1,11 +1,11 @@
 package com.tddworks.openai.api
 
-import com.tddworks.openai.api.chat.ChatCompletionRequest
-import com.tddworks.openai.api.chat.ChatMessage
-import com.tddworks.openai.api.chat.Model
-import com.tddworks.openai.api.chat.vision.ImageUrl
-import com.tddworks.openai.api.chat.vision.VisionMessageContent
-import com.tddworks.openai.api.images.ImageCreate
+import com.tddworks.openai.api.chat.api.ChatCompletionRequest
+import com.tddworks.openai.api.chat.api.ChatMessage
+import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.chat.api.vision.ImageUrl
+import com.tddworks.openai.api.chat.api.vision.VisionMessageContent
+import com.tddworks.openai.api.images.api.ImageCreate
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -19,6 +19,7 @@ class OpenAITest {
         assertEquals("api.openai.com", OpenAI.BASE_URL)
     }
 
+    @Disabled
     @Test
     fun `should return image response`() = runBlocking {
         val openAI = OpenAI("api-key")

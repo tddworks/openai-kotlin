@@ -1,6 +1,6 @@
 package com.tddworks.openai.api.internal.network.ktor.internal
 
-import com.tddworks.openai.api.JsonLenient
+import com.tddworks.openai.api.common.JsonLenient
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.plugins.*

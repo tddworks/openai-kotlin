@@ -1,4 +1,4 @@
-package com.tddworks.openai.api.chat
+package com.tddworks.openai.api.chat.api
 
 //import com.snacks.openai.api.OpenAISettings
 //
