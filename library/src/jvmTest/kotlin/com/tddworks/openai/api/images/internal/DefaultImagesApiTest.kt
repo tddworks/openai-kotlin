@@ -38,7 +38,7 @@ class DefaultImagesApiTest {
         )
 
 
-        val r = chat.generates(request)
+        val r = chat.generate(request)
 
         with(r) {
             assertEquals(1589478378, created)

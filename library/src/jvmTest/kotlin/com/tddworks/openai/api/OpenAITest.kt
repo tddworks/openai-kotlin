@@ -22,7 +22,7 @@ class OpenAITest {
     @Test
     fun `should return image response`() = runBlocking {
         val openAI = OpenAI("api-key")
-        val response = openAI.generates(
+        val response = openAI.generate(
             ImageCreate(
                 prompt = "A cute baby sea otter",
                 model = Model.DALL_E_3
