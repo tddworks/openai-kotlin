@@ -17,6 +17,9 @@ mockito-kotlin = "5.2.1"
 assertj-core = "3.24.2"
 app-cash-turbine = "1.0.0"
 
+#formatting-versions
+gradle-kotlinter = "4.2.0"
+
 # plugins
 multiplatform-swiftpackage = "2.2.1"
 
@@ -31,6 +34,8 @@ android-minSdk = "24"
 android-compileSdk = "34"
 
 [libraries]
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+
 nexus-publish = { module = "io.github.gradle-nexus.publish-plugin:io.github.gradle-nexus.publish-plugin.gradle.plugin", version.ref = "nexus-publish" }
 
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
@@ -65,7 +70,12 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 
 app-cash-turbine = { module = "app.cash.turbine:turbine", version = "1.0.0" }
 
+# Formatting
+gradle-kotlinter = { module = "org.jmailen.gradle:kotlinter-gradle", version.ref = "gradle-kotlinter" }
+
 [plugins]
+#kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
@@ -81,6 +91,8 @@ kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 # Publishing
 touchlab-kmmbridge = { id = "co.touchlab.kmmbridge", version.ref = "touchlab-kmmbridge" }
 
+# Formatting
+gradle-kotlinter = { id = "org.jmailen.kotlinter", version.ref = "gradle-kotlinter" }
 
 [bundles]
 ktor-client = ["ktor-client-core", "ktor-serialization-kotlinx-json", "ktor-client-logging", "ktor-client-auth", "ktor-client-content-negotiation"]

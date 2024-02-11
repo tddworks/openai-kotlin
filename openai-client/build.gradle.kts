@@ -1,4 +1,5 @@
 kotlin {
+    jvm()
     sourceSets {
         commonMain {
             dependencies {

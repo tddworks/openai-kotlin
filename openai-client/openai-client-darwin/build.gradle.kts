@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
+//    alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.kover)
     alias(libs.plugins.touchlab.kmmbridge)
@@ -7,14 +7,11 @@ plugins {
 }
 
 kotlin {
-    macosArm64()
-    macosX64()
-
     listOf(
         macosArm64(),
         macosX64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
+    ).forEach { macosTarget ->
+        macosTarget.binaries.framework {
             baseName = "openai"
             isStatic = true
         }
