@@ -24,6 +24,8 @@ touchlab-skie = "0.6.1"
 
 touchlab-kmmbridge = "0.5.2"
 
+com-linecorp-build-recipe-plugin = "1.1.1"
+
 nexus-publish = "2.0.0-rc-1"
 android-minSdk = "24"
 android-compileSdk = "34"
@@ -42,13 +44,13 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 #jvm-libraries
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 
-#apple-libraries
+# Apple-libraries
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 
-#logging-libraries
+# Logging-libraries
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 
-#test-libraries
+# Test-libraries
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 
@@ -68,10 +70,15 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
-#quality and coverage
+# Swift Kotlin Interface Enhancer
+touchlab-skie = { id = "co.touchlab.skie", version.ref = "touchlab-skie" }
+
+com-linecorp-build-recipe = { id = "com.linecorp.build-recipe-plugin", version.ref = "com-linecorp-build-recipe-plugin" }
+
+# Quality and coverage
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 
-#publishing
+# Publishing
 touchlab-kmmbridge = { id = "co.touchlab.kmmbridge", version.ref = "touchlab-kmmbridge" }
 
 

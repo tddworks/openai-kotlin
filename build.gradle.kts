@@ -4,11 +4,19 @@ plugins {
     alias(libs.plugins.androidLibrary).apply(false)
     alias(libs.plugins.kotlinMultiplatform).apply(false)
     alias(libs.plugins.kover)
+    alias(libs.plugins.com.linecorp.build.recipe)
 }
 
 
 dependencies {
-    kover(projects.library)
+    kover(projects.openaiClient.openaiClientCore)
+    kover(projects.openaiClient.openaiClientCio)
+    kover(projects.openaiClient.openaiClientDarwin)
+}
+
+subprojects {
+    group = "com.tddworks"
+    apply(plugin = "kotlin-multiplatform")
 }
 
 koverReport {
