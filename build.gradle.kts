@@ -24,10 +24,13 @@ val autoVersion = project.property(
 ) as String
 
 subprojects {
+    /**
+     * Working with runtime properties
+     * https://docs.gradle.org/current/userguide/kotlin_dsl.html
+     */
     val GROUP: String by project
     group = GROUP
     version = autoVersion
-//    group = "com.tddworks"
     apply(plugin = rootProject.libs.plugins.kotlinMultiplatform.get().pluginId)
 }
 
