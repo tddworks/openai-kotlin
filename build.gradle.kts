@@ -15,8 +15,19 @@ dependencies {
     kover(projects.openaiClient.openaiClientDarwin)
 }
 
+val autoVersion = project.property(
+    if (project.hasProperty("AUTO_VERSION")) {
+        "AUTO_VERSION"
+    } else {
+        "LIBRARY_VERSION"
+    }
+) as String
+
 subprojects {
-    group = "com.tddworks"
+    val GROUP: String by project
+    group = GROUP
+    version = autoVersion
+//    group = "com.tddworks"
     apply(plugin = rootProject.libs.plugins.kotlinMultiplatform.get().pluginId)
 }
 
