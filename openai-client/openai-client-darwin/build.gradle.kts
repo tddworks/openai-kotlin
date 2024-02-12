@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.touchlab.kmmbridge)
     alias(libs.plugins.touchlab.skie)
 //    id("module.publication")
+    `maven-publish`
 }
 
 kotlin {
