@@ -11,3 +11,11 @@ fun DarwinOpenAI(token: String): OpenAI = OpenAIApi(
         engine = Darwin.create()
     )
 )
+
+fun DarwinOpenAI(token: String, url: String): OpenAI = OpenAIApi(
+    HttpRequester.default(
+        url = url,
+        token = token,
+        engine = Darwin.create()
+    )
+)
