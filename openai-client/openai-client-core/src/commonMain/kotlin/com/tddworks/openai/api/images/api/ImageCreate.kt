@@ -1,6 +1,7 @@
 package com.tddworks.openai.api.images.api
 
 import com.tddworks.openai.api.chat.api.Model
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -9,7 +10,8 @@ import kotlinx.serialization.Serializable
  * @see [ImageCreate](https://platform.openai.com/docs/api-reference/images/create)
  */
 @Serializable
-class ImageCreate(
+@ExperimentalSerializationApi
+data class ImageCreate(
     /**
      * A text description of the desired image(s). The maximum length is 1000 characters for dall-e-2 and 4000 characters for dall-e-3.
      */
@@ -67,4 +69,19 @@ class ImageCreate(
      */
     @SerialName("quality")
     val quality: Quality? = null,
-)
+) {
+    companion object {
+        /**
+         * Create an instance of [ImageCreate].
+         * @param prompt A text description of the desired image(s). The maximum length is 1000 characters for dall-e-2 and 4000 characters for dall-e-3.
+         * @param model The model to use for image generation. Defaults to dall-e-2
+         */
+        fun create(
+            prompt: String,
+            model: Model? = null,
+        ): ImageCreate = ImageCreate(
+            prompt = prompt,
+            model = model
+        )
+    }
+}
