@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kover)
     alias(libs.plugins.touchlab.kmmbridge)
     alias(libs.plugins.touchlab.skie)
-    id("module.publication")
+//    id("module.publication")
 }
 
 kotlin {
