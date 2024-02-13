@@ -1,6 +1,13 @@
 package com.tddworks.openai.api.images.api
 
-enum class ResponseFormat(val value: String) {
-    BASE64("b64_json"),
-    URL("url")
+import kotlinx.serialization.Serializable
+import kotlin.jvm.JvmInline
+
+@Serializable
+@JvmInline
+value class ResponseFormat(val value: String) {
+    companion object {
+        val base64 = ResponseFormat("b64_json")
+        val url = ResponseFormat("url")
+    }
 }
