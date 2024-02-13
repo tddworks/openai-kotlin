@@ -47,14 +47,14 @@ internal fun createHttpClient(
              * SIMPLE - Logger using println.
              * Empty - Empty Logger for test purpose.
              */
-            logger = Logger.SIMPLE
+            logger = Logger.DEFAULT
             /**
              * ALL - log all
              * HEADERS - log headers
              * INFO - log info
              * NONE - none
              */
-            level = LogLevel.ALL
+            level = LogLevel.INFO
         }
 
         install(Auth) {
