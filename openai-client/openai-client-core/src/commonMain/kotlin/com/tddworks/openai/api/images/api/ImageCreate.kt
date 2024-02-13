@@ -91,6 +91,7 @@ data class ImageCreate(
          * @param size The size of the generated images. Defaults to 1024x1024
          * @param style The style of the generated images. Must be one of vivid or natural. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images. This param is only supported for dall-e-3.
          * @param quality The quality of the image that will be generated. `Quality.HD` creates images with finer details and greater consistency across the image. This param is only supported for `dall-e-3`.
+         * @param format The format in which the generated images are returned. Must be one of url or b64_json.
          */
         fun create(
             prompt: String,
@@ -98,12 +99,14 @@ data class ImageCreate(
             size: Size? = null,
             style: Style? = null,
             quality: Quality? = null,
+            format: ResponseFormat? = null,
         ): ImageCreate = ImageCreate(
             prompt = prompt,
             model = model,
             size = size,
             style = style,
-            quality = quality
+            quality = quality,
+            responseFormat = format
         )
     }
 }
