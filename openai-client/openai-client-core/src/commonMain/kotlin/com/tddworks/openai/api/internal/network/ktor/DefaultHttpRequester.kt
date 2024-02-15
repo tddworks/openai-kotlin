@@ -45,19 +45,10 @@ fun HttpRequester.Companion.default(httpClient: HttpClient): HttpRequester {
     return DefaultHttpRequester(httpClient)
 }
 
-fun HttpRequester.Companion.default(
+expect fun HttpRequester.Companion.default(
     url: String,
     token: String,
-    engine: HttpClientEngine,
-): HttpRequester {
-    return DefaultHttpRequester(
-        createHttpClient(
-            url = url,
-            token = token,
-            engine = engine
-        )
-    )
-}
+): HttpRequester
 
 
 /**

@@ -20,10 +20,10 @@ import kotlin.time.Duration.Companion.minutes
  * @param token the authentication token
  * @return a new [HttpClient] instance
  */
-internal fun createHttpClient(
+internal fun <T : HttpClientEngineConfig> createHttpClient(
     url: String,
     token: String,
-    engine: HttpClientEngine,
+    engine: HttpClientEngineFactory<T>,
 ): HttpClient {
     return HttpClient(engine) {
 //      enable proxy in the future

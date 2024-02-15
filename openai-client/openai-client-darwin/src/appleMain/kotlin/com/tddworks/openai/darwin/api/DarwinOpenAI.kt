@@ -4,7 +4,6 @@ import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.api.OpenAIApi
 import com.tddworks.openai.api.internal.network.ktor.HttpRequester
 import com.tddworks.openai.api.internal.network.ktor.default
-import io.ktor.client.engine.darwin.*
 
 object DarwinOpenAI {
     /**
@@ -15,8 +14,7 @@ object DarwinOpenAI {
     fun create(token: String): OpenAI = OpenAIApi(
         HttpRequester.default(
             url = OpenAI.BASE_URL,
-            token = token,
-            engine = Darwin.create()
+            token = token
         )
     )
 
@@ -30,8 +28,7 @@ object DarwinOpenAI {
         return OpenAIApi(
             HttpRequester.default(
                 url = url,
-                token = token,
-                engine = Darwin.create()
+                token = token
             )
         )
     }
@@ -46,8 +43,7 @@ object DarwinOpenAI {
     fun create(token: () -> String, url: () -> String): OpenAI = OpenAIApi(
         HttpRequester.default(
             url = url(),
-            token = token(),
-            engine = Darwin.create()
+            token = token()
         )
     )
 }

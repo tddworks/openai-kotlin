@@ -8,6 +8,5 @@ fun JvmOpenAI(token: String): OpenAI = OpenAIApi(
     HttpRequester.default(
         url = OpenAI.BASE_URL,
         token = token,
-        engine = CIO.create()
-    ),
+    )
 )
