@@ -27,6 +27,7 @@ kotlin {
                 implementation(libs.ktor.client.darwin)
             }
         }
+        appleMain {}
     }
 }
 
