@@ -14,8 +14,8 @@ plugins {
 
 sonatypePortalPublisher {
     authentication {
-        username = "Uh+r/1by"
-        password = "vcjKVgS1D3xtqhpLNRu1smPLqr73R4Aw2nRJAqlLISvA"
+        username = ""
+        password = ""
     }
     settings {
         autoPublish = false
