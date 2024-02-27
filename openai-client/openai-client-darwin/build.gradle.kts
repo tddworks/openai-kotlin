@@ -1,10 +1,8 @@
 plugins {
-//    alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.kover)
     alias(libs.plugins.touchlab.kmmbridge)
     alias(libs.plugins.touchlab.skie)
-//    id("module.publication")
     `maven-publish`
 }
 
@@ -39,14 +37,14 @@ kmmbridge {
      * In kmmbridge, notice mavenPublishArtifacts() tells the plugin to push KMMBridge artifacts to a Maven repo. You then need to define a repo. Rather than do everything manually, you can just call addGithubPackagesRepository(), which will add the correct repo given parameters that are passed in from GitHub Actions.
      */
     mavenPublishArtifacts() // <- Publish using a Maven repo
-    spm()
-//    spm {
-//        swiftToolsVersion = "5.9"
-//        platforms {
-//            iOS { v("14") }
-//            macOS { v("13") }
-//            watchOS { v("7") }
-//            tvOS { v("14") }
-//        }
-//    }
+//    spm()
+    spm {
+        swiftToolsVersion = "5.9"
+        platforms {
+            iOS { v("14") }
+            macOS { v("13") }
+            watchOS { v("7") }
+            tvOS { v("14") }
+        }
+    }
 }

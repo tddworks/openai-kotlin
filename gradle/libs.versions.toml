@@ -29,6 +29,8 @@ touchlab-kmmbridge = "0.5.2"
 
 com-linecorp-build-recipe-plugin = "1.1.1"
 
+dokka = "1.9.10"
+
 nexus-publish = "2.0.0-rc-1"
 android-minSdk = "24"
 android-compileSdk = "34"
@@ -85,11 +87,17 @@ touchlab-skie = { id = "co.touchlab.skie", version.ref = "touchlab-skie" }
 
 com-linecorp-build-recipe = { id = "com.linecorp.build-recipe-plugin", version.ref = "com-linecorp-build-recipe-plugin" }
 
+kotlinx-binary-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.14.0" }
+
 # Quality and coverage
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 
 # Publishing
 touchlab-kmmbridge = { id = "co.touchlab.kmmbridge", version.ref = "touchlab-kmmbridge" }
+
+build-dokka-plugin = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+
+
 
 # Formatting
 gradle-kotlinter = { id = "org.jmailen.kotlinter", version.ref = "gradle-kotlinter" }
