@@ -13,10 +13,6 @@ plugins {
 }
 
 sonatypePortalPublisher {
-    authentication {
-        username = ""
-        password = ""
-    }
     settings {
         autoPublish = false
         aggregation = true
