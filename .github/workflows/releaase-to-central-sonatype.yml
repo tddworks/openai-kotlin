@@ -4,6 +4,9 @@ name: build and publish a release to Central Sonatype
 #  release:
 #    types: [published]
 
+on:
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: macOS-latest
