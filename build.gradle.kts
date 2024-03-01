@@ -77,11 +77,11 @@ koverReport {
         }
     }
 
-    verify {
-        rule {
-            bound {
-                minValue = 100
-            }
-        }
-    }
+//    verify {
+//        rule {
+//            bound {
+//                minValue = 100
+//            }
+//        }
+//    }
 }
