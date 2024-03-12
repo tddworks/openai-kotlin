@@ -21,8 +21,6 @@ sonatypePortalPublisher {
 
 dependencies {
     kover(projects.openaiClient.openaiClientCore)
-    kover(projects.openaiClient.openaiClientCio)
-    kover(projects.openaiClient.openaiClientDarwin)
 }
 
 val autoVersion = project.property(
