@@ -1,6 +1,10 @@
 name: GitHub Actions - CI
 
-on: [push]
+on:
+  workflow_dispatch:      # Start a workflow
+  push:
+    branches:
+      - "main"
 
 jobs:
   build:
