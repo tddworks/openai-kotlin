@@ -3,7 +3,7 @@ package com.tddworks.openai.api.chat.internal
 import app.cash.turbine.test
 import com.tddworks.openai.api.chat.api.*
 import com.tddworks.openai.api.common.mockHttpClient
-import com.tddworks.openai.api.internal.network.ktor.DefaultHttpRequester
+import com.tddworks.common.network.api.ktor.internal.DefaultHttpRequester
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.junit.jupiter.api.Assertions.assertEquals

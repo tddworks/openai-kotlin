@@ -1,6 +1,7 @@
 package com.tddworks.openai.api.images.api
 
-import com.tddworks.openai.api.common.ListResponse
+import com.tddworks.common.network.api.ktor.api.ListResponse
+
 
 /**
  * Given a prompt and/or an input image, the model will generate a new image.

@@ -5,9 +5,9 @@ import com.tddworks.openai.api.chat.api.Chat
 import com.tddworks.openai.api.chat.internal.DefaultChatApi
 import com.tddworks.openai.api.images.api.Images
 import com.tddworks.openai.api.images.internal.DefaultImagesApi
-import com.tddworks.openai.api.internal.network.ktor.HttpRequester
-import com.tddworks.openai.api.internal.network.ktor.default
-import com.tddworks.openai.api.internal.network.ktor.internal.createHttpClient
+import com.tddworks.common.network.api.ktor.api.HttpRequester
+import com.tddworks.common.network.api.ktor.internal.default
+import com.tddworks.common.network.api.ktor.internal.createHttpClient
 import io.ktor.client.engine.*
 
 interface OpenAI : Chat, Images {

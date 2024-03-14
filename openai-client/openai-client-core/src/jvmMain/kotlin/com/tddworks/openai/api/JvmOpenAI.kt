@@ -1,8 +1,7 @@
 package com.tddworks.openai.api
 
-import com.tddworks.openai.api.internal.network.ktor.HttpRequester
-import com.tddworks.openai.api.internal.network.ktor.default
-import io.ktor.client.engine.cio.*
+import com.tddworks.common.network.api.ktor.api.HttpRequester
+import com.tddworks.common.network.api.ktor.internal.default
 
 fun JvmOpenAI(token: String): OpenAI = OpenAIApi(
     HttpRequester.default(

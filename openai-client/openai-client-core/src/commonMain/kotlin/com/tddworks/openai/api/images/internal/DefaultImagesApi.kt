@@ -1,11 +1,11 @@
 package com.tddworks.openai.api.images.internal
 
-import com.tddworks.openai.api.common.ListResponse
+import com.tddworks.common.network.api.ktor.api.HttpRequester
+import com.tddworks.common.network.api.ktor.api.ListResponse
+import com.tddworks.common.network.api.ktor.api.performRequest
 import com.tddworks.openai.api.images.api.Image
 import com.tddworks.openai.api.images.api.ImageCreate
 import com.tddworks.openai.api.images.api.Images
-import com.tddworks.openai.api.internal.network.ktor.HttpRequester
-import com.tddworks.openai.api.internal.network.ktor.performRequest
 import io.ktor.client.request.*
 import io.ktor.http.*
 

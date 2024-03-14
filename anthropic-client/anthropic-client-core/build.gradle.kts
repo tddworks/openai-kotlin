@@ -1,9 +1,7 @@
 plugins {
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.kover)
-//    alias(libs.plugins.touchlab.kmmbridge)
-//    id("module.publication")
-    `maven-publish`
+//    `maven-publish`
 }
 
 kotlin {
@@ -16,7 +14,6 @@ kotlin {
             // put your Multiplatform dependencies here
             api(libs.kotlinx.serialization.json)
             api(libs.bundles.ktor.client)
-            api(projects.common)
         }
 
         commonTest.dependencies {

@@ -2,8 +2,8 @@ package com.tddworks.openai.darwin.api
 
 import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.api.OpenAIApi
-import com.tddworks.openai.api.internal.network.ktor.HttpRequester
-import com.tddworks.openai.api.internal.network.ktor.default
+import com.tddworks.common.network.api.ktor.api.HttpRequester
+import com.tddworks.common.network.api.ktor.internal.default
 
 object DarwinOpenAI {
     /**

@@ -5,9 +5,9 @@ import com.tddworks.openai.api.chat.api.Chat
 import com.tddworks.openai.api.chat.api.Chat.Companion.CHAT_COMPLETIONS_PATH
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
-import com.tddworks.openai.api.internal.network.ktor.HttpRequester
-import com.tddworks.openai.api.internal.network.ktor.performRequest
-import com.tddworks.openai.api.internal.network.ktor.streamRequest
+import com.tddworks.common.network.api.ktor.api.HttpRequester
+import com.tddworks.common.network.api.ktor.api.performRequest
+import com.tddworks.common.network.api.ktor.api.streamRequest
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.flow.Flow
