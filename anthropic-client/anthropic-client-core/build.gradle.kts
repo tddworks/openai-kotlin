@@ -14,10 +14,12 @@ kotlin {
             // put your Multiplatform dependencies here
             api(libs.kotlinx.serialization.json)
             api(libs.bundles.ktor.client)
+            api(projects.common)
         }
 
         commonTest.dependencies {
             implementation(libs.ktor.client.mock)
+            api(projects.common)
         }
 
         macosMain.dependencies {
