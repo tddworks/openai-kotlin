@@ -1,6 +1,7 @@
 package com.tddworks.anthropic.api.messages.api.stream
 
 import com.tddworks.anthropic.api.messages.api.CreateMessageResponse
+import com.tddworks.anthropic.api.messages.api.Usage
 import com.tddworks.common.network.api.StreamChatResponse
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -26,7 +27,7 @@ data class ContentBlockStart(
 data class ContentBlock(
     override val type: String,
     val text: String,
-): StreamChatResponse
+) : StreamChatResponse
 
 @Serializable
 @SerialName("content_block_delta")
@@ -34,38 +35,57 @@ data class ContentBlockDelta(
     override val type: String,
     val index: Int,
     val delta: Delta,
-): StreamChatResponse
+) : StreamChatResponse
 
 @Serializable
 @SerialName("content_block_stop")
 data class ContentBlockStop(
     override val type: String,
     val index: Int,
-): StreamChatResponse
+) : StreamChatResponse
 
 @Serializable
 @SerialName("message_delta")
 data class MessageDelta(
     override val type: String,
     val delta: Delta,
-): StreamChatResponse
+) : StreamChatResponse
 
 @Serializable
 @SerialName("message_stop")
 data class MessageStop(
     override val type: String,
-): StreamChatResponse
+) : StreamChatResponse
 
 @Serializable
 @SerialName("ping")
 data class Ping(
     override val type: String,
-): StreamChatResponse
+) : StreamChatResponse
 
+/**
+ * {
+ *  "stop_reason": "end_turn",
+ *  "stop_sequence": null,
+ *  "usage": {
+ *     "output_tokens": 15
+ *  }
+ * }
+ * or
+ * {
+ * 	"type": "text_delta",
+ * 	"text": "!"
+ * }
+ */
 @Serializable
 data class Delta(
-    val type: String,
-    val text: String,
+    val type: String? = null,
+    val text: String? = null,
+    @SerialName("stop_reason")
+    val stopReason: String? = null,
+    @SerialName("stop_sequence")
+    val stopSequence: String? = null,
+    val usage: Usage? = null,
 )
 
 
