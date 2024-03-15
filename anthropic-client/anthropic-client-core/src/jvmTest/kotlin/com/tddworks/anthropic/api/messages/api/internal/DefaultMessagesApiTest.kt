@@ -1,18 +1,88 @@
 package com.tddworks.anthropic.api.messages.api.internal
 
+import app.cash.turbine.test
 import com.tddworks.anthropic.api.messages.api.CreateMessageRequest
 import com.tddworks.anthropic.api.messages.api.CreateMessageResponse
 import com.tddworks.anthropic.api.messages.api.Message
+import com.tddworks.anthropic.api.messages.api.Usage
+import com.tddworks.anthropic.api.messages.api.stream.MessageStart
 import com.tddworks.anthropic.api.mockHttpClient
+import com.tddworks.common.network.api.ktor.api.HttpRequester
 import com.tddworks.common.network.api.ktor.internal.DefaultHttpRequester
-import kotlinx.coroutines.runBlocking
+import com.tddworks.openllm.api.ChatApi
+import com.tddworks.openllm.api.ChatRequest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
+import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.RegisterExtension
+import org.koin.dsl.module
+import org.koin.test.KoinTest
+import org.koin.test.inject
+import org.koin.test.junit5.KoinTestExtension
 
+@OptIn(ExperimentalCoroutinesApi::class)
+class DefaultMessagesApiTest : KoinTest {
+    @JvmField
+    @RegisterExtension
+    // This extension is used to set the main dispatcher to a test dispatcher
+    // launch coroutine eagerly
+    // same scheduling behavior as would have in a real app/production
+    val testKoinCoroutineExtension = TestKoinCoroutineExtension(UnconfinedTestDispatcher())
 
-class DefaultMessagesApiTest {
+    @JvmField
+    @RegisterExtension
+    val koinTestExtension = KoinTestExtension.create {
+        modules(
+            module {
+                single<HttpRequester> {
+                    DefaultHttpRequester(
+                        httpClient = mockHttpClient("data: {\"type\":\"message_start\",\"message\":{\"id\":\"msg_1nZdL29xx5MUA1yADyHTEsnR8uuvGzszyY\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[],\"model\":\"claude-3-opus-20240229\",\"stop_reason\":null,\"stop_sequence\":null,\"usage\":{\"input_tokens\":25,\"output_tokens\":1}}}")
+                    )
+                }
+
+                single<Json> { JsonLenient }
+
+                single<ChatApi> { DefaultMessagesApi(get()) }
+            })
+    }
+
+    private val chatsApi: ChatApi by inject()
+
     @Test
-    fun `should return create message response`() = runBlocking {
+    fun `should return create message message_start stream response`() = runTest {
+        // Given
+        val request = CreateMessageRequest.streamRequest(listOf(Message.user(("hello"))))
+
+
+        chatsApi.chat(request).test {
+            assertEquals(
+                MessageStart(
+                    type = "message_start",
+                    message = CreateMessageResponse(
+                        id = "msg_1nZdL29xx5MUA1yADyHTEsnR8uuvGzszyY",
+                        type = "message",
+                        role = "assistant",
+                        content = emptyList(),
+                        model = "claude-3-opus-20240229",
+                        stopReason = null,
+                        stopSequence = null,
+                        usage = Usage(
+                            inputTokens = 25,
+                            outputTokens = 1
+                        )
+                    )
+                ), awaitItem()
+            )
+            awaitComplete()
+        }
+    }
+
+
+    @Test
+    fun `should return create message response`() = runTest {
         val request = CreateMessageRequest(listOf(Message.user(("hello"))))
 
         val chat = DefaultMessagesApi(
@@ -43,7 +113,7 @@ class DefaultMessagesApiTest {
         )
 
 
-        val r = chat.chat(request) as CreateMessageResponse
+        val r = chat.chat(request as ChatRequest) as CreateMessageResponse
 
         with(r) {
             assertEquals("msg_013Zva2CMHLNnXjNJJKqJ2EF", id)
@@ -58,36 +128,4 @@ class DefaultMessagesApiTest {
             assertEquals("text", content[0].type)
         }
     }
-
-//    @Test
-//    fun `should return stream response of streaming message`() = runBlocking {
-//        val request = CreateMessageRequest.streamRequest(listOf(Message.user(("hello"))))
-//
-//        val chat = DefaultMessagesApi(
-//            requester = DefaultHttpRequester(
-//                httpClient = mockHttpClient("data: {\"id\":\"chatcmpl-8ZtRSZzsijxilL2lDBN7ERQc0Zi7Q\",\"object\":\"chat.completion.chunk\",\"created\":1703565290,\"model\":\"gpt-3.5-turbo-0613\",\"system_fingerprint\":null,\"choices\":[{\"index\":0,\"delta\":{\"content\":\" there\"},\"logprobs\":null,\"finish_reason\":null}]}")
-//            )
-//        )
-//
-//        chat.streamCompletions(request).test {
-//            assertEquals(
-//                ChatResponseChunk(
-//                    id = "chatcmpl-8ZtRSZzsijxilL2lDBN7ERQc0Zi7Q",
-//                    `object` = "chat.completion.chunk",
-//                    created = 1703565290,
-//                    model = "gpt-3.5-turbo-0613",
-//                    choices = listOf(
-//                        ChatChunk(
-//                            index = 0,
-//                            delta = ChatDelta(
-//                                content = " there"
-//                            ),
-//                            finishReason = null
-//                        )
-//                    )
-//                ), awaitItem()
-//            )
-//            awaitComplete()
-//        }
-//    }
 }

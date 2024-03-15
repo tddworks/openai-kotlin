@@ -31,7 +31,7 @@ data class CreateMessageResponse(
     val model: String,
     val role: String,
     @SerialName("stop_reason")
-    val stopReason: String,
+    val stopReason: String?,
     @SerialName("stop_sequence")
     val stopSequence: String?,
     val type: String,

@@ -1,10 +1,11 @@
 package com.tddworks.common.network.api.ktor.api
 
-import com.tddworks.common.network.api.ktor.internal.JsonLenient
 import io.ktor.client.call.*
 import io.ktor.client.statement.*
 import io.ktor.utils.io.*
 import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.serialization.json.Json
+import org.koin.mp.KoinPlatform.getKoin
 
 const val STREAM_PREFIX = "data:"
 private const val STREAM_END_TOKEN = "$STREAM_PREFIX [DONE]"
@@ -17,11 +18,12 @@ suspend inline fun <reified T> FlowCollector<T>.streamEventsFrom(response: HttpR
     while (!channel.isClosedForRead) {
         channel.readUTF8Line()?.let { streamResponse ->
             if (notEndStreamResponse(streamResponse)) {
-                emit(JsonLenient.decodeFromString(streamResponse.removePrefix(STREAM_PREFIX)))
+                emit(getKoin().get<Json>().decodeFromString(streamResponse.removePrefix(STREAM_PREFIX)))
             }
         } ?: break
     }
 }
+
 
 private fun isStreamResponse(line: String) = line.startsWith(STREAM_PREFIX)
 

@@ -20,6 +20,9 @@ app-cash-turbine = "1.0.0"
 #formatting-versions
 gradle-kotlinter = "4.2.0"
 
+# DI
+koin-core = "3.5.3"
+
 # plugins
 multiplatform-swiftpackage = "2.2.1"
 
@@ -53,6 +56,12 @@ ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 
 # Apple-libraries
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+
+#di-libraries
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin-core" }
+koin-core-jvm = { module = "io.insert-koin:koin-core-jvm", version.ref = "koin-core" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin-core" }
+koin-test-junit5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "koin-core" }
 
 # Logging-libraries
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }

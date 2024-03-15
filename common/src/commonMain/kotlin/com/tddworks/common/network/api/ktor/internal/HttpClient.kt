@@ -10,6 +10,7 @@ import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.*
+import kotlinx.serialization.json.Json
 import kotlin.time.Duration.Companion.minutes
 
 /**
@@ -23,6 +24,7 @@ fun <T : HttpClientEngineConfig> createHttpClient(
     url: String,
     token: String,
     engine: HttpClientEngineFactory<T>,
+    json: Json = JsonLenient,
 ): HttpClient {
     return HttpClient(engine) {
 //      enable proxy in the future
@@ -31,7 +33,7 @@ fun <T : HttpClientEngineConfig> createHttpClient(
 //      }
 
         install(ContentNegotiation) {
-            register(ContentType.Application.Json, KotlinxSerializationConverter(JsonLenient))
+            register(ContentType.Application.Json, KotlinxSerializationConverter(json))
         }
 
         /**

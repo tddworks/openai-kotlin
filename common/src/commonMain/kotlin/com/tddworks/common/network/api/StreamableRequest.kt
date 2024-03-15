@@ -16,15 +16,14 @@ import kotlinx.serialization.json.*
  * Defaults to false
  * If set, partial message deltas will be sent, like in ChatGPT. Tokens will be sent as data-only server-sent events as they become available, with the stream terminated by a data: [DONE]
  */
-@Serializable
-sealed interface StreamableRequest {
+interface StreamableRequest {
     /**
      * Converts the request to a stream request as a [JsonElement].
      * If set, partial message deltas will be sent, like in ChatGPT. Tokens will be sent as data-only server-sent events as they become available, with the stream terminated by a data: [DONE]
      * @return The converted stream request as a [JsonElement].
      */
-    fun asStreamRequest(): JsonElement {
-        return JsonLenient.encodeToJsonElement(this)
+    fun asStreamRequest(jsonLenient: Json): JsonElement {
+        return jsonLenient.encodeToJsonElement(this)
             .jsonObject.toMutableMap()
             .apply {
                 put(STREAM, JsonPrimitive(true))

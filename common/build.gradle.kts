@@ -16,6 +16,8 @@ kotlin {
             // put your Multiplatform dependencies here
             api(libs.kotlinx.serialization.json)
             api(libs.bundles.ktor.client)
+            // di
+            api(libs.koin.core)
         }
 
         commonTest.dependencies {

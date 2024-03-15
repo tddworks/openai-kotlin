@@ -1,5 +1,6 @@
-package com.tddworks.common.network.api.ktor.internal
+package com.tddworks.anthropic.api.messages.api.internal
 
+import com.tddworks.anthropic.api.messages.api.internal.json.chatModule
 import kotlinx.serialization.json.Json
 
 
@@ -14,4 +15,7 @@ import kotlinx.serialization.json.Json
 val JsonLenient = Json {
     isLenient = true
     ignoreUnknownKeys = true
+    // https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md#class-discriminator-for-polymorphism
+    classDiscriminator = "#class"
+    serializersModule = chatModule
 }
