@@ -21,6 +21,7 @@ sonatypePortalPublisher {
 
 dependencies {
     kover(projects.openaiClient.openaiClientCore)
+    kover(projects.anthropicClient.anthropicClientCore)
 }
 
 val autoVersion = project.property(
@@ -67,8 +68,11 @@ koverReport {
                 "*.*\$\$serializer", // Kotlinx serializer)
                 "**.*\$Lambda$*.*", // Lambda functions
                 "**.*\$inlined$*", // Inlined functions
-                "**.*2\$1" // transactionWithResult
+                "**.*2\$1",// transactionWithResult
+                "**/**/*serializer*.*",
+                "**/**/*Companion*.*"
             )
+//            annotatedBy("kotlinx.serialization.Serializable")
         }
         includes {
             classes("com.tddworks.*")

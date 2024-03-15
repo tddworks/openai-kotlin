@@ -4,7 +4,7 @@ kotlin = "1.9.22"
 
 ktor = "2.3.7"
 kotlinx-serialization = "1.6.2"
-kover = "0.7.5"
+kover = "0.7.6"
 kotlinx-coroutines = "1.7.3"
 
 #logging-versions
