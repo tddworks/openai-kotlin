@@ -29,6 +29,9 @@ interface StreamableRequest {
                 put(STREAM, JsonPrimitive(true))
                 // Remove type field from kotlinx.serialization
                 remove("type")
+                // Remove class field from kotlinx.serialization
+                // e.g {"#class":"com.tddworks.anthropic.api.messages.api.CreateMessageRequest","messages":[{"role":"user","content":"hello"}],"stream":true}
+                remove("#class")
             }
             .let { JsonObject(it) }
     }

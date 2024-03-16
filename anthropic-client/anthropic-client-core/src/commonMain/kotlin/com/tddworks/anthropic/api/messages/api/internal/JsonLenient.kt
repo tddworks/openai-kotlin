@@ -18,4 +18,6 @@ val JsonLenient = Json {
     // https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md#class-discriminator-for-polymorphism
     classDiscriminator = "#class"
     serializersModule = anthropicModule
+    encodeDefaults = true
+    explicitNulls = false
 }
