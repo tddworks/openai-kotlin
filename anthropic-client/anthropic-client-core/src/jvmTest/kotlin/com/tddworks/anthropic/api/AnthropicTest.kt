@@ -9,13 +9,15 @@ class AnthropicTest {
     fun `should return overridden settings`() {
         val target = Anthropic(
             baseUrl = "http://localhost:8080",
-            apiKey = "1234"
+            apiKey = "1234",
+            anthropicVersion = "2024-03-01"
         )
 
         assertEquals("http://localhost:8080", target.baseUrl())
 
         assertEquals("1234", target.apiKey())
 
+        assertEquals("2024-03-01", target.anthropicVersion())
     }
 
     @Test
@@ -26,6 +28,9 @@ class AnthropicTest {
 
         assertEquals("CONFIGURE_ME", target.apiKey())
 
+        assertEquals("CONFIGURE_ME", target.apiKey())
+
+        assertEquals("2023-06-01", target.anthropicVersion())
     }
 
 }

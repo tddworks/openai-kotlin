@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.json.Json
 
 /**
- *  * Anthropic Messages API - https://docs.anthropic.com/claude/reference/messages_post
+ * Anthropic Messages API - https://docs.anthropic.com/claude/reference/messages_post
  */
 class DefaultMessagesApi(
     private val anthropicConfig: AnthropicConfig = AnthropicConfig(),
@@ -21,7 +21,7 @@ class DefaultMessagesApi(
     override fun stream(request: StreamMessageRequest): Flow<StreamMessageResponse> {
         return requester.streamRequest<StreamMessageResponse> {
             method = HttpMethod.Post
-            url(path = CHAT_COMPLETIONS_PATH)
+            url(path = MESSAGE_API_PATH)
             setBody(request.asStreamRequest(jsonLenient))
             contentType(ContentType.Application.Json)
             accept(ContentType.Text.EventStream)
@@ -42,7 +42,7 @@ class DefaultMessagesApi(
     override suspend fun create(request: CreateMessageRequest): CreateMessageResponse {
         return requester.performRequest<CreateMessageResponse> {
             method = HttpMethod.Post
-            url(path = CHAT_COMPLETIONS_PATH)
+            url(path = MESSAGE_API_PATH)
             setBody(request)
             contentType(ContentType.Application.Json)
             // anthropic API uses API key and
@@ -54,7 +54,7 @@ class DefaultMessagesApi(
     }
 
     companion object {
-        const val CHAT_COMPLETIONS_PATH = "/v1/messages"
+        const val MESSAGE_API_PATH = "/v1/messages"
     }
 
 }

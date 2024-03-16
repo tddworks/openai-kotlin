@@ -1,14 +1,6 @@
 package com.tddworks.anthropic.di
 
 import com.tddworks.anthropic.api.messages.api.internal.JsonLenient
-import io.ktor.client.*
-import io.ktor.client.engine.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.plugins.logging.*
-import io.ktor.serialization.kotlinx.json.*
-import kotlinx.serialization.json.Json
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
@@ -26,10 +18,5 @@ fun initKoin(enableNetworkLogs: Boolean = false, appDeclaration: KoinAppDeclarat
 fun commonModule(enableNetworkLogs: Boolean) = module {
     singleOf(::createJson)
 }
-
-// platform Module
-//val platformModule = module {
-//    singleOf(::Platform)
-//}
 
 fun createJson() = JsonLenient
