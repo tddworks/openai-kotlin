@@ -1,29 +1,15 @@
 package com.tddworks.anthropic.api.internal
 
 import com.tddworks.anthropic.api.Anthropic
-import com.tddworks.anthropic.api.messages.api.AnthropicConfig
 import com.tddworks.anthropic.api.messages.api.Messages
-import com.tddworks.anthropic.api.messages.api.internal.DefaultMessagesApi
-import com.tddworks.common.network.api.ktor.api.HttpRequester
-import com.tddworks.common.network.api.ktor.internal.createHttpClient
-import com.tddworks.common.network.api.ktor.internal.default
+import com.tddworks.di.getInstance
 
 
 class AnthropicApi(
     private val apiKey: String,
     private val apiURL: String,
     private val anthropicVersion: String,
-) : Anthropic, Messages by DefaultMessagesApi(
-    AnthropicConfig(
-        apiKey = { apiKey },
-        anthropicVersion = { anthropicVersion }
-    ),
-    HttpRequester.default(
-        createHttpClient(
-            url = apiURL
-        )
-    )
-) {
+) : Anthropic, Messages by getInstance() {
     override fun apiKey(): String {
         return apiKey
     }

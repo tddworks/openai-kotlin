@@ -9,13 +9,13 @@ import org.koin.dsl.module
 
 expect fun platformModule(): Module
 
-fun initKoin(enableNetworkLogs: Boolean = false, appDeclaration: KoinAppDeclaration = {}) =
+fun initKoin(module: Module, appDeclaration: KoinAppDeclaration = {}) =
     startKoin {
         appDeclaration()
-        modules(commonModule(enableNetworkLogs = enableNetworkLogs))
+        modules(commonModule() + module)
     }
 
-fun commonModule(enableNetworkLogs: Boolean) = module {
+fun commonModule() = module {
     singleOf(::createJson)
 }
 
