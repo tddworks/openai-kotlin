@@ -1,5 +1,6 @@
 package com.tddworks.common.network.api.ktor.internal
 
+import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.json.Json
 
 
@@ -14,4 +15,30 @@ import kotlinx.serialization.json.Json
 val JsonLenient = Json {
     isLenient = true
     ignoreUnknownKeys = true
+    /**
+     * When this flag is disabled properties with null values without default are not encoded.
+     */
+    explicitNulls = false
+    /**
+     * Controls whether the target property is serialized when its value is equal to a default value,
+     * regardless of the format settings.
+     * Does not affect decoding and deserialization process.
+     *
+     * Example of usage:
+     * ```
+     * @Serializable
+     * data class Foo(
+     *     @EncodeDefault(ALWAYS) val a: Int = 42,
+     *     @EncodeDefault(NEVER) val b: Int = 43,
+     *     val c: Int = 44
+     * )
+     *
+     * Json { encodeDefaults = false }.encodeToString((Foo()) // {"a": 42}
+     * Json { encodeDefaults = true }.encodeToString((Foo())  // {"a": 42, "c":44}
+     * ```
+     *
+     * @see EncodeDefault.Mode.ALWAYS
+     * @see EncodeDefault.Mode.NEVER
+     */
+    encodeDefaults = true
 }

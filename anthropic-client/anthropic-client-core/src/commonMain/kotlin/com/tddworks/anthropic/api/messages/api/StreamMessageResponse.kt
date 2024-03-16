@@ -1,67 +1,63 @@
-package com.tddworks.anthropic.api.messages.api.stream
+package com.tddworks.anthropic.api.messages.api
 
-import com.tddworks.anthropic.api.messages.api.CreateMessageResponse
-import com.tddworks.anthropic.api.messages.api.Usage
-import com.tddworks.common.network.api.StreamChatResponse
+import com.tddworks.anthropic.api.messages.api.internal.json.StreamMessageResponseSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@SerialName("message_start")
+
+@Serializable(with = StreamMessageResponseSerializer::class)
+sealed interface StreamMessageResponse {
+    val type: String
+}
+
 @Serializable
 data class MessageStart(
     override val type: String,
     val message: CreateMessageResponse,
-) : StreamChatResponse
+) : StreamMessageResponse
 
 @Serializable
-@SerialName("content_block_start")
 data class ContentBlockStart(
     override val type: String,
     val index: Int,
     @SerialName("content_block")
     val contentBlock: ContentBlock,
-) : StreamChatResponse
+) : StreamMessageResponse
 
 @Serializable
-@SerialName("content_block_delta")
 data class ContentBlock(
     override val type: String,
     val text: String,
-) : StreamChatResponse
+) : StreamMessageResponse
 
 @Serializable
-@SerialName("content_block_delta")
 data class ContentBlockDelta(
     override val type: String,
     val index: Int,
     val delta: Delta,
-) : StreamChatResponse
+) : StreamMessageResponse
 
 @Serializable
-@SerialName("content_block_stop")
 data class ContentBlockStop(
     override val type: String,
     val index: Int,
-) : StreamChatResponse
+) : StreamMessageResponse
 
 @Serializable
-@SerialName("message_delta")
 data class MessageDelta(
     override val type: String,
     val delta: Delta,
-) : StreamChatResponse
+) : StreamMessageResponse
 
 @Serializable
-@SerialName("message_stop")
 data class MessageStop(
     override val type: String,
-) : StreamChatResponse
+) : StreamMessageResponse
 
 @Serializable
-@SerialName("ping")
 data class Ping(
     override val type: String,
-) : StreamChatResponse
+) : StreamMessageResponse
 
 /**
  * {

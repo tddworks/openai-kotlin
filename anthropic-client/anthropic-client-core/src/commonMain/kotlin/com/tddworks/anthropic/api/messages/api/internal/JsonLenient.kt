@@ -1,6 +1,6 @@
 package com.tddworks.anthropic.api.messages.api.internal
 
-import com.tddworks.anthropic.api.messages.api.internal.json.chatModule
+import com.tddworks.anthropic.api.messages.api.internal.json.anthropicModule
 import kotlinx.serialization.json.Json
 
 
@@ -17,5 +17,5 @@ val JsonLenient = Json {
     ignoreUnknownKeys = true
     // https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md#class-discriminator-for-polymorphism
     classDiscriminator = "#class"
-    serializersModule = chatModule
+    serializersModule = anthropicModule
 }

@@ -21,7 +21,6 @@ fun commonModule(enableNetworkLogs: Boolean) = module {
 fun createJson() = Json { isLenient = true; ignoreUnknownKeys = true }
 
 
-
 inline fun <reified T> getInstance(): T {
     return object : KoinComponent {
         val value: T by inject()

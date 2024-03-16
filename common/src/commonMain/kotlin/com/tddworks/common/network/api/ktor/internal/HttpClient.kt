@@ -17,12 +17,12 @@ import kotlin.time.Duration.Companion.minutes
  * Creates a new [HttpClient] with [OkHttp] engine and [ContentNegotiation] plugin.
  *
  * @param url the base URL of the API
- * @param token the authentication token
+ * @param authToken the authentication token
  * @return a new [HttpClient] instance
  */
 fun <T : HttpClientEngineConfig> createHttpClient(
     url: String,
-    token: String,
+    authToken: String? = null,
     engine: HttpClientEngineFactory<T>,
     json: Json = JsonLenient,
 ): HttpClient {
@@ -48,24 +48,25 @@ fun <T : HttpClientEngineConfig> createHttpClient(
              * SIMPLE - Logger using println.
              * Empty - Empty Logger for test purpose.
              */
-            logger = Logger.DEFAULT
+            logger = Logger.SIMPLE
             /**
              * ALL - log all
              * HEADERS - log headers
              * INFO - log info
              * NONE - none
              */
-            level = LogLevel.INFO
+            level = LogLevel.ALL
         }
 
-        install(Auth) {
-            bearer {
-                loadTokens {
-                    BearerTokens(accessToken = token, refreshToken = "")
+        authToken?.let {
+            install(Auth) {
+                bearer {
+                    loadTokens {
+                        BearerTokens(accessToken = authToken, refreshToken = "")
+                    }
                 }
             }
         }
-
 
         /**
          * Installs an [HttpRequestRetry] with default maxRetries of 3,

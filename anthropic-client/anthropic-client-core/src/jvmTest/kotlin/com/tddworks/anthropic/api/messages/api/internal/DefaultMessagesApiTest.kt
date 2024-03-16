@@ -1,14 +1,9 @@
 package com.tddworks.anthropic.api.messages.api.internal
 
 import app.cash.turbine.test
-import com.tddworks.anthropic.api.messages.api.CreateMessageRequest
-import com.tddworks.anthropic.api.messages.api.CreateMessageResponse
-import com.tddworks.anthropic.api.messages.api.Message
-import com.tddworks.anthropic.api.messages.api.Usage
-import com.tddworks.anthropic.api.messages.api.stream.*
+import com.tddworks.anthropic.api.messages.api.*
 import com.tddworks.anthropic.api.mockHttpClient
 import com.tddworks.common.network.api.ktor.internal.DefaultHttpRequester
-import com.tddworks.openllm.api.ChatRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -51,7 +46,7 @@ class DefaultMessagesApiTest : KoinTest {
         val request = CreateMessageRequest.streamRequest(listOf(Message.user(("hello"))))
 
         // When
-        chatsApi.chat(request).test {
+        chatsApi.stream(request).test {
             // Then
             assertEquals(
                 MessageStop(
@@ -75,7 +70,7 @@ class DefaultMessagesApiTest : KoinTest {
         val request = CreateMessageRequest.streamRequest(listOf(Message.user(("hello"))))
 
         // When
-        chatsApi.chat(request).test {
+        chatsApi.stream(request).test {
             // Then
             assertEquals(
                 MessageDelta(
@@ -106,7 +101,7 @@ class DefaultMessagesApiTest : KoinTest {
         val request = CreateMessageRequest.streamRequest(listOf(Message.user(("hello"))))
 
         // When
-        chatsApi.chat(request).test {
+        chatsApi.stream(request).test {
             // Then
             assertEquals(
                 ContentBlockStop(
@@ -131,7 +126,7 @@ class DefaultMessagesApiTest : KoinTest {
         val request = CreateMessageRequest.streamRequest(listOf(Message.user(("hello"))))
 
         // When
-        chatsApi.chat(request).test {
+        chatsApi.stream(request).test {
             // Then
             assertEquals(
                 ContentBlockDelta(
@@ -160,7 +155,7 @@ class DefaultMessagesApiTest : KoinTest {
         val request = CreateMessageRequest.streamRequest(listOf(Message.user(("hello"))))
 
         // When
-        chatsApi.chat(request).test {
+        chatsApi.stream(request).test {
             // Then
             assertEquals(
                 Ping(
@@ -184,7 +179,7 @@ class DefaultMessagesApiTest : KoinTest {
         val request = CreateMessageRequest.streamRequest(listOf(Message.user(("hello"))))
 
         // When
-        chatsApi.chat(request).test {
+        chatsApi.stream(request).test {
             // Then
             assertEquals(
                 ContentBlockStart(
@@ -214,7 +209,7 @@ class DefaultMessagesApiTest : KoinTest {
         val request = CreateMessageRequest.streamRequest(listOf(Message.user(("hello"))))
 
 
-        chatsApi.chat(request).test {
+        chatsApi.stream(request).test {
             assertEquals(
                 MessageStart(
                     type = "message_start",
@@ -270,7 +265,7 @@ class DefaultMessagesApiTest : KoinTest {
         )
 
 
-        val r = chat.chat(request as ChatRequest) as CreateMessageResponse
+        val r = chat.create(request)
 
         with(r) {
             assertEquals("msg_013Zva2CMHLNnXjNJJKqJ2EF", id)

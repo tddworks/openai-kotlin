@@ -18,10 +18,14 @@ suspend inline fun <reified T> FlowCollector<T>.streamEventsFrom(response: HttpR
     while (!channel.isClosedForRead) {
         channel.readUTF8Line()?.let { streamResponse ->
             if (notEndStreamResponse(streamResponse)) {
-                emit(getKoin().get<Json>().decodeFromString(streamResponse.removePrefix(STREAM_PREFIX)))
+                emit(json().decodeFromString(streamResponse.removePrefix(STREAM_PREFIX)))
             }
         } ?: break
     }
+}
+
+fun json(): Json {
+    return getKoin().get<Json>()
 }
 
 

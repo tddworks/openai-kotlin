@@ -11,7 +11,7 @@ actual fun HttpRequester.Companion.default(
     return DefaultHttpRequester(
         createHttpClient(
             url = url,
-            token = token,
+            authToken = token,
             engine = Darwin
         )
     )

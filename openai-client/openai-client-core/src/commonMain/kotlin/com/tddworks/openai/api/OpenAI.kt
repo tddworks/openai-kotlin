@@ -9,6 +9,7 @@ import com.tddworks.common.network.api.ktor.api.HttpRequester
 import com.tddworks.common.network.api.ktor.internal.default
 import com.tddworks.common.network.api.ktor.internal.createHttpClient
 import io.ktor.client.engine.*
+import io.ktor.http.*
 
 interface OpenAI : Chat, Images {
     companion object {
@@ -20,7 +21,7 @@ fun OpenAI(token: String, engine: HttpClientEngineFactory<HttpClientEngineConfig
     HttpRequester.default(
         createHttpClient(
             url = BASE_URL,
-            token = token,
+            authToken = token,
             engine = engine
         )
     ),

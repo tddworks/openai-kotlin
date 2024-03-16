@@ -1,6 +1,7 @@
 package com.tddworks.anthropic.api
 
-import com.tddworks.anthropic.api.messages.api.internal.json.chatModule
+import com.tddworks.anthropic.api.messages.api.internal.json.anthropicModule
+import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.json.Json
 
 val prettyJson = Json { // this returns the JsonBuilder
@@ -8,6 +9,29 @@ val prettyJson = Json { // this returns the JsonBuilder
     ignoreUnknownKeys = true
     // optional: specify indent
     prettyPrintIndent = "  "
+
+    /**
+     * Controls whether the target property is serialized when its value is equal to a default value,
+     * regardless of the format settings.
+     * Does not affect decoding and deserialization process.
+     *
+     * Example of usage:
+     * ```
+     * @Serializable
+     * data class Foo(
+     *     @EncodeDefault(ALWAYS) val a: Int = 42,
+     *     @EncodeDefault(NEVER) val b: Int = 43,
+     *     val c: Int = 44
+     * )
+     *
+     * Json { encodeDefaults = false }.encodeToString((Foo()) // {"a": 42}
+     * Json { encodeDefaults = true }.encodeToString((Foo())  // {"a": 42, "c":44}
+     * ```
+     *
+     * @see EncodeDefault.Mode.ALWAYS
+     * @see EncodeDefault.Mode.NEVER
+     */
+    encodeDefaults = true
 }
 
 /**
@@ -23,5 +47,6 @@ internal val JsonLenient = Json {
     ignoreUnknownKeys = true
     // https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md#class-discriminator-for-polymorphism
     classDiscriminator = "#class"
-    serializersModule = chatModule
+    serializersModule = anthropicModule
+    encodeDefaults = true
 }
