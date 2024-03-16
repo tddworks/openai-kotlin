@@ -13,6 +13,9 @@ import io.ktor.serialization.kotlinx.*
 import kotlinx.serialization.json.Json
 import kotlin.time.Duration.Companion.minutes
 
+
+internal expect fun httpClientEngine(): HttpClientEngineFactory<HttpClientEngineConfig>
+
 /**
  * Creates a new [HttpClient] with [OkHttp] engine and [ContentNegotiation] plugin.
  *
@@ -20,13 +23,12 @@ import kotlin.time.Duration.Companion.minutes
  * @param authToken the authentication token
  * @return a new [HttpClient] instance
  */
-fun <T : HttpClientEngineConfig> createHttpClient(
+fun createHttpClient(
     url: String,
     authToken: String? = null,
-    engine: HttpClientEngineFactory<T>,
     json: Json = JsonLenient,
 ): HttpClient {
-    return HttpClient(engine) {
+    return HttpClient(httpClientEngine()) {
 //      enable proxy in the future
 //      engine {
 //          proxy = ProxyBuilder.http(url)

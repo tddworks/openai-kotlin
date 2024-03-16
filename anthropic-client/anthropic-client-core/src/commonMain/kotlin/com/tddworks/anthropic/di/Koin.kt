@@ -27,4 +27,9 @@ fun commonModule(enableNetworkLogs: Boolean) = module {
     singleOf(::createJson)
 }
 
+// platform Module
+//val platformModule = module {
+//    singleOf(::Platform)
+//}
+
 fun createJson() = JsonLenient

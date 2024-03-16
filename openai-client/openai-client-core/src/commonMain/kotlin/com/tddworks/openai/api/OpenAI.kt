@@ -17,12 +17,11 @@ interface OpenAI : Chat, Images {
     }
 }
 
-fun OpenAI(token: String, engine: HttpClientEngineFactory<HttpClientEngineConfig>): OpenAI = OpenAIApi(
+fun OpenAI(token: String): OpenAI = OpenAIApi(
     HttpRequester.default(
         createHttpClient(
             url = BASE_URL,
             authToken = token,
-            engine = engine
         )
     ),
 )

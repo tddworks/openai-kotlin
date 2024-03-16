@@ -28,8 +28,8 @@ class DefaultMessagesApi(
             headers {
                 append(HttpHeaders.CacheControl, "no-cache")
                 append(HttpHeaders.Connection, "keep-alive")
-                append("anthropic-version", anthropicConfig.anthropicVersion)
-                append("x-api-key", anthropicConfig.apiKey)
+                append("anthropic-version", anthropicConfig.anthropicVersion())
+                append("x-api-key", anthropicConfig.apiKey())
             }
         }
     }
@@ -47,8 +47,8 @@ class DefaultMessagesApi(
             contentType(ContentType.Application.Json)
             // anthropic API uses API key and
             headers {
-                append("anthropic-version", anthropicConfig.anthropicVersion)
-                append("x-api-key", anthropicConfig.apiKey)
+                append("anthropic-version", anthropicConfig.anthropicVersion())
+                append("x-api-key", anthropicConfig.apiKey())
             }
         }
     }

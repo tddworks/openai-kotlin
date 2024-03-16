@@ -24,12 +24,12 @@ kotlin {
             implementation(libs.ktor.client.mock)
         }
 
-        macosMain.dependencies {
+        appleMain.dependencies {
             api(libs.ktor.client.darwin)
         }
 
         jvmMain.dependencies {
-            api(libs.ktor.client.cio)
+            api(libs.ktor.client.okhttp)
         }
 
         jvmTest.dependencies {
