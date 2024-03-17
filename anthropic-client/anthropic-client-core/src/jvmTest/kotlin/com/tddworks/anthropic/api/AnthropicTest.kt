@@ -1,10 +1,20 @@
 package com.tddworks.anthropic.api
 
+import com.tddworks.anthropic.di.anthropicModules
+import com.tddworks.anthropic.di.initKoin
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.koin.test.junit5.AutoCloseKoinTest
 
 class AnthropicTest : AutoCloseKoinTest() {
+
+    @BeforeEach
+    fun setUp() {
+        initKoin(
+            module = anthropicModules({ "http://localhost:8080" }, { "1234" }, { "2024-03-01" })
+        )
+    }
 
     @Test
     fun `should return overridden settings`() {
