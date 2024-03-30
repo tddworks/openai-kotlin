@@ -12,6 +12,7 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.*
 import kotlinx.serialization.json.Json
 import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 
 internal expect fun httpClientEngine(): HttpClientEngineFactory<HttpClientEngineConfig>
@@ -24,8 +25,8 @@ internal expect fun httpClientEngine(): HttpClientEngineFactory<HttpClientEngine
  * @return a new [HttpClient] instance
  */
 fun createHttpClient(
-    url: String,
-    authToken: String? = null,
+    url: () -> String,
+    authToken: (() -> String)? = null,
     json: Json = JsonLenient,
 ): HttpClient {
     return HttpClient(httpClientEngine()) {
@@ -60,15 +61,20 @@ fun createHttpClient(
             level = LogLevel.INFO
         }
 
-        authToken?.let {
-            install(Auth) {
-                bearer {
-                    loadTokens {
-                        BearerTokens(accessToken = authToken, refreshToken = "")
-                    }
-                }
-            }
-        }
+        /**
+         * Install the Auth module. but can't update on the fly
+         * @param auth the auth instance to use
+         * @return Unit
+         */
+//        authToken?.let {
+//            install(Auth) {
+//                bearer {
+//                    loadTokens {
+//                        BearerTokens(accessToken = authToken(), refreshToken = "")
+//                    }
+//                }
+//            }
+//        }
 
         /**
          * Installs an [HttpRequestRetry] with default maxRetries of 3,
@@ -81,13 +87,18 @@ fun createHttpClient(
             maxRetries = 3
             // retry on rate limit error.
             retryIf { _, response -> response.status.value.let { it == 429 } }
-            exponentialDelay(base = 5.0, maxDelayMs = 1.minutes.inWholeMilliseconds)
+            exponentialDelay(base = 5.0, maxDelayMs = 10.seconds.inWholeMilliseconds)
         }
 
         defaultRequest {
             url {
                 protocol = URLProtocol.HTTPS
-                host = url
+                host = url()
+            }
+
+
+            authToken?.let {
+                header(HttpHeaders.Authorization, "Bearer ${it()}")
             }
 
             header(HttpHeaders.ContentType, ContentType.Application.Json)

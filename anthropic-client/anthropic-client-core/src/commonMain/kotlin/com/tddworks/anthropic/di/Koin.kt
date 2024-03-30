@@ -34,7 +34,7 @@ fun anthropicModules(
     single<HttpRequester> {
         HttpRequester.default(
             createHttpClient(
-                url = baseUrl()
+                url = baseUrl
             )
         )
     }

@@ -8,8 +8,8 @@ actual fun HttpRequester.Companion.default(
 ): HttpRequester {
     return DefaultHttpRequester(
         createHttpClient(
-            url = url,
-            authToken = token,
+            url = { url },
+            authToken = { token },
         )
     )
 }
