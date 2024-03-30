@@ -1,5 +1,6 @@
 package com.tddworks.common.network.api.ktor.api
 
+import com.tddworks.di.getInstance
 import io.ktor.client.call.*
 import io.ktor.client.statement.*
 import io.ktor.utils.io.*
@@ -25,7 +26,7 @@ suspend inline fun <reified T> FlowCollector<T>.streamEventsFrom(response: HttpR
 }
 
 fun json(): Json {
-    return getKoin().get<Json>()
+    return getInstance()
 }
 
 
