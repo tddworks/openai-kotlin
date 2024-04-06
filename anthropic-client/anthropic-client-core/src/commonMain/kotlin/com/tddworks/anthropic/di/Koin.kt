@@ -1,5 +1,6 @@
 package com.tddworks.anthropic.di
 
+import com.tddworks.anthropic.api.Anthropic
 import com.tddworks.anthropic.api.messages.api.AnthropicConfig
 import com.tddworks.anthropic.api.messages.api.Messages
 import com.tddworks.anthropic.api.messages.api.internal.DefaultMessagesApi
@@ -31,6 +32,14 @@ fun anthropicModules(
     anthropicVersion: () -> String,
 ) = module {
 
+    single<Anthropic> {
+        Anthropic(
+            baseUrl = baseUrl,
+            apiKey = apiKey,
+            anthropicVersion = anthropicVersion
+        )
+    }
+
     single<HttpRequester> {
         HttpRequester.default(
             createHttpClient(
@@ -38,6 +47,7 @@ fun anthropicModules(
             )
         )
     }
+
     single<Messages> {
         DefaultMessagesApi(
             anthropicConfig = AnthropicConfig(
