@@ -1,6 +1,5 @@
 package com.tddworks.anthropic.api.messages.api
 
-import com.tddworks.openllm.api.ChatResponse
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -36,7 +35,7 @@ data class CreateMessageResponse(
     val stopSequence: String?,
     val type: String,
     val usage: Usage,
-) : ChatResponse
+)
 
 
 @Serializable

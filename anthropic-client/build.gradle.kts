@@ -1,6 +1,6 @@
 plugins {
-//    alias(libs.plugins.kover)
-//    `maven-publish`
+    alias(libs.plugins.kover)
+    `maven-publish`
 }
 
 kotlin {

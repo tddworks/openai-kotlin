@@ -1,5 +1,4 @@
 pluginManagement {
-//    includeBuild("convention-plugins")
     repositories {
         google()
         mavenLocal()
@@ -29,3 +28,8 @@ include(":openai-client:openai-client-cio")
 
 include(":anthropic-client")
 include(":anthropic-client:anthropic-client-core")
+
+include(":openllm-gateway")
+include(":openllm-gateway:openllm-gateway-core")
+
+//include(":gemini-client")

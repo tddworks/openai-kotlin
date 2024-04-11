@@ -11,16 +11,12 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            // put your Multiplatform dependencies here
-            implementation(libs.kotlinx.coroutines.core)
-            api(libs.kotlinx.serialization.json)
-            api(libs.bundles.ktor.client)
-            api(projects.common)
+            api(projects.openaiClient.openaiClientCore)
+            api(projects.anthropicClient.anthropicClientCore)
         }
 
         commonTest.dependencies {
             implementation(libs.ktor.client.mock)
-            api(projects.common)
         }
 
         macosMain.dependencies {

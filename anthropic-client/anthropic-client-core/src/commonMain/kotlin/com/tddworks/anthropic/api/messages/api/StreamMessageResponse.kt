@@ -26,9 +26,9 @@ data class ContentBlockStart(
 
 @Serializable
 data class ContentBlock(
-    override val type: String,
+    val type: String,
     val text: String,
-) : StreamMessageResponse
+)
 
 @Serializable
 data class ContentBlockDelta(

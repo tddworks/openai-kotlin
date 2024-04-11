@@ -33,5 +33,6 @@ value class Model(val value: String) {
          */
         val CLAUDE_3_HAIKU = Model("claude-3-haiku-20240307")
 
+        val availableModels = listOf(CLAUDE_3_OPUS, CLAUDE_3_Sonnet, CLAUDE_3_HAIKU)
     }
 }
