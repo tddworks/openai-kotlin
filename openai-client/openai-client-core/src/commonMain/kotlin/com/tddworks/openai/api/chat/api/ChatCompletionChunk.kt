@@ -20,7 +20,7 @@ data class ChatCompletionChunk(
     val choices: List<ChatChunk>,
 ) {
     companion object {
-        fun fake() = ChatCompletionChunk(
+        fun dummy() = ChatCompletionChunk(
             id = "fake-id",
             `object` = "text",
             created = 0,

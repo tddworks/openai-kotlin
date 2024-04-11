@@ -1,4 +1,4 @@
-package com.tddworks.openllm.api
+package com.tddworks.openai.api
 
 /**
  * Chat response

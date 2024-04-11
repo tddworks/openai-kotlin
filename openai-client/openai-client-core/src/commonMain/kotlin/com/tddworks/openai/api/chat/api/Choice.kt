@@ -64,7 +64,15 @@ data class ChatChoice(
      * The reason why OpenAI stopped generating.
      */
     @SerialName("finish_reason") val finishReason: FinishReason? = null,
-)
+) {
+    companion object {
+        fun dummy() = ChatChoice(
+            index = 0,
+            message = ChatMessage.SystemMessage("Hello! How can I assist you today?"),
+            finishReason = FinishReason.Stop
+        )
+    }
+}
 
 @Serializable
 @JvmInline

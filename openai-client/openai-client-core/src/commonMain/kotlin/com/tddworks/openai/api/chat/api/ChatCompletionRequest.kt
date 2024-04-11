@@ -296,9 +296,10 @@ data class ChatCompletionRequest(
          *
          * @return A ComplicationRequest object with a single dummy message.
          */
-        fun dummy(): ChatCompletionRequest {
+        fun dummy(model: Model): ChatCompletionRequest {
             return ChatCompletionRequest(
-                listOf(ChatMessage.UserMessage("dummy-content")),
+                listOf(ChatMessage.UserMessage("Hello! How can I assist you today?")),
+                model = model
             )
         }
     }
