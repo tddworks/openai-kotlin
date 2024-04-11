@@ -29,7 +29,7 @@ include(":openai-client:openai-client-cio")
 include(":anthropic-client")
 include(":anthropic-client:anthropic-client-core")
 
-include(":openllm-gateway")
-include(":openllm-gateway:openllm-gateway-core")
+include(":openai-gateway")
+include(":openai-gateway:openai-gateway-core")
 
 //include(":gemini-client")

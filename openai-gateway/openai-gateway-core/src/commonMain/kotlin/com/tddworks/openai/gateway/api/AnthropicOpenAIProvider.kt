@@ -1,4 +1,4 @@
-package com.tddworks.openllm.gateway.api
+package com.tddworks.openai.gateway.api
 
 import com.tddworks.anthropic.api.Anthropic
 import com.tddworks.anthropic.api.Model
@@ -17,15 +17,15 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.transform
 
 
-interface OpenAIGatewayProvider : Chat {
-    fun availableModels(): List<OpenAIModel>
-}
-
-class AnthropicOpenAIGatewayProvider(private val client: Anthropic) : OpenAIGatewayProvider {
-    override fun availableModels(): List<OpenAIModel> {
+class AnthropicOpenAIProvider(private val client: Anthropic) : OpenAIProvider {
+    fun availableModels(): List<OpenAIModel> {
         return Model.availableModels.map {
             OpenAIModel(it.value)
         }
+    }
+
+    override fun supports(model: OpenAIModel): Boolean {
+        return Model.availableModels.any { it.value == model.value }
     }
 
     override suspend fun completions(request: ChatCompletionRequest): OpenAIChatCompletion {
