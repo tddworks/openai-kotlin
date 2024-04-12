@@ -11,6 +11,7 @@ actual fun HttpRequester.Companion.default(
         createHttpClient(
             url = { url },
             authToken = { token },
+            json = JsonLenient
         )
     )
 }
