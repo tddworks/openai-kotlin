@@ -1,6 +1,7 @@
 package com.tddworks.openai.gateway.api
 
 import app.cash.turbine.test
+import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
@@ -15,19 +16,19 @@ import kotlin.test.assertEquals
 import com.tddworks.anthropic.api.Model as AnthropicModel
 
 class OpenAIGatewayTest {
-
-    private val openAI = mock<OpenAIProvider> {
-        on(it.supports(Model.GPT_3_5_TURBO)).thenReturn(true)
-    }
     private val anthropic = mock<OpenAIProvider> {
         on(it.supports(Model(AnthropicModel.CLAUDE_3_HAIKU.value))).thenReturn(true)
     }
     private val providers: List<OpenAIProvider> = listOf(
-        openAI,
         anthropic
     )
 
-    private val openAIGateway = DefaultOpenAIGateway(providers)
+    private val openAI: OpenAI = mock()
+
+    private val openAIGateway = DefaultOpenAIGateway(
+        providers,
+        openAI = openAI
+    )
 
     @Test
     fun `should use openai client to get stream completions`() = runTest {

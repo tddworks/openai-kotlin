@@ -12,9 +12,6 @@ import com.tddworks.openai.api.chat.api.ChatCompletion as OpenAIChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk as OpenAIChatCompletionChunk
 import com.tddworks.openai.api.chat.api.Model as OpenAIModel
 
-/**
- * command+shift+; recent test files
- */
 @OptIn(ExperimentalSerializationApi::class)
 class AnthropicOpenAIProvider(private val client: Anthropic) : OpenAIProvider {
     /**

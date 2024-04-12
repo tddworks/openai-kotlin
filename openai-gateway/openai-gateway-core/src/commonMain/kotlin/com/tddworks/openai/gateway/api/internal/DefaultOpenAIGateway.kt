@@ -1,5 +1,6 @@
 package com.tddworks.openai.gateway.api.internal
 
+import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
@@ -16,7 +17,9 @@ import kotlinx.serialization.ExperimentalSerializationApi
 @ExperimentalSerializationApi
 class DefaultOpenAIGateway(
     private val providers: List<OpenAIProvider>,
+    private val openAI: OpenAI,
 ) : OpenAIGateway {
+
     /**
      * This function is called to get completions for a chat based on the given request.
      *
@@ -24,11 +27,9 @@ class DefaultOpenAIGateway(
      * @return A ChatCompletion object containing the completions for the provided request.
      */
     override suspend fun completions(request: ChatCompletionRequest): ChatCompletion {
-        providers.first {
+        return providers.firstOrNull {
             it.supports(request.model)
-        }.let {
-            return it.completions(request)
-        }
+        }?.completions(request) ?: openAI.completions(request)
     }
 
     /**
@@ -39,10 +40,8 @@ class DefaultOpenAIGateway(
      * @return a Flow of ChatCompletionChunk objects representing the completions for the input model
      */
     override fun streamCompletions(request: ChatCompletionRequest): Flow<ChatCompletionChunk> {
-        providers.first {
+        return providers.firstOrNull {
             it.supports(request.model)
-        }.let {
-            return it.streamCompletions(request)
-        }
+        }?.streamCompletions(request) ?: openAI.streamCompletions(request)
     }
 }
