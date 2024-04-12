@@ -27,7 +27,7 @@ class AnthropicOpenAIProviderTest {
     lateinit var provider: AnthropicOpenAIProvider
 
     @Test
-    fun should_return_true_when_model_is_supported() {
+    fun `should return true when model is supported`() {
         // given
         val supportedModel = OpenAIModel(Model.CLAUDE_3_HAIKU.value)
 
@@ -39,7 +39,7 @@ class AnthropicOpenAIProviderTest {
     }
 
     @Test
-    fun should_return_false_when_model_is_not_supported() {
+    fun `should return false when model is not supported`() {
         // given
         val unsupportedModel = OpenAIModel.GPT_3_5_TURBO
 
@@ -51,7 +51,7 @@ class AnthropicOpenAIProviderTest {
     }
 
     @Test
-    fun should_fetch_completions_from_OpenAI_API() = runTest {
+    fun `should fetch completions from OpenAI API`() = runTest {
         // given
         val request = ChatCompletionRequest.dummy(OpenAIModel(Model.CLAUDE_3_HAIKU.value))
         val response = CreateMessageResponse(
@@ -77,7 +77,7 @@ class AnthropicOpenAIProviderTest {
     }
 
     @Test
-    fun should_stream_completions_for_chat() = runTest {
+    fun `should stream completions for chat`() = runTest {
         // given
         val request = ChatCompletionRequest.dummy(OpenAIModel(Model.CLAUDE_3_HAIKU.value))
 
