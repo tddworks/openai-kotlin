@@ -18,12 +18,6 @@ import kotlinx.coroutines.flow.transform
 
 
 class AnthropicOpenAIProvider(private val client: Anthropic) : OpenAIProvider {
-    fun availableModels(): List<OpenAIModel> {
-        return Model.availableModels.map {
-            OpenAIModel(it.value)
-        }
-    }
-
     override fun supports(model: OpenAIModel): Boolean {
         return Model.availableModels.any { it.value == model.value }
     }
@@ -39,7 +33,7 @@ class AnthropicOpenAIProvider(private val client: Anthropic) : OpenAIProvider {
         return client.stream(request.toAnthropicRequest() as StreamMessageRequest)
             .filter { it !is ContentBlockStop && it !is Ping }
             .transform {
-                emit(it.toOpenAIChatCompletionChunk())
+                emit(it.toOpenAIChatCompletionChunk(request.model.value))
             }
     }
 
@@ -73,104 +67,44 @@ class AnthropicOpenAIProvider(private val client: Anthropic) : OpenAIProvider {
      * {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1694268190,"model":"gpt-3.5-turbo-0125", "system_fingerprint": "fp_44709d6fcb", "choices":[{"index":0,"delta":{},"logprobs":null,"finish_reason":"stop"}]}
      *
      */
-    private fun StreamMessageResponse.toOpenAIChatCompletionChunk(): OpenAIChatCompletionChunk {
-        return when (this) {
-            is MessageStart -> {
-                return OpenAIChatCompletionChunk(
-                    id = "chatcmpl-123",
-                    `object` = "chat.completion.chunk",
-                    created = 1L,
-                    model = "anthropic-over-gpt-3.5-turbo-0125",
-                    choices = listOf(
-                        ChatChunk(
-                            index = 0,
-                            delta = ChatDelta(
-                                role = OpenAIRole.Assistant,
-                                content = "completion"
-                            ),
-                            finishReason = null
-                        )
+
+
+    private fun StreamMessageResponse.toOpenAIChatCompletionChunk(model: String): OpenAIChatCompletionChunk {
+        val id = "chatcmpl-123"
+        val created = 1L
+
+        val chatChunkList = listOf(
+            ChatChunk(
+                index = 0,
+                delta = ChatDelta(role = OpenAIRole.Assistant),
+                finishReason = when (this) {
+                    is MessageStart, is ContentBlockStart, is ContentBlockDelta -> null
+                    is MessageDelta -> delta.stopReason?.let { mapAnthropicStopReason(it).name }
+                    is MessageStop -> mapAnthropicStopReason(type).name
+                    else -> throw IllegalArgumentException("Unknown message type: $this")
+                }
+            )
+        )
+
+        return OpenAIChatCompletionChunk(
+            id = id,
+            `object` = type,
+            created = created,
+            model = model,
+            choices = chatChunkList.map { chatChunk ->
+                when (this) {
+                    is ContentBlockStart -> chatChunk.copy(
+                        delta = chatChunk.delta.copy(content = contentBlock.text)
                     )
-                )
-            }
 
-            is ContentBlockStart -> {
-                return OpenAIChatCompletionChunk(
-                    id = "chatcmpl-123",
-                    `object` = "chat.completion.chunk",
-                    created = 1L,
-                    model = "anthropic-over-gpt-3.5-turbo-0125",
-                    choices = listOf(
-                        ChatChunk(
-                            index = 0,
-                            delta = ChatDelta(
-                                role = OpenAIRole.Assistant,
-                                content = contentBlock.text
-                            ),
-                            finishReason = null
-                        )
+                    is ContentBlockDelta -> chatChunk.copy(
+                        delta = chatChunk.delta.copy(content = delta.text)
                     )
-                )
-            }
 
-            is ContentBlockDelta -> {
-                return OpenAIChatCompletionChunk(
-                    id = "chatcmpl-123",
-                    `object` = "chat.completion.chunk",
-                    created = 1L,
-                    model = "anthropic-over-gpt-3.5-turbo-0125",
-                    choices = listOf(
-                        ChatChunk(
-                            index = 0,
-                            delta = ChatDelta(
-                                role = OpenAIRole.Assistant,
-                                content = delta.text
-                            ),
-                            finishReason = null
-                        )
-                    )
-                )
+                    else -> chatChunk
+                }
             }
-
-
-            is MessageDelta -> {
-                return OpenAIChatCompletionChunk(
-                    id = "anthropic",
-                    `object` = "chat.completion.chunk",
-                    created = 1L,
-                    model = "anthropic-over-gpt-3.5-turbo-0125",
-                    choices = listOf(
-                        ChatChunk(
-                            index = 0,
-                            delta = ChatDelta(),
-                            finishReason = delta.stopReason?.let { finishReason ->
-                                mapAnthropicStopReason(finishReason).name
-                            }
-                        )
-                    )
-                )
-            }
-
-            is MessageStop -> {
-                return OpenAIChatCompletionChunk(
-                    id = "anthropic",
-                    `object` = "chat.completion.chunk",
-                    created = 1L,
-                    model = "anthropic-over-gpt-3.5-turbo-0125",
-                    choices = listOf(
-                        ChatChunk(
-                            index = 0,
-                            delta = ChatDelta(),
-                            finishReason = mapAnthropicStopReason(type).name
-                        )
-                    )
-                )
-            }
-
-            else -> {
-                throw IllegalArgumentException("Unknown message type: $this")
-            }
-        }
+        )
     }
 
 
