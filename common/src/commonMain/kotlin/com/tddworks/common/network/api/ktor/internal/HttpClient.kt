@@ -27,7 +27,7 @@ internal expect fun httpClientEngine(): HttpClientEngineFactory<HttpClientEngine
 fun createHttpClient(
     url: () -> String,
     authToken: (() -> String)? = null,
-    json: Json = JsonLenient,
+    json: Json,
 ): HttpClient {
     return HttpClient(httpClientEngine()) {
 //      enable proxy in the future

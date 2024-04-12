@@ -14,6 +14,7 @@ fun initKoin(enableNetworkLogs: Boolean = false, appDeclaration: KoinAppDeclarat
         modules(commonModule(enableNetworkLogs = enableNetworkLogs))
     }
 
+//TODO - enableNetworkLogs is not used
 fun commonModule(enableNetworkLogs: Boolean) = module {
     singleOf(::createJson)
 }

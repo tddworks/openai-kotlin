@@ -1,7 +1,8 @@
 package com.tddworks.anthropic.api
 
+import com.tddworks.anthropic.api.messages.api.AnthropicConfig
 import com.tddworks.anthropic.di.anthropicModules
-import com.tddworks.anthropic.di.initKoin
+import com.tddworks.anthropic.di.iniAnthropicKoin
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -11,8 +12,12 @@ class AnthropicTest : AutoCloseKoinTest() {
 
     @BeforeEach
     fun setUp() {
-        initKoin(
-            module = anthropicModules({ "http://localhost:8080" }, { "1234" }, { "2024-03-01" })
+        iniAnthropicKoin(
+            config = AnthropicConfig(
+                baseUrl = { "http://localhost:8080" },
+                apiKey = { "1234" },
+                anthropicVersion = { "2024-03-01" }
+            )
         )
     }
 

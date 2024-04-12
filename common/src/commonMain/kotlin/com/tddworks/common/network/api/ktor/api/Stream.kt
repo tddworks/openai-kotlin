@@ -6,7 +6,6 @@ import io.ktor.client.statement.*
 import io.ktor.utils.io.*
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.serialization.json.Json
-import org.koin.mp.KoinPlatform.getKoin
 
 const val STREAM_PREFIX = "data:"
 private const val STREAM_END_TOKEN = "$STREAM_PREFIX [DONE]"
