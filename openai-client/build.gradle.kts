@@ -13,3 +13,9 @@ kotlin {
         }
     }
 }
+
+tasks {
+    koverHtmlReport {
+        dependsOn(":anthropic-client:jvmTest")
+    }
+}
