@@ -9,7 +9,7 @@
 To get started, simply add the following dependency to your Kotlin project:
 
 ```kotlin
-implementation("com.tddworks:openai-gateway-jvm:0.1.1")
+implementation("com.tddworks:openai-gateway-jvm:0.1.2")
 ```
 
 **Then, configure the OpenAIGateway with your API keys and settings:**
