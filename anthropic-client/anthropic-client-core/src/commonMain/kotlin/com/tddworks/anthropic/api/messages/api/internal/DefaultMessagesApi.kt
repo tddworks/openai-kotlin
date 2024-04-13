@@ -1,5 +1,6 @@
 package com.tddworks.anthropic.api.messages.api.internal
 
+import com.tddworks.anthropic.api.AnthropicConfig
 import com.tddworks.anthropic.api.messages.api.*
 import com.tddworks.common.network.api.ktor.api.HttpRequester
 import com.tddworks.common.network.api.ktor.api.performRequest

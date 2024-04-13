@@ -1,7 +1,7 @@
 package com.tddworks.anthropic.di
 
 import com.tddworks.anthropic.api.Anthropic
-import com.tddworks.anthropic.api.messages.api.AnthropicConfig
+import com.tddworks.anthropic.api.AnthropicConfig
 import com.tddworks.anthropic.api.messages.api.Messages
 import com.tddworks.anthropic.api.messages.api.internal.DefaultMessagesApi
 import com.tddworks.anthropic.api.messages.api.internal.JsonLenient

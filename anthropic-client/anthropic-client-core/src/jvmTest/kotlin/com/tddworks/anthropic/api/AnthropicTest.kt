@@ -1,7 +1,5 @@
 package com.tddworks.anthropic.api
 
-import com.tddworks.anthropic.api.messages.api.AnthropicConfig
-import com.tddworks.anthropic.di.anthropicModules
 import com.tddworks.anthropic.di.iniAnthropicKoin
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
