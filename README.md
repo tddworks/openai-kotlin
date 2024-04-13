@@ -20,7 +20,7 @@ implementation("com.tddworks:openai-gateway-jvm:0.1.1")
    - default baseUrl is `api.anthropic.com`
    - default anthropicVersion is `2023-06-01`
 
-** Example: **
+**Example:**
 ```kotlin
 import com.tddworks.anthropic.api.messages.api.AnthropicConfig
 import com.tddworks.openai.api.OpenAIConfig
