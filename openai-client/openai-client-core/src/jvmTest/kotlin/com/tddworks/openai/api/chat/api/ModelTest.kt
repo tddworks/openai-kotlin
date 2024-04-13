@@ -16,9 +16,7 @@ class ModelTest {
     fun `should return correct model values`() {
         assertEquals("gpt-3.5-turbo", Model.GPT_3_5_TURBO.value)
         assertEquals("gpt-3.5-turbo-0125", Model.GPT_3_5_TURBO_0125.value)
-        assertEquals("gpt-4", Model.GPT_4.value)
-        assertEquals("gpt-4-0125-preview", Model.GPT_4_TURBO_PREVIEW.value)
-        assertEquals("gpt-4-turbo-preview", Model.GPT_4_TURBO.value)
+        assertEquals("gpt-4-turbo", Model.GPT_4_TURBO.value)
         assertEquals("gpt-4-vision-preview", Model.GPT4_VISION_PREVIEW.value)
         assertEquals("dall-e-2", Model.DALL_E_2.value)
         assertEquals("dall-e-3", Model.DALL_E_3.value)

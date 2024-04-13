@@ -28,7 +28,13 @@ value class Model(val value: String) {
          * 128,000 tokens Up to Dec 2023
          */
         val GPT_4_TURBO = Model("gpt-4-turbo")
-        val GPT4_VISION_PREVIEW = Model("gpt-4-turbo-2024-04-09")
+
+        /**
+         * GPT-4 model with the ability to understand images, in addition to all other GPT-4 Turbo capabilities.
+         * This is a preview model, we recommend developers to now use gpt-4-turbo which includes vision capabilities.
+         * Currently points to gpt-4-1106-vision-preview.
+         */
+        val GPT4_VISION_PREVIEW = Model("gpt-4-vision-preview")
         val DALL_E_2 = Model("dall-e-2")
         val DALL_E_3 = Model("dall-e-3")
     }
