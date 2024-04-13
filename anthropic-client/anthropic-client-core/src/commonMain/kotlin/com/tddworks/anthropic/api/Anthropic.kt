@@ -12,6 +12,7 @@ interface Anthropic : Messages {
      */
     companion object {
         const val BASE_URL = "api.anthropic.com"
+        const val ANTHROPIC_VERSION = "2023-06-01"
     }
 
     /**
