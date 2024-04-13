@@ -1,5 +1,4 @@
 plugins {
-    alias(libs.plugins.kover)
     `maven-publish`
 }
 

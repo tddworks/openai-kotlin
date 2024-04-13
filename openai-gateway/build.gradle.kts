@@ -1,5 +1,4 @@
 plugins {
-    alias(libs.plugins.kover)
     `maven-publish`
 }
 
@@ -11,14 +10,5 @@ kotlin {
                 api(projects.openaiGateway.openaiGatewayCore)
             }
         }
-    }
-}
-
-tasks {
-    koverHtmlReport {
-        dependsOn(":anthropic-client:jvmTest")
-    }
-    koverVerify {
-        dependsOn(":anthropic-client:jvmTest")
     }
 }
