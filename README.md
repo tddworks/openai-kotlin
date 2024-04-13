@@ -13,7 +13,7 @@ implementation("com.tddworks:openai-gateway-jvm:0.1.2")
 ```
 
 **Then, configure the OpenAIGateway with your API keys and settings:**
- - Default values are provided for the baseUrl and apiKey, but you can override them with your own values.
+ - Default values are provided for the baseUrl, but you can override them with your own values.
  - OpenAI
    - default baseUrl is `api.openai.com`
  - Anthropic 
