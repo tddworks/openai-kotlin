@@ -9,6 +9,8 @@ import com.tddworks.openai.api.chat.api.ChatCompletion as OpenAIChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk as OpenAIChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatMessage.AssistantMessage as OpenAIAssistantMessage
 import com.tddworks.openai.api.chat.api.ChatMessage.UserMessage as OpenAIUserMessage
+import com.tddworks.openai.api.chat.api.ChatMessage.SystemMessage as OpenAISystemMessage
+import com.tddworks.openai.api.chat.api.Role as OpenAIRole
 
 /**
  * MessageStart(type=message_start, message=CreateMessageResponse(content=[], id=msg_01SYdcxEGs5xE222wXncY3g3, model=claude-3-haiku-20240307, role=assistant, stopReason=null, stopSequence=null, type=message, usage=Usage(inputTokens=8, outputTokens=1)))
@@ -82,14 +84,26 @@ fun StreamMessageResponse.toOpenAIChatCompletionChunk(model: String): OpenAIChat
 fun ChatCompletionRequest.toAnthropicRequest(): CreateMessageRequest {
     return CreateMessageRequest(
         model = Model(model.value),
-        messages = messages.filter { it.role == com.tddworks.openai.api.chat.api.Role.User }.map {
+        messages = messages.map {
             Message(
-                content = (it as OpenAIUserMessage).content,
-                role = Role.User
+                content = when (it) {
+                    is OpenAIUserMessage -> it.content
+                    is OpenAIAssistantMessage -> it.content
+                    is OpenAISystemMessage -> it.content
+                    else -> throw IllegalArgumentException("Unknown message type: $it")
+                },
+                role = when (it.role) {
+                    OpenAIRole.User -> Role.User
+                    OpenAIRole.Assistant -> Role.Assistant
+                    else -> {
+                        throw IllegalArgumentException("Unknown role: ${it.role}")
+                    }
+                }
             )
         }
     )
 }
+
 
 fun CreateMessageResponse.toOpenAIChatCompletion(): OpenAIChatCompletion {
     return OpenAIChatCompletion(
@@ -100,7 +114,7 @@ fun CreateMessageResponse.toOpenAIChatCompletion(): OpenAIChatCompletion {
             ChatChoice(
                 message = OpenAIAssistantMessage(
                     content = it.text,
-                    role = com.tddworks.openai.api.chat.api.Role.Assistant
+                    role = OpenAIRole.Assistant
                 ),
                 index = 0,
             )

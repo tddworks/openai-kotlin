@@ -1,3 +1,5 @@
+package com.tddworks.openai.gateway.di
+
 import com.tddworks.anthropic.api.messages.api.AnthropicConfig
 import com.tddworks.anthropic.di.anthropicModules
 import com.tddworks.di.commonModule

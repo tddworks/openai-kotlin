@@ -18,4 +18,7 @@ tasks {
     koverHtmlReport {
         dependsOn(":anthropic-client:jvmTest")
     }
+    koverVerify {
+        dependsOn(":anthropic-client:jvmTest")
+    }
 }
