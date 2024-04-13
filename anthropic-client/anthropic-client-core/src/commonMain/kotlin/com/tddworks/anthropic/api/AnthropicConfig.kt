@@ -1,6 +1,5 @@
-package com.tddworks.anthropic.api.messages.api
+package com.tddworks.anthropic.api
 
-import com.tddworks.anthropic.api.Anthropic
 import org.koin.core.component.KoinComponent
 
 data class AnthropicConfig(
