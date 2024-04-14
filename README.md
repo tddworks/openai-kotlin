@@ -1,6 +1,5 @@
 ![CI](https://github.com/tddworks/openai-kotlin/actions/workflows/main.yml/badge.svg)
 [![codecov](https://codecov.io/gh/tddworks/openai-kotlin/graph/badge.svg?token=ZHqC4RjnCf)](https://codecov.io/gh/tddworks/openai-kotlin)
-[![official project](http://jb.gg/badges/official.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
 
 # openai-kotlin powered by kotlin multiplatform
 
