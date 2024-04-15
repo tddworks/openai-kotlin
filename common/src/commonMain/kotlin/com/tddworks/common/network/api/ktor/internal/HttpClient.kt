@@ -11,7 +11,6 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.*
 import kotlinx.serialization.json.Json
-import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 
@@ -20,12 +19,16 @@ internal expect fun httpClientEngine(): HttpClientEngineFactory<HttpClientEngine
 /**
  * Creates a new [HttpClient] with [OkHttp] engine and [ContentNegotiation] plugin.
  *
- * @param url the base URL of the API
+ * @param protocol the protocol to use - default is HTTPS
+ * @param host the base URL of the API
+ * @param port the port to use - default is 443
  * @param authToken the authentication token
  * @return a new [HttpClient] instance
  */
 fun createHttpClient(
-    url: () -> String,
+    protocol: () -> String? = { null },
+    host: () -> String,
+    port: () -> Int? = { null },
     authToken: (() -> String)? = null,
     json: Json,
 ): HttpClient {
@@ -92,10 +95,10 @@ fun createHttpClient(
 
         defaultRequest {
             url {
-                protocol = URLProtocol.HTTPS
-                host = url()
+                this.protocol = protocol()?.let { URLProtocol.createOrDefault(it) } ?: URLProtocol.HTTPS
+                this.host = host()
+                port()?.let { this.port = it }
             }
-
 
             authToken?.let {
                 header(HttpHeaders.Authorization, "Bearer ${it()}")
