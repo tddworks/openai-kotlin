@@ -19,6 +19,9 @@ suspend inline fun <reified T> FlowCollector<T>.streamEventsFrom(response: HttpR
         channel.readUTF8Line()?.let { streamResponse ->
             if (notEndStreamResponse(streamResponse)) {
                 emit(json().decodeFromString(streamResponse.removePrefix(STREAM_PREFIX)))
+            } else {
+                // for like ollama api it's returning json string without prefix "data:"
+                emit(json().decodeFromString(streamResponse))
             }
         } ?: break
     }
