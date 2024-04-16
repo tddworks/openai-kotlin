@@ -30,7 +30,7 @@ class TestKoinCoroutineExtension(private val testDispatcher: TestDispatcher = St
     }
 }
 
-class DefaultOllamaChatApiTest : KoinTest {
+class DefaultOllamaChatTest : KoinTest {
     @JvmField
     @RegisterExtension
     // This extension is used to set the main dispatcher to a test dispatcher

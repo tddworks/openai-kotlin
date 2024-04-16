@@ -3,7 +3,7 @@ package com.tddworks.ollama.api.chat.internal
 import com.tddworks.common.network.api.ktor.api.HttpRequester
 import com.tddworks.common.network.api.ktor.api.performRequest
 import com.tddworks.common.network.api.ktor.api.streamRequest
-import com.tddworks.ollama.api.chat.OllamaChatApi
+import com.tddworks.ollama.api.chat.OllamaChat
 import com.tddworks.ollama.api.chat.OllamaChatRequest
 import com.tddworks.ollama.api.chat.OllamaChatResponse
 import io.ktor.client.request.*
@@ -14,7 +14,7 @@ import kotlinx.serialization.json.Json
 class DefaultOllamaChatApi(
     private val requester: HttpRequester,
     private val jsonLenient: Json = JsonLenient,
-) : OllamaChatApi {
+) : OllamaChat {
     override suspend fun stream(request: OllamaChatRequest): Flow<OllamaChatResponse> {
         return requester.streamRequest<OllamaChatResponse> {
             method = HttpMethod.Post
@@ -33,7 +33,7 @@ class DefaultOllamaChatApi(
         return requester.performRequest {
             method = HttpMethod.Post
             url(path = CHAT_API_PATH)
-            setBody(request)
+            setBody(request.asNonStreaming(jsonLenient))
             contentType(ContentType.Application.Json)
         }
     }

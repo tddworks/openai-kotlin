@@ -34,7 +34,7 @@ fun openAIModules(
     single<HttpRequester>(named("openAIHttpRequester")) {
         HttpRequester.default(
             createHttpClient(
-                url = config.baseUrl,
+                host = config.baseUrl,
                 authToken = config.apiKey,
                 // get from commonModule
                 json = get(),

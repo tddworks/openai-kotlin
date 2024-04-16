@@ -32,4 +32,7 @@ include(":anthropic-client:anthropic-client-core")
 include(":openai-gateway")
 include(":openai-gateway:openai-gateway-core")
 
+include(":ollama-client")
+include(":ollama-client:ollama-client-core")
+
 //include(":gemini-client")

@@ -9,7 +9,7 @@ actual fun HttpRequester.Companion.default(
 ): HttpRequester {
     return DefaultHttpRequester(
         createHttpClient(
-            url = { url },
+            host = { url },
             authToken = { token },
             json = JsonLenient
         )
