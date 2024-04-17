@@ -13,6 +13,7 @@ kotlin {
         commonMain.dependencies {
             api(projects.openaiClient.openaiClientCore)
             api(projects.anthropicClient.anthropicClientCore)
+            api(projects.ollamaClient.ollamaClientCore)
         }
 
         commonTest.dependencies {

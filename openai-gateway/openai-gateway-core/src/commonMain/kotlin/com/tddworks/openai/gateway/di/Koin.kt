@@ -3,11 +3,13 @@ package com.tddworks.openai.gateway.di
 import com.tddworks.anthropic.api.AnthropicConfig
 import com.tddworks.anthropic.di.anthropicModules
 import com.tddworks.di.commonModule
+import com.tddworks.ollama.api.OllamaConfig
+import com.tddworks.ollama.di.ollamaModules
 import com.tddworks.openai.api.OpenAIConfig
 import com.tddworks.openai.di.openAIModules
 import com.tddworks.openai.gateway.api.AnthropicOpenAIProvider
+import com.tddworks.openai.gateway.api.OllamaOpenAIProvider
 import com.tddworks.openai.gateway.api.OpenAIGateway
-import com.tddworks.openai.gateway.api.OpenAIProvider
 import com.tddworks.openai.gateway.api.internal.DefaultOpenAIGateway
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.koin.core.context.startKoin
@@ -18,6 +20,7 @@ import org.koin.dsl.module
 fun initOpenAIGatewayKoin(
     openAIConfig: OpenAIConfig,
     anthropicConfig: AnthropicConfig,
+    ollamaConfig: OllamaConfig,
     appDeclaration: KoinAppDeclaration = {},
 ) = startKoin {
     appDeclaration()
@@ -25,15 +28,22 @@ fun initOpenAIGatewayKoin(
         commonModule(false) +
                 anthropicModules(anthropicConfig) +
                 openAIModules(openAIConfig) +
-                openAIGatewayModules()
+                openAIGatewayModules() +
+                ollamaModules(ollamaConfig)
     )
 }
 
 @ExperimentalSerializationApi
 fun openAIGatewayModules() = module {
     single<AnthropicOpenAIProvider> { AnthropicOpenAIProvider(get()) }
+    single<OllamaOpenAIProvider> { OllamaOpenAIProvider(get()) }
 
-    single { listOf<OpenAIProvider>(get<AnthropicOpenAIProvider>()) }
+    single {
+        listOf(
+            get<AnthropicOpenAIProvider>(),
+            get<OllamaOpenAIProvider>()
+        )
+    }
 
     single<OpenAIGateway> { DefaultOpenAIGateway(get(), get()) }
 }

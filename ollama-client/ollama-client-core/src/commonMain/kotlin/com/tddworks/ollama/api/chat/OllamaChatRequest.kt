@@ -28,6 +28,9 @@ data class OllamaChatRequest(
 
 @Serializable
 data class OllamaChatMessage(
+    /**
+     * `role`: the role of the message, either `system`, `user` or `assistant`
+     */
     @SerialName("role") val role: String,
     @SerialName("content") val content: String,
     @SerialName("images") val images: List<String>? = null,

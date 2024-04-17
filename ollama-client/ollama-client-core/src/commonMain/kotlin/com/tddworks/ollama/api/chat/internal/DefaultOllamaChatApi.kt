@@ -15,7 +15,7 @@ class DefaultOllamaChatApi(
     private val requester: HttpRequester,
     private val jsonLenient: Json = JsonLenient,
 ) : OllamaChat {
-    override suspend fun stream(request: OllamaChatRequest): Flow<OllamaChatResponse> {
+    override fun stream(request: OllamaChatRequest): Flow<OllamaChatResponse> {
         return requester.streamRequest<OllamaChatResponse> {
             method = HttpMethod.Post
             url(path = CHAT_API_PATH)
