@@ -44,12 +44,6 @@ fun HttpRequester.Companion.default(httpClient: HttpClient): HttpRequester {
     return DefaultHttpRequester(httpClient)
 }
 
-expect fun HttpRequester.Companion.default(
-    url: String,
-    token: String,
-): HttpRequester
-
-
 /**
  * Handles various exceptions that can occur during an API request and converts them into appropriate
  * [OpenAIException] instances.
