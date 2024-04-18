@@ -18,7 +18,11 @@ implementation("com.tddworks:openai-gateway-jvm:0.1.2")
  - Anthropic 
    - default baseUrl is `api.anthropic.com`
    - default anthropicVersion is `2023-06-01`
-
+ - Ollama
+   - default baseUrl is `localhost`
+   - default protocol is `http`
+   - default port is `11434`
+ 
 **Example:**
 ```kotlin
 import com.tddworks.anthropic.api.messages.api.AnthropicConfig
@@ -35,7 +39,12 @@ val openAIGateway = initOpenAIGateway(
         baseUrl = { "YOUR_ANTHROPIC_BASE_URL" },
         apiKey = { "YOUR_ANTHROPIC_API_KEY" },
         anthropicVersion = { "YOUR_ANTHROPIC_VERSION" }
-    )
+    ),
+   ollamaConfig = OllamaConfig(
+        baseUrl = { "YOUR_OLLAMA_BASE_URL" },
+        protocol = { "YOUR_OLLAMA_PROTOCOL" },
+        port = { "YOUR_OLLAMA_PORT" }
+   )
 )
 
 // stream completions
