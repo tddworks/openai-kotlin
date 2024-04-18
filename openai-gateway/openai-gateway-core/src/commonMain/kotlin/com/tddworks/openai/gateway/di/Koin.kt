@@ -17,7 +17,7 @@ import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
 @ExperimentalSerializationApi
-fun initOpenAIGatewayKoin(
+fun initOpenAIGateway(
     openAIConfig: OpenAIConfig,
     anthropicConfig: AnthropicConfig,
     ollamaConfig: OllamaConfig,
@@ -31,7 +31,7 @@ fun initOpenAIGatewayKoin(
                 openAIGatewayModules() +
                 ollamaModules(ollamaConfig)
     )
-}
+}.koin.get<OpenAIGateway>()
 
 @ExperimentalSerializationApi
 fun openAIGatewayModules() = module {

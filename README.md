@@ -26,7 +26,7 @@ import com.tddworks.openai.api.OpenAIConfig
 import com.tddworks.openai.gateway.api.OpenAIGateway
 import com.tddworks.openai.gateway.di.initOpenAIGatewayKoin
 
-openAIGateway = initOpenAIGatewayKoin(
+val openAIGateway = initOpenAIGateway(
     OpenAIConfig(
         baseUrl = { "YOUR_OPENAI_BASE_URL" },
         apiKey = { "YOUR_OPENAI_API_KEY" }
@@ -36,5 +36,25 @@ openAIGateway = initOpenAIGatewayKoin(
         apiKey = { "YOUR_ANTHROPIC_API_KEY" },
         anthropicVersion = { "YOUR_ANTHROPIC_VERSION" }
     )
-).koin.get<OpenAIGateway>()
+)
+
+// stream completions
+openAIGateway.streamCompletions(
+   OpenAIChatCompletionRequest(
+      messages = listOf(ChatMessage.UserMessage("hello")),
+      maxTokens = 1024,
+      model = OpenAIModel(OllamaModel.LLAMA2.value)
+   )
+).collect {
+   println(it)
+}
+
+// chat completions
+val chatCompletion = gateway.completions(
+   OpenAIChatCompletionRequest(
+      messages = listOf(ChatMessage.UserMessage("hello")),
+      maxTokens = 1024,
+      model = OpenAIModel(Model.GPT_3_5_TURBO.value)
+   )
+)
 ```

@@ -8,7 +8,7 @@ import com.tddworks.ollama.api.OllamaConfig
 import com.tddworks.ollama.api.OllamaModel
 import com.tddworks.openai.api.OpenAIConfig
 import com.tddworks.openai.api.chat.api.ChatMessage
-import com.tddworks.openai.gateway.di.initOpenAIGatewayKoin
+import com.tddworks.openai.gateway.di.initOpenAIGateway
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.junit.jupiter.api.BeforeEach
@@ -30,7 +30,7 @@ class OpenAIGatewayITest : AutoCloseKoinTest() {
 
     @BeforeEach
     fun setUp() {
-        initOpenAIGatewayKoin(
+        initOpenAIGateway(
             openAIConfig = OpenAIConfig(
                 baseUrl = { "api.openai.com" },
                 apiKey = { System.getenv("OPENAI_API_KEY") ?: "" }

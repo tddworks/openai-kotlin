@@ -8,18 +8,17 @@ import org.junit.jupiter.api.Test
 import org.koin.dsl.koinApplication
 import org.koin.test.KoinTest
 import org.koin.test.check.checkModules
-import org.mockito.Mockito.mock
 
 class OpenAIGatewayKoinTest : KoinTest {
 
     @Test
     fun `should initialize OpenAI Gateway Koin modules`() {
-        val openAIConfig = mock<OpenAIConfig>()
-        val anthropicConfig = mock<AnthropicConfig>()
-        val ollamaConfig = mock<OllamaConfig>()
+        val openAIConfig = OpenAIConfig()
+        val anthropicConfig = AnthropicConfig()
+        val ollamaConfig = OllamaConfig()
 
         koinApplication {
-            initOpenAIGatewayKoin(openAIConfig, anthropicConfig, ollamaConfig)
+            initOpenAIGateway(openAIConfig, anthropicConfig, ollamaConfig)
         }.checkModules()
     }
 }
