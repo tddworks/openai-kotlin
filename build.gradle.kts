@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.build.dokka.plugin)
 
     alias(libs.plugins.kotlinx.binary.validator) apply false
-    id("com.tddworks.sonatype-portal-publisher") version "0.0.1"
+    id("com.tddworks.central-portal-publisher") version "0.0.2"
 }
 
 sonatypePortalPublisher {

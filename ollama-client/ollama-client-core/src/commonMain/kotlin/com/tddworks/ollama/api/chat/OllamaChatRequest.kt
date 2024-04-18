@@ -23,6 +23,18 @@ data class OllamaChatRequest(
             }
             .let { JsonObject(it) }
     }
+
+    companion object {
+        fun dummy() = OllamaChatRequest(
+            model = "llama2",
+            messages = listOf(
+                OllamaChatMessage(
+                    role = "user",
+                    content = "Hello!"
+                )
+            )
+        )
+    }
 }
 
 

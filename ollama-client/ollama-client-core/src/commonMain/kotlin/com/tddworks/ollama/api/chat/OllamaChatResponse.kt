@@ -56,4 +56,16 @@ data class OllamaChatResponse(
     @SerialName("prompt_eval_duration") val promptEvalDuration: Long? = null,
     @SerialName("eval_count") val evalCount: Int? = null,
     @SerialName("eval_duration") val evalDuration: Long? = null,
-)
+) {
+    companion object {
+        fun dummy() = OllamaChatResponse(
+            model = "llama2",
+            createdAt = "2023-08-04T08:52:19.385406455-07:00",
+            message = OllamaChatMessage(
+                role = "assistant",
+                content = "The"
+            ),
+            done = false
+        )
+    }
+}
