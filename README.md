@@ -40,7 +40,7 @@ val openAIGateway = initOpenAIGateway(
         apiKey = { "YOUR_ANTHROPIC_API_KEY" },
         anthropicVersion = { "YOUR_ANTHROPIC_VERSION" }
     ),
-   ollamaConfig = OllamaConfig(
+    OllamaConfig(
         baseUrl = { "YOUR_OLLAMA_BASE_URL" },
         protocol = { "YOUR_OLLAMA_PROTOCOL" },
         port = { "YOUR_OLLAMA_PORT" }
