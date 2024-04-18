@@ -25,45 +25,50 @@ implementation("com.tddworks:openai-gateway-jvm:0.1.2")
  
 **Example:**
 ```kotlin
-import com.tddworks.anthropic.api.messages.api.AnthropicConfig
+import com.tddworks.anthropic.api.AnthropicConfig
+import com.tddworks.ollama.api.OllamaConfig
+import com.tddworks.ollama.api.OllamaModel
+import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.OpenAIConfig
+import com.tddworks.openai.api.chat.api.ChatMessage
+import com.tddworks.openai.api.chat.api.Model
 import com.tddworks.openai.gateway.api.OpenAIGateway
-import com.tddworks.openai.gateway.di.initOpenAIGatewayKoin
+import com.tddworks.openai.gateway.di.initOpenAIGateway
 
 val openAIGateway = initOpenAIGateway(
-    OpenAIConfig(
-        baseUrl = { "YOUR_OPENAI_BASE_URL" },
-        apiKey = { "YOUR_OPENAI_API_KEY" }
-    ),
-    AnthropicConfig(
-        baseUrl = { "YOUR_ANTHROPIC_BASE_URL" },
-        apiKey = { "YOUR_ANTHROPIC_API_KEY" },
-        anthropicVersion = { "YOUR_ANTHROPIC_VERSION" }
-    ),
-    OllamaConfig(
-        baseUrl = { "YOUR_OLLAMA_BASE_URL" },
-        protocol = { "YOUR_OLLAMA_PROTOCOL" },
-        port = { "YOUR_OLLAMA_PORT" }
+   OpenAIConfig(
+      baseUrl = { "YOUR_OPENAI_BASE_URL" },
+      apiKey = { "YOUR_OPENAI_API_KEY" }
+   ),
+   AnthropicConfig(
+      baseUrl = { "YOUR_ANTHROPIC_BASE_URL" },
+      apiKey = { "YOUR_ANTHROPIC_API_KEY" },
+      anthropicVersion = { "YOUR_ANTHROPIC_VERSION" }
+   ),
+   OllamaConfig(
+      baseUrl = { "YOUR_OLLAMA_BASE_URL" },
+      protocol = { "YOUR_OLLAMA_PROTOCOL" },
+      port = { "YOUR_OLLAMA_PORT" }
    )
 )
 
 // stream completions
 openAIGateway.streamCompletions(
-   OpenAIChatCompletionRequest(
+   ChatCompletionRequest(
       messages = listOf(ChatMessage.UserMessage("hello")),
       maxTokens = 1024,
-      model = OpenAIModel(OllamaModel.LLAMA2.value)
+      model = Model(OllamaModel.LLAMA2.value)
    )
 ).collect {
    println(it)
 }
 
 // chat completions
-val chatCompletion = gateway.completions(
-   OpenAIChatCompletionRequest(
+val chatCompletion = openAIGateway.completions(
+   ChatCompletionRequest(
       messages = listOf(ChatMessage.UserMessage("hello")),
       maxTokens = 1024,
-      model = OpenAIModel(Model.GPT_3_5_TURBO.value)
+      model = Model(Model.GPT_3_5_TURBO.value)
    )
 )
 ```

@@ -1,6 +1,5 @@
 package com.tddworks.openai.gateway.di
 
-
 import com.tddworks.anthropic.api.AnthropicConfig
 import com.tddworks.ollama.api.OllamaConfig
 import com.tddworks.openai.api.OpenAIConfig
