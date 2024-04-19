@@ -30,9 +30,7 @@ class AnthropicOpenAIProvider(private val client: Anthropic) : OpenAIProvider {
      */
     override suspend fun completions(request: ChatCompletionRequest): OpenAIChatCompletion {
         val anthropicRequest = request.toAnthropicRequest()
-        return client.create(anthropicRequest).let {
-            it.toOpenAIChatCompletion()
-        }
+        return client.create(anthropicRequest).toOpenAIChatCompletion()
     }
 
     /**

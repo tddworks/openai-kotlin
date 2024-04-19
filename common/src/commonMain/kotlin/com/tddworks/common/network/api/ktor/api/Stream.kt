@@ -15,17 +15,22 @@ private const val STREAM_END_TOKEN = "$STREAM_PREFIX [DONE]"
  */
 suspend inline fun <reified T> FlowCollector<T>.streamEventsFrom(response: HttpResponse) {
     val channel: ByteReadChannel = response.body()
+
+    // Continue to read until the channel is closed.
     while (!channel.isClosedForRead) {
         channel.readUTF8Line()?.let { streamResponse ->
             if (notEndStreamResponse(streamResponse)) {
-                emit(json().decodeFromString(streamResponse.removePrefix(STREAM_PREFIX)))
-            } else {
-                // for like ollama api it's returning json string without prefix "data:"
-                emit(json().decodeFromString(streamResponse))
+                // If the response indicates streaming data, decode and emit it.
+                emit(json().decodeFromString<T>(streamResponse.removePrefix(STREAM_PREFIX)))
+            } else if (isJson(streamResponse)) {
+                emit(json().decodeFromString<T>(streamResponse))
             }
-        } ?: break
+        } ?: break // If `readUTF8Line()` returns null, exit the loop (end of input).
     }
+
+
 }
+
 
 fun json(): Json {
     return getInstance()
@@ -35,3 +40,5 @@ fun json(): Json {
 private fun isStreamResponse(line: String) = line.startsWith(STREAM_PREFIX)
 
 fun notEndStreamResponse(line: String) = line != STREAM_END_TOKEN && isStreamResponse(line)
+
+fun isJson(line: String) = line.startsWith("{") && line.endsWith("}")

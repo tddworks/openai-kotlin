@@ -28,8 +28,8 @@ fun initOpenAIGateway(
         commonModule(false) +
                 anthropicModules(anthropicConfig) +
                 openAIModules(openAIConfig) +
-                openAIGatewayModules() +
-                ollamaModules(ollamaConfig)
+                ollamaModules(ollamaConfig) +
+                openAIGatewayModules()
     )
 }.koin.get<OpenAIGateway>()
 
