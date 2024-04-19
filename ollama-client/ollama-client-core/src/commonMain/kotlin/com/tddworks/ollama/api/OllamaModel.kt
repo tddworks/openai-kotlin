@@ -8,6 +8,7 @@ import kotlin.jvm.JvmInline
 value class OllamaModel(val value: String) {
     companion object {
         val LLAMA2 = OllamaModel("llama2")
+        val LLAMA3 = OllamaModel("llama3")
         val CODE_LLAMA = OllamaModel("codellama")
         val MISTRAL = OllamaModel("mistral")
         val availableModels = listOf(LLAMA2, CODE_LLAMA, MISTRAL)
