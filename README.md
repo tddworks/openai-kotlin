@@ -24,7 +24,7 @@ import com.tddworks.openai.api.chat.api.ChatMessage
 import com.tddworks.openai.api.chat.api.Model
 import com.tddworks.openai.di.initOpenAI
 
-val  openAI = initOpenAI(OpenAIConfig(
+val openAI = initOpenAI(OpenAIConfig(
    baseUrl = { "YOUR_BASE_URL" },
    apiKey = { "YOUR_API_KEY" }
 ))

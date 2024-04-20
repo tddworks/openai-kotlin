@@ -3,7 +3,6 @@ package com.tddworks.openai.gateway.api
 import app.cash.turbine.test
 import com.tddworks.anthropic.api.AnthropicConfig
 import com.tddworks.anthropic.api.Model
-import com.tddworks.di.getInstance
 import com.tddworks.ollama.api.OllamaConfig
 import com.tddworks.ollama.api.OllamaModel
 import com.tddworks.openai.api.OpenAIConfig
@@ -16,6 +15,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import org.koin.test.junit5.AutoCloseKoinTest
 import kotlin.test.assertNotNull
+import kotlin.time.Duration.Companion.seconds
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest as OpenAIChatCompletionRequest
 import com.tddworks.openai.api.chat.api.Model as OpenAIModel
 
@@ -28,16 +28,18 @@ import com.tddworks.openai.api.chat.api.Model as OpenAIModel
 @ExperimentalSerializationApi
 class OpenAIGatewayITest : AutoCloseKoinTest() {
 
+    private lateinit var gateway: OpenAIGateway
+
     @BeforeEach
     fun setUp() {
-        initOpenAIGateway(
+        gateway = initOpenAIGateway(
             openAIConfig = OpenAIConfig(
                 baseUrl = { "api.openai.com" },
-                apiKey = { System.getenv("OPENAI_API_KEY") ?: "" }
+                apiKey = { System.getenv("OPENAI_API_KEY") ?: "CONFIGURE_ME" }
             ),
             anthropicConfig = AnthropicConfig(
                 baseUrl = { "api.anthropic.com" },
-                apiKey = { System.getenv("ANTHROPIC_API_KEY") ?: "" },
+                apiKey = { System.getenv("ANTHROPIC_API_KEY") ?: "CONFIGURE_ME" },
                 anthropicVersion = { "2023-06-01" }
             ),
             ollamaConfig = OllamaConfig()
@@ -47,14 +49,14 @@ class OpenAIGatewayITest : AutoCloseKoinTest() {
     @Test
     @EnabledIfEnvironmentVariable(named = "OLLAMA_STARTED", matches = "true")
     fun `should use ollama client to get chat completions`() = runTest {
-        val gateway = getInstance<OpenAIGateway>()
         gateway.streamCompletions(
             OpenAIChatCompletionRequest(
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 maxTokens = 1024,
-                model = OpenAIModel(OllamaModel.LLAMA2.value)
+                model = OpenAIModel(OllamaModel.LLAMA3.value)
             )
-        ).test {
+        ).test(timeout = 10.seconds) {
+            assertNotNull(awaitItem())
             assertNotNull(awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
@@ -63,14 +65,14 @@ class OpenAIGatewayITest : AutoCloseKoinTest() {
     @Test
     @EnabledIfEnvironmentVariable(named = "OPENAI_API_KEY", matches = ".+")
     fun `should use openai client to get chat completions`() = runTest {
-        val gateway = getInstance<OpenAIGateway>()
         gateway.streamCompletions(
             OpenAIChatCompletionRequest(
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 maxTokens = 1024,
                 model = OpenAIModel.GPT_3_5_TURBO
             )
-        ).test {
+        ).test(timeout = 10.seconds) {
+            assertNotNull(awaitItem())
             assertNotNull(awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
@@ -79,14 +81,14 @@ class OpenAIGatewayITest : AutoCloseKoinTest() {
     @Test
     @EnabledIfEnvironmentVariable(named = "ANTHROPIC_API_KEY", matches = ".+")
     fun `should use anthropic client to get chat completions`() = runTest {
-        val gateway = getInstance<OpenAIGateway>()
         gateway.streamCompletions(
             OpenAIChatCompletionRequest(
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 maxTokens = 1024,
                 model = OpenAIModel(Model.CLAUDE_3_HAIKU.value)
             )
-        ).test {
+        ).test(timeout = 10.seconds) {
+            assertNotNull(awaitItem())
             assertNotNull(awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
