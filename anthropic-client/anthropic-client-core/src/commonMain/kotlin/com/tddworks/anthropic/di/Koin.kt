@@ -41,7 +41,7 @@ fun anthropicModules(
         HttpRequester.default(
             createHttpClient(
                 host = config.baseUrl,
-                json = get(),
+                json = get(named("anthropicJson")),
             )
         )
     }

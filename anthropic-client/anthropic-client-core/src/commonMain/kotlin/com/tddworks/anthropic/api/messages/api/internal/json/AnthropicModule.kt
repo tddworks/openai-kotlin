@@ -11,7 +11,6 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
 val anthropicModule = SerializersModule {
-
     polymorphic(StreamableRequest::class) {
         subclass(CreateMessageRequest::class, CreateMessageRequest.serializer())
         defaultDeserializer { CreateMessageRequest.serializer() }

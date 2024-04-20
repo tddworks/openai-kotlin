@@ -10,7 +10,7 @@ To get started, simply add the following dependency to your Kotlin project:
 **OpenAI API**
 
 ```kotlin
-implementation("com.tddworks:openai-client-jvm:0.1.3")
+implementation("com.tddworks:openai-client-jvm:0.1.4")
 ```
 **Then, configure the OpenAI with your API keys and settings:**
  - Default values are provided for the baseUrl, but you can override them with your own values.
