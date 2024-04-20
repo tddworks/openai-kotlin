@@ -18,11 +18,12 @@ import org.koin.dsl.module
 
 expect fun platformModule(): Module
 
-fun iniAnthropicKoin(config: AnthropicConfig, appDeclaration: KoinAppDeclaration = {}) =
-    startKoin {
+fun iniAnthropic(config: AnthropicConfig, appDeclaration: KoinAppDeclaration = {}): Anthropic {
+    return startKoin {
         appDeclaration()
         modules(commonModule(false) + anthropicModules(config))
-    }
+    }.koin.get<Anthropic>()
+}
 
 fun anthropicModules(
     config: AnthropicConfig,

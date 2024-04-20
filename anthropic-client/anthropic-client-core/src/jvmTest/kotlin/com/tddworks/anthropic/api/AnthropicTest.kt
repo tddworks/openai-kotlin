@@ -1,6 +1,6 @@
 package com.tddworks.anthropic.api
 
-import com.tddworks.anthropic.di.iniAnthropicKoin
+import com.tddworks.anthropic.di.iniAnthropic
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -8,14 +8,12 @@ import org.koin.test.junit5.AutoCloseKoinTest
 
 class AnthropicTest : AutoCloseKoinTest() {
 
+    lateinit var anthropic: Anthropic
+
     @BeforeEach
     fun setUp() {
-        iniAnthropicKoin(
-            config = AnthropicConfig(
-                baseUrl = { "http://localhost:8080" },
-                apiKey = { "1234" },
-                anthropicVersion = { "2024-03-01" }
-            )
+        anthropic = iniAnthropic(
+            config = AnthropicConfig()
         )
     }
 
@@ -36,15 +34,13 @@ class AnthropicTest : AutoCloseKoinTest() {
 
     @Test
     fun `should return default settings`() {
-        val target = Anthropic()
+        assertEquals("api.anthropic.com", anthropic.baseUrl())
 
-        assertEquals("api.anthropic.com", target.baseUrl())
+        assertEquals("CONFIG_API_KEY", anthropic.apiKey())
 
-        assertEquals("CONFIGURE_ME", target.apiKey())
+        assertEquals("CONFIG_API_KEY", anthropic.apiKey())
 
-        assertEquals("CONFIGURE_ME", target.apiKey())
-
-        assertEquals("2023-06-01", target.anthropicVersion())
+        assertEquals("2023-06-01", anthropic.anthropicVersion())
     }
 
 }
