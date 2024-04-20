@@ -55,7 +55,7 @@ val chatCompletion = openAI.completions(
 **OpenAI Gateway**
 
 ```kotlin
-implementation("com.tddworks:openai-gateway-jvm:0.1.3")
+implementation("com.tddworks:openai-gateway-jvm:0.1.4")
 ```
 
 **Then, configure the OpenAIGateway with your API keys and settings:**
