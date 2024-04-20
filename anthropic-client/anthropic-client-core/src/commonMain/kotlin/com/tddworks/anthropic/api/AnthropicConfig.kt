@@ -7,3 +7,5 @@ data class AnthropicConfig(
     val baseUrl: () -> String = { Anthropic.BASE_URL },
     val anthropicVersion: () -> String = { Anthropic.ANTHROPIC_VERSION },
 ) : KoinComponent
+
+
