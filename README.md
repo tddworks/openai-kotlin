@@ -7,6 +7,53 @@
 
 To get started, simply add the following dependency to your Kotlin project:
 
+**OpenAI API**
+
+```kotlin
+implementation("com.tddworks:openai-client-jvm:0.1.3")
+```
+**Then, configure the OpenAI with your API keys and settings:**
+ - Default values are provided for the baseUrl, but you can override them with your own values.
+ - OpenAI
+   - default baseUrl is `api.openai.com`
+
+**Example:**
+```kotlin
+import com.tddworks.openai.api.chat.api.ChatCompletionRequest
+import com.tddworks.openai.api.chat.api.ChatMessage
+import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.di.initOpenAI
+
+val  openAI = initOpenAI(OpenAIConfig(
+   baseUrl = { "YOUR_BASE_URL" },
+   apiKey = { "YOUR_API_KEY" }
+))
+
+// stream completions
+openAI.streamCompletions(
+   ChatCompletionRequest(
+      messages = listOf(ChatMessage.UserMessage("hello")),
+      maxTokens = 1024,
+      model = Model.GPT_3_5_TURBO
+   )
+).collect {
+   println(it)
+}
+
+// chat completions
+val chatCompletion = openAI.completions(
+   ChatCompletionRequest(
+      messages = listOf(ChatMessage.UserMessage("hello")),
+      maxTokens = 1024,
+      model = Model.GPT_3_5_TURBO
+   )
+)
+```
+
+
+
+**OpenAI Gateway**
+
 ```kotlin
 implementation("com.tddworks:openai-gateway-jvm:0.1.3")
 ```

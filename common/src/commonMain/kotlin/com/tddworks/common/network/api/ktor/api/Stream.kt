@@ -23,12 +23,11 @@ suspend inline fun <reified T> FlowCollector<T>.streamEventsFrom(response: HttpR
                 // If the response indicates streaming data, decode and emit it.
                 emit(json().decodeFromString<T>(streamResponse.removePrefix(STREAM_PREFIX)))
             } else if (isJson(streamResponse)) {
+                // Ollama - response is a json object
                 emit(json().decodeFromString<T>(streamResponse))
             }
         } ?: break // If `readUTF8Line()` returns null, exit the loop (end of input).
     }
-
-
 }
 
 

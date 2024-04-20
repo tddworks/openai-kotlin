@@ -17,11 +17,12 @@ import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
 
-fun initOpenAIKoin(config: OpenAIConfig, appDeclaration: KoinAppDeclaration = {}) =
-    startKoin {
+fun initOpenAI(config: OpenAIConfig, appDeclaration: KoinAppDeclaration = {}): OpenAI {
+    return startKoin {
         appDeclaration()
         modules(commonModule(false) + openAIModules(config))
-    }
+    }.koin.get<OpenAI>()
+}
 
 fun openAIModules(
     config: OpenAIConfig,
