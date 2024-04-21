@@ -13,6 +13,9 @@ kotlin {
         macosTarget.binaries.framework {
             baseName = "openai-gateway-darwin"
             export(projects.openaiGateway.openaiGatewayCore)
+            export(projects.openaiClient.openaiClientCore)
+            export(projects.ollamaClient.ollamaClientCore)
+            export(projects.anthropicClient.anthropicClientCore)
             isStatic = true
         }
     }
