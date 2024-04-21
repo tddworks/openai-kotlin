@@ -8,15 +8,15 @@ plugins {
     alias(libs.plugins.build.dokka.plugin)
 
     alias(libs.plugins.kotlinx.binary.validator) apply false
-    id("com.tddworks.central-portal-publisher") version "0.0.2"
+//    id("com.tddworks.central-portal-publisher") version "0.0.2"
 }
 
-sonatypePortalPublisher {
-    settings {
-        autoPublish = false
-        aggregation = true
-    }
-}
+//sonatypePortalPublisher {
+//    settings {
+//        autoPublish = false
+//        aggregation = true
+//    }
+//}
 
 
 dependencies {
