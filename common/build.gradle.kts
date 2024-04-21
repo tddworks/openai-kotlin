@@ -12,6 +12,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
+            implementation(libs.kotlinx.coroutines.core)
             api(libs.kotlinx.serialization.json)
             api(libs.bundles.ktor.client)
             // di
