@@ -28,7 +28,7 @@ multiplatform-swiftpackage = "2.2.1"
 
 touchlab-skie = "0.6.1"
 
-touchlab-kmmbridge = "0.5.2"
+touchlab-kmmbridge = "0.5.4"
 
 com-linecorp-build-recipe-plugin = "1.1.1"
 

@@ -1,7 +1,7 @@
 package com.tddworks.ollama.api
 
 import com.tddworks.di.getInstance
-import com.tddworks.ollama.di.iniOllamaKoin
+import com.tddworks.ollama.di.iniOllama
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -11,7 +11,7 @@ class OllamaTestTest : AutoCloseKoinTest() {
 
     @BeforeEach
     fun setUp() {
-        iniOllamaKoin(
+        iniOllama(
             config = OllamaConfig(
                 baseUrl = { "127.0.0.1" },
                 port = { 8080 },

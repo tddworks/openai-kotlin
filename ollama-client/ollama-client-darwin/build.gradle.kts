@@ -11,8 +11,8 @@ kotlin {
         macosX64()
     ).forEach { macosTarget ->
         macosTarget.binaries.framework {
-            baseName = "openai-client-darwin"
-            export(projects.openaiClient.openaiClientCore)
+            baseName = "ollama-client-darwin"
+            export(projects.ollamaClient.ollamaClientCore)
             isStatic = true
         }
     }
@@ -20,7 +20,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api(projects.openaiClient.openaiClientCore)
+                api(projects.ollamaClient.ollamaClientCore)
                 implementation(libs.ktor.client.darwin)
             }
         }

@@ -15,11 +15,12 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
-fun iniOllamaKoin(config: OllamaConfig, appDeclaration: KoinAppDeclaration = {}) =
-    startKoin {
+fun iniOllama(config: OllamaConfig, appDeclaration: KoinAppDeclaration = {}): Ollama {
+    return startKoin {
         appDeclaration()
         modules(commonModule(false) + ollamaModules(config))
-    }
+    }.koin.get<Ollama>()
+}
 
 fun ollamaModules(
     config: OllamaConfig,

@@ -23,16 +23,18 @@ include(":common")
 include(":openai-client")
 include(":openai-client:openai-client-core")
 include(":openai-client:openai-client-darwin")
-//include(":openai-client:openai-client-ios")
 include(":openai-client:openai-client-cio")
 
 include(":anthropic-client")
 include(":anthropic-client:anthropic-client-core")
+include(":anthropic-client:anthropic-client-darwin")
 
 include(":openai-gateway")
 include(":openai-gateway:openai-gateway-core")
+include(":openai-gateway:openai-gateway-darwin")
 
 include(":ollama-client")
 include(":ollama-client:ollama-client-core")
+include(":ollama-client:ollama-client-darwin")
 
 //include(":gemini-client")

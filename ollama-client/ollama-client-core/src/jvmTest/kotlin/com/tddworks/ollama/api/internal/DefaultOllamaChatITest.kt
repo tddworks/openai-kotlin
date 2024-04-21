@@ -5,7 +5,7 @@ import com.tddworks.ollama.api.Ollama
 import com.tddworks.ollama.api.OllamaConfig
 import com.tddworks.ollama.api.chat.OllamaChatMessage
 import com.tddworks.ollama.api.chat.OllamaChatRequest
-import com.tddworks.ollama.di.iniOllamaKoin
+import com.tddworks.ollama.di.iniOllama
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -19,7 +19,7 @@ class DefaultOllamaChatITest : AutoCloseKoinTest() {
 
     @BeforeEach
     fun setUp() {
-        iniOllamaKoin(
+        iniOllama(
             config = OllamaConfig(
                 protocol = { "http" },
                 baseUrl = { "localhost" },

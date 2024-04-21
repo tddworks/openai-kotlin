@@ -11,8 +11,8 @@ kotlin {
         macosX64()
     ).forEach { macosTarget ->
         macosTarget.binaries.framework {
-            baseName = "openai-client-darwin"
-            export(projects.openaiClient.openaiClientCore)
+            baseName = "openai-gateway-darwin"
+            export(projects.openaiGateway.openaiGatewayCore)
             isStatic = true
         }
     }
@@ -20,7 +20,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api(projects.openaiClient.openaiClientCore)
+                api(projects.openaiGateway.openaiGatewayCore)
                 implementation(libs.ktor.client.darwin)
             }
         }
