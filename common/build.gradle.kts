@@ -33,6 +33,9 @@ kotlin {
         jvmTest.dependencies {
             implementation(project.dependencies.platform(libs.junit.bom))
             implementation(libs.bundles.jvm.test)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.koin.test)
+            implementation(libs.koin.test.junit5)
             implementation(libs.app.cash.turbine)
             implementation("com.tngtech.archunit:archunit-junit5:1.1.0")
             implementation("org.reflections:reflections:0.10.2")

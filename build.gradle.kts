@@ -55,8 +55,8 @@ koverReport {
                 "com.tddworks.**.request.*",
                 "com.tddworks.**.response.*",
                 "com.tddworks.**.data.*",
-                "com.tddworks.**.internal.ktor.internal.*",
-                "com.tddworks.**.**.ktor.internal.*",
+//                "com.tddworks.**.internal.ktor.internal.*",
+//                "com.tddworks.**.**.ktor.internal.*",
                 "com.tddworks.**.*\$*$*", // Lambda functions like - LemonSqueezyLicenseApi$activeLicense$activationResult$1
                 "*.BuildConfig",
                 "*.BuildKonfig", // BuildKonfig generated

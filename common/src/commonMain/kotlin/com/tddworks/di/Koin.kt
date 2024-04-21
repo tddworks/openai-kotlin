@@ -1,6 +1,6 @@
 package com.tddworks.di
 
-import kotlinx.serialization.json.Json
+import com.tddworks.common.network.api.ktor.internal.JsonLenient
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.context.startKoin
@@ -19,7 +19,7 @@ fun commonModule(enableNetworkLogs: Boolean) = module {
     singleOf(::createJson)
 }
 
-fun createJson() = Json { isLenient = true; ignoreUnknownKeys = true }
+fun createJson() = JsonLenient
 
 
 inline fun <reified T> getInstance(): T {
