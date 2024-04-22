@@ -13,9 +13,9 @@ kotlin {
         macosTarget.binaries.framework {
             baseName = "openai-gateway-darwin"
             export(projects.openaiGateway.openaiGatewayCore)
-            export(projects.openaiClient.openaiClientCore)
-            export(projects.ollamaClient.ollamaClientCore)
-            export(projects.anthropicClient.anthropicClientCore)
+            export(projects.openaiClient.openaiClientDarwin)
+            export(projects.ollamaClient.ollamaClientDarwin)
+            export(projects.anthropicClient.anthropicClientDarwin)
             isStatic = true
         }
     }
@@ -24,6 +24,9 @@ kotlin {
         commonMain {
             dependencies {
                 api(projects.openaiGateway.openaiGatewayCore)
+                api(projects.openaiClient.openaiClientDarwin)
+                api(projects.ollamaClient.ollamaClientDarwin)
+                api(projects.anthropicClient.anthropicClientDarwin)
                 implementation(libs.ktor.client.darwin)
             }
         }
@@ -39,14 +42,18 @@ kmmbridge {
      * In kmmbridge, notice mavenPublishArtifacts() tells the plugin to push KMMBridge artifacts to a Maven repo. You then need to define a repo. Rather than do everything manually, you can just call addGithubPackagesRepository(), which will add the correct repo given parameters that are passed in from GitHub Actions.
      */
     mavenPublishArtifacts() // <- Publish using a Maven repo
-    spm(swiftToolVersion = "5.9")
+//    spm()
 //    spm {
-//        swiftToolsVersion = "5.9"
-//        platforms {
-//            iOS("14")
-//            macOS("13")
-//            watchOS("7")
-//            tvOS("14")
-//        }
+//        iOS { v("14") }
+//        macOS { v("13") }
 //    }
+    spm {
+        swiftToolsVersion = "5.10"
+        platforms {
+            iOS("14")
+            macOS("13")
+            watchOS("7")
+            tvOS("14")
+        }
+    }
 }

@@ -58,6 +58,7 @@ koverReport {
 //                "com.tddworks.**.internal.ktor.internal.*",
 //                "com.tddworks.**.**.ktor.internal.*",
                 "com.tddworks.**.*\$*$*", // Lambda functions like - LemonSqueezyLicenseApi$activeLicense$activationResult$1
+                "com.tddworks.**.*\$Companion", // Lambda functions like - LemonSqueezyLicenseApi$activeLicense$activationResult$1
                 "*.BuildConfig",
                 "*.BuildKonfig", // BuildKonfig generated
                 "*.ComposableSingletons*", // Jetpack Compose generated
@@ -73,7 +74,7 @@ koverReport {
                 "**.*\$inlined$*", // Inlined functions
                 "**.*2\$1",// transactionWithResult
                 "**/**/*serializer*.*",
-                "**/**/*Companion*.*"
+                "**/**/*Companion*.*",
             )
 //            annotatedBy("kotlinx.serialization.Serializable")
         }
