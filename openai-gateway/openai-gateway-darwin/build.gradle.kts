@@ -42,18 +42,14 @@ kmmbridge {
      * In kmmbridge, notice mavenPublishArtifacts() tells the plugin to push KMMBridge artifacts to a Maven repo. You then need to define a repo. Rather than do everything manually, you can just call addGithubPackagesRepository(), which will add the correct repo given parameters that are passed in from GitHub Actions.
      */
     mavenPublishArtifacts() // <- Publish using a Maven repo
-//    spm()
+
 //    spm {
-//        iOS { v("14") }
-//        macOS { v("13") }
+//        swiftToolsVersion = "5.9"
+//        platforms {
+//            iOS("14")
+//            macOS("13")
+//            watchOS("7")
+//            tvOS("14")
+//        }
 //    }
-    spm {
-        swiftToolsVersion = "5.10"
-        platforms {
-            iOS("14")
-            macOS("13")
-            watchOS("7")
-            tvOS("14")
-        }
-    }
 }
