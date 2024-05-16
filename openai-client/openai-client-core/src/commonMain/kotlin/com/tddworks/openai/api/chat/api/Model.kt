@@ -30,6 +30,11 @@ value class Model(val value: String) {
         val GPT_4_TURBO = Model("gpt-4-turbo")
 
         /**
+         * New GPT-4o Our most advanced, multimodal flagship model that’s cheaper and faster than GPT-4 Turbo. Currently points to gpt-4o-2024-05-13.
+         */
+        val GPT_4O = Model("gpt-4o")
+
+        /**
          * GPT-4 model with the ability to understand images, in addition to all other GPT-4 Turbo capabilities.
          * This is a preview model, we recommend developers to now use gpt-4-turbo which includes vision capabilities.
          * Currently points to gpt-4-1106-vision-preview.
