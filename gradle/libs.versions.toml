@@ -1,11 +1,11 @@
 [versions]
 agp = "8.1.0"
-kotlin = "1.9.22"
+kotlin = "2.0.0"
 
-ktor = "2.3.7"
+ktor = "2.3.11"
 kotlinx-serialization = "1.6.2"
 kover = "0.7.6"
-kotlinx-coroutines = "1.7.3"
+kotlinx-coroutines = "1.8.1"
 
 #logging-versions
 napier = "2.6.1"
@@ -21,12 +21,10 @@ app-cash-turbine = "1.0.0"
 gradle-kotlinter = "4.2.0"
 
 # DI
-koin-core = "3.5.3"
+koin-core = "3.5.6"
 
 # plugins
-multiplatform-swiftpackage = "2.2.1"
-
-touchlab-skie = "0.6.1"
+touchlab-skie = "0.8.0"
 
 touchlab-kmmbridge = "0.5.5"
 
@@ -34,15 +32,11 @@ com-linecorp-build-recipe-plugin = "1.1.1"
 
 dokka = "1.9.10"
 
-nexus-publish = "2.0.0-rc-1"
 android-minSdk = "24"
 android-compileSdk = "34"
 
 [libraries]
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
-
-nexus-publish = { module = "io.github.gradle-nexus.publish-plugin:io.github.gradle-nexus.publish-plugin.gradle.plugin", version.ref = "nexus-publish" }
-
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
