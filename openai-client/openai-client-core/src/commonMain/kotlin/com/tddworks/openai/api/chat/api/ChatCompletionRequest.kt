@@ -177,19 +177,6 @@ data class ChatCompletionRequest(
     val topP: Double? = null,
 
     /**
-     * suffix
-     * string or null
-     *
-     * Optional
-     * Defaults to null
-     * The suffix that comes after a completion of inserted text.
-     *
-     * This parameter is only supported for gpt-3.5-turbo-instruct
-     */
-    @SerialName("suffix")
-    val suffix:String? = null,
-
-    /**
      * array
      * Optional
      * A list of tools the model may call. Currently, only functions are supported as a tool. Use this to provide a list of functions the model may generate JSON inputs for.
