@@ -49,7 +49,7 @@ class OpenAITest {
     @Test
     fun `should return response`() = runBlocking {
         val openAI = JvmOpenAI("api-key")
-        val response = openAI.streamCompletions(
+        val response = openAI.streamChatCompletions(
             ChatCompletionRequest(
                 messages = listOf(
                     ChatMessage.user("hello")
@@ -104,7 +104,7 @@ class OpenAITest {
     @Test
     fun `should return vision stream response`() = runBlocking {
         val openAI = JvmOpenAI("api-key")
-        val response = openAI.streamCompletions(
+        val response = openAI.streamChatCompletions(
             ChatCompletionRequest(
                 messages = listOf(
                     ChatMessage.vision(
@@ -128,7 +128,7 @@ class OpenAITest {
     @Test
     fun `should return vision response`() = runBlocking {
         val openAI = JvmOpenAI("api-key")
-        val response = openAI.completions(
+        val response = openAI.chatCompletions(
             ChatCompletionRequest(
                 messages = listOf(
                     ChatMessage.vision(

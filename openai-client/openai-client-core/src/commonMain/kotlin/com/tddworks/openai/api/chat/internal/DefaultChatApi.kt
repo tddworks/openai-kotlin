@@ -22,7 +22,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 class DefaultChatApi(
     private val requester: HttpRequester,
 ) : Chat {
-    override suspend fun completions(request: ChatCompletionRequest): ChatCompletion {
+    override suspend fun chatCompletions(request: ChatCompletionRequest): ChatCompletion {
         return requester.performRequest<ChatCompletion> {
             method = HttpMethod.Post
             url(path = CHAT_COMPLETIONS_PATH)
@@ -31,11 +31,11 @@ class DefaultChatApi(
         }
     }
 
-    override fun streamCompletions(request: ChatCompletionRequest): Flow<ChatCompletionChunk> {
+    override fun streamChatCompletions(request: ChatCompletionRequest): Flow<ChatCompletionChunk> {
         return requester.streamRequest<ChatCompletionChunk> {
             method = HttpMethod.Post
             url(path = CHAT_COMPLETIONS_PATH)
-            setBody(request.asStreamRequest())
+            setBody(request.copy(stream = true))
             contentType(ContentType.Application.Json)
             accept(ContentType.Text.EventStream)
             headers {

@@ -175,6 +175,8 @@ data class ChatCompletionRequest(
      */
     @SerialName("top_p")
     val topP: Double? = null,
+    val v: String? = null,
+    val stream: Boolean? = null,
 
     /**
      * array
@@ -251,7 +253,7 @@ data class ChatCompletionRequest(
     @SerialName("user")
     val user: String? = null,
 
-    ) : StreamableRequest {
+    ) {
 
     companion object {
         fun chatCompletionRequest(

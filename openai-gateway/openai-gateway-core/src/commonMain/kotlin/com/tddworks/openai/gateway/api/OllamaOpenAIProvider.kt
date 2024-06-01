@@ -27,7 +27,7 @@ class OllamaOpenAIProvider(private val client: Ollama) : OpenAIProvider {
      * @param request the ChatCompletionRequest object containing information needed to generate completions
      * @return OpenAIChatCompletion object containing completions generated from the OpenAI API
      */
-    override suspend fun completions(request: ChatCompletionRequest): ChatCompletion {
+    override suspend fun chatCompletions(request: ChatCompletionRequest): ChatCompletion {
         val ollamaChatRequest = request.toOllamaChatRequest()
         return client.request(ollamaChatRequest).let {
             it.toOpenAIChatCompletion()
@@ -40,7 +40,7 @@ class OllamaOpenAIProvider(private val client: Ollama) : OpenAIProvider {
      * @param request The ChatCompletionRequest containing the request details
      * @return A Flow of OpenAIChatCompletionChunk objects representing the completions
      */
-    override fun streamCompletions(request: ChatCompletionRequest): Flow<ChatCompletionChunk> {
+    override fun streamChatCompletions(request: ChatCompletionRequest): Flow<ChatCompletionChunk> {
         return client.stream(request.toOllamaChatRequest())
             .transform {
                 emit(it.toOpenAIChatCompletionChunk())

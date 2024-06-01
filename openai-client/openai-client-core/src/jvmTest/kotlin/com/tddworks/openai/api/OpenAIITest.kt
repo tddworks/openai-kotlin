@@ -30,7 +30,7 @@ class OpenAIITest : AutoCloseKoinTest() {
 
     @Test
     fun `should use openai client to get stream chat completions`() = runTest {
-        openAI.streamCompletions(
+        openAI.streamChatCompletions(
             ChatCompletionRequest(
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 maxTokens = 1024,
@@ -45,7 +45,7 @@ class OpenAIITest : AutoCloseKoinTest() {
 
     @Test
     fun `should use openai client to get chat completions`() = runTest {
-        val response = openAI.completions(
+        val response = openAI.chatCompletions(
             ChatCompletionRequest(
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 maxTokens = 1024,

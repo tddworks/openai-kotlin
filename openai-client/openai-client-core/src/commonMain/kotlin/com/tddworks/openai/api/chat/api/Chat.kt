@@ -15,7 +15,7 @@ interface Chat {
      * @param request The request to create a chat completion.
      * @return The chat completion.
      */
-    suspend fun completions(request: ChatCompletionRequest): ChatCompletion
+    suspend fun chatCompletions(request: ChatCompletionRequest): ChatCompletion
 
 
     /**
@@ -23,7 +23,7 @@ interface Chat {
      * @param request The request to stream a chat completion.
      * @return The chat completion chunks as a stream
      */
-    fun streamCompletions(request: ChatCompletionRequest): Flow<ChatCompletionChunk>
+    fun streamChatCompletions(request: ChatCompletionRequest): Flow<ChatCompletionChunk>
 
     companion object {
         const val CHAT_COMPLETIONS_PATH = "/v1/chat/completions"

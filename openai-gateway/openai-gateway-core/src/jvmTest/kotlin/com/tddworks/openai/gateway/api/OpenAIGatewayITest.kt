@@ -49,7 +49,7 @@ class OpenAIGatewayITest : AutoCloseKoinTest() {
     @Test
     @EnabledIfEnvironmentVariable(named = "OLLAMA_STARTED", matches = "true")
     fun `should use ollama client to get chat completions`() = runTest {
-        gateway.streamCompletions(
+        gateway.streamChatCompletions(
             OpenAIChatCompletionRequest(
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 maxTokens = 1024,
@@ -65,7 +65,7 @@ class OpenAIGatewayITest : AutoCloseKoinTest() {
     @Test
     @EnabledIfEnvironmentVariable(named = "OPENAI_API_KEY", matches = ".+")
     fun `should use openai client to get chat completions`() = runTest {
-        gateway.streamCompletions(
+        gateway.streamChatCompletions(
             OpenAIChatCompletionRequest(
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 maxTokens = 1024,
@@ -81,7 +81,7 @@ class OpenAIGatewayITest : AutoCloseKoinTest() {
     @Test
     @EnabledIfEnvironmentVariable(named = "ANTHROPIC_API_KEY", matches = ".+")
     fun `should use anthropic client to get chat completions`() = runTest {
-        gateway.streamCompletions(
+        gateway.streamChatCompletions(
             OpenAIChatCompletionRequest(
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 maxTokens = 1024,

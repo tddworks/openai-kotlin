@@ -20,6 +20,12 @@ value class Model(val value: String) {
         val GPT_3_5_TURBO_0125 = Model("gpt-3.5-turbo-0125")
 
         /**
+         * Similar capabilities as GPT-3 era models. Compatible with legacy Completions endpoint and not Chat Completions.
+         * 4,096 tokens	Up to Sep 2021
+         */
+        val GPT_3_5_TURBO_INSTRUCT = Model("gpt-3.5-turbo-instruct")
+
+        /**
          *
          * GPT-4 Turbo with Vision
          * The latest GPT-4 Turbo model with vision capabilities.

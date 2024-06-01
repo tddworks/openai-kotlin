@@ -70,7 +70,7 @@ class AnthropicOpenAIProviderTest {
         whenever(client.create(request.toAnthropicRequest())).thenReturn(response)
 
         // when
-        val completions = provider.completions(request)
+        val completions = provider.chatCompletions(request)
 
         // then
         assertEquals(response.toOpenAIChatCompletion(), completions)
@@ -93,7 +93,7 @@ class AnthropicOpenAIProviderTest {
         })
 
         // when
-        provider.streamCompletions(request).test {
+        provider.streamChatCompletions(request).test {
             // then
             assertEquals(contentBlockStart.toOpenAIChatCompletionChunk(Model.CLAUDE_3_HAIKU.value), awaitItem())
             awaitComplete()

@@ -11,6 +11,8 @@ import com.tddworks.openai.api.chat.api.Chat
 import com.tddworks.openai.api.chat.internal.DefaultChatApi
 import com.tddworks.openai.api.images.api.Images
 import com.tddworks.openai.api.images.internal.DefaultImagesApi
+import com.tddworks.openai.api.legacy.completions.api.Completions
+import com.tddworks.openai.api.legacy.completions.api.internal.DefaultCompletionsApi
 import org.koin.core.context.startKoin
 import org.koin.core.qualifier.named
 import org.koin.dsl.KoinAppDeclaration
@@ -51,6 +53,12 @@ fun openAIModules(
 
     single<Images> {
         DefaultImagesApi(
+            requester = get(named("openAIHttpRequester"))
+        )
+    }
+
+    single<Completions> {
+        DefaultCompletionsApi(
             requester = get(named("openAIHttpRequester"))
         )
     }

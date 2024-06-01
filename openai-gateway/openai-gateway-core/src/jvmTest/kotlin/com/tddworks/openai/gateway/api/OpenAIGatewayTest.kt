@@ -7,6 +7,8 @@ import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.legacy.completions.api.Completion
+import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import com.tddworks.openai.gateway.api.internal.DefaultOpenAIGateway
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
@@ -45,10 +47,10 @@ class OpenAIGatewayTest {
         val model = OllamaModel.LLAMA2
         val response = ChatCompletion.dummy()
         val request = ChatCompletionRequest.dummy(Model(model.value))
-        whenever(ollama.completions(request)).thenReturn(response)
+        whenever(ollama.chatCompletions(request)).thenReturn(response)
 
         // When
-        val r = openAIGateway.completions(request)
+        val r = openAIGateway.chatCompletions(request)
         // Then
         assertEquals(response, r)
     }
@@ -60,12 +62,12 @@ class OpenAIGatewayTest {
         val request = ChatCompletionRequest.dummy(Model(model.value))
 
         val chatCompletionChunk = ChatCompletionChunk.dummy()
-        whenever(ollama.streamCompletions(request)).thenReturn(flow {
+        whenever(ollama.streamChatCompletions(request)).thenReturn(flow {
             emit(chatCompletionChunk)
         })
 
         // When
-        openAIGateway.streamCompletions(request).test {
+        openAIGateway.streamChatCompletions(request).test {
             // Then
             assertEquals(
                 chatCompletionChunk, awaitItem()
@@ -81,12 +83,12 @@ class OpenAIGatewayTest {
         val request = ChatCompletionRequest.dummy(model)
 
         val chatCompletionChunk = ChatCompletionChunk.dummy()
-        whenever(openAI.streamCompletions(request)).thenReturn(flow {
+        whenever(openAI.streamChatCompletions(request)).thenReturn(flow {
             emit(chatCompletionChunk)
         })
 
         // When
-        openAIGateway.streamCompletions(request).test {
+        openAIGateway.streamChatCompletions(request).test {
             // Then
             assertEquals(
                 chatCompletionChunk, awaitItem()
@@ -102,12 +104,12 @@ class OpenAIGatewayTest {
         val request = ChatCompletionRequest.dummy(Model(model.value))
 
         val chatCompletionChunk = ChatCompletionChunk.dummy()
-        whenever(anthropic.streamCompletions(request)).thenReturn(flow {
+        whenever(anthropic.streamChatCompletions(request)).thenReturn(flow {
             emit(chatCompletionChunk)
         })
 
         // When
-        openAIGateway.streamCompletions(request).test {
+        openAIGateway.streamChatCompletions(request).test {
             // Then
             assertEquals(
                 chatCompletionChunk, awaitItem()
@@ -122,12 +124,30 @@ class OpenAIGatewayTest {
         val model = Model.GPT_3_5_TURBO
         val response = ChatCompletion.dummy()
         val request = ChatCompletionRequest.dummy(model)
-        whenever(openAI.completions(request)).thenReturn(response)
+        whenever(openAI.chatCompletions(request)).thenReturn(response)
+
+        // When
+        val r = openAIGateway.chatCompletions(request)
+        // Then
+        assertEquals(response, r)
+    }
+
+    @Test
+    fun `should use openai client to create completion`() = runTest {
+        // Given
+        val request = CompletionRequest(
+            prompt = "some-promt",
+            suffix = "some-suffix",
+        )
+
+        val completion = Completion.dummy()
+
+        whenever(openAI.completions(request)).thenReturn(completion)
 
         // When
         val r = openAIGateway.completions(request)
         // Then
-        assertEquals(response, r)
+        assertEquals(completion, r)
     }
 
 
@@ -137,10 +157,10 @@ class OpenAIGatewayTest {
         val model = AnthropicModel.CLAUDE_3_HAIKU
         val response = ChatCompletion.dummy()
         val request = ChatCompletionRequest.dummy(Model(model.value))
-        whenever(anthropic.completions(request)).thenReturn(response)
+        whenever(anthropic.chatCompletions(request)).thenReturn(response)
 
         // When
-        val r = openAIGateway.completions(request)
+        val r = openAIGateway.chatCompletions(request)
         // Then
         assertEquals(response, r)
     }

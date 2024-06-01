@@ -26,6 +26,7 @@ fun mockHttpClient(mockResponse: String) = HttpClient(MockEngine) {
         addHandler { request ->
             if (request.url.encodedPath == "/v1/chat/completions"
                 || request.url.encodedPath == "/v1/images/generations"
+                || request.url.encodedPath == "/v1/completions"
             ) {
                 respond(mockResponse, HttpStatusCode.OK, headers)
             } else {

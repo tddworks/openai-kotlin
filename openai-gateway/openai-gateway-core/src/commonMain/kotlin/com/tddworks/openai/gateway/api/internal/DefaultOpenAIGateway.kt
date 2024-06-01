@@ -4,6 +4,8 @@ import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
+import com.tddworks.openai.api.legacy.completions.api.Completion
+import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import com.tddworks.openai.gateway.api.OpenAIGateway
 import com.tddworks.openai.gateway.api.OpenAIProvider
 import kotlinx.coroutines.flow.Flow
@@ -26,10 +28,10 @@ class DefaultOpenAIGateway(
      * @param request The request containing the model for which completions are needed.
      * @return A ChatCompletion object containing the completions for the provided request.
      */
-    override suspend fun completions(request: ChatCompletionRequest): ChatCompletion {
+    override suspend fun chatCompletions(request: ChatCompletionRequest): ChatCompletion {
         return providers.firstOrNull {
             it.supports(request.model)
-        }?.completions(request) ?: openAI.completions(request)
+        }?.chatCompletions(request) ?: openAI.chatCompletions(request)
     }
 
     /**
@@ -39,9 +41,19 @@ class DefaultOpenAIGateway(
      * @param request a ChatCompletionRequest object containing the model for which completions are requested
      * @return a Flow of ChatCompletionChunk objects representing the completions for the input model
      */
-    override fun streamCompletions(request: ChatCompletionRequest): Flow<ChatCompletionChunk> {
+    override fun streamChatCompletions(request: ChatCompletionRequest): Flow<ChatCompletionChunk> {
         return providers.firstOrNull {
             it.supports(request.model)
-        }?.streamCompletions(request) ?: openAI.streamCompletions(request)
+        }?.streamChatCompletions(request) ?: openAI.streamChatCompletions(request)
+    }
+
+    /**
+     * This function is called to get completions based on the given request.
+     *
+     * @param request The request containing the model for which completions are needed.
+     * @return A Completion object containing the completions for the provided request.
+     */
+    override suspend fun completions(request: CompletionRequest): Completion {
+        return openAI.completions(request)
     }
 }

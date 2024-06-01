@@ -50,7 +50,7 @@ class DefaultChatApiTest {
         )
 
 
-        val r = chat.completions(request)
+        val r = chat.chatCompletions(request)
 
         with(r) {
             assertEquals("chatcmpl-8Zu4AF8QMK3zFgdzXIPjFS4VkWErX", id)
@@ -75,7 +75,7 @@ class DefaultChatApiTest {
             )
         )
 
-        chat.streamCompletions(request).test {
+        chat.streamChatCompletions(request).test {
             assertEquals(
                 ChatCompletionChunk(
                     id = "chatcmpl-8ZtRSZzsijxilL2lDBN7ERQc0Zi7Q",

@@ -61,7 +61,7 @@ class OllamaOpenAIProviderTest {
         whenever(client.request(request.toOllamaChatRequest())).thenReturn(response)
 
         // when
-        val completions = provider.completions(request)
+        val completions = provider.chatCompletions(request)
 
         // then
         assertEquals(response.toOpenAIChatCompletion(), completions)
@@ -80,7 +80,7 @@ class OllamaOpenAIProviderTest {
         })
 
         // when
-        provider.streamCompletions(request).test {
+        provider.streamChatCompletions(request).test {
             // then
             assertEquals(
                 response.toOpenAIChatCompletionChunk(),

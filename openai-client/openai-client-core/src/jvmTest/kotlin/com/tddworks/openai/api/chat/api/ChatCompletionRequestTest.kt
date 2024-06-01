@@ -14,11 +14,12 @@ class ChatCompletionRequestTest {
         val chatCompletionRequest = ChatCompletionRequest(
             messages = listOf(
                 ChatMessage.user("hello")
-            )
+            ),
+            stream = true
         )
 
 
-        val result = prettyJson.encodeToString(chatCompletionRequest.asStreamRequest())
+        val result = prettyJson.encodeToString(chatCompletionRequest)
 
         assertEquals(
             """

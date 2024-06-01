@@ -28,7 +28,7 @@ class AnthropicOpenAIProvider(private val client: Anthropic) : OpenAIProvider {
      * @param request the ChatCompletionRequest object containing information needed to generate completions
      * @return OpenAIChatCompletion object containing completions generated from the OpenAI API
      */
-    override suspend fun completions(request: ChatCompletionRequest): OpenAIChatCompletion {
+    override suspend fun chatCompletions(request: ChatCompletionRequest): OpenAIChatCompletion {
         val anthropicRequest = request.toAnthropicRequest()
         return client.create(anthropicRequest).toOpenAIChatCompletion()
     }
@@ -39,7 +39,7 @@ class AnthropicOpenAIProvider(private val client: Anthropic) : OpenAIProvider {
      * @param request The ChatCompletionRequest containing the request details
      * @return A Flow of OpenAIChatCompletionChunk objects representing the completions
      */
-    override fun streamCompletions(request: ChatCompletionRequest): Flow<OpenAIChatCompletionChunk> {
+    override fun streamChatCompletions(request: ChatCompletionRequest): Flow<OpenAIChatCompletionChunk> {
         return client.stream(request.toAnthropicRequest() as StreamMessageRequest)
             .filter { it !is ContentBlockStop && it !is Ping }
             .transform {
