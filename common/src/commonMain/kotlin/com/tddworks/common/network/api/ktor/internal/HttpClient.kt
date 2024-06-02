@@ -14,7 +14,7 @@ import kotlinx.serialization.json.Json
 import kotlin.time.Duration.Companion.seconds
 
 
-internal expect fun httpClientEngine(): HttpClientEngineFactory<HttpClientEngineConfig>
+internal expect fun httpClientEngine(): HttpClientEngine
 
 /**
  * Creates a new [HttpClient] with [OkHttp] engine and [ContentNegotiation] plugin.
@@ -30,9 +30,10 @@ fun createHttpClient(
     host: () -> String,
     port: () -> Int? = { null },
     authToken: (() -> String)? = null,
-    json: Json,
+    json: Json = Json,
+    httpClientEngine: HttpClientEngine = httpClientEngine(),
 ): HttpClient {
-    return HttpClient(httpClientEngine()) {
+    return HttpClient(httpClientEngine) {
 //      enable proxy in the future
 //      engine {
 //          proxy = ProxyBuilder.http(url)
@@ -95,7 +96,8 @@ fun createHttpClient(
 
         defaultRequest {
             url {
-                this.protocol = protocol()?.let { URLProtocol.createOrDefault(it) } ?: URLProtocol.HTTPS
+                this.protocol = protocol()?.let { URLProtocol.createOrDefault(it) }
+                    ?: URLProtocol.HTTPS
                 this.host = host()
                 port()?.let { this.port = it }
             }

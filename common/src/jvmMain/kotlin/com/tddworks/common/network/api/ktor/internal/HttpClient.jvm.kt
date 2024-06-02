@@ -4,6 +4,6 @@ import io.ktor.client.engine.*
 import io.ktor.client.engine.okhttp.*
 
 
-internal actual fun httpClientEngine(): HttpClientEngineFactory<HttpClientEngineConfig> {
-    return OkHttp
+internal actual fun httpClientEngine(): HttpClientEngine {
+    return OkHttp.create()
 }

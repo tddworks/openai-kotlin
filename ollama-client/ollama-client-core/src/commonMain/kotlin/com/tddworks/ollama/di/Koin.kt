@@ -40,8 +40,8 @@ fun ollamaModules(
         HttpRequester.default(
             createHttpClient(
                 protocol = config.protocol,
-                port = config.port,
                 host = config.baseUrl,
+                port = config.port,
                 json = get(named("ollamaJson")),
             )
         )
