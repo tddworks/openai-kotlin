@@ -49,7 +49,6 @@ fun ollamaModules(
 
     single<OllamaChat> {
         DefaultOllamaChatApi(
-            jsonLenient = get(named("ollamaJson")),
             requester = get(named("ollamaHttpRequester"))
         )
     }

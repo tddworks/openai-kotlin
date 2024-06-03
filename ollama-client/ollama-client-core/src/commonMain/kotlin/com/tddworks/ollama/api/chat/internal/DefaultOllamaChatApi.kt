@@ -12,14 +12,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.json.Json
 
 class DefaultOllamaChatApi(
-    private val requester: HttpRequester,
-    private val jsonLenient: Json = JsonLenient,
+    private val requester: HttpRequester
 ) : OllamaChat {
     override fun stream(request: OllamaChatRequest): Flow<OllamaChatResponse> {
         return requester.streamRequest<OllamaChatResponse> {
             method = HttpMethod.Post
             url(path = CHAT_API_PATH)
-            setBody(request.asStreamRequest(jsonLenient))
+            setBody(request.copy(stream = true))
             contentType(ContentType.Application.Json)
             accept(ContentType.Text.EventStream)
             headers {
@@ -33,7 +32,7 @@ class DefaultOllamaChatApi(
         return requester.performRequest {
             method = HttpMethod.Post
             url(path = CHAT_API_PATH)
-            setBody(request.asNonStreaming(jsonLenient))
+            setBody(request)
             contentType(ContentType.Application.Json)
         }
     }

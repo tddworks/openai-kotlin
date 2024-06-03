@@ -1,6 +1,5 @@
 package com.tddworks.ollama.api.chat.internal
 
-import com.tddworks.ollama.api.chat.internal.json.ollamaModule
 import kotlinx.serialization.json.Json
 
 
@@ -16,8 +15,6 @@ val JsonLenient = Json {
     isLenient = true
     ignoreUnknownKeys = true
     // https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md#class-discriminator-for-polymorphism
-    classDiscriminator = "#class"
-    serializersModule = ollamaModule
     encodeDefaults = true
     explicitNulls = false
 }
