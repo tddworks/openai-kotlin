@@ -16,14 +16,13 @@ import kotlinx.serialization.json.Json
 class DefaultMessagesApi(
     private val anthropicConfig: AnthropicConfig = AnthropicConfig(),
     private val requester: HttpRequester,
-    private val jsonLenient: Json = JsonLenient,
 ) : Messages {
 
-    override fun stream(request: StreamMessageRequest): Flow<StreamMessageResponse> {
+    override fun stream(request: CreateMessageRequest): Flow<StreamMessageResponse> {
         return requester.streamRequest<StreamMessageResponse> {
             method = HttpMethod.Post
             url(path = MESSAGE_API_PATH)
-            setBody(request.asStreamRequest(jsonLenient))
+            setBody(request.copy(stream = true))
             contentType(ContentType.Application.Json)
             accept(ContentType.Text.EventStream)
             headers {

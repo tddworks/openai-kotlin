@@ -53,7 +53,6 @@ fun anthropicModules(
     single<Messages> {
         DefaultMessagesApi(
             anthropicConfig = config,
-            jsonLenient = get(named("anthropicJson")),
             requester = get(named("anthropicHttpRequester"))
         )
     }

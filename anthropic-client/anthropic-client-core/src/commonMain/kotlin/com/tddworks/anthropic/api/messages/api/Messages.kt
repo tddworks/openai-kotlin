@@ -8,5 +8,5 @@ import kotlinx.coroutines.flow.Flow
 interface Messages {
     suspend fun create(request: CreateMessageRequest): CreateMessageResponse
 
-    fun stream(request: StreamMessageRequest): Flow<StreamMessageResponse>
+    fun stream(request: CreateMessageRequest): Flow<StreamMessageResponse>
 }

@@ -1,21 +1,11 @@
 package com.tddworks.anthropic.api.messages.api.internal.json
 
 import com.tddworks.anthropic.api.messages.api.*
-import com.tddworks.common.network.api.StreamableRequest
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.polymorphic
-
-val anthropicModule = SerializersModule {
-    polymorphic(StreamableRequest::class) {
-        subclass(CreateMessageRequest::class, CreateMessageRequest.serializer())
-        defaultDeserializer { CreateMessageRequest.serializer() }
-    }
-}
 
 object StreamMessageResponseSerializer :
     JsonContentPolymorphicSerializer<StreamMessageResponse>(StreamMessageResponse::class) {

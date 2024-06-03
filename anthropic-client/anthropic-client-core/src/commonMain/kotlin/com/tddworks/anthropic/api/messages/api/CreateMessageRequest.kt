@@ -12,10 +12,11 @@ data class CreateMessageRequest(
     val maxTokens: Int = 1024,
     @SerialName("model")
     val model: Model = Model.CLAUDE_3_HAIKU,
-) : StreamMessageRequest {
+    val stream: Boolean? = null,
+) {
     companion object {
         fun streamRequest(messages: List<Message>, systemPrompt: String? = null) =
-            CreateMessageRequest(messages, systemPrompt) as StreamMessageRequest
+            CreateMessageRequest(messages, systemPrompt, stream = true)
     }
 }
 

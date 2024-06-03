@@ -1,6 +1,5 @@
 package com.tddworks.anthropic.api
 
-import com.tddworks.anthropic.api.messages.api.internal.json.anthropicModule
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.json.Json
 
@@ -46,7 +45,5 @@ internal val JsonLenient = Json {
     isLenient = true
     ignoreUnknownKeys = true
     // https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md#class-discriminator-for-polymorphism
-    classDiscriminator = "#class"
-    serializersModule = anthropicModule
     encodeDefaults = true
 }

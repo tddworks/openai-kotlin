@@ -40,9 +40,11 @@ class AnthropicOpenAIProvider(private val client: Anthropic) : OpenAIProvider {
      * @return A Flow of OpenAIChatCompletionChunk objects representing the completions
      */
     override fun streamChatCompletions(request: ChatCompletionRequest): Flow<OpenAIChatCompletionChunk> {
-        return client.stream(request.toAnthropicRequest() as StreamMessageRequest)
-            .filter { it !is ContentBlockStop && it !is Ping }
-            .transform {
+        return client.stream(
+            request.toAnthropicRequest().copy(
+                stream = true
+            )
+        ).filter { it !is ContentBlockStop && it !is Ping }.transform {
                 emit(it.toOpenAIChatCompletionChunk(request.model.value))
             }
     }

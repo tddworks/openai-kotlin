@@ -86,7 +86,7 @@ class AnthropicOpenAIProviderTest {
             index = 0,
             contentBlock = ContentBlock(type = "some-type", text = "som-text")
         )
-        whenever(client.stream(request.toAnthropicRequest() as StreamMessageRequest)).thenReturn(flow {
+        whenever(client.stream(request.toAnthropicStreamRequest())).thenReturn(flow {
             emit(
                 contentBlockStart
             )
@@ -95,7 +95,10 @@ class AnthropicOpenAIProviderTest {
         // when
         provider.streamChatCompletions(request).test {
             // then
-            assertEquals(contentBlockStart.toOpenAIChatCompletionChunk(Model.CLAUDE_3_HAIKU.value), awaitItem())
+            assertEquals(
+                contentBlockStart.toOpenAIChatCompletionChunk(Model.CLAUDE_3_HAIKU.value),
+                awaitItem()
+            )
             awaitComplete()
         }
 

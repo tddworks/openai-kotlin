@@ -5,6 +5,7 @@ import com.tddworks.openai.api.chat.api.ChatChoice
 import com.tddworks.openai.api.chat.api.ChatChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.ChatDelta
+import kotlinx.serialization.ExperimentalSerializationApi
 import com.tddworks.openai.api.chat.api.ChatCompletion as OpenAIChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk as OpenAIChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatMessage.AssistantMessage as OpenAIAssistantMessage
@@ -81,7 +82,13 @@ fun StreamMessageResponse.toOpenAIChatCompletionChunk(model: String): OpenAIChat
 }
 
 
-fun ChatCompletionRequest.toAnthropicRequest(): CreateMessageRequest {
+@OptIn(ExperimentalSerializationApi::class)
+fun ChatCompletionRequest.toAnthropicStreamRequest(): CreateMessageRequest {
+    return toAnthropicRequest(true)
+}
+
+@OptIn(ExperimentalSerializationApi::class)
+fun ChatCompletionRequest.toAnthropicRequest(stream: Boolean? = null): CreateMessageRequest {
     return CreateMessageRequest(
         model = Model(model.value),
         messages = messages.map {
@@ -100,7 +107,8 @@ fun ChatCompletionRequest.toAnthropicRequest(): CreateMessageRequest {
                     }
                 }
             )
-        }
+        },
+        stream = stream
     )
 }
 
