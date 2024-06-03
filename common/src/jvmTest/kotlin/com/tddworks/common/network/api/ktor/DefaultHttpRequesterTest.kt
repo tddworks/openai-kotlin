@@ -15,6 +15,8 @@ import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.koin.test.junit5.AutoCloseKoinTest
@@ -22,6 +24,35 @@ import kotlin.time.Duration.Companion.seconds
 
 class DefaultHttpRequesterTest : AutoCloseKoinTest() {
     private lateinit var httpClient: HttpClient
+
+    @BeforeEach
+    fun setUp() {
+        initKoin()
+    }
+
+    @Test
+    fun `should throw PermissionException when get 403 in stream`(): Unit = runBlocking {
+
+        httpClient = mockHttpClient(
+            """      {
+            "error": {
+                "code": null,
+                "type": "server_error",
+                "param": null,
+                "message": "You are accessing the API from an unsupported country, region, or territory."
+            }
+        }""",
+            mockHttpStatusCode = HttpStatusCode.Forbidden
+        )
+
+        val requester = HttpRequester.default(httpClient)
+
+        requester.streamRequest<StreamResponse> { url(path = "/v1/chat/completions") }
+            .test(timeout = 10.seconds) {
+                assertTrue(awaitError() is PermissionException)
+            }
+
+    }
 
     @Test
     fun `should throw PermissionException when get 403`(): Unit = runBlocking {
@@ -53,9 +84,6 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
 
     @Test
     fun `should return chat stream completion response`() = runTest {
-
-        initKoin()
-
         val mockResponse = StreamResponse("some-content")
 
         httpClient = mockHttpClient("""data: {"content": "some-content"}""")
