@@ -22,7 +22,7 @@ class OpenAITest {
     @Disabled
     @Test
     fun `should return image response`() = runBlocking {
-        val openAI = JvmOpenAI("api-key")
+        val openAI = OpenAIApi()
         val response = openAI.generate(
             ImageCreate(
                 prompt = "A cute baby sea otter",
@@ -48,7 +48,7 @@ class OpenAITest {
     @Disabled
     @Test
     fun `should return response`() = runBlocking {
-        val openAI = JvmOpenAI("api-key")
+        val openAI = OpenAIApi()
         val response = openAI.streamChatCompletions(
             ChatCompletionRequest(
                 messages = listOf(
@@ -103,7 +103,7 @@ class OpenAITest {
     @Disabled
     @Test
     fun `should return vision stream response`() = runBlocking {
-        val openAI = JvmOpenAI("api-key")
+        val openAI = OpenAIApi()
         val response = openAI.streamChatCompletions(
             ChatCompletionRequest(
                 messages = listOf(
@@ -127,7 +127,7 @@ class OpenAITest {
     @Disabled
     @Test
     fun `should return vision response`() = runBlocking {
-        val openAI = JvmOpenAI("api-key")
+        val openAI = OpenAIApi()
         val response = openAI.chatCompletions(
             ChatCompletionRequest(
                 messages = listOf(

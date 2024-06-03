@@ -35,7 +35,28 @@ data class CreateMessageResponse(
     val stopSequence: String?,
     val type: String,
     val usage: Usage,
-)
+) {
+    companion object {
+        fun dummy() = CreateMessageResponse(
+            content = listOf(
+                ContentMessage(
+                    text = "Hi! My name is Claude.",
+                    type = "text"
+                )
+            ),
+            id = "msg_1nZdL29xx5MUA1yADyHTEsnR8uuvGzszyY",
+            model = "claude-3-opus-20240229",
+            role = "assistant",
+            stopReason = null,
+            stopSequence = null,
+            type = "message",
+            usage = Usage(
+                inputTokens = 25,
+                outputTokens = 1
+            )
+        )
+    }
+}
 
 
 @Serializable

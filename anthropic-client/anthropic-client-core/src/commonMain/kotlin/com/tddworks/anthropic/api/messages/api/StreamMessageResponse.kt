@@ -82,6 +82,16 @@ data class Delta(
     @SerialName("stop_sequence")
     val stopSequence: String? = null,
     val usage: Usage? = null,
-)
+) {
+    companion object {
+        fun dummy() = Delta(
+            type = "text_delta",
+            text = "Hello",
+            stopReason = "end_turn",
+            stopSequence = null,
+            usage = Usage(outputTokens = 15)
+        )
+    }
+}
 
 

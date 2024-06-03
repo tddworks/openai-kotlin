@@ -5,6 +5,7 @@ import com.tddworks.openai.api.chat.api.ChatChoice
 import com.tddworks.openai.api.chat.api.ChatChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.ChatDelta
+import com.tddworks.openai.api.chat.api.Role.Companion.Assistant
 import kotlinx.serialization.ExperimentalSerializationApi
 import com.tddworks.openai.api.chat.api.ChatCompletion as OpenAIChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk as OpenAIChatCompletionChunk
@@ -50,7 +51,7 @@ fun StreamMessageResponse.toOpenAIChatCompletionChunk(model: String): OpenAIChat
     val chatChunkList = listOf(
         ChatChunk(
             index = 0,
-            delta = ChatDelta(role = com.tddworks.openai.api.chat.api.Role.Assistant),
+            delta = ChatDelta(role = Assistant),
             finishReason = when (this) {
                 is MessageStart, is ContentBlockStart, is ContentBlockDelta -> null
                 is MessageDelta -> delta.stopReason?.let { mapAnthropicStopReason(it).name }
@@ -101,7 +102,7 @@ fun ChatCompletionRequest.toAnthropicRequest(stream: Boolean? = null): CreateMes
                 },
                 role = when (it.role) {
                     OpenAIRole.User -> Role.User
-                    OpenAIRole.Assistant -> Role.Assistant
+                    Assistant -> Role.Assistant
                     else -> {
                         throw IllegalArgumentException("Unknown role: ${it.role}")
                     }
@@ -122,7 +123,7 @@ fun CreateMessageResponse.toOpenAIChatCompletion(): OpenAIChatCompletion {
             ChatChoice(
                 message = OpenAIAssistantMessage(
                     content = it.text,
-                    role = OpenAIRole.Assistant
+                    role = Assistant
                 ),
                 index = 0,
             )
@@ -130,19 +131,11 @@ fun CreateMessageResponse.toOpenAIChatCompletion(): OpenAIChatCompletion {
     )
 }
 
-private fun mapAnthropicStopReason(finishReason: String?): OpenAIStopReason {
+fun mapAnthropicStopReason(finishReason: String?): OpenAIStopReason {
     return when (finishReason) {
         "end_turn", "stop_sequence", "message_stop" -> OpenAIStopReason.Stop
         "tool_use" -> OpenAIStopReason.ToolCalls
         "max_tokens" -> OpenAIStopReason.Length
         else -> OpenAIStopReason.Other
     }
-}
-
-enum class OpenAIStopReason {
-    Stop,
-    Length,
-    FunctionCall,
-    ToolCalls,
-    Other
 }
