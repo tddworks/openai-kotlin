@@ -15,7 +15,12 @@ data class OpenAIError(
 
 /**
  * Represents an error object returned by the OpenAI API.
- *
+ * {
+ *   "code": null,
+ *   "type": "server_error",
+ *   "param": null,
+ *   "message": "That model is currently overloaded with other requests. You can retry your request, or contact us through our help center at help.openai.com if the error persists. (Please include the request ID c58c33110e4907638de58bec34af86e5 in your message.)"
+ * }
  * @param code error code returned by the OpenAI API.
  * @param message human-readable error message describing the error that occurred.
  * @param param the parameter that caused the error, if applicable.

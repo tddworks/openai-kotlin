@@ -12,9 +12,14 @@ import io.ktor.serialization.kotlinx.*
 /**
  * See https://ktor.io/docs/http-client-testing.html#usage
  */
-fun mockHttpClient(mockResponse: String) = HttpClient(MockEngine) {
+fun mockHttpClient(
+    mockResponse: String,
+    mockHttpStatusCode: HttpStatusCode = HttpStatusCode.OK,
+    exception: Exception? = null
+) = HttpClient(MockEngine) {
 
-    val headers = headersOf("Content-Type" to listOf(ContentType.Application.Json.toString()))
+    val headers =
+        headersOf("Content-Type" to listOf(ContentType.Application.Json.toString()))
 
     install(ContentNegotiation) {
         register(ContentType.Application.Json, KotlinxSerializationConverter(JsonLenient))
@@ -22,12 +27,21 @@ fun mockHttpClient(mockResponse: String) = HttpClient(MockEngine) {
 
     engine {
         addHandler { request ->
-            if (request.url.encodedPath == "/v1/chat/completions"
-                || request.url.encodedPath == "/v1/images/generations"
-            ) {
-                respond(mockResponse, HttpStatusCode.OK, headers)
+
+            exception?.let {
+                throw it
+            }
+
+            if (mockHttpStatusCode == HttpStatusCode.OK || mockHttpStatusCode == HttpStatusCode.Forbidden) {
+                if (request.url.encodedPath == "/v1/chat/completions"
+                    || request.url.encodedPath == "/v1/images/generations"
+                ) {
+                    respond(mockResponse, mockHttpStatusCode, headers)
+                } else {
+                    error("Unhandled ${request.url.encodedPath}")
+                }
             } else {
-                error("Unhandled ${request.url.encodedPath}")
+                respondError(mockHttpStatusCode)
             }
         }
     }
@@ -35,7 +49,7 @@ fun mockHttpClient(mockResponse: String) = HttpClient(MockEngine) {
     defaultRequest {
         url {
             protocol = URLProtocol.HTTPS
-            host = "api.lemonsqueezy.com"
+            host = "some-host"
         }
 
         header(HttpHeaders.ContentType, ContentType.Application.Json)
