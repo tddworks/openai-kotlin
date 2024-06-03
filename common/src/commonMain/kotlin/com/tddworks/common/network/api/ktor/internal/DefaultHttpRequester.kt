@@ -4,14 +4,11 @@ import com.tddworks.common.network.api.ktor.api.HttpRequester
 import com.tddworks.common.network.api.ktor.internal.exception.*
 import io.ktor.client.*
 import io.ktor.client.call.*
-import io.ktor.client.network.sockets.*
 import io.ktor.client.plugins.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.util.reflect.*
-import io.ktor.utils.io.errors.*
-import kotlinx.coroutines.CancellationException
 
 /**
  * Default implementation of [HttpRequester].
@@ -23,10 +20,14 @@ class DefaultHttpRequester(private val httpClient: HttpClient) : HttpRequester {
         info: TypeInfo,
         builder: HttpRequestBuilder.() -> Unit
     ): T {
-        val response = httpClient.request(builder)
-        return when (response.status) {
-            HttpStatusCode.OK -> response.body(info)
-            else -> throw openAIAPIException(ClientRequestException(response, ""))
+        try {
+            val response = httpClient.request(builder)
+            return when (response.status) {
+                HttpStatusCode.OK -> response.body(info)
+                else -> throw openAIAPIException(ClientRequestException(response, ""))
+            }
+        } catch (e: Throwable) {
+            throw e
         }
     }
 
@@ -39,30 +40,20 @@ class DefaultHttpRequester(private val httpClient: HttpClient) : HttpRequester {
             HttpStatement(
                 builder = HttpRequestBuilder().apply(builder),
                 client = httpClient
-            ).execute(block)
-        } catch (e: Exception) {
-            throw handleException(e)
+            ).execute {
+                when (it.status) {
+                    HttpStatusCode.OK -> block(it)
+                    else -> throw openAIAPIException(ClientRequestException(it, ""))
+                }
+            }
+        } catch (t: Throwable) {
+            throw t
         }
     }
 }
 
 fun HttpRequester.Companion.default(httpClient: HttpClient): HttpRequester {
     return DefaultHttpRequester(httpClient)
-}
-
-/**
- * Handles various exceptions that can occur during an API request and converts them into appropriate
- * [OpenAIException] instances.
- */
-private fun handleException(e: Throwable) = when (e) {
-    is CancellationException -> e // propagate coroutine cancellation
-    is ServerResponseException -> OpenAIServerException(e)
-    is HttpRequestTimeoutException, is SocketTimeoutException, is ConnectTimeoutException -> OpenAITimeoutException(
-        e
-    )
-
-    is IOException -> GenericIOException(e)
-    else -> OpenAIHttpException(e)
 }
 
 /**

@@ -1,9 +1,11 @@
 package com.tddworks.common.network.api.ktor
 
 import app.cash.turbine.test
+import com.tddworks.common.network.api.ktor.api.HttpRequester
 import com.tddworks.common.network.api.ktor.api.performRequest
 import com.tddworks.common.network.api.ktor.api.streamRequest
 import com.tddworks.common.network.api.ktor.internal.DefaultHttpRequester
+import com.tddworks.common.network.api.ktor.internal.default
 import com.tddworks.common.network.api.ktor.internal.exception.PermissionException
 import com.tddworks.common.network.api.mockHttpClient
 import com.tddworks.di.initKoin
@@ -40,7 +42,7 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
             mockHttpStatusCode = HttpStatusCode.Forbidden
         )
 
-        val requester = DefaultHttpRequester(httpClient)
+        val requester = HttpRequester.default(httpClient)
 
         assertThrows<PermissionException> {
             requester.performRequest<String> {
