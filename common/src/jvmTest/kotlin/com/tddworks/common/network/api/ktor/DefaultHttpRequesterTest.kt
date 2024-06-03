@@ -1,18 +1,24 @@
 package com.tddworks.common.network.api.ktor
 
+import app.cash.turbine.test
 import com.tddworks.common.network.api.ktor.api.performRequest
+import com.tddworks.common.network.api.ktor.api.streamRequest
 import com.tddworks.common.network.api.ktor.internal.DefaultHttpRequester
 import com.tddworks.common.network.api.ktor.internal.exception.PermissionException
 import com.tddworks.common.network.api.mockHttpClient
+import com.tddworks.di.initKoin
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.koin.test.junit5.AutoCloseKoinTest
+import kotlin.time.Duration.Companion.seconds
 
-class DefaultHttpRequesterTest {
+class DefaultHttpRequesterTest : AutoCloseKoinTest() {
     private lateinit var httpClient: HttpClient
 
     @Test
@@ -40,6 +46,28 @@ class DefaultHttpRequesterTest {
             requester.performRequest<String> {
                 url(path = "/v1/chat/completions")
             }
+        }
+    }
+
+    @Test
+    fun `should return chat stream completion response`() = runTest {
+
+        initKoin()
+
+        val mockResponse = StreamResponse("some-content")
+
+        httpClient = mockHttpClient("""data: {"content": "some-content"}""")
+
+        val requester = DefaultHttpRequester(httpClient)
+
+        requester.streamRequest<StreamResponse> {
+            url(path = "/v1/chat/completions")
+        }.test(timeout = 10.seconds) {
+            assertEquals(
+                mockResponse,
+                awaitItem()
+            )
+            awaitComplete()
         }
     }
 
