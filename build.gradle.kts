@@ -47,45 +47,47 @@ subprojects {
     apply(plugin = rootProject.libs.plugins.build.dokka.plugin.get().pluginId)
 }
 
-koverReport {
-    filters {
-        excludes {
-            classes(
-                "**Platform*",
-                "com.tddworks.**.request.*",
-                "com.tddworks.**.response.*",
-                "com.tddworks.**.data.*",
+kover {
+    reports {
+        filters {
+            excludes {
+                classes(
+                    "**Platform*",
+                    "com.tddworks.**.request.*",
+                    "com.tddworks.**.response.*",
+                    "com.tddworks.**.data.*",
 //                "com.tddworks.**.internal.ktor.internal.*",
 //                "com.tddworks.**.**.ktor.internal.*",
-                "com.tddworks.**.*\$*$*", // Lambda functions like - LemonSqueezyLicenseApi$activeLicense$activationResult$1
-                "com.tddworks.**.*\$Companion", // Lambda functions like - LemonSqueezyLicenseApi$activeLicense$activationResult$1
-                "*.BuildConfig",
-                "*.BuildKonfig", // BuildKonfig generated
-                "*.ComposableSingletons*", // Jetpack Compose generated
-                "*.*\$*Preview\$*", // Jetpack Compose Preview functions
-                "*.ui.preview.*", // Jetpack Compose Preview providers
-                "*.*Test", // Test files
-                "*.*Test*", // Test cases
-                "*.*Mock", // mockative @Mock generated
-                "*.test.*", // Test util package
-                "*.*\$\$serializer", // Kotlinx serializer)
-                "**.*\$Lambda$*.*", // Lambda functions
-                "**.*\$inlined$*", // Inlined functions
-                "**.*2\$1",// transactionWithResult
-                "**/**/*serializer*.*",
-                "**/**/*Companion*.*",
-            )
+                    "com.tddworks.**.*\$*$*", // Lambda functions like - LemonSqueezyLicenseApi$activeLicense$activationResult$1
+                    "com.tddworks.**.*\$Companion", // Lambda functions like - LemonSqueezyLicenseApi$activeLicense$activationResult$1
+                    "*.BuildConfig",
+                    "*.BuildKonfig", // BuildKonfig generated
+                    "*.ComposableSingletons*", // Jetpack Compose generated
+                    "*.*\$*Preview\$*", // Jetpack Compose Preview functions
+                    "*.ui.preview.*", // Jetpack Compose Preview providers
+                    "*.*Test", // Test files
+                    "*.*Test*", // Test cases
+                    "*.*Mock", // mockative @Mock generated
+                    "*.test.*", // Test util package
+                    "*.*\$\$serializer", // Kotlinx serializer)
+                    "**.*\$Lambda$*.*", // Lambda functions
+                    "**.*\$inlined$*", // Inlined functions
+                    "**.*2\$1",// transactionWithResult
+                    "**/**/*serializer*.*",
+                    "**/**/*Companion*.*",
+                )
 //            annotatedBy("kotlinx.serialization.Serializable")
+            }
+            includes {
+                classes("com.tddworks.*")
+            }
         }
-        includes {
-            classes("com.tddworks.*")
-        }
-    }
 
-    verify {
-        rule {
-            bound {
-                minValue = 80
+        verify {
+            rule {
+                bound {
+                    minValue = 80
+                }
             }
         }
     }
