@@ -8,6 +8,7 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.*
+import io.ktor.utils.io.*
 
 /**
  * See https://ktor.io/docs/http-client-testing.html#usage
