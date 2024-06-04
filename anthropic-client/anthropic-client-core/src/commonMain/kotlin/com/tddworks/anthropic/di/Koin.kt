@@ -16,8 +16,6 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
-expect fun platformModule(): Module
-
 fun iniAnthropic(
     config: AnthropicConfig,
     appDeclaration: KoinAppDeclaration = {}

@@ -63,7 +63,6 @@ koverReport {
                 "*.BuildKonfig", // BuildKonfig generated
                 "*.ComposableSingletons*", // Jetpack Compose generated
                 "*.*\$*Preview\$*", // Jetpack Compose Preview functions
-                "*.di.*", // Koin
                 "*.ui.preview.*", // Jetpack Compose Preview providers
                 "*.*Test", // Test files
                 "*.*Test*", // Test cases

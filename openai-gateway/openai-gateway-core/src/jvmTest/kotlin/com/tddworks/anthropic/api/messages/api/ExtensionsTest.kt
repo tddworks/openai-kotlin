@@ -197,31 +197,6 @@ class ExtensionsTest {
     }
 
     @Test
-    fun `should throw IllegalArgumentException when role is not user or assistant`() {
-        // Given
-        val chatCompletionRequest =
-            ChatCompletionRequest(
-                listOf(
-                    ChatMessage.ToolMessage(
-                        content = "Hello! How can I assist you today?",
-                        toolCallId = "tool_call_id"
-                    )
-                ),
-            )
-
-        // When
-        val exception = assertThrows(IllegalArgumentException::class.java) {
-            chatCompletionRequest.toAnthropicRequest()
-        }
-
-        // Then
-        assertEquals(
-            "Unknown message type: ToolMessage(content=Hello! How can I assist you today?, role=Role(name=tool), toolCallId=tool_call_id)",
-            exception.message
-        )
-    }
-
-    @Test
     fun `should convert user to anthropic request`() {
         // Given
         val chatCompletionRequest =

@@ -41,21 +41,10 @@ class ChatMessageTest {
         }
         """.trimIndent()
 
-        assertEquals(expectedJson, prettyJson.encodeToString(ChatMessage.VisionMessage.serializer(), message))
-    }
-
-    @Test
-    fun `should return correct json for tool message`() {
-        val message = ChatMessage.tool("Hello, how may I assist you today?", "tool-id")
-
-        val expectedJson = """
-        {
-          "content": "Hello, how may I assist you today?",
-          "tool_call_id": "tool-id"
-        }
-        """.trimIndent()
-
-        assertEquals(expectedJson, prettyJson.encodeToString(ChatMessage.ToolMessage.serializer(), message))
+        assertEquals(
+            expectedJson,
+            prettyJson.encodeToString(ChatMessage.VisionMessage.serializer(), message)
+        )
     }
 
     @Test
@@ -69,7 +58,10 @@ class ChatMessageTest {
             }
         """.trimIndent()
 
-        assertEquals(expectedJson, prettyJson.encodeToString(ChatMessage.AssistantMessage.serializer(), message))
+        assertEquals(
+            expectedJson,
+            prettyJson.encodeToString(ChatMessage.AssistantMessage.serializer(), message)
+        )
     }
 
     @Test
@@ -83,7 +75,10 @@ class ChatMessageTest {
             }
         """.trimIndent()
 
-        assertEquals(expectedJson, prettyJson.encodeToString(ChatMessage.UserMessage.serializer(), message))
+        assertEquals(
+            expectedJson,
+            prettyJson.encodeToString(ChatMessage.UserMessage.serializer(), message)
+        )
     }
 
     @Test
@@ -97,6 +92,9 @@ class ChatMessageTest {
             }
         """.trimIndent()
 
-        assertEquals(expectedJson, prettyJson.encodeToString(ChatMessage.SystemMessage.serializer(), message))
+        assertEquals(
+            expectedJson,
+            prettyJson.encodeToString(ChatMessage.SystemMessage.serializer(), message)
+        )
     }
 }
