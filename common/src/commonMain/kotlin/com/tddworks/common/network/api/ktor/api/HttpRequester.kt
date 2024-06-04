@@ -18,7 +18,6 @@ interface HttpRequester {
      * Note: [HttpResponse] instance shouldn't be passed outside of [block].
      */
     suspend fun <T : Any> streamRequest(
-        info: TypeInfo,
         builder: HttpRequestBuilder.() -> Unit,
         block: suspend (response: HttpResponse) -> T,
     )
@@ -43,7 +42,7 @@ inline fun <reified T : Any> HttpRequester.streamRequest(
     noinline builder: HttpRequestBuilder.() -> Unit,
 ): Flow<T> {
     return flow {
-        streamRequest(typeInfo<T>(), builder) { response ->
+        streamRequest(builder) { response ->
             streamEventsFrom(response)
         }
     }

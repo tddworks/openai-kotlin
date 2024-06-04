@@ -15,6 +15,7 @@ import kotlin.jvm.JvmInline
 data class ChatChunk(
     val delta: ChatDelta,
     val index: Int,
+    val logprobs: String? = null,
     @SerialName("finish_reason")
     val finishReason: String?,
 ) {

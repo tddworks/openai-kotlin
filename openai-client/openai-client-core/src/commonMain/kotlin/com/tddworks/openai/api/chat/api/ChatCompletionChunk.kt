@@ -1,5 +1,6 @@
 package com.tddworks.openai.api.chat.api
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
@@ -17,6 +18,8 @@ data class ChatCompletionChunk(
     val `object`: String,
     val created: Long,
     val model: String,
+    @SerialName("system_fingerprint")
+    val systemFingerprint: String? = null,
     val choices: List<ChatChunk>,
 ) {
     companion object {

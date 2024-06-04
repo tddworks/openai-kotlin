@@ -31,7 +31,6 @@ class DefaultHttpRequester(private val httpClient: HttpClient) : HttpRequester {
     }
 
     override suspend fun <T : Any> streamRequest(
-        info: TypeInfo,
         builder: HttpRequestBuilder.() -> Unit,
         block: suspend (response: HttpResponse) -> T,
     ) {

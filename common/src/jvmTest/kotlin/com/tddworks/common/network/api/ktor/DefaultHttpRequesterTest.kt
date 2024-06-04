@@ -91,8 +91,9 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
     }
 
     @Test
-    fun `should throw RateLimitException when status code is unknown`(): Unit = runBlocking {
-        val mockResponse = """
+    fun `should throw RateLimitException when status code is unknown`(): Unit =
+        runBlocking {
+            val mockResponse = """
         {
             "error": {
                 "code": null,
@@ -104,19 +105,19 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
         """.trimIndent()
 
 
-        httpClient = mockHttpClient(
-            mockResponse = mockResponse,
-            mockHttpStatusCode = HttpStatusCode.InternalServerError
-        )
+            httpClient = mockHttpClient(
+                mockResponse = mockResponse,
+                mockHttpStatusCode = HttpStatusCode.InternalServerError
+            )
 
-        val requester = HttpRequester.default(httpClient)
+            val requester = HttpRequester.default(httpClient)
 
-        assertThrows<UnknownAPIException> {
-            requester.performRequest<String> {
-                url(path = "/v1/chat/completions")
+            assertThrows<UnknownAPIException> {
+                requester.performRequest<String> {
+                    url(path = "/v1/chat/completions")
+                }
             }
         }
-    }
 
     @Test
     fun `should throw RateLimitException when status code is 429`(): Unit = runBlocking {
@@ -197,6 +198,21 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
             }
         }
     }
+
+    @Test
+    fun `should not return chat stream completion response when it's empty response`() = runTest {
+
+            httpClient = mockHttpClient("")
+
+            val requester = DefaultHttpRequester(httpClient)
+
+            requester.streamRequest<StreamResponse> {
+                url(path = "/v1/chat/completions")
+            }.test(timeout = 10.seconds) {
+                expectNoEvents()
+                cancel()
+            }
+        }
 
     @Test
     fun `should return chat stream completion response`() = runTest {

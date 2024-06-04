@@ -27,8 +27,10 @@ suspend inline fun <reified T> FlowCollector<T>.streamEventsFrom(response: HttpR
                     STREAM_PREFIX
                 )
             )
+            isJsonResponse(line) -> json.decodeFromString(line) // Ollama - response is a json object without `data:` prefix
 
-            else -> json.decodeFromString(line) // Ollama - response is a json object without `data:` prefix
+            // If ChatGPT returns an empty line or any other response, continue to the next line.
+            else -> break
         }
         emit(value)
     }
@@ -43,3 +45,5 @@ fun json(): Json {
 fun isStreamResponse(line: String) = line.startsWith(STREAM_PREFIX)
 
 fun endStreamResponse(line: String) = line.startsWith(STREAM_END_TOKEN)
+
+fun isJsonResponse(line: String) = line.startsWith("{") && line.endsWith("}")
