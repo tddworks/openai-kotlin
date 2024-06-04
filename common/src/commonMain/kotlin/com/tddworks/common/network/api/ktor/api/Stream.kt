@@ -18,7 +18,6 @@ suspend inline fun <reified T> FlowCollector<T>.streamEventsFrom(response: HttpR
     val json = json()
     while (!channel.isClosedForRead) {
         val line = channel.readUTF8Line() ?: continue
-        println("line: $line")
         val value: T = when {
             endStreamResponse(line) -> break
             isStreamResponse(line) -> json.decodeFromString(line.removePrefix(STREAM_PREFIX))  // If the response indicates streaming data, decode and emit it.
