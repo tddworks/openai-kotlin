@@ -57,17 +57,3 @@ data class CreateMessageResponse(
         )
     }
 }
-
-
-@Serializable
-data class ContentMessage(val text: String, val type: String)
-
-@Serializable
-data class Usage(
-    @SerialName("input_tokens")
-    val inputTokens: Int? = null,
-    @SerialName("output_tokens")
-    val outputTokens: Int? = null,
-)
-
-
