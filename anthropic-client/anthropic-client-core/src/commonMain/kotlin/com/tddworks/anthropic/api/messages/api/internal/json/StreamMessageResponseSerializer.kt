@@ -10,7 +10,11 @@ import kotlinx.serialization.json.jsonPrimitive
 object StreamMessageResponseSerializer :
     JsonContentPolymorphicSerializer<StreamMessageResponse>(StreamMessageResponse::class) {
     override fun selectDeserializer(element: JsonElement): KSerializer<out StreamMessageResponse> {
-        val type = element.jsonObject["type"]?.jsonPrimitive?.content
+        val jsonElement = element.jsonObject["type"]
+
+        val jsonPrimitive = jsonElement?.jsonPrimitive
+
+        val type = jsonPrimitive?.content
 
         return when (type) {
             "message_start" -> MessageStart.serializer()
