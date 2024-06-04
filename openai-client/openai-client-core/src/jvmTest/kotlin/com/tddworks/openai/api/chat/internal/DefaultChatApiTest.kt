@@ -8,14 +8,22 @@ import com.tddworks.di.initKoin
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.koin.test.junit5.AutoCloseKoinTest
 
 @OptIn(ExperimentalSerializationApi::class)
-class DefaultChatApiTest {
+class DefaultChatApiTest : AutoCloseKoinTest() {
+
+    @BeforeEach
+    fun setUp() {
+        initKoin()
+    }
 
     @Test
     fun `should return chat completion`() = runBlocking {
-        val request = ChatCompletionRequest.chatCompletionsRequest(listOf(ChatMessage.UserMessage("hello")))
+        val request =
+            ChatCompletionRequest.chatCompletionsRequest(listOf(ChatMessage.UserMessage("hello")))
 
         val chat = DefaultChatApi(
             requester = DefaultHttpRequester(
@@ -65,9 +73,9 @@ class DefaultChatApiTest {
     @Test
     fun `should return stream of completions`() = runBlocking {
 
-        initKoin()
 
-        val request = ChatCompletionRequest.chatCompletionsRequest(listOf(ChatMessage.UserMessage("hello")))
+        val request =
+            ChatCompletionRequest.chatCompletionsRequest(listOf(ChatMessage.UserMessage("hello")))
 
         val chat = DefaultChatApi(
             requester = DefaultHttpRequester(
