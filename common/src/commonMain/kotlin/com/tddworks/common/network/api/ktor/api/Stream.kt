@@ -18,19 +18,12 @@ suspend inline fun <reified T> FlowCollector<T>.streamEventsFrom(response: HttpR
     val json = json()
     while (!channel.isClosedForRead) {
         val line = channel.readUTF8Line() ?: continue
+        println("line: $line")
         val value: T = when {
-            // If the response indicates the end of streaming data, break the loop.
             endStreamResponse(line) -> break
-            // If the response indicates streaming data, decode and emit it.
-            isStreamResponse(line) -> json.decodeFromString(
-                line.removePrefix(
-                    STREAM_PREFIX
-                )
-            )
+            isStreamResponse(line) -> json.decodeFromString(line.removePrefix(STREAM_PREFIX))  // If the response indicates streaming data, decode and emit it.
             isJsonResponse(line) -> json.decodeFromString(line) // Ollama - response is a json object without `data:` prefix
-
-            // If ChatGPT returns an empty line or any other response, continue to the next line.
-            else -> break
+            else -> continue
         }
         emit(value)
     }
