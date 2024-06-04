@@ -30,6 +30,6 @@ data class OpenAIError(
 data class OpenAIErrorDetails(
     @SerialName("code") val code: String?,
     @SerialName("message") val message: String?,
-    @SerialName("param") val param: String?,
-    @SerialName("type") val type: String?,
+    @SerialName("param") val param: String? = null,
+    @SerialName("type") val type: String? = null,
 )

@@ -19,10 +19,16 @@ suspend inline fun <reified T> FlowCollector<T>.streamEventsFrom(response: HttpR
     while (!channel.isClosedForRead) {
         val line = channel.readUTF8Line() ?: continue
         val value: T = when {
+            // If the response indicates the end of streaming data, break the loop.
             endStreamResponse(line) -> break
-            isStreamResponse(line) -> json.decodeFromString(line.removePrefix(STREAM_PREFIX))  // If the response indicates streaming data, decode and emit it.
-            isJsonResponse(line) -> json.decodeFromString(line) // Ollama - response is a json object without `data:` prefix
-            else -> continue
+            // If the response indicates streaming data, decode and emit it.
+            isStreamResponse(line) -> json.decodeFromString(
+                line.removePrefix(
+                    STREAM_PREFIX
+                )
+            )
+
+            else -> json.decodeFromString(line) // Ollama - response is a json object without `data:` prefix
         }
         emit(value)
     }
@@ -37,5 +43,3 @@ fun json(): Json {
 fun isStreamResponse(line: String) = line.startsWith(STREAM_PREFIX)
 
 fun endStreamResponse(line: String) = line.startsWith(STREAM_END_TOKEN)
-
-fun isJsonResponse(line: String) = line.startsWith("{") && line.endsWith("}")

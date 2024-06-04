@@ -22,7 +22,8 @@ class DefaultMessagesApiTest : KoinTest {
     // This extension is used to set the main dispatcher to a test dispatcher
     // launch coroutine eagerly
     // same scheduling behavior as would have in a real app/production
-    val testKoinCoroutineExtension = TestKoinCoroutineExtension(UnconfinedTestDispatcher())
+    val testKoinCoroutineExtension =
+        TestKoinCoroutineExtension(UnconfinedTestDispatcher())
 
     @JvmField
     @RegisterExtension
@@ -31,6 +32,73 @@ class DefaultMessagesApiTest : KoinTest {
             module {
                 single<Json> { JsonLenient }
             })
+    }
+
+    @Test
+    fun `should return nothing stream data when json response with prefix DONE`() =
+        runTest {
+            // Given
+            val chatsApi = DefaultMessagesApi(
+                requester = DefaultHttpRequester(
+                    httpClient = mockHttpClient("[DONE]: {\"type\": \"message_stop\"}")
+                )
+            )
+            val request =
+                CreateMessageRequest.streamRequest(listOf(Message.user(("hello"))))
+
+            // When
+            chatsApi.stream(request).test {
+                // Then
+                expectNoEvents()
+                cancel()
+            }
+        }
+
+    @Test
+    fun `should return nothing stream data when not json response`() = runTest {
+        // Given
+        val chatsApi = DefaultMessagesApi(
+            requester = DefaultHttpRequester(
+                httpClient = mockHttpClient("{\"type\": \"message_stop\"}")
+            )
+        )
+
+        val request = CreateMessageRequest.streamRequest(listOf(Message.user(("hello"))))
+
+        // When
+        chatsApi.stream(request).test {
+            // Then
+            expectNoEvents()
+            cancel()
+        }
+    }
+
+
+    /**
+     * without data:
+     * e.g ollama api response
+     */
+    @Test
+    fun `should return correct stream data without data prefix`() = runTest {
+        // Given
+        val chatsApi = DefaultMessagesApi(
+            requester = DefaultHttpRequester(
+                httpClient = mockHttpClient("{\"type\": \"message_stop\"}")
+            )
+        )
+
+        val request = CreateMessageRequest.streamRequest(listOf(Message.user(("hello"))))
+
+        // When
+        chatsApi.stream(request).test {
+            // Then
+            assertEquals(
+                MessageStop(
+                    type = "message_stop"
+                ), awaitItem()
+            )
+            awaitComplete()
+        }
     }
 
     @Test

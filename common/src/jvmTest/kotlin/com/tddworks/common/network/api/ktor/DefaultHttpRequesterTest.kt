@@ -6,20 +6,24 @@ import com.tddworks.common.network.api.ktor.api.performRequest
 import com.tddworks.common.network.api.ktor.api.streamRequest
 import com.tddworks.common.network.api.ktor.internal.DefaultHttpRequester
 import com.tddworks.common.network.api.ktor.internal.default
-import com.tddworks.common.network.api.ktor.internal.exception.PermissionException
+import com.tddworks.common.network.api.ktor.internal.exception.*
+import com.tddworks.common.network.api.ktor.internal.openAIAPIException
 import com.tddworks.common.network.api.mockHttpClient
 import com.tddworks.di.initKoin
 import io.ktor.client.*
+import io.ktor.client.plugins.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.koin.test.junit5.AutoCloseKoinTest
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
 import kotlin.time.Duration.Companion.seconds
 
 class DefaultHttpRequesterTest : AutoCloseKoinTest() {
@@ -31,10 +35,122 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
     }
 
     @Test
+    fun `should throw RateLimitException when status code is 401`(): Unit = runBlocking {
+        val mockResponse = """
+        {
+            "error": {
+                "code": null,
+                "type": "server_error",
+                "param": null,
+                "message": "You are accessing the API from an unsupported country, region, or territory."
+            }
+        }
+        """.trimIndent()
+
+
+        httpClient = mockHttpClient(
+            mockResponse = mockResponse,
+            mockHttpStatusCode = HttpStatusCode.Unauthorized
+        )
+
+        val requester = HttpRequester.default(httpClient)
+
+        assertThrows<AuthenticationException> {
+            requester.performRequest<String> {
+                url(path = "/v1/chat/completions")
+            }
+        }
+    }
+
+    @Test
+    fun `should throw RateLimitException when status code is 40x`(): Unit = runBlocking {
+        val mockResponse = """
+        {
+            "error": {
+                "code": null,
+                "type": "server_error",
+                "param": null,
+                "message": "You are accessing the API from an unsupported country, region, or territory."
+            }
+        }
+        """.trimIndent()
+
+
+        httpClient = mockHttpClient(
+            mockResponse = mockResponse,
+            mockHttpStatusCode = HttpStatusCode.BadRequest
+        )
+
+        val requester = HttpRequester.default(httpClient)
+
+        assertThrows<InvalidRequestException> {
+            requester.performRequest<String> {
+                url(path = "/v1/chat/completions")
+            }
+        }
+    }
+
+    @Test
+    fun `should throw RateLimitException when status code is unknown`(): Unit = runBlocking {
+        val mockResponse = """
+        {
+            "error": {
+                "code": null,
+                "type": "server_error",
+                "param": null,
+                "message": "You are accessing the API from an unsupported country, region, or territory."
+            }
+        }
+        """.trimIndent()
+
+
+        httpClient = mockHttpClient(
+            mockResponse = mockResponse,
+            mockHttpStatusCode = HttpStatusCode.InternalServerError
+        )
+
+        val requester = HttpRequester.default(httpClient)
+
+        assertThrows<UnknownAPIException> {
+            requester.performRequest<String> {
+                url(path = "/v1/chat/completions")
+            }
+        }
+    }
+
+    @Test
+    fun `should throw RateLimitException when status code is 429`(): Unit = runBlocking {
+        val mockResponse = """
+        {
+            "error": {
+                "code": null,
+                "type": "server_error",
+                "param": null,
+                "message": "You are accessing the API from an unsupported country, region, or territory."
+            }
+        }
+        """.trimIndent()
+
+
+        httpClient = mockHttpClient(
+            mockResponse = mockResponse,
+            mockHttpStatusCode = HttpStatusCode.TooManyRequests
+        )
+
+        val requester = HttpRequester.default(httpClient)
+
+        assertThrows<RateLimitException> {
+            requester.performRequest<String> {
+                url(path = "/v1/chat/completions")
+            }
+        }
+    }
+
+    @Test
     fun `should throw PermissionException when get 403 in stream`(): Unit = runBlocking {
 
         httpClient = mockHttpClient(
-            """      {
+            """{
             "error": {
                 "code": null,
                 "type": "server_error",
