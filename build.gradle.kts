@@ -52,30 +52,11 @@ kover {
         filters {
             excludes {
                 classes(
-                    "**Platform*",
-                    "com.tddworks.**.request.*",
-                    "com.tddworks.**.response.*",
-                    "com.tddworks.**.data.*",
-//                "com.tddworks.**.internal.ktor.internal.*",
-//                "com.tddworks.**.**.ktor.internal.*",
                     "com.tddworks.**.*\$*$*", // Lambda functions like - LemonSqueezyLicenseApi$activeLicense$activationResult$1
                     "com.tddworks.**.*\$Companion", // Lambda functions like - LemonSqueezyLicenseApi$activeLicense$activationResult$1
-                    "*.BuildConfig",
-                    "*.BuildKonfig", // BuildKonfig generated
-                    "*.ComposableSingletons*", // Jetpack Compose generated
-                    "*.*\$*Preview\$*", // Jetpack Compose Preview functions
-                    "*.ui.preview.*", // Jetpack Compose Preview providers
-                    "*.*Test", // Test files
-                    "*.*Test*", // Test cases
-                    "*.*Mock", // mockative @Mock generated
-                    "*.test.*", // Test util package
                     "*.*\$\$serializer", // Kotlinx serializer)
-                    "**.*\$Lambda$*.*", // Lambda functions
-                    "**.*\$inlined$*", // Inlined functions
-                    "**.*2\$1",// transactionWithResult
-                    "**/**/*serializer*.*",
-                    "**/**/*Companion*.*",
                 )
+//            inheritedFrom("org.koin.core.component.KoinComponent")
 //            annotatedBy("kotlinx.serialization.Serializable")
             }
             includes {
@@ -86,7 +67,7 @@ kover {
         verify {
             rule {
                 bound {
-                    minValue = 80
+                    minValue = 82
                 }
             }
         }
