@@ -35,12 +35,12 @@ class DefaultMessagesApiTest : KoinTest {
     }
 
     @Test
-    fun `should return nothing stream data when json response with prefix DONE`() =
+    fun `should return nothing stream data when json response with prefix and DONE`() =
         runTest {
             // Given
             val chatsApi = DefaultMessagesApi(
                 requester = DefaultHttpRequester(
-                    httpClient = mockHttpClient("[DONE]: {\"type\": \"message_stop\"}")
+                    httpClient = mockHttpClient("data: [DONE]")
                 )
             )
             val request =
