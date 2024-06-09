@@ -13,17 +13,28 @@ import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.api.extension.RegisterExtension
 import org.koin.test.junit5.AutoCloseKoinTest
 import kotlin.time.Duration.Companion.seconds
 
 class DefaultHttpRequesterTest : AutoCloseKoinTest() {
     private lateinit var httpClient: HttpClient
+
+    @JvmField
+    @RegisterExtension
+    // This extension is used to set the main dispatcher to a test dispatcher
+    // launch coroutine eagerly
+    // same scheduling behavior as would have in a real app/production
+    val testKoinCoroutineExtension =
+        TestKoinCoroutineExtension(UnconfinedTestDispatcher())
+
 
     @BeforeEach
     fun setUp() {
@@ -196,7 +207,8 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
     }
 
     @Test
-    fun `should not return chat stream completion response when it's empty response`() = runTest {
+    fun `should not return chat stream completion response when it's empty response`() =
+        runTest {
 
             httpClient = mockHttpClient("")
 
@@ -204,7 +216,7 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
 
             requester.streamRequest<StreamResponse> {
                 url(path = "/v1/chat/completions")
-            }.test(timeout = 10.seconds) {
+            }.test {
                 expectNoEvents()
                 cancel()
             }
@@ -220,7 +232,7 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
 
         requester.streamRequest<StreamResponse> {
             url(path = "/v1/chat/completions")
-        }.test(timeout = 10.seconds) {
+        }.test {
             assertEquals(
                 mockResponse,
                 awaitItem()
