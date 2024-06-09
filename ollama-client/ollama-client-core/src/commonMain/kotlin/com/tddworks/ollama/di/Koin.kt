@@ -15,7 +15,7 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
-fun iniOllama(config: OllamaConfig, appDeclaration: KoinAppDeclaration = {}): Ollama {
+fun initOllama(config: OllamaConfig, appDeclaration: KoinAppDeclaration = {}): Ollama {
     return startKoin {
         appDeclaration()
         modules(commonModule(false) + ollamaModules(config))
