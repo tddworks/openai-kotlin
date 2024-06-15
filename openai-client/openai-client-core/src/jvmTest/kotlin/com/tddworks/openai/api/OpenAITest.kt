@@ -9,14 +9,18 @@ import com.tddworks.openai.api.images.api.ImageCreate
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import kotlin.test.assertNotNull
 
 class OpenAITest {
 
     @Test
-    fun `should return correct base url`() {
-        assertEquals("api.openai.com", OpenAI.BASE_URL)
+    fun `should create openai instance`() {
+        val openAI = OpenAI.create(OpenAIConfig())
+
+        assertNotNull(openAI)
     }
 
     @Disabled

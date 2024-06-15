@@ -6,4 +6,7 @@ import com.tddworks.openai.api.legacy.completions.api.Completions
 /**
  * Interface for connecting to the OpenAI Gateway to chat.
  */
-interface OpenAIGateway : Chat, Completions
+interface OpenAIGateway : Chat, Completions {
+    fun addProvider(provider: OpenAIProvider): OpenAIGateway
+    fun getProviders(): List<OpenAIProvider>
+}

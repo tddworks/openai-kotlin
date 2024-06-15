@@ -18,9 +18,20 @@ import kotlinx.serialization.ExperimentalSerializationApi
  */
 @ExperimentalSerializationApi
 class DefaultOpenAIGateway(
-    private val providers: List<OpenAIProvider>,
+    providers: List<OpenAIProvider>,
     private val openAI: OpenAI,
 ) : OpenAIGateway {
+    private val availableProviders: MutableList<OpenAIProvider> =
+        providers.toMutableList()
+
+    override fun addProvider(provider: OpenAIProvider): OpenAIGateway {
+        availableProviders.add(provider)
+        return this
+    }
+
+    override fun getProviders(): List<OpenAIProvider> {
+        return availableProviders.toList()
+    }
 
     /**
      * This function is called to get completions for a chat based on the given request.
@@ -29,7 +40,7 @@ class DefaultOpenAIGateway(
      * @return A ChatCompletion object containing the completions for the provided request.
      */
     override suspend fun chatCompletions(request: ChatCompletionRequest): ChatCompletion {
-        return providers.firstOrNull {
+        return availableProviders.firstOrNull {
             it.supports(request.model)
         }?.chatCompletions(request) ?: openAI.chatCompletions(request)
     }
@@ -42,7 +53,7 @@ class DefaultOpenAIGateway(
      * @return a Flow of ChatCompletionChunk objects representing the completions for the input model
      */
     override fun streamChatCompletions(request: ChatCompletionRequest): Flow<ChatCompletionChunk> {
-        return providers.firstOrNull {
+        return availableProviders.firstOrNull {
             it.supports(request.model)
         }?.streamChatCompletions(request) ?: openAI.streamChatCompletions(request)
     }

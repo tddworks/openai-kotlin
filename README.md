@@ -30,7 +30,7 @@ val openAI = initOpenAI(OpenAIConfig(
 ))
 
 // stream completions
-openAI.streamCompletions(
+openAI.streamChatCompletions(
    ChatCompletionRequest(
       messages = listOf(ChatMessage.UserMessage("hello")),
       maxTokens = 1024,
@@ -41,11 +41,21 @@ openAI.streamCompletions(
 }
 
 // chat completions
-val chatCompletion = openAI.completions(
+val chatCompletion = openAI.chatCompletions(
    ChatCompletionRequest(
       messages = listOf(ChatMessage.UserMessage("hello")),
       maxTokens = 1024,
       model = Model.GPT_3_5_TURBO
+   )
+)
+
+// completions(legacy)
+val completion = openAI.completions(
+   CompletionRequest(
+      prompt = "Once upon a time",
+      suffix = "The end",
+      maxTokens = 10,
+      temperature = 0.5
    )
 )
 ```
@@ -100,7 +110,7 @@ val openAIGateway = initOpenAIGateway(
 )
 
 // stream completions
-openAIGateway.streamCompletions(
+openAIGateway.streamChatCompletions(
    ChatCompletionRequest(
       messages = listOf(ChatMessage.UserMessage("hello")),
       maxTokens = 1024,
@@ -111,11 +121,22 @@ openAIGateway.streamCompletions(
 }
 
 // chat completions
-val chatCompletion = openAIGateway.completions(
+val chatCompletion = openAIGateway.chatCompletions(
    ChatCompletionRequest(
       messages = listOf(ChatMessage.UserMessage("hello")),
       maxTokens = 1024,
       model = Model(Model.GPT_3_5_TURBO.value)
    )
 )
+
+// completions(legacy)
+val completion = openAIGateway.completions(
+   CompletionRequest(
+        prompt = "Once upon a time",
+         suffix = "The end",
+         maxTokens = 10,
+         temperature = 0.5
+   )
+)
+
 ```

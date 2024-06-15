@@ -20,7 +20,7 @@ import kotlin.test.assertEquals
 import com.tddworks.anthropic.api.Model as AnthropicModel
 
 @OptIn(ExperimentalSerializationApi::class)
-class OpenAIGatewayTest {
+class DefaultOpenAIGatewayTest {
     private val anthropic = mock<OpenAIProvider> {
         on(it.supports(Model(AnthropicModel.CLAUDE_3_HAIKU.value))).thenReturn(true)
     }
@@ -40,6 +40,24 @@ class OpenAIGatewayTest {
         providers,
         openAI = openAI
     )
+
+    @Test
+    fun `should able to add new provider`() {
+        // Given
+        val provider = mock<OpenAIProvider>()
+
+        // When
+        val gateway = DefaultOpenAIGateway(
+            providers,
+            openAI = openAI
+        ).run {
+            addProvider(provider)
+        }
+
+        // Then
+        assertEquals(3, gateway.getProviders().size)
+        assertEquals(provider, gateway.getProviders().last())
+    }
 
     @Test
     fun `should use ollama client to get chat completions`() = runTest {
