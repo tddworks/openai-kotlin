@@ -13,7 +13,7 @@ import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -33,7 +33,7 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
     // launch coroutine eagerly
     // same scheduling behavior as would have in a real app/production
     val testKoinCoroutineExtension =
-        TestKoinCoroutineExtension(UnconfinedTestDispatcher())
+        TestKoinCoroutineExtension(StandardTestDispatcher())
 
 
     @BeforeEach

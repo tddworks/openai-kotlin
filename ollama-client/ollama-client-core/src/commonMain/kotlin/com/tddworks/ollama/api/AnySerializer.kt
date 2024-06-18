@@ -1,4 +1,4 @@
-package com.tddworks.ollama.api.chat
+package com.tddworks.ollama.api
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
