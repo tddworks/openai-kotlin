@@ -98,6 +98,18 @@ class AnySerializerTest {
     }
 
     @Test
+    fun `should serialize array object`() {
+        // Given
+        val testObject = AnySerialObject(mapOf("key" to arrayOf("value1", "value2")))
+
+        // When
+        val serialized = Json.encodeToString(AnySerialObject.serializer(), testObject)
+
+        // Then
+        assertEquals("{\"any\":{\"key\":[\"value1\",\"value2\"]}}", serialized)
+    }
+
+    @Test
     fun `should serialize list object`() {
         // Given
         val testObject = AnySerialObject(mapOf("key" to listOf("value1", "value2")))

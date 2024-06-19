@@ -24,7 +24,7 @@ class ExtensionsTest {
             maxTokens = 10,
             temperature = 0.5,
             stream = false,
-            stop = "<EOT>",
+            stop = "<EOT>,<EOL>",
             streamOptions = mapOf(
                 "raw" to true
             )
@@ -41,7 +41,9 @@ class ExtensionsTest {
             assertNotNull(this)
             assertEquals(0.5, this?.get("temperature"))
             assertEquals(10, this?.get("num_predict"))
-            assertEquals("<EOT>", (this?.get("stop") as Array<*>)[0])
+            val stops = this?.get("stop") as Array<*>
+            assertEquals(2, stops.size)
+            assertEquals("<EOT>", stops[0])
         }
     }
 

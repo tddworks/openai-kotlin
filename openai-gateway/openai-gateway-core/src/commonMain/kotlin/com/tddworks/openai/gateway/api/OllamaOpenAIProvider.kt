@@ -11,7 +11,9 @@ import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
+import kotlinx.serialization.ExperimentalSerializationApi
 
+@OptIn(ExperimentalSerializationApi::class)
 class OllamaOpenAIProvider(private val client: Ollama) : OpenAIProvider {
     /**
      * Check if the given OpenAIModel is supported by the available models.

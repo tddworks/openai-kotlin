@@ -27,6 +27,11 @@ object AnySerializer : KSerializer<Any> {
             JsonObject(mapContents)
         }
 
+        is Array<*> -> {
+            val arrayContents = value.map { arrayEntry -> serializeAny(arrayEntry) }
+            JsonArray(arrayContents)
+        }
+
         is List<*> -> {
             val arrayContents = value.map { listEntry -> serializeAny(listEntry) }
             JsonArray(arrayContents)
@@ -53,7 +58,7 @@ object AnySerializer : KSerializer<Any> {
             element.map { deserializeJsonElement(it) }
         }
 
-            is JsonPrimitive -> {
+        is JsonPrimitive -> {
             if (element.isString) element.contentOrNull!!
             else if (element.booleanOrNull != null) element.boolean
             else if (element.intOrNull != null) element.int

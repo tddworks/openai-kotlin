@@ -65,6 +65,8 @@ class DefaultOpenAIGateway(
      * @return A Completion object containing the completions for the provided request.
      */
     override suspend fun completions(request: CompletionRequest): Completion {
-        return openAI.completions(request)
+        return availableProviders.firstOrNull {
+            it.supports(request.model)
+        }?.completions(request) ?: openAI.completions(request)
     }
 }
