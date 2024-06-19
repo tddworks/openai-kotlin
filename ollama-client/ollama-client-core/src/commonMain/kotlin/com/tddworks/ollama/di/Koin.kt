@@ -8,7 +8,9 @@ import com.tddworks.ollama.api.Ollama
 import com.tddworks.ollama.api.OllamaConfig
 import com.tddworks.ollama.api.chat.OllamaChat
 import com.tddworks.ollama.api.chat.internal.DefaultOllamaChatApi
-import com.tddworks.ollama.api.chat.internal.JsonLenient
+import com.tddworks.ollama.api.generate.OllamaGenerate
+import com.tddworks.ollama.api.generate.internal.DefaultOllamaGenerateApi
+import com.tddworks.ollama.api.json.JsonLenient
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 import org.koin.core.qualifier.named
@@ -49,6 +51,12 @@ fun ollamaModules(
 
     single<OllamaChat> {
         DefaultOllamaChatApi(
+            requester = get(named("ollamaHttpRequester"))
+        )
+    }
+
+    single<OllamaGenerate> {
+        DefaultOllamaGenerateApi(
             requester = get(named("ollamaHttpRequester"))
         )
     }

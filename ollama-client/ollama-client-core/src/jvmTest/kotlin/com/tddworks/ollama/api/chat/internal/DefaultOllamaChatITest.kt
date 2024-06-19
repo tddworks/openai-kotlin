@@ -1,4 +1,4 @@
-package com.tddworks.ollama.api.internal
+package com.tddworks.ollama.api.chat.internal
 
 import com.tddworks.di.getInstance
 import com.tddworks.ollama.api.Ollama

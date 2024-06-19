@@ -15,7 +15,8 @@ import io.ktor.serialization.kotlinx.*
  */
 fun mockHttpClient(mockResponse: String) = HttpClient(MockEngine) {
 
-    val headers = headersOf("Content-Type" to listOf(ContentType.Application.Json.toString()))
+    val headers =
+        headersOf("Content-Type" to listOf(ContentType.Application.Json.toString()))
 
     install(ContentNegotiation) {
         register(ContentType.Application.Json, KotlinxSerializationConverter(JsonLenient))
@@ -23,7 +24,7 @@ fun mockHttpClient(mockResponse: String) = HttpClient(MockEngine) {
 
     engine {
         addHandler { request ->
-            if (request.url.encodedPath == "/api/chat") {
+            if (request.url.encodedPath == "/api/chat" || request.url.encodedPath == "/api/generate") {
                 respond(mockResponse, HttpStatusCode.OK, headers)
             } else {
                 error("Unhandled ${request.url.encodedPath}")

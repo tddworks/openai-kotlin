@@ -1,6 +1,6 @@
 package com.tddworks.ollama.api.chat
 
-import com.tddworks.ollama.api.chat.internal.JsonLenient
+import com.tddworks.ollama.api.json.JsonLenient
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

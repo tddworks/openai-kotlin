@@ -1,4 +1,4 @@
-package com.tddworks.ollama.api.chat.internal
+package com.tddworks.ollama.api.json
 
 import kotlinx.serialization.json.Json
 

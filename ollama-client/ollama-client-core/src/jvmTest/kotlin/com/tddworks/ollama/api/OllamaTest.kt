@@ -5,19 +5,23 @@ import com.tddworks.ollama.di.initOllama
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.koin.dsl.koinApplication
+import org.koin.test.check.checkModules
 import org.koin.test.junit5.AutoCloseKoinTest
 
 class OllamaTestTest : AutoCloseKoinTest() {
 
     @BeforeEach
     fun setUp() {
-        initOllama(
-            config = OllamaConfig(
-                baseUrl = { "127.0.0.1" },
-                port = { 8080 },
-                protocol = { "https" }
+        koinApplication {
+            initOllama(
+                config = OllamaConfig(
+                    baseUrl = { "127.0.0.1" },
+                    port = { 8080 },
+                    protocol = { "https" }
+                )
             )
-        )
+        }.checkModules()
     }
 
     @Test

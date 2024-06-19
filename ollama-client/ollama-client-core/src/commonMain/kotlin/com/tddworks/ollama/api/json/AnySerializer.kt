@@ -1,4 +1,4 @@
-package com.tddworks.ollama.api
+package com.tddworks.ollama.api.json
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -9,7 +9,6 @@ import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.*
 
 typealias AnySerial = @Serializable(with = AnySerializer::class) Any
-
 object AnySerializer : KSerializer<Any> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("Any")
 

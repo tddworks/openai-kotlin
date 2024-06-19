@@ -3,32 +3,18 @@ import com.tddworks.ollama.api.chat.OllamaChatMessage
 import com.tddworks.ollama.api.chat.OllamaChatRequest
 import com.tddworks.ollama.api.chat.OllamaChatResponse
 import com.tddworks.ollama.api.chat.internal.DefaultOllamaChatApi
-import com.tddworks.ollama.api.chat.internal.JsonLenient
+import com.tddworks.ollama.api.TestKoinCoroutineExtension
+import com.tddworks.ollama.api.json.JsonLenient
 import com.tddworks.ollama.api.mockHttpClient
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.*
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.AfterEachCallback
-import org.junit.jupiter.api.extension.BeforeEachCallback
-import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.junit5.KoinTestExtension
-
-class TestKoinCoroutineExtension(private val testDispatcher: TestDispatcher = StandardTestDispatcher()) :
-    BeforeEachCallback, AfterEachCallback {
-    override fun beforeEach(context: ExtensionContext?) {
-        Dispatchers.setMain(testDispatcher)
-    }
-
-    override fun afterEach(context: ExtensionContext?) {
-        Dispatchers.resetMain()
-    }
-}
 
 class DefaultOllamaChatTest : KoinTest {
     @JvmField
@@ -36,7 +22,7 @@ class DefaultOllamaChatTest : KoinTest {
     // This extension is used to set the main dispatcher to a test dispatcher
     // launch coroutine eagerly
     // same scheduling behavior as would have in a real app/production
-    val testKoinCoroutineExtension = TestKoinCoroutineExtension(UnconfinedTestDispatcher())
+    val testKoinCoroutineExtension = TestKoinCoroutineExtension(StandardTestDispatcher())
 
     // for kotlin/com/tddworks/common/network/api/ktor/api/Stream.kt required
     // fun json(): Json {
