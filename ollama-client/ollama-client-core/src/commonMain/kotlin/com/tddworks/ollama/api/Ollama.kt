@@ -1,12 +1,13 @@
 package com.tddworks.ollama.api
 
 import com.tddworks.ollama.api.chat.OllamaChat
+import com.tddworks.ollama.api.generate.OllamaGenerate
 import com.tddworks.ollama.api.internal.OllamaApi
 
 /**
  * Interface for interacting with the Ollama API.
  */
-interface Ollama : OllamaChat {
+interface Ollama : OllamaChat, OllamaGenerate {
 
     companion object {
         const val BASE_URL = "localhost"

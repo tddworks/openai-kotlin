@@ -4,6 +4,8 @@ import com.tddworks.anthropic.api.Anthropic
 import com.tddworks.anthropic.api.Model
 import com.tddworks.anthropic.api.messages.api.*
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
+import com.tddworks.openai.api.legacy.completions.api.Completion
+import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.transform
@@ -45,7 +47,11 @@ class AnthropicOpenAIProvider(private val client: Anthropic) : OpenAIProvider {
                 stream = true
             )
         ).filter { it !is ContentBlockStop && it !is Ping }.transform {
-                emit(it.toOpenAIChatCompletionChunk(request.model.value))
-            }
+            emit(it.toOpenAIChatCompletionChunk(request.model.value))
+        }
+    }
+
+    override suspend fun completions(request: CompletionRequest): Completion {
+        throw UnsupportedOperationException("Not supported")
     }
 }

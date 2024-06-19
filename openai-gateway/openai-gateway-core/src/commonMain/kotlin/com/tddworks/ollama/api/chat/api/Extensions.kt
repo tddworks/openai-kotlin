@@ -3,8 +3,14 @@ package com.tddworks.ollama.api.chat.api
 import com.tddworks.ollama.api.chat.OllamaChatMessage
 import com.tddworks.ollama.api.chat.OllamaChatRequest
 import com.tddworks.ollama.api.chat.OllamaChatResponse
+import com.tddworks.ollama.api.generate.OllamaGenerateRequest
+import com.tddworks.ollama.api.generate.OllamaGenerateResponse
 import com.tddworks.openai.api.chat.api.*
 import com.tddworks.openai.api.chat.api.ChatMessage.*
+import com.tddworks.openai.api.legacy.completions.api.Completion
+import com.tddworks.openai.api.legacy.completions.api.CompletionChoice
+import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
+import com.tddworks.openai.api.legacy.completions.api.Usage
 import kotlinx.serialization.ExperimentalSerializationApi
 
 
@@ -77,5 +83,36 @@ fun ChatCompletionRequest.toOllamaChatRequest(): OllamaChatRequest {
                 },
             )
         }
+    )
+}
+
+@OptIn(ExperimentalSerializationApi::class)
+fun CompletionRequest.toOllamaGenerateRequest(): OllamaGenerateRequest {
+    return OllamaGenerateRequest(
+        model = model.value,
+        prompt = prompt,
+        stream = stream ?: false,
+        raw = (streamOptions?.get("raw") ?: false) as Boolean,
+        options = streamOptions?.filter { it.key != "raw" }
+    )
+}
+
+fun OllamaGenerateResponse.toOpenAICompletion(): Completion {
+    return Completion(
+        id = createdAt,
+        model = model,
+        created = 1,
+        choices = listOf(
+            CompletionChoice(
+                text = response,
+                index = 0,
+                finishReason = doneReason ?: ""
+            )
+        ),
+        usage = Usage(
+            promptTokens = promptEvalCount,
+            completionTokens = evalCount,
+            totalTokens = evalCount?.let { promptEvalCount?.plus(it) }
+        )
     )
 }

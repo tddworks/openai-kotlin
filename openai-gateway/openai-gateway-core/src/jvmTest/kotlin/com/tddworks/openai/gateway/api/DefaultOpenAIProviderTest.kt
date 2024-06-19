@@ -8,6 +8,8 @@ import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.legacy.completions.api.Completion
+import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -37,6 +39,25 @@ class DefaultOpenAIProviderTest {
     @Test
     fun `should return completions from OpenAI API`() = runTest {
         // given
+        val request = CompletionRequest(
+            prompt = "Once upon a time",
+            suffix = "The end",
+            maxTokens = 10,
+            temperature = 0.5
+        )
+        val response = Completion.dummy()
+        whenever(client.completions(request)).thenReturn(response)
+
+        // when
+        val completions = provider.completions(request)
+
+        // then
+        assertEquals(response, completions)
+    }
+
+    @Test
+    fun `should return chat completions from OpenAI API`() = runTest {
+        // given
         val request = ChatCompletionRequest.dummy(Model(OllamaModel.LLAMA2.value))
         val response = ChatCompletion.dummy()
         whenever(client.chatCompletions(request)).thenReturn(response)
@@ -49,7 +70,7 @@ class DefaultOpenAIProviderTest {
     }
 
     @Test
-    fun `should stream completions for chat`() = runTest {
+    fun `should stream chat completions for chat`() = runTest {
         // given
         val request = ChatCompletionRequest.dummy(Model(OllamaModel.LLAMA2.value))
 

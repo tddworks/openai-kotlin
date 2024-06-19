@@ -1,6 +1,6 @@
 package com.tddworks.ollama.api.generate
 
-import com.tddworks.ollama.api.json.AnySerial
+import com.tddworks.common.network.api.ktor.api.AnySerial
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

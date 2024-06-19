@@ -4,11 +4,11 @@ import app.cash.turbine.test
 import com.tddworks.ollama.api.Ollama
 import com.tddworks.ollama.api.OllamaModel
 import com.tddworks.ollama.api.chat.OllamaChatResponse
-import com.tddworks.ollama.api.chat.api.toOllamaChatRequest
-import com.tddworks.ollama.api.chat.api.toOpenAIChatCompletion
-import com.tddworks.ollama.api.chat.api.toOpenAIChatCompletionChunk
+import com.tddworks.ollama.api.chat.api.*
+import com.tddworks.ollama.api.generate.OllamaGenerateResponse
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -28,6 +28,44 @@ class OllamaOpenAIProviderTest {
 
     @InjectMocks
     lateinit var provider: OllamaOpenAIProvider
+
+    @Test
+    fun `should return completions response from OpenAI API`() = runTest {
+        // given
+        val request = CompletionRequest(
+            prompt = "Once upon a time",
+            suffix = "The end",
+            maxTokens = 10,
+            temperature = 0.5
+        )
+        val response = OllamaGenerateResponse.dummy()
+        whenever(client.request(request.toOllamaGenerateRequest())).thenReturn(response)
+
+        // when
+        val completions = provider.completions(request)
+
+        // then
+        assertEquals(response.toOpenAICompletion(), completions)
+    }
+
+    @Test
+    fun `should return chat completions response from OpenAI API`() = runTest {
+        // given
+        val request = CompletionRequest(
+            prompt = "Once upon a time",
+            suffix = "The end",
+            maxTokens = 10,
+            temperature = 0.5
+        )
+        val response = OllamaGenerateResponse.dummy()
+        whenever(client.request(request.toOllamaGenerateRequest())).thenReturn(response)
+
+        // when
+        val completions = provider.completions(request)
+
+        // then
+        assertEquals(response.toOpenAICompletion(), completions)
+    }
 
     @Test
     fun `should return true when model is supported`() {
@@ -54,7 +92,7 @@ class OllamaOpenAIProviderTest {
     }
 
     @Test
-    fun `should fetch completions from OpenAI API`() = runTest {
+    fun `should fetch chat completions from OpenAI API`() = runTest {
         // given
         val request = ChatCompletionRequest.dummy(Model(OllamaModel.LLAMA2.value))
         val response = OllamaChatResponse.dummy()
@@ -68,7 +106,7 @@ class OllamaOpenAIProviderTest {
     }
 
     @Test
-    fun `should stream completions for chat`() = runTest {
+    fun `should stream chat completions for chat`() = runTest {
         // given
         val request = ChatCompletionRequest.dummy(Model(OllamaModel.LLAMA2.value))
 

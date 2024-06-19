@@ -8,6 +8,8 @@ import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.legacy.completions.api.Completion
+import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.ExperimentalSerializationApi
 
@@ -28,5 +30,9 @@ class DefaultOpenAIProvider(
 
     override fun streamChatCompletions(request: ChatCompletionRequest): Flow<ChatCompletionChunk> {
         return openAI.streamChatCompletions(request)
+    }
+
+    override suspend fun completions(request: CompletionRequest): Completion {
+        return openAI.completions(request)
     }
 }

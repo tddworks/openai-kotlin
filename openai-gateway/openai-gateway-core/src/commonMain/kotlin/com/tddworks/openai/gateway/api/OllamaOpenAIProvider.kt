@@ -2,13 +2,13 @@ package com.tddworks.openai.gateway.api
 
 import com.tddworks.ollama.api.Ollama
 import com.tddworks.ollama.api.OllamaModel
-import com.tddworks.ollama.api.chat.api.toOllamaChatRequest
-import com.tddworks.ollama.api.chat.api.toOpenAIChatCompletion
-import com.tddworks.ollama.api.chat.api.toOpenAIChatCompletionChunk
+import com.tddworks.ollama.api.chat.api.*
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.legacy.completions.api.Completion
+import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
 
@@ -45,5 +45,11 @@ class OllamaOpenAIProvider(private val client: Ollama) : OpenAIProvider {
             .transform {
                 emit(it.toOpenAIChatCompletionChunk())
             }
+    }
+
+    override suspend fun completions(request: CompletionRequest): Completion {
+        return client.request(request.toOllamaGenerateRequest()).let {
+            it.toOpenAICompletion()
+        }
     }
 }

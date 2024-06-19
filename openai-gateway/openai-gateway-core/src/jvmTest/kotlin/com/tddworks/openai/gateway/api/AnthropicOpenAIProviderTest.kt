@@ -5,6 +5,7 @@ import com.tddworks.anthropic.api.Anthropic
 import com.tddworks.anthropic.api.Model
 import com.tddworks.anthropic.api.messages.api.*
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
+import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -25,6 +26,25 @@ class AnthropicOpenAIProviderTest {
 
     @InjectMocks
     lateinit var provider: AnthropicOpenAIProvider
+
+    @Test
+    fun `should throw not supported when invoke completions`() = runTest {
+        // given
+        val request = CompletionRequest(
+            prompt = "Once upon a time",
+            suffix = "The end",
+            maxTokens = 10,
+            temperature = 0.5
+        )
+
+        runCatching {
+            // when
+            provider.completions(request)
+        }.onFailure {
+            // then
+            assertEquals("Not supported", it.message)
+        }
+    }
 
     @Test
     fun `should return true when model is supported`() {

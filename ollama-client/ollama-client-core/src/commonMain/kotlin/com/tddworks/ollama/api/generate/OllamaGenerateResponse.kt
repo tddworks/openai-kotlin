@@ -73,4 +73,19 @@ data class OllamaGenerateResponse(
      */
     @SerialName("eval_duration")
     val evalDuration: Long? = null,
-)
+) {
+    companion object {
+        fun dummy() = OllamaGenerateResponse(
+            model = "some-model",
+            createdAt = "createdAt",
+            response = "response",
+            done = false,
+            doneReason = "doneReason",
+            evalCount = 10,
+            evalDuration = 1000,
+            loadDuration = 1000,
+            promptEvalCount = 10,
+            promptEvalDuration = 1000,
+        )
+    }
+}

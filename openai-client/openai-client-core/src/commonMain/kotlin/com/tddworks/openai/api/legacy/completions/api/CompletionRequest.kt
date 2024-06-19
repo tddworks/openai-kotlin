@@ -1,5 +1,6 @@
 package com.tddworks.openai.api.legacy.completions.api
 
+import com.tddworks.common.network.api.ktor.api.AnySerial
 import com.tddworks.openai.api.chat.api.Model
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -172,7 +173,7 @@ data class CompletionRequest(
      *
      */
     @SerialName("stream_options")
-    val streamOptions: Map<String, Boolean>? = null,
+    val streamOptions: Map<String, AnySerial>? = null,
 
     /**
      * suffix
@@ -232,7 +233,7 @@ data class CompletionRequest(
             presencePenalty: Double? = null,
             seed: Int? = null,
             stop: String? = null,
-            streamOptions: Map<String, Boolean>? = null,
+            streamOptions: Map<String, AnySerial>? = null,
             suffix: String? = null,
             temperature: Double? = null,
             topP: Double? = null,

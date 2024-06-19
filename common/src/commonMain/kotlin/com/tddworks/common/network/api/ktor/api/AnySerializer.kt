@@ -1,4 +1,4 @@
-package com.tddworks.ollama.api.json
+package com.tddworks.common.network.api.ktor.api
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -9,6 +9,7 @@ import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.*
 
 typealias AnySerial = @Serializable(with = AnySerializer::class) Any
+
 object AnySerializer : KSerializer<Any> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("Any")
 
@@ -25,10 +26,12 @@ object AnySerializer : KSerializer<Any> {
             }
             JsonObject(mapContents)
         }
+
         is List<*> -> {
             val arrayContents = value.map { listEntry -> serializeAny(listEntry) }
             JsonArray(arrayContents)
         }
+
         is Number -> JsonPrimitive(value)
         is Boolean -> JsonPrimitive(value)
         else -> JsonPrimitive(value.toString())
@@ -45,10 +48,12 @@ object AnySerializer : KSerializer<Any> {
         is JsonObject -> {
             element.mapValues { deserializeJsonElement(it.value) }
         }
+
         is JsonArray -> {
             element.map { deserializeJsonElement(it) }
         }
-        is JsonPrimitive -> {
+
+            is JsonPrimitive -> {
             if (element.isString) element.contentOrNull!!
             else if (element.booleanOrNull != null) element.boolean
             else if (element.intOrNull != null) element.int
