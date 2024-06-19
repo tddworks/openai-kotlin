@@ -7,6 +7,7 @@ class OllamaModelTest {
 
     @Test
     fun `should return correct latest API model name`() {
+        assertEquals("deepseek-coder:6.7b", OllamaModel.DEEPSEEK_CODER.value)
         assertEquals("llama3", OllamaModel.LLAMA3.value)
         assertEquals("llama2", OllamaModel.LLAMA2.value)
         assertEquals("codellama", OllamaModel.CODE_LLAMA.value)

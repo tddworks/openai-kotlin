@@ -15,13 +15,6 @@ import org.koin.test.KoinTest
 import org.koin.test.junit5.KoinTestExtension
 
 class DefaultMessagesApiTest : KoinTest {
-    @JvmField
-    @RegisterExtension
-    // This extension is used to set the main dispatcher to a test dispatcher
-    // launch coroutine eagerly
-    // same scheduling behavior as would have in a real app/production
-    val testKoinCoroutineExtension =
-        TestKoinCoroutineExtension(StandardTestDispatcher())
 
     @JvmField
     @RegisterExtension
