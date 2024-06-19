@@ -4,8 +4,28 @@ import com.tddworks.ollama.api.json.JsonLenient
 import com.tddworks.ollama.api.prettyJson
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import kotlin.test.assertFalse
 
 class OllamaGenerateResponseTest {
+
+    @Test
+    fun `should retrun dummy OllamaGenerateResponse`() {
+        // When
+        val response = OllamaGenerateResponse.dummy()
+
+        // Then
+        assertFalse(response.done)
+        assertEquals("some-model", response.model)
+        assertEquals("createdAt", response.createdAt)
+        assertEquals("response", response.response)
+        assertEquals("doneReason", response.doneReason)
+        assertEquals(10, response.evalCount)
+        assertEquals(1000, response.loadDuration)
+        assertEquals(10, response.promptEvalCount)
+        assertEquals(1000, response.evalDuration)
+        assertEquals(1000, response.promptEvalDuration)
+
+    }
 
     @Test
     fun `should convert to generate response from stream json with done`() {
