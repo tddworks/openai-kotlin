@@ -16,25 +16,17 @@ import kotlinx.serialization.ExperimentalSerializationApi
 
 
 fun OllamaChatResponse.toOpenAIChatCompletion(): ChatCompletion {
-    return ChatCompletion(
-        id = createdAt,
+    return ChatCompletion(id = createdAt,
         created = 1L,
         model = model,
-        choices = listOf(
-            ChatChoice(
-                message = AssistantMessage(
-                    content = message?.content ?: "",
-                    role = when (message?.role) {
-                        "user" -> Role.User
-                        "assistant" -> Role.Assistant
-                        "system" -> Role.System
-                        else -> throw IllegalArgumentException("Unknown role: ${message?.role}")
-                    }
-                ),
-                index = 0,
+        choices = message?.let {
+            listOf(
+                ChatChoice(
+                    message = ChatMessage.assistant(it.content),
+                    index = 0,
+                )
             )
-        )
-    )
+        } ?: emptyList())
 }
 
 fun OllamaChatResponse.toOpenAIChatCompletionChunk(): ChatCompletionChunk {
@@ -49,8 +41,7 @@ fun OllamaChatResponse.toOpenAIChatCompletionChunk(): ChatCompletionChunk {
         )
     )
 
-    return ChatCompletionChunk(
-        id = id,
+    return ChatCompletionChunk(id = id,
         `object` = "ollama-chunk",
         created = created,
         model = model,
@@ -60,31 +51,27 @@ fun OllamaChatResponse.toOpenAIChatCompletionChunk(): ChatCompletionChunk {
                     content = message?.content,
                 )
             )
-        }
-    )
+        })
 }
 
 @OptIn(ExperimentalSerializationApi::class)
 fun ChatCompletionRequest.toOllamaChatRequest(): OllamaChatRequest {
-    return OllamaChatRequest(
-        model = model.value,
-        messages = messages.map {
-            OllamaChatMessage(
-                role = when (it.role) {
-                    Role.User -> "user"
-                    Role.Assistant -> "assistant"
-                    Role.System -> "system"
-                    else -> throw IllegalArgumentException("Unknown role: ${it.role}")
-                },
-                content = when (it) {
-                    is UserMessage -> it.content
-                    is AssistantMessage -> it.content
-                    is SystemMessage -> it.content
-                    else -> throw IllegalArgumentException("Unknown message type: $it")
-                },
-            )
-        }
-    )
+    return OllamaChatRequest(model = model.value, messages = messages.map {
+        OllamaChatMessage(
+            role = when (it.role) {
+                Role.User -> "user"
+                Role.Assistant -> "assistant"
+                Role.System -> "system"
+                else -> throw IllegalArgumentException("Unknown role: ${it.role}")
+            },
+            content = when (it) {
+                is UserMessage -> it.content
+                is AssistantMessage -> it.content
+                is SystemMessage -> it.content
+                else -> throw IllegalArgumentException("Unknown message type: $it")
+            },
+        )
+    })
 }
 
 /**
@@ -98,12 +85,9 @@ fun CompletionRequest.toOllamaGenerateRequest(): OllamaGenerateRequest {
     maxTokens?.let { options["num_predict"] = it }
     stop?.let { options["stop"] = it.split(",").toTypedArray() }
     return OllamaGenerateRequest(
-        model = model.value,
-        prompt = prompt,
-        stream = stream ?: false,
+        model = model.value, prompt = prompt, stream = stream ?: false,
         // Looks only here can adapt the raw option
-        raw = (streamOptions?.get("raw") ?: false) as Boolean,
-        options = options
+        raw = (streamOptions?.get("raw") ?: false) as Boolean, options = options
     )
 }
 
@@ -111,21 +95,17 @@ fun CompletionRequest.toOllamaGenerateRequest(): OllamaGenerateRequest {
  * Convert OllamaGenerateResponse to OpenAI Completion
  */
 fun OllamaGenerateResponse.toOpenAICompletion(): Completion {
-    return Completion(
-        id = createdAt,
+    return Completion(id = createdAt,
         model = model,
         created = 1,
         choices = listOf(
             CompletionChoice(
-                text = response,
-                index = 0,
-                finishReason = doneReason ?: ""
+                text = response, index = 0, finishReason = doneReason ?: ""
             )
         ),
         usage = Usage(
             promptTokens = promptEvalCount,
             completionTokens = evalCount,
-            totalTokens = evalCount?.let { promptEvalCount?.plus(it) }
-        )
-    )
+            totalTokens = evalCount?.let { promptEvalCount?.plus(it) ?: it } ?: 0,
+        ))
 }

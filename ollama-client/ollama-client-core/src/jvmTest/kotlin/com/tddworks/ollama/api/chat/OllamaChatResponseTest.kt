@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class OllamaChatResponseTest {
+
     @Test
     fun `should decode response to non-streaming OllamaChatResponse`() {
         val response = """
