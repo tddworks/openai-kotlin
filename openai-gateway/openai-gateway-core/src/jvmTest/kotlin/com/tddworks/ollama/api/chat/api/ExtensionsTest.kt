@@ -24,11 +24,9 @@ class ExtensionsTest {
             maxTokens = 10,
             temperature = 0.5,
             stream = false,
+            stop = "<EOT>",
             streamOptions = mapOf(
-                "raw" to true,
-                "temperature" to 0.5,
-                "stop" to arrayOf("<EOT>"),
-                "num_predict" to 100
+                "raw" to true
             )
         )
 
@@ -42,7 +40,7 @@ class ExtensionsTest {
         with(ollamaGenerateRequest.options) {
             assertNotNull(this)
             assertEquals(0.5, this?.get("temperature"))
-            assertEquals(100, this?.get("num_predict"))
+            assertEquals(10, this?.get("num_predict"))
             assertEquals("<EOT>", (this?.get("stop") as Array<*>)[0])
         }
     }

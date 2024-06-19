@@ -4,8 +4,7 @@ import app.cash.turbine.test
 import com.tddworks.anthropic.api.messages.api.*
 import com.tddworks.anthropic.api.mockHttpClient
 import com.tddworks.common.network.api.ktor.internal.DefaultHttpRequester
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -15,7 +14,6 @@ import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.junit5.KoinTestExtension
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class DefaultMessagesApiTest : KoinTest {
     @JvmField
     @RegisterExtension
@@ -23,7 +21,7 @@ class DefaultMessagesApiTest : KoinTest {
     // launch coroutine eagerly
     // same scheduling behavior as would have in a real app/production
     val testKoinCoroutineExtension =
-        TestKoinCoroutineExtension(UnconfinedTestDispatcher())
+        TestKoinCoroutineExtension(StandardTestDispatcher())
 
     @JvmField
     @RegisterExtension

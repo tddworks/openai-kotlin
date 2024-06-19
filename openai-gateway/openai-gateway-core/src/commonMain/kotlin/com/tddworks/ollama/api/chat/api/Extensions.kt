@@ -1,5 +1,6 @@
 package com.tddworks.ollama.api.chat.api
 
+import com.tddworks.common.network.api.ktor.api.AnySerial
 import com.tddworks.ollama.api.chat.OllamaChatMessage
 import com.tddworks.ollama.api.chat.OllamaChatRequest
 import com.tddworks.ollama.api.chat.OllamaChatResponse
@@ -86,17 +87,29 @@ fun ChatCompletionRequest.toOllamaChatRequest(): OllamaChatRequest {
     )
 }
 
+/**
+ * Convert CompletionRequest to OllamaGenerateRequest
+ */
 @OptIn(ExperimentalSerializationApi::class)
 fun CompletionRequest.toOllamaGenerateRequest(): OllamaGenerateRequest {
+
+    val options = mutableMapOf<String, AnySerial>()
+    temperature?.let { options["temperature"] = it }
+    maxTokens?.let { options["num_predict"] = it }
+    stop?.let { options["stop"] = it.split(",").toTypedArray() }
     return OllamaGenerateRequest(
         model = model.value,
         prompt = prompt,
         stream = stream ?: false,
+        // Looks only here can adapt the raw option
         raw = (streamOptions?.get("raw") ?: false) as Boolean,
-        options = streamOptions?.filter { it.key != "raw" }
+        options = options
     )
 }
 
+/**
+ * Convert OllamaGenerateResponse to OpenAI Completion
+ */
 fun OllamaGenerateResponse.toOpenAICompletion(): Completion {
     return Completion(
         id = createdAt,
