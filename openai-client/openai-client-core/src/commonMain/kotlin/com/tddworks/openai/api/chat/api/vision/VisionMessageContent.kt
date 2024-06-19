@@ -3,10 +3,6 @@
 package com.tddworks.openai.api.chat.api.vision
 
 import kotlinx.serialization.*
-import kotlinx.serialization.json.JsonContentPolymorphicSerializer
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
 import kotlin.jvm.JvmInline
 
 @Serializable(with = VisionMessageContentSerializer::class)
@@ -53,21 +49,8 @@ sealed interface VisionMessageContent {
     ) : VisionMessageContent
 }
 
-object VisionMessageContentSerializer :
-    JsonContentPolymorphicSerializer<VisionMessageContent>(VisionMessageContent::class) {
-    override fun selectDeserializer(element: JsonElement): KSerializer<out VisionMessageContent> {
-        val type = element.jsonObject["type"]?.jsonPrimitive?.content
-
-        return when (type) {
-            ContentType.TEXT.value -> VisionMessageContent.TextContent.serializer()
-            ContentType.IMAGE.value -> VisionMessageContent.ImageContent.serializer()
-            else -> throw IllegalArgumentException("Unknown type")
-        }
-    }
-}
-
 @Serializable
-class ImageUrl(
+data class ImageUrl(
     @SerialName("url")
     val value: String,
     @EncodeDefault(EncodeDefault.Mode.ALWAYS)
