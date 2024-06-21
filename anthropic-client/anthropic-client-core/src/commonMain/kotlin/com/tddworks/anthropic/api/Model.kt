@@ -5,8 +5,8 @@ import kotlin.jvm.JvmInline
 
 /**
  * https://docs.anthropic.com/claude/docs/models-overview
+ * https://docs.anthropic.com/en/docs/about-claude/models
  * Claude is a family of state-of-the-art large language models developed by Anthropic. Our models are designed to provide you with the best possible experience when interacting with AI, offering a range of capabilities and performance levels to suit your needs and make it easy to deploy high performing, safe, and steerable models. In this guide, we'll introduce you to our latest and greatest models, the Claude 3 family, as well as our legacy models, which are still available for those who need them.
- *
  */
 @Serializable
 @JvmInline
@@ -25,6 +25,14 @@ value class Model(val value: String) {
          * Cost (Input / Output per MTok^) $3.00 / $15.00
          */
         val CLAUDE_3_Sonnet = Model("claude-3-sonnet-20240229")
+
+        /**
+         * Most intelligent model
+         * The model costs $3 per million input tokens and $15 per million output tokens, with a 200K token context window.
+         * Cost (Input / Output per MTok^) $3.00 / $15.00
+         * Training data cut-off: Apr 2024
+         */
+        val CLAUDE_3_5_Sonnet = Model("claude-3-5-sonnet-20240620")
 
         /**
          * Fastest and most compact model for near-instant responsiveness
