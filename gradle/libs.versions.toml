@@ -3,7 +3,7 @@ agp = "8.1.0"
 kotlin = "2.0.0"
 
 ktor = "2.3.11"
-kotlinx-serialization = "1.7.0"
+kotlinx-serialization = "1.7.1"
 kover = "0.8.1"
 kotlinx-coroutines = "1.8.1"
 
@@ -24,9 +24,9 @@ gradle-kotlinter = "4.2.0"
 koin-core = "3.5.6"
 
 # plugins
-touchlab-skie = "0.8.0"
+touchlab-skie = "0.8.2"
 
-touchlab-kmmbridge = "0.5.5"
+touchlab-kmmbridge = "0.5.3"
 
 com-linecorp-build-recipe-plugin = "1.1.1"
 
