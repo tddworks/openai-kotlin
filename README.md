@@ -1,5 +1,8 @@
 ![CI](https://github.com/tddworks/openai-kotlin/actions/workflows/main.yml/badge.svg)
 [![codecov](https://codecov.io/gh/tddworks/openai-kotlin/graph/badge.svg?token=ZHqC4RjnCf)](https://codecov.io/gh/tddworks/openai-kotlin)
+[![Kotlin](https://img.shields.io/badge/kotlin-2.0.0-blue.svg?logo=kotlin)](http://kotlinlang.org)
+[![Maven Central](https://img.shields.io/maven-central/v/com.tddworks/openai-client-core/0.2.1)](https://central.sonatype.com/artifact/com.tddworks/openai-client-jvm)
+
 
 # openai-kotlin powered by kotlin multiplatform
 
@@ -10,7 +13,7 @@ To get started, simply add the following dependency to your Kotlin project:
 **OpenAI API**
 
 ```kotlin
-implementation("com.tddworks:openai-client-jvm:0.2")
+implementation("com.tddworks:openai-client-jvm:0.2.1")
 ```
 **Then, configure the OpenAI with your API keys and settings:**
  - Default values are provided for the baseUrl, but you can override them with your own values.
@@ -65,7 +68,7 @@ val completion = openAI.completions(
 **OpenAI Gateway**
 
 ```kotlin
-implementation("com.tddworks:openai-gateway-jvm:0.2")
+implementation("com.tddworks:openai-gateway-jvm:0.2.1")
 ```
 
 **Then, configure the OpenAIGateway with your API keys and settings:**
