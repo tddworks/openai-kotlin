@@ -36,3 +36,11 @@ class DefaultOpenAIProvider(
         return openAI.completions(request)
     }
 }
+
+fun OpenAIProvider.Companion.openAI(
+    config: OpenAIConfig,
+    models: List<Model>,
+    openAI: OpenAI = OpenAI.create(config)
+): OpenAIProvider {
+    return DefaultOpenAIProvider(config, models, openAI)
+}

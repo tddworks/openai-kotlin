@@ -1,6 +1,5 @@
 package com.tddworks.openai.gateway.api.internal
 
-import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
@@ -19,7 +18,6 @@ import kotlinx.serialization.ExperimentalSerializationApi
 @ExperimentalSerializationApi
 class DefaultOpenAIGateway(
     providers: List<OpenAIProvider>,
-    private val openAI: OpenAI,
 ) : OpenAIGateway {
     private val availableProviders: MutableList<OpenAIProvider> =
         providers.toMutableList()
@@ -40,9 +38,9 @@ class DefaultOpenAIGateway(
      * @return A ChatCompletion object containing the completions for the provided request.
      */
     override suspend fun chatCompletions(request: ChatCompletionRequest): ChatCompletion {
-        return availableProviders.firstOrNull {
-            it.supports(request.model)
-        }?.chatCompletions(request) ?: openAI.chatCompletions(request)
+        return availableProviders.firstOrNull { it.supports(request.model) }
+            ?.chatCompletions(request)
+            ?: throwNoProviderFound(request.model.value)
     }
 
     /**
@@ -55,7 +53,8 @@ class DefaultOpenAIGateway(
     override fun streamChatCompletions(request: ChatCompletionRequest): Flow<ChatCompletionChunk> {
         return availableProviders.firstOrNull {
             it.supports(request.model)
-        }?.streamChatCompletions(request) ?: openAI.streamChatCompletions(request)
+        }?.streamChatCompletions(request)
+            ?: throwNoProviderFound(request.model.value)
     }
 
     /**
@@ -67,6 +66,12 @@ class DefaultOpenAIGateway(
     override suspend fun completions(request: CompletionRequest): Completion {
         return availableProviders.firstOrNull {
             it.supports(request.model)
-        }?.completions(request) ?: openAI.completions(request)
+        }?.completions(request)
+            ?: throwNoProviderFound(request.model.value)
+    }
+
+
+    private fun throwNoProviderFound(model: String): Nothing {
+        throw UnsupportedOperationException("No provider found for model $model")
     }
 }

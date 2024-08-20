@@ -10,6 +10,7 @@ import com.tddworks.openai.di.openAIModules
 import com.tddworks.openai.gateway.api.AnthropicOpenAIProvider
 import com.tddworks.openai.gateway.api.OllamaOpenAIProvider
 import com.tddworks.openai.gateway.api.OpenAIGateway
+import com.tddworks.openai.gateway.api.OpenAIProvider
 import com.tddworks.openai.gateway.api.internal.DefaultOpenAIGateway
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.koin.core.context.startKoin
@@ -33,6 +34,22 @@ fun initOpenAIGateway(
     )
 }.koin.get<OpenAIGateway>()
 
+
+@ExperimentalSerializationApi
+fun createOpenAIGateway(providers: List<OpenAIProvider>) = startKoin {
+    modules(
+        commonModule(false) +
+                openAIGatewayModules(providers)
+    )
+}.koin.get<OpenAIGateway>()
+
+
+@OptIn(ExperimentalSerializationApi::class)
+fun openAIGatewayModules(providers: List<OpenAIProvider>) = module {
+    single { providers }
+    single<OpenAIGateway> { DefaultOpenAIGateway(get()) }
+}
+
 @ExperimentalSerializationApi
 fun openAIGatewayModules() = module {
     single<AnthropicOpenAIProvider> { AnthropicOpenAIProvider(get()) }
@@ -45,5 +62,5 @@ fun openAIGatewayModules() = module {
         )
     }
 
-    single<OpenAIGateway> { DefaultOpenAIGateway(get(), get()) }
+    single<OpenAIGateway> { DefaultOpenAIGateway(get()) }
 }

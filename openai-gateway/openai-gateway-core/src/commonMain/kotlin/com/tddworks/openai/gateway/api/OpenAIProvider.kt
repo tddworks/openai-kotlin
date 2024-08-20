@@ -15,4 +15,6 @@ interface OpenAIProvider : Chat, Completions {
      * @return true if the model is supported, false otherwise
      */
     fun supports(model: Model): Boolean
+
+    companion object
 }
