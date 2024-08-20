@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import kotlin.test.assertEquals
@@ -34,11 +35,8 @@ class DefaultOpenAIGatewayTest {
         ollama
     )
 
-    private val openAI: OpenAI = mock()
-
     private val openAIGateway = DefaultOpenAIGateway(
         providers,
-        openAI = openAI
     )
 
     @Test
@@ -49,7 +47,6 @@ class DefaultOpenAIGatewayTest {
         // When
         val gateway = DefaultOpenAIGateway(
             providers,
-            openAI = openAI
         ).run {
             addProvider(provider)
         }
@@ -95,23 +92,14 @@ class DefaultOpenAIGatewayTest {
     }
 
     @Test
-    fun `should use openai client to get stream completions`() = runTest {
+    fun `should get exception No provider found when client use model not exist to get stream completions`() = runTest {
         // Given
         val model = Model.GPT_3_5_TURBO
         val request = ChatCompletionRequest.dummy(model)
 
-        val chatCompletionChunk = ChatCompletionChunk.dummy()
-        whenever(openAI.streamChatCompletions(request)).thenReturn(flow {
-            emit(chatCompletionChunk)
-        })
-
         // When
-        openAIGateway.streamChatCompletions(request).test {
-            // Then
-            assertEquals(
-                chatCompletionChunk, awaitItem()
-            )
-            awaitComplete()
+        assertThrows<UnsupportedOperationException> {
+            openAIGateway.streamChatCompletions(request)
         }
     }
 
@@ -135,39 +123,6 @@ class DefaultOpenAIGatewayTest {
             awaitComplete()
         }
     }
-
-    @Test
-    fun `should use openai client to get chat completions`() = runTest {
-        // Given
-        val model = Model.GPT_3_5_TURBO
-        val response = ChatCompletion.dummy()
-        val request = ChatCompletionRequest.dummy(model)
-        whenever(openAI.chatCompletions(request)).thenReturn(response)
-
-        // When
-        val r = openAIGateway.chatCompletions(request)
-        // Then
-        assertEquals(response, r)
-    }
-
-    @Test
-    fun `should use openai client to create completion`() = runTest {
-        // Given
-        val request = CompletionRequest(
-            prompt = "some-promt",
-            suffix = "some-suffix",
-        )
-
-        val completion = Completion.dummy()
-
-        whenever(openAI.completions(request)).thenReturn(completion)
-
-        // When
-        val r = openAIGateway.completions(request)
-        // Then
-        assertEquals(completion, r)
-    }
-
 
     @Test
     fun `should use anthropic client to get chat completions`() = runTest {

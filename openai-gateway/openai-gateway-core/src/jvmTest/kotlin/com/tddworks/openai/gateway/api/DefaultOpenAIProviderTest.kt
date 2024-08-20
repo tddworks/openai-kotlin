@@ -28,12 +28,12 @@ class DefaultOpenAIProviderTest {
     lateinit var client: OpenAI
 
 
-    private lateinit var provider: DefaultOpenAIProvider
+    private lateinit var provider: OpenAIProvider
 
     @BeforeEach
     fun setUp() {
         provider =
-            DefaultOpenAIProvider(OpenAIConfig(), listOf(Model.GPT_3_5_TURBO), client)
+            OpenAIProvider.openAI(OpenAIConfig(), listOf(Model.GPT_3_5_TURBO), client)
     }
 
     @Test
