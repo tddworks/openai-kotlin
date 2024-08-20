@@ -15,7 +15,11 @@ import com.tddworks.openai.api.chat.api.ChatCompletionChunk as OpenAIChatComplet
 import com.tddworks.openai.api.chat.api.Model as OpenAIModel
 
 @OptIn(ExperimentalSerializationApi::class)
-class AnthropicOpenAIProvider(private val client: Anthropic) : OpenAIProvider {
+class AnthropicOpenAIProvider(
+    private val client: Anthropic,
+    override val name: String = "Anthropic"
+) : OpenAIProvider {
+
     /**
      * Check if the given OpenAIModel is supported by the available models.
      * @param model The OpenAIModel to check for support.

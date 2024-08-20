@@ -8,6 +8,7 @@ import com.tddworks.openai.api.legacy.completions.api.Completions
  * Represents a provider for the OpenAI chat functionality.
  */
 interface OpenAIProvider : Chat, Completions {
+    val name: String
     /**
      * Determines if the provided model is supported or not.
      *

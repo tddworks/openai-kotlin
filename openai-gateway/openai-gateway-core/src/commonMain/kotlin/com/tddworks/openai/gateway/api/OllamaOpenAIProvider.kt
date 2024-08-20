@@ -14,7 +14,10 @@ import kotlinx.coroutines.flow.transform
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @OptIn(ExperimentalSerializationApi::class)
-class OllamaOpenAIProvider(private val client: Ollama) : OpenAIProvider {
+class OllamaOpenAIProvider(
+    private val client: Ollama,
+    override val name: String = "Ollama"
+) : OpenAIProvider {
     /**
      * Check if the given OpenAIModel is supported by the available models.
      * @param model The OpenAIModel to check for support.

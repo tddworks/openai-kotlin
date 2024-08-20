@@ -8,5 +8,6 @@ import com.tddworks.openai.api.legacy.completions.api.Completions
  */
 interface OpenAIGateway : Chat, Completions {
     fun addProvider(provider: OpenAIProvider): OpenAIGateway
+    fun removeProvider(name: String)
     fun getProviders(): List<OpenAIProvider>
 }

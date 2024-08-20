@@ -24,10 +24,12 @@ import com.tddworks.anthropic.api.Model as AnthropicModel
 class DefaultOpenAIGatewayTest {
     private val anthropic = mock<OpenAIProvider> {
         on(it.supports(Model(AnthropicModel.CLAUDE_3_HAIKU.value))).thenReturn(true)
+        on(it.name).thenReturn("Anthropic")
     }
 
     private val ollama = mock<OpenAIProvider> {
         on(it.supports(Model(OllamaModel.LLAMA2.value))).thenReturn(true)
+        on(it.name).thenReturn("Ollama")
     }
 
     private val providers: List<OpenAIProvider> = listOf(
@@ -38,6 +40,14 @@ class DefaultOpenAIGatewayTest {
     private val openAIGateway = DefaultOpenAIGateway(
         providers,
     )
+
+    @Test
+    fun `should able to remove provider`() {
+        openAIGateway.removeProvider(anthropic.name)
+        // Then
+        assertEquals(1, openAIGateway.getProviders().size)
+        assertEquals(ollama, openAIGateway.getProviders().last())
+    }
 
     @Test
     fun `should able to add new provider`() {
@@ -92,16 +102,17 @@ class DefaultOpenAIGatewayTest {
     }
 
     @Test
-    fun `should get exception No provider found when client use model not exist to get stream completions`() = runTest {
-        // Given
-        val model = Model.GPT_3_5_TURBO
-        val request = ChatCompletionRequest.dummy(model)
+    fun `should get exception No provider found when client use model not exist to get stream completions`() =
+        runTest {
+            // Given
+            val model = Model.GPT_3_5_TURBO
+            val request = ChatCompletionRequest.dummy(model)
 
-        // When
-        assertThrows<UnsupportedOperationException> {
-            openAIGateway.streamChatCompletions(request)
+            // When
+            assertThrows<UnsupportedOperationException> {
+                openAIGateway.streamChatCompletions(request)
+            }
         }
-    }
 
     @Test
     fun `should use anthropic client to get stream completions`() = runTest {

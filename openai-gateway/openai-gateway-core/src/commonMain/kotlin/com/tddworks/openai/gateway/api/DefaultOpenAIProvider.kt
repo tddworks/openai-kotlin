@@ -16,8 +16,10 @@ import kotlinx.serialization.ExperimentalSerializationApi
 class DefaultOpenAIProvider(
     config: OpenAIConfig,
     models: List<Model>,
-    private val openAI: OpenAI = OpenAI.create(config)
+    private val openAI: OpenAI = OpenAI.create(config),
+    override val name: String = "OpenAI"
 ) : OpenAIProvider {
+
     private val availableModels: MutableList<Model> = models.toMutableList()
 
     override fun supports(model: Model): Boolean {
