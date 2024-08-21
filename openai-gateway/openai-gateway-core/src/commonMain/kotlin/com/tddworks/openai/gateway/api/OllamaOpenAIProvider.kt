@@ -68,3 +68,17 @@ class OllamaOpenAIProvider(
         }
     }
 }
+
+fun OpenAIProvider.Companion.ollama(
+    config: OllamaOpenAIProviderConfig,
+    models: List<OpenAIModel> = OllamaModel.availableModels.map {
+        OpenAIModel(it.value)
+    },
+    client: Ollama = Ollama.create(
+        baseUrl = config.baseUrl,
+        port = config.port,
+        protocol = config.protocol
+    )
+): OpenAIProvider {
+    return OllamaOpenAIProvider(config = config, models = models, client = client)
+}

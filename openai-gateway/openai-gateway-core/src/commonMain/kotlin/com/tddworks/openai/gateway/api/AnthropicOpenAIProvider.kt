@@ -71,3 +71,17 @@ class AnthropicOpenAIProvider(
         throw UnsupportedOperationException("Not supported")
     }
 }
+
+fun OpenAIProvider.Companion.anthropic(
+    config: AnthropicOpenAIProviderConfig,
+    models: List<OpenAIModel> = AnthropicModel.availableModels.map {
+        OpenAIModel(it.value)
+    },
+    client: Anthropic = Anthropic.create(
+        apiKey = config.apiKey(),
+        apiURL = config.baseUrl(),
+        anthropicVersion = config.anthropicVersion()
+    )
+): OpenAIProvider {
+    return AnthropicOpenAIProvider(config = config, models = models, client = client)
+}

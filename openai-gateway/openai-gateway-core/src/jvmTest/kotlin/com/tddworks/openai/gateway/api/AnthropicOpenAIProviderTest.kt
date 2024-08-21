@@ -22,13 +22,13 @@ class AnthropicOpenAIProviderTest {
     private lateinit var client: Anthropic
     private lateinit var config: AnthropicOpenAIProviderConfig
 
-    private lateinit var provider: AnthropicOpenAIProvider
+    private lateinit var provider: OpenAIProvider
 
     @BeforeEach
     fun setUp() {
         client = mock()
         config = AnthropicOpenAIProviderConfig(apiKey = { "" })
-        provider = AnthropicOpenAIProvider(config = config, client = client)
+        provider = OpenAIProvider.anthropic(client = client, config = config)
     }
 
     @Test

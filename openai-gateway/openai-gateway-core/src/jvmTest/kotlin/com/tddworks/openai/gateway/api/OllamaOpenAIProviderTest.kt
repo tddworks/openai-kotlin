@@ -28,13 +28,13 @@ class OllamaOpenAIProviderTest {
     private lateinit var client: Ollama
     private lateinit var config: OllamaOpenAIProviderConfig
 
-    private lateinit var provider: OllamaOpenAIProvider
+    private lateinit var provider: OpenAIProvider
 
     @BeforeEach
     fun setUp() {
         client = mock()
         config = mock()
-        provider = OllamaOpenAIProvider(client = client, config = config)
+        provider = OpenAIProvider.ollama(client = client, config = config)
     }
 
     @Test
