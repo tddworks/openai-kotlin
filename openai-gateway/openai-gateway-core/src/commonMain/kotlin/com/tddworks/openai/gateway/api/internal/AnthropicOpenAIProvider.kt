@@ -4,6 +4,7 @@ import com.tddworks.anthropic.api.Anthropic
 import com.tddworks.anthropic.api.AnthropicModel
 import com.tddworks.anthropic.api.internal.create
 import com.tddworks.anthropic.api.messages.api.*
+import com.tddworks.di.getInstance
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
@@ -77,10 +78,12 @@ fun OpenAIProvider.Companion.anthropic(
     models: List<OpenAIModel> = AnthropicModel.availableModels.map {
         OpenAIModel(it.value)
     },
+    messages: Messages = getInstance(),
     client: Anthropic = Anthropic.create(
         apiKey = config.apiKey(),
         apiURL = config.baseUrl(),
-        anthropicVersion = config.anthropicVersion()
+        anthropicVersion = config.anthropicVersion(),
+        messages = messages
     )
 ): OpenAIProvider {
     return AnthropicOpenAIProvider(config = config, models = models, client = client)

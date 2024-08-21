@@ -1,12 +1,10 @@
 package com.tddworks.openai.gateway.api
 
 import app.cash.turbine.test
-import com.tddworks.anthropic.api.AnthropicConfig
 import com.tddworks.anthropic.api.AnthropicModel
-import com.tddworks.ollama.api.OllamaConfig
 import com.tddworks.ollama.api.OllamaModel
-import com.tddworks.openai.api.OpenAIConfig
 import com.tddworks.openai.api.chat.api.ChatMessage
+import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.gateway.api.internal.anthropic
 import com.tddworks.openai.gateway.api.internal.default
 import com.tddworks.openai.gateway.api.internal.ollama
@@ -20,7 +18,6 @@ import org.koin.test.junit5.AutoCloseKoinTest
 import kotlin.test.assertNotNull
 import kotlin.time.Duration.Companion.seconds
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest as OpenAIChatCompletionRequest
-import com.tddworks.openai.api.chat.api.OpenAIModel as OpenAIModel
 
 /**
  * Integration test for the OpenAI Gateway.
