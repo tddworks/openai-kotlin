@@ -1,12 +1,10 @@
 package com.tddworks.openai.gateway.api
 
-import com.tddworks.anthropic.api.AnthropicConfig
-import com.tddworks.ollama.api.OllamaConfig
 import com.tddworks.openai.api.OpenAI
-import com.tddworks.openai.api.OpenAIConfig
-import com.tddworks.openai.di.initOpenAI
+import com.tddworks.openai.gateway.api.internal.anthropic
+import com.tddworks.openai.gateway.api.internal.default
+import com.tddworks.openai.gateway.api.internal.ollama
 import com.tddworks.openai.gateway.di.initOpenAIGateway
-
 
 /**
  * An object for initializing and configuring the OpenAI Gateway.
@@ -37,16 +35,16 @@ object DarwinOpenAIGateway {
         ollamaPort: () -> Int = { 8080 },
         ollamaProtocol: () -> String = { "http" },
     ) = initOpenAIGateway(
-        openAIConfig = OpenAIConfig(
+        openAIConfig = OpenAIProviderConfig.default(
             baseUrl = openAIBaseUrl,
             apiKey = openAIKey
         ),
-        anthropicConfig = AnthropicConfig(
+        anthropicConfig = OpenAIProviderConfig.anthropic(
             baseUrl = anthropicBaseUrl,
             apiKey = anthropicKey,
             anthropicVersion = anthropicVersion
         ),
-        ollamaConfig = OllamaConfig(
+        ollamaConfig = OpenAIProviderConfig.ollama(
             baseUrl = ollamaBaseUrl,
             port = ollamaPort,
             protocol = ollamaProtocol
