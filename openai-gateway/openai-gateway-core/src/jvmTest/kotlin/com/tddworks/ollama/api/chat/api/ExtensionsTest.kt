@@ -7,7 +7,7 @@ import com.tddworks.ollama.api.chat.OllamaChatResponse
 import com.tddworks.ollama.api.generate.OllamaGenerateResponse
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.ChatMessage
-import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.chat.api.Role
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import com.tddworks.openai.api.legacy.completions.api.Usage
@@ -21,7 +21,7 @@ class ExtensionsTest {
     @Test
     fun `should convert CompletionRequest to OllamaGenerateRequest with required fields`() {
         val completionRequest = CompletionRequest(
-            model = Model(OllamaModel.CODE_LLAMA.value),
+            model = OpenAIModel(OllamaModel.CODE_LLAMA.value),
             prompt = "Once upon a time",
         )
 
@@ -38,7 +38,7 @@ class ExtensionsTest {
     @Test
     fun `should convert CompletionRequest to OllamaGenerateRequest with all fields`() {
         val completionRequest = CompletionRequest(
-            model = Model(OllamaModel.CODE_LLAMA.value),
+            model = OpenAIModel(OllamaModel.CODE_LLAMA.value),
             prompt = "Once upon a time",
             suffix = "The end",
             maxTokens = 10,
@@ -169,7 +169,7 @@ class ExtensionsTest {
     @Test
     fun `should throw IllegalArgumentException when message not recognized`() {
         val chatCompletionRequest = ChatCompletionRequest(
-            model = Model(OllamaModel.LLAMA2.value),
+            openAIModel = OpenAIModel(OllamaModel.LLAMA2.value),
             messages = listOf(
                 ChatMessage.vision(emptyList())
             )
@@ -183,7 +183,7 @@ class ExtensionsTest {
     @Test
     fun `should throw IllegalArgumentException when role not recognized`() {
         val chatCompletionRequest = ChatCompletionRequest(
-            model = Model(OllamaModel.LLAMA2.value),
+            openAIModel = OpenAIModel(OllamaModel.LLAMA2.value),
             messages = listOf(
                 ChatMessage.UserMessage(
                     content = "Hello",
@@ -200,7 +200,7 @@ class ExtensionsTest {
     @Test
     fun `should convert ChatCompletionRequest to OllamaChatRequest`() {
         val chatCompletionRequest = ChatCompletionRequest(
-            model = Model(OllamaModel.LLAMA2.value),
+            openAIModel = OpenAIModel(OllamaModel.LLAMA2.value),
             messages = listOf(
                 ChatMessage.UserMessage("Hello"),
                 ChatMessage.AssistantMessage("Hi there"),

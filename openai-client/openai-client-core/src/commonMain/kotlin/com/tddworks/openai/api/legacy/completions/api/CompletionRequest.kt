@@ -1,7 +1,7 @@
 package com.tddworks.openai.api.legacy.completions.api
 
 import com.tddworks.common.network.api.ktor.api.AnySerial
-import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.chat.api.OpenAIModel
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
@@ -37,7 +37,7 @@ data class CompletionRequest(
      */
     @EncodeDefault(EncodeDefault.Mode.ALWAYS)
     @SerialName("model")
-    val model: Model = Model.GPT_3_5_TURBO_INSTRUCT,
+    val model: OpenAIModel = OpenAIModel.GPT_3_5_TURBO_INSTRUCT,
 
     /**
      * prompt
@@ -221,7 +221,7 @@ data class CompletionRequest(
     ) {
     companion object {
         fun asStream(
-            model: Model = Model.GPT_3_5_TURBO_INSTRUCT,
+            model: OpenAIModel = OpenAIModel.GPT_3_5_TURBO_INSTRUCT,
             prompt: String,
             bestOf: Int? = null,
             echo: Boolean? = null,

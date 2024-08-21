@@ -6,7 +6,7 @@ import com.tddworks.ollama.api.chat.api.*
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
-import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import kotlinx.coroutines.flow.Flow
@@ -20,11 +20,11 @@ class OllamaOpenAIProvider(
 ) : OpenAIProvider {
     /**
      * Check if the given OpenAIModel is supported by the available models.
-     * @param model The OpenAIModel to check for support.
+     * @param openAIModel The OpenAIModel to check for support.
      * @return true if the model is supported, false otherwise.
      */
-    override fun supports(model: Model): Boolean {
-        return OllamaModel.availableModels.any { it.value == model.value }
+    override fun supports(openAIModel: OpenAIModel): Boolean {
+        return OllamaModel.availableModels.any { it.value == openAIModel.value }
     }
 
     /**

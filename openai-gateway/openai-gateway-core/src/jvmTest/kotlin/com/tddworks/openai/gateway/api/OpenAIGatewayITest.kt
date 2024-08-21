@@ -17,7 +17,7 @@ import org.koin.test.junit5.AutoCloseKoinTest
 import kotlin.test.assertNotNull
 import kotlin.time.Duration.Companion.seconds
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest as OpenAIChatCompletionRequest
-import com.tddworks.openai.api.chat.api.Model as OpenAIModel
+import com.tddworks.openai.api.chat.api.OpenAIModel as OpenAIModel
 
 /**
  * Integration test for the OpenAI Gateway.
@@ -85,7 +85,7 @@ class OpenAIGatewayITest : AutoCloseKoinTest() {
             OpenAIChatCompletionRequest(
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 maxTokens = 1024,
-                model = OpenAIModel(Model.CLAUDE_3_HAIKU.value)
+                openAIModel = OpenAIModel(Model.CLAUDE_3_HAIKU.value)
             )
         ).test(timeout = 10.seconds) {
             assertNotNull(awaitItem())

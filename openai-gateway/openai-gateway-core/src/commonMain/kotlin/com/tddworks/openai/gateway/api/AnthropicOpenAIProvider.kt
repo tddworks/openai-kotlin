@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.transform
 import kotlinx.serialization.ExperimentalSerializationApi
 import com.tddworks.openai.api.chat.api.ChatCompletion as OpenAIChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk as OpenAIChatCompletionChunk
-import com.tddworks.openai.api.chat.api.Model as OpenAIModel
+import com.tddworks.openai.api.chat.api.OpenAIModel as OpenAIModel
 
 @OptIn(ExperimentalSerializationApi::class)
 class AnthropicOpenAIProvider(

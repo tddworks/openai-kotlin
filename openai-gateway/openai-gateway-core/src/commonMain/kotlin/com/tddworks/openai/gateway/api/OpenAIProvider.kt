@@ -1,7 +1,7 @@
 package com.tddworks.openai.gateway.api
 
 import com.tddworks.openai.api.chat.api.Chat
-import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.legacy.completions.api.Completions
 
 /**
@@ -15,7 +15,7 @@ interface OpenAIProvider : Chat, Completions {
      * @param model The model to check for support
      * @return true if the model is supported, false otherwise
      */
-    fun supports(model: Model): Boolean
+    fun supports(model: OpenAIModel): Boolean
 
     companion object
 }

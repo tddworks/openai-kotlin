@@ -7,7 +7,7 @@ import com.tddworks.openai.api.OpenAIConfig
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
-import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import kotlinx.coroutines.flow.Flow
@@ -15,14 +15,14 @@ import kotlinx.serialization.ExperimentalSerializationApi
 
 class DefaultOpenAIProvider(
     config: OpenAIConfig,
-    models: List<Model>,
+    models: List<OpenAIModel>,
     private val openAI: OpenAI = OpenAI.create(config),
     override val name: String = "OpenAI"
 ) : OpenAIProvider {
 
-    private val availableModels: MutableList<Model> = models.toMutableList()
+    private val availableModels: MutableList<OpenAIModel> = models.toMutableList()
 
-    override fun supports(model: Model): Boolean {
+    override fun supports(model: OpenAIModel): Boolean {
         return availableModels.any { it.value == model.value }
     }
 
@@ -41,7 +41,7 @@ class DefaultOpenAIProvider(
 
 fun OpenAIProvider.Companion.openAI(
     config: OpenAIConfig,
-    models: List<Model>,
+    models: List<OpenAIModel>,
     openAI: OpenAI = OpenAI.create(config)
 ): OpenAIProvider {
     return DefaultOpenAIProvider(config, models, openAI)

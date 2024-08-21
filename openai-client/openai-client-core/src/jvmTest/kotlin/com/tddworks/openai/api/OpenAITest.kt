@@ -2,7 +2,7 @@ package com.tddworks.openai.api
 
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.ChatMessage
-import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.chat.api.vision.ImageUrl
 import com.tddworks.openai.api.chat.api.vision.VisionMessageContent
 import com.tddworks.openai.api.images.api.ImageCreate
@@ -29,7 +29,7 @@ class OpenAITest {
         val response = openAI.generate(
             ImageCreate(
                 prompt = "A cute baby sea otter",
-                model = Model.DALL_E_3
+                model = OpenAIModel.DALL_E_3
             )
         )
         assertEquals(
@@ -121,7 +121,7 @@ class OpenAITest {
                         )
                     )
                 ),
-                model = Model.GPT4_VISION_PREVIEW
+                openAIModel = OpenAIModel.GPT4_VISION_PREVIEW
             )
         ).toList().first().content()
         assertEquals("", response)
@@ -145,7 +145,7 @@ class OpenAITest {
                         )
                     )
                 ),
-                model = Model.GPT4_VISION_PREVIEW
+                model = OpenAIModel.GPT4_VISION_PREVIEW
             )
         )
         assertEquals(

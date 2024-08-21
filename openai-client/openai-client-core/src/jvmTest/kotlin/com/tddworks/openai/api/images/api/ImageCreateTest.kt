@@ -1,6 +1,6 @@
 package com.tddworks.openai.api.images.api
 
-import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.common.prettyJson
 import kotlinx.serialization.encodeToString
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -23,7 +23,7 @@ class ImageCreateTest {
             size = null,
             style = null,
             quality = null,
-            model = Model.DALL_E_3,
+            model = OpenAIModel.DALL_E_3,
         )
 
         // When
@@ -49,7 +49,7 @@ class ImageCreateTest {
 
         val createImage = ImageCreate.create(
             prompt = "some prompt",
-            model = Model.DALL_E_3,
+            model = OpenAIModel.DALL_E_3,
             size = Size.size1024x1024,
             style = Style.vivid,
             quality = Quality.hd,

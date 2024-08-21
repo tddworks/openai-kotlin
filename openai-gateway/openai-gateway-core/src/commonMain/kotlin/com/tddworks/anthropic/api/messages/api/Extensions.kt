@@ -91,7 +91,7 @@ fun ChatCompletionRequest.toAnthropicStreamRequest(): CreateMessageRequest {
 @OptIn(ExperimentalSerializationApi::class)
 fun ChatCompletionRequest.toAnthropicRequest(stream: Boolean? = null): CreateMessageRequest {
     return CreateMessageRequest(
-        model = Model(model.value),
+        model = Model(openAIModel.value),
         messages = messages.map {
             Message(
                 content = when (it) {

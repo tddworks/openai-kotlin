@@ -17,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.whenever
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import com.tddworks.openai.api.chat.api.Model as OpenAIModel
+import com.tddworks.openai.api.chat.api.OpenAIModel as OpenAIModel
 
 @ExtendWith(MockitoExtension::class)
 class AnthropicOpenAIProviderTest {

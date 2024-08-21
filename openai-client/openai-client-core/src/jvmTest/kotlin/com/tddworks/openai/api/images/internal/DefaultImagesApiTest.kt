@@ -1,6 +1,6 @@
 package com.tddworks.openai.api.images.internal
 
-import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.common.mockHttpClient
 import com.tddworks.openai.api.images.api.ImageCreate
 import com.tddworks.common.network.api.ktor.internal.DefaultHttpRequester
@@ -20,7 +20,7 @@ class DefaultImagesApiTest {
     fun `should return generated images`() = runBlocking {
         val request = ImageCreate(
             prompt = "Hello! How can I assist you today?",
-            model = Model.DALL_E_3
+            model = OpenAIModel.DALL_E_3
         )
 
         val chat = DefaultImagesApi(

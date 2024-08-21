@@ -6,7 +6,7 @@ import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
-import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import com.tddworks.openai.gateway.api.internal.DefaultOpenAIGateway
@@ -23,12 +23,12 @@ import com.tddworks.anthropic.api.Model as AnthropicModel
 @OptIn(ExperimentalSerializationApi::class)
 class DefaultOpenAIGatewayTest {
     private val anthropic = mock<OpenAIProvider> {
-        on(it.supports(Model(AnthropicModel.CLAUDE_3_HAIKU.value))).thenReturn(true)
+        on(it.supports(OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value))).thenReturn(true)
         on(it.name).thenReturn("Anthropic")
     }
 
     private val ollama = mock<OpenAIProvider> {
-        on(it.supports(Model(OllamaModel.LLAMA2.value))).thenReturn(true)
+        on(it.supports(OpenAIModel(OllamaModel.LLAMA2.value))).thenReturn(true)
         on(it.name).thenReturn("Ollama")
     }
 
@@ -71,7 +71,7 @@ class DefaultOpenAIGatewayTest {
         // Given
         val model = OllamaModel.LLAMA2
         val response = ChatCompletion.dummy()
-        val request = ChatCompletionRequest.dummy(Model(model.value))
+        val request = ChatCompletionRequest.dummy(OpenAIModel(model.value))
         whenever(ollama.chatCompletions(request)).thenReturn(response)
 
         // When
@@ -84,7 +84,7 @@ class DefaultOpenAIGatewayTest {
     fun `should use ollama client to get stream completions`() = runTest {
         // Given
         val model = OllamaModel.LLAMA2
-        val request = ChatCompletionRequest.dummy(Model(model.value))
+        val request = ChatCompletionRequest.dummy(OpenAIModel(model.value))
 
         val chatCompletionChunk = ChatCompletionChunk.dummy()
         whenever(ollama.streamChatCompletions(request)).thenReturn(flow {
@@ -105,7 +105,7 @@ class DefaultOpenAIGatewayTest {
     fun `should get exception No provider found when client use model not exist to get stream completions`() =
         runTest {
             // Given
-            val model = Model.GPT_3_5_TURBO
+            val model = OpenAIModel.GPT_3_5_TURBO
             val request = ChatCompletionRequest.dummy(model)
 
             // When
@@ -118,7 +118,7 @@ class DefaultOpenAIGatewayTest {
     fun `should use anthropic client to get stream completions`() = runTest {
         // Given
         val model = AnthropicModel.CLAUDE_3_HAIKU
-        val request = ChatCompletionRequest.dummy(Model(model.value))
+        val request = ChatCompletionRequest.dummy(OpenAIModel(model.value))
 
         val chatCompletionChunk = ChatCompletionChunk.dummy()
         whenever(anthropic.streamChatCompletions(request)).thenReturn(flow {
@@ -140,7 +140,7 @@ class DefaultOpenAIGatewayTest {
         // Given
         val model = AnthropicModel.CLAUDE_3_HAIKU
         val response = ChatCompletion.dummy()
-        val request = ChatCompletionRequest.dummy(Model(model.value))
+        val request = ChatCompletionRequest.dummy(OpenAIModel(model.value))
         whenever(anthropic.chatCompletions(request)).thenReturn(response)
 
         // When

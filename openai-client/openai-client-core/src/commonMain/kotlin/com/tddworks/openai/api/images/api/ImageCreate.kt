@@ -1,6 +1,6 @@
 package com.tddworks.openai.api.images.api
 
-import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.chat.api.OpenAIModel
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -23,7 +23,7 @@ data class ImageCreate(
      * Defaults to dall-e-2
      */
     @SerialName("model")
-    val model: Model = Model.DALL_E_2,
+    val model: OpenAIModel = OpenAIModel.DALL_E_2,
 
     /**
      * The number of images to generate. Must be between 1 and 10. For dall-e-3, only n=1 is supported.
@@ -78,7 +78,7 @@ data class ImageCreate(
          */
         fun create(
             prompt: String,
-            model: Model = Model.DALL_E_3,
+            model: OpenAIModel = OpenAIModel.DALL_E_3,
         ): ImageCreate = ImageCreate(
             prompt = prompt,
             model = model
@@ -95,7 +95,7 @@ data class ImageCreate(
          */
         fun create(
             prompt: String,
-            model: Model,
+            model: OpenAIModel,
             size: Size? = null,
             style: Style? = null,
             quality: Quality? = null,

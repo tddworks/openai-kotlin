@@ -6,7 +6,7 @@ import kotlinx.serialization.*
  * Data class representing the settings for generating a chat completion.
  * @see [Chat documentation](https://beta.openai.com/docs/api-reference/chat)
  * @property messages The user's message.
- * @property model The GPT model to use for generating the chat completion. Default is GPT_3_5_TURBO.
+ * @property openAIModel The GPT model to use for generating the chat completion. Default is GPT_3_5_TURBO.
  */
 @Serializable
 @ExperimentalSerializationApi
@@ -46,7 +46,7 @@ data class ChatCompletionRequest(
      */
     @EncodeDefault(EncodeDefault.Mode.ALWAYS)
     @SerialName("model")
-    val model: Model = Model.GPT_3_5_TURBO,
+    val model: OpenAIModel = OpenAIModel.GPT_3_5_TURBO,
 
 
     /**
@@ -258,16 +258,16 @@ data class ChatCompletionRequest(
     companion object {
         fun chatCompletionRequest(
             messages: List<ChatMessage>,
-            model: Model = Model.GPT_3_5_TURBO,
+            openAIModel: OpenAIModel = OpenAIModel.GPT_3_5_TURBO,
         ): ChatCompletionRequest {
             return ChatCompletionRequest(
-                messages = messages, model = model
+                messages = messages, model = openAIModel
             )
         }
 
         fun chatCompletionsRequest(
             messages: List<ChatMessage>,
-            model: Model = Model.GPT_3_5_TURBO,
+            model: OpenAIModel = OpenAIModel.GPT_3_5_TURBO,
         ): ChatCompletionRequest {
             return ChatCompletionRequest(
                 messages = messages, model = model
@@ -286,7 +286,7 @@ data class ChatCompletionRequest(
             )
         }
 
-        fun from(question: String, model: Model): ChatCompletionRequest {
+        fun from(question: String, model: OpenAIModel): ChatCompletionRequest {
             return ChatCompletionRequest(
                 messages = listOf(ChatMessage.UserMessage(question)),
                 model = model,
@@ -298,7 +298,7 @@ data class ChatCompletionRequest(
          *
          * @return A ComplicationRequest object with a single dummy message.
          */
-        fun dummy(model: Model): ChatCompletionRequest {
+        fun dummy(model: OpenAIModel): ChatCompletionRequest {
             return ChatCompletionRequest(
                 listOf(ChatMessage.UserMessage("Hello! How can I assist you today?")),
                 model = model

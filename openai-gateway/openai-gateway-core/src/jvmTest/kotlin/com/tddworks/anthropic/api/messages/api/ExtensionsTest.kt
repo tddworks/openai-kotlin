@@ -4,7 +4,7 @@ import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.anthropic.api.Model
 import com.tddworks.openai.api.chat.api.ChatMessage
 import com.tddworks.openai.api.chat.api.Role.Companion.Assistant
-import com.tddworks.openai.api.chat.api.Model as OpenAIModel
+import com.tddworks.openai.api.chat.api.OpenAIModel as OpenAIModel
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -174,7 +174,7 @@ class ExtensionsTest {
         // Given
         val chatCompletionRequest = ChatCompletionRequest(
             listOf(ChatMessage.AssistantMessage("Hello! How can I assist you today?")),
-            model = OpenAIModel(Model.CLAUDE_3_HAIKU.value)
+            openAIModel = OpenAIModel(Model.CLAUDE_3_HAIKU.value)
         )
 
         // When

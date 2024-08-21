@@ -7,7 +7,7 @@ import com.tddworks.ollama.api.chat.OllamaChatResponse
 import com.tddworks.ollama.api.chat.api.*
 import com.tddworks.ollama.api.generate.OllamaGenerateResponse
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
-import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
@@ -70,7 +70,7 @@ class OllamaOpenAIProviderTest {
     @Test
     fun `should return true when model is supported`() {
         // given
-        val supportedModel = Model(OllamaModel.LLAMA2.value)
+        val supportedModel = OpenAIModel(OllamaModel.LLAMA2.value)
 
         // when
         val isSupported = provider.supports(supportedModel)
@@ -82,7 +82,7 @@ class OllamaOpenAIProviderTest {
     @Test
     fun `should return false when model is not supported`() {
         // given
-        val unsupportedModel = Model.GPT_3_5_TURBO
+        val unsupportedModel = OpenAIModel.GPT_3_5_TURBO
 
         // when
         val isSupported = provider.supports(unsupportedModel)
@@ -94,7 +94,7 @@ class OllamaOpenAIProviderTest {
     @Test
     fun `should fetch chat completions from OpenAI API`() = runTest {
         // given
-        val request = ChatCompletionRequest.dummy(Model(OllamaModel.LLAMA2.value))
+        val request = ChatCompletionRequest.dummy(OpenAIModel(OllamaModel.LLAMA2.value))
         val response = OllamaChatResponse.dummy()
         whenever(client.request(request.toOllamaChatRequest())).thenReturn(response)
 
@@ -108,7 +108,7 @@ class OllamaOpenAIProviderTest {
     @Test
     fun `should stream chat completions for chat`() = runTest {
         // given
-        val request = ChatCompletionRequest.dummy(Model(OllamaModel.LLAMA2.value))
+        val request = ChatCompletionRequest.dummy(OpenAIModel(OllamaModel.LLAMA2.value))
 
         val response = OllamaChatResponse.dummy()
         whenever(client.stream(request.toOllamaChatRequest())).thenReturn(flow {

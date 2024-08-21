@@ -3,7 +3,7 @@ package com.tddworks.openai.api
 import app.cash.turbine.test
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.ChatMessage
-import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.di.initOpenAI
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -34,7 +34,7 @@ class OpenAIITest : AutoCloseKoinTest() {
             ChatCompletionRequest(
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 maxTokens = 1024,
-                model = Model.GPT_3_5_TURBO
+                openAIModel = OpenAIModel.GPT_3_5_TURBO
             )
         ).test(timeout = 10.seconds) {
             assertNotNull(awaitItem())
@@ -49,7 +49,7 @@ class OpenAIITest : AutoCloseKoinTest() {
             ChatCompletionRequest(
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 maxTokens = 1024,
-                model = Model.GPT_3_5_TURBO
+                openAIModel = OpenAIModel.GPT_3_5_TURBO
             )
         )
         assertNotNull(response)

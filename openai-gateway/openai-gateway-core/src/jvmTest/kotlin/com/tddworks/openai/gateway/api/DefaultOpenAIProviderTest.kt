@@ -7,7 +7,7 @@ import com.tddworks.openai.api.OpenAIConfig
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
-import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import kotlinx.coroutines.flow.flow
@@ -33,7 +33,7 @@ class DefaultOpenAIProviderTest {
     @BeforeEach
     fun setUp() {
         provider =
-            OpenAIProvider.openAI(OpenAIConfig(), listOf(Model.GPT_3_5_TURBO), client)
+            OpenAIProvider.openAI(OpenAIConfig(), listOf(OpenAIModel.GPT_3_5_TURBO), client)
     }
 
     @Test
@@ -58,7 +58,7 @@ class DefaultOpenAIProviderTest {
     @Test
     fun `should return chat completions from OpenAI API`() = runTest {
         // given
-        val request = ChatCompletionRequest.dummy(Model(OllamaModel.LLAMA2.value))
+        val request = ChatCompletionRequest.dummy(OpenAIModel(OllamaModel.LLAMA2.value))
         val response = ChatCompletion.dummy()
         whenever(client.chatCompletions(request)).thenReturn(response)
 
@@ -72,7 +72,7 @@ class DefaultOpenAIProviderTest {
     @Test
     fun `should stream chat completions for chat`() = runTest {
         // given
-        val request = ChatCompletionRequest.dummy(Model(OllamaModel.LLAMA2.value))
+        val request = ChatCompletionRequest.dummy(OpenAIModel(OllamaModel.LLAMA2.value))
 
         val response = ChatCompletionChunk.dummy()
         whenever(client.streamChatCompletions(request)).thenReturn(flow {
@@ -97,7 +97,7 @@ class DefaultOpenAIProviderTest {
     fun `should return false when model is not supported`() {
         // Given
         val openAI = mock<OpenAI>()
-        val model = Model("gpt-3.5-turbo")
+        val model = OpenAIModel("gpt-3.5-turbo")
         val provider = DefaultOpenAIProvider(OpenAIConfig(), emptyList(), openAI)
 
         // When
@@ -111,7 +111,7 @@ class DefaultOpenAIProviderTest {
     fun `should return true when model is supported`() {
         // Given
         val openAI = mock<OpenAI>()
-        val model = Model("gpt-3.5-turbo")
+        val model = OpenAIModel("gpt-3.5-turbo")
         val provider = DefaultOpenAIProvider(OpenAIConfig(), listOf(model), openAI)
 
         // When

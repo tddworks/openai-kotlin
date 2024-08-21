@@ -42,9 +42,9 @@ class DefaultOpenAIGateway(
      * @return A ChatCompletion object containing the completions for the provided request.
      */
     override suspend fun chatCompletions(request: ChatCompletionRequest): ChatCompletion {
-        return availableProviders.firstOrNull { it.supports(request.model) }
+        return availableProviders.firstOrNull { it.supports(request.openAIModel) }
             ?.chatCompletions(request)
-            ?: throwNoProviderFound(request.model.value)
+            ?: throwNoProviderFound(request.openAIModel.value)
     }
 
     /**
