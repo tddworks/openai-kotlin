@@ -1,9 +1,8 @@
 @file:OptIn(ExperimentalSerializationApi::class)
 
-package com.tddworks.openai.gateway.api
+package com.tddworks.openai.gateway.api.internal
 
 import com.tddworks.openai.api.OpenAI
-import com.tddworks.openai.api.OpenAIConfig
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
@@ -11,7 +10,8 @@ import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.chat.api.OpenAIModel.Companion.availableModels
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
-import com.tddworks.openai.gateway.api.internal.toOpenAIConfig
+import com.tddworks.openai.gateway.api.OpenAIProvider
+import com.tddworks.openai.gateway.api.OpenAIProviderConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.ExperimentalSerializationApi
 

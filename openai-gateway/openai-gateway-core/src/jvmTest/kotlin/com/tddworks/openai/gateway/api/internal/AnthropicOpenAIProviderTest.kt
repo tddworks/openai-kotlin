@@ -1,4 +1,4 @@
-package com.tddworks.openai.gateway.api
+package com.tddworks.openai.gateway.api.internal
 
 import app.cash.turbine.test
 import com.tddworks.anthropic.api.Anthropic
@@ -7,7 +7,7 @@ import com.tddworks.anthropic.api.messages.api.*
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
-import com.tddworks.openai.gateway.api.internal.AnthropicOpenAIProviderConfig
+import com.tddworks.openai.gateway.api.OpenAIProvider
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals

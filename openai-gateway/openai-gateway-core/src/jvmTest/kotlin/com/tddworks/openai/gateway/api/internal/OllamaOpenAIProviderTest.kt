@@ -1,4 +1,4 @@
-package com.tddworks.openai.gateway.api
+package com.tddworks.openai.gateway.api.internal
 
 import app.cash.turbine.test
 import com.tddworks.ollama.api.Ollama
@@ -9,17 +9,13 @@ import com.tddworks.ollama.api.generate.OllamaGenerateResponse
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
-import com.tddworks.openai.gateway.api.internal.OllamaOpenAIProviderConfig
+import com.tddworks.openai.gateway.api.OpenAIProvider
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.InjectMocks
-import org.mockito.Mock
-import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 

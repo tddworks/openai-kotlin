@@ -2,11 +2,10 @@ package com.tddworks.openai.gateway.di
 
 import com.tddworks.anthropic.di.anthropicModules
 import com.tddworks.di.commonModule
-import com.tddworks.di.getInstance
 import com.tddworks.ollama.di.ollamaModules
 import com.tddworks.openai.di.openAIModules
-import com.tddworks.openai.gateway.api.AnthropicOpenAIProvider
-import com.tddworks.openai.gateway.api.OllamaOpenAIProvider
+import com.tddworks.openai.gateway.api.internal.AnthropicOpenAIProvider
+import com.tddworks.openai.gateway.api.internal.OllamaOpenAIProvider
 import com.tddworks.openai.gateway.api.OpenAIGateway
 import com.tddworks.openai.gateway.api.OpenAIProvider
 import com.tddworks.openai.gateway.api.internal.*

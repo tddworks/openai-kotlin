@@ -1,4 +1,4 @@
-package com.tddworks.openai.gateway.api
+package com.tddworks.openai.gateway.api.internal
 
 import app.cash.turbine.test
 import com.tddworks.ollama.api.OllamaModel
@@ -6,7 +6,7 @@ import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.OpenAIModel
-import com.tddworks.openai.gateway.api.internal.DefaultOpenAIGateway
+import com.tddworks.openai.gateway.api.OpenAIProvider
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.ExperimentalSerializationApi

@@ -1,4 +1,4 @@
-package com.tddworks.openai.gateway.api
+package com.tddworks.openai.gateway.api.internal
 
 import com.tddworks.ollama.api.Ollama
 import com.tddworks.ollama.api.OllamaModel
@@ -10,7 +10,7 @@ import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
-import com.tddworks.openai.gateway.api.internal.OllamaOpenAIProviderConfig
+import com.tddworks.openai.gateway.api.OpenAIProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
 import kotlinx.serialization.ExperimentalSerializationApi

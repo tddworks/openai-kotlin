@@ -1,4 +1,4 @@
-package com.tddworks.openai.gateway.api
+package com.tddworks.openai.gateway.api.internal
 
 import com.tddworks.anthropic.api.Anthropic
 import com.tddworks.anthropic.api.AnthropicModel
@@ -7,7 +7,7 @@ import com.tddworks.anthropic.api.messages.api.*
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
-import com.tddworks.openai.gateway.api.internal.AnthropicOpenAIProviderConfig
+import com.tddworks.openai.gateway.api.OpenAIProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.transform
