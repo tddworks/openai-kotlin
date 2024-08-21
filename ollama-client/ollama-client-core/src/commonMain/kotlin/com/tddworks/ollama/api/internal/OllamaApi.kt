@@ -24,3 +24,27 @@ class OllamaApi(
     }
 
 }
+
+fun Ollama(
+    baseUrl: () -> String = { Ollama.BASE_URL },
+    port: () -> Int = { Ollama.PORT },
+    protocol: () -> String = { Ollama.PROTOCOL },
+): Ollama {
+    return OllamaApi(
+        baseUrl = baseUrl(),
+        port = port(),
+        protocol = protocol()
+    )
+}
+
+fun Ollama.Companion.create(
+    baseUrl: () -> String = { BASE_URL },
+    port: () -> Int = { PORT },
+    protocol: () -> String = { PROTOCOL },
+): Ollama {
+    return OllamaApi(
+        baseUrl = baseUrl(),
+        port = port(),
+        protocol = protocol()
+    )
+}

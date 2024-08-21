@@ -1,8 +1,8 @@
 package com.tddworks.openai.gateway.di
 
-import com.tddworks.anthropic.api.AnthropicConfig
-import com.tddworks.ollama.api.OllamaConfig
-import com.tddworks.openai.api.OpenAIConfig
+import com.tddworks.openai.gateway.api.internal.AnthropicOpenAIProviderConfig
+import com.tddworks.openai.gateway.api.internal.DefaultOpenAIProviderConfig
+import com.tddworks.openai.gateway.api.internal.OllamaOpenAIProviderConfig
 import org.junit.jupiter.api.Test
 import org.koin.dsl.koinApplication
 import org.koin.test.KoinTest
@@ -12,9 +12,9 @@ class OpenAIGatewayKoinTest : KoinTest {
 
     @Test
     fun `should initialize OpenAI Gateway Koin modules`() {
-        val openAIConfig = OpenAIConfig()
-        val anthropicConfig = AnthropicConfig()
-        val ollamaConfig = OllamaConfig()
+        val openAIConfig = DefaultOpenAIProviderConfig(apiKey = { "" })
+        val anthropicConfig = AnthropicOpenAIProviderConfig(apiKey = { "" })
+        val ollamaConfig = OllamaOpenAIProviderConfig()
 
         koinApplication {
             initOpenAIGateway(openAIConfig, anthropicConfig, ollamaConfig)

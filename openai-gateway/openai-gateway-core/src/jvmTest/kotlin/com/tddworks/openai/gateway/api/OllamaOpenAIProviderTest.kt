@@ -9,6 +9,7 @@ import com.tddworks.ollama.api.generate.OllamaGenerateResponse
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
+import com.tddworks.openai.gateway.api.internal.OllamaOpenAIProviderConfig
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -25,13 +26,15 @@ import org.mockito.kotlin.whenever
 @ExperimentalSerializationApi
 class OllamaOpenAIProviderTest {
     private lateinit var client: Ollama
+    private lateinit var config: OllamaOpenAIProviderConfig
 
     private lateinit var provider: OllamaOpenAIProvider
 
     @BeforeEach
     fun setUp() {
         client = mock()
-        provider = OllamaOpenAIProvider(client)
+        config = mock()
+        provider = OllamaOpenAIProvider(client = client, config = config)
     }
 
     @Test

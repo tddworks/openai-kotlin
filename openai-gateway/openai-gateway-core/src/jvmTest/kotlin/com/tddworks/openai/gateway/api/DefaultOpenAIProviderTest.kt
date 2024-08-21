@@ -3,13 +3,13 @@ package com.tddworks.openai.gateway.api
 import app.cash.turbine.test
 import com.tddworks.ollama.api.OllamaModel
 import com.tddworks.openai.api.OpenAI
-import com.tddworks.openai.api.OpenAIConfig
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
+import com.tddworks.openai.gateway.api.internal.default
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -34,7 +34,9 @@ class DefaultOpenAIProviderTest {
     fun setUp() {
         provider =
             OpenAIProvider.openAI(
-                OpenAIConfig(),
+                OpenAIProviderConfig.default(
+                    apiKey = { "" },
+                ),
                 listOf(OpenAIModel.GPT_3_5_TURBO),
                 client
             )
@@ -103,7 +105,9 @@ class DefaultOpenAIProviderTest {
         val openAI = mock<OpenAI>()
         val model = OpenAIModel("gpt-3.5-turbo")
         val provider = DefaultOpenAIProvider(
-            config = OpenAIConfig(),
+            config = OpenAIProviderConfig.default(
+                apiKey = { "" },
+            ),
             models = emptyList(),
             openAI = openAI
         )
@@ -121,7 +125,9 @@ class DefaultOpenAIProviderTest {
         val openAI = mock<OpenAI>()
         val model = OpenAIModel("gpt-3.5-turbo")
         val provider = DefaultOpenAIProvider(
-            config = OpenAIConfig(),
+            config = OpenAIProviderConfig.default(
+                apiKey = { "" },
+            ),
             models = listOf(model), openAI = openAI
         )
 

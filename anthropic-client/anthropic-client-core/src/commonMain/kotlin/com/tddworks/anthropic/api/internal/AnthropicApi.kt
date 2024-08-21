@@ -45,3 +45,15 @@ class AnthropicApi(
     }
 
 }
+
+fun Anthropic.Companion.create(
+    apiKey: String,
+    apiURL: String,
+    anthropicVersion: String,
+): Anthropic {
+    return AnthropicApi(
+        apiKey = apiKey,
+        apiURL = apiURL,
+        anthropicVersion = anthropicVersion
+    )
+}

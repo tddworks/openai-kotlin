@@ -3,23 +3,30 @@ package com.tddworks.openai.gateway.api
 import com.tddworks.ollama.api.Ollama
 import com.tddworks.ollama.api.OllamaModel
 import com.tddworks.ollama.api.chat.api.*
+import com.tddworks.ollama.api.internal.create
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
+import com.tddworks.openai.gateway.api.internal.OllamaOpenAIProviderConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @OptIn(ExperimentalSerializationApi::class)
 class OllamaOpenAIProvider(
-    private val client: Ollama,
     override val name: String = "Ollama",
+    override val config: OllamaOpenAIProviderConfig,
     override val models: List<OpenAIModel> = OllamaModel.availableModels.map {
         OpenAIModel(it.value)
-    }
+    },
+    private val client: Ollama = Ollama.create(
+        baseUrl = config.baseUrl,
+        port = config.port,
+        protocol = config.protocol
+    )
 ) : OpenAIProvider {
     /**
      * Check if the given OpenAIModel is supported by the available models.

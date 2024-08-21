@@ -7,6 +7,7 @@ import com.tddworks.anthropic.api.messages.api.*
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
+import com.tddworks.openai.gateway.api.internal.AnthropicOpenAIProviderConfig
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -19,13 +20,15 @@ import kotlin.test.assertTrue
 
 class AnthropicOpenAIProviderTest {
     private lateinit var client: Anthropic
+    private lateinit var config: AnthropicOpenAIProviderConfig
 
     private lateinit var provider: AnthropicOpenAIProvider
 
     @BeforeEach
     fun setUp() {
         client = mock()
-        provider = AnthropicOpenAIProvider(client)
+        config = AnthropicOpenAIProviderConfig(apiKey = { "" })
+        provider = AnthropicOpenAIProvider(config = config, client = client)
     }
 
     @Test

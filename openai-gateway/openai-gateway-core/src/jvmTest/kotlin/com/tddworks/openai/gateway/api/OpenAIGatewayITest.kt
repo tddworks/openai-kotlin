@@ -7,6 +7,9 @@ import com.tddworks.ollama.api.OllamaConfig
 import com.tddworks.ollama.api.OllamaModel
 import com.tddworks.openai.api.OpenAIConfig
 import com.tddworks.openai.api.chat.api.ChatMessage
+import com.tddworks.openai.gateway.api.internal.anthropic
+import com.tddworks.openai.gateway.api.internal.default
+import com.tddworks.openai.gateway.api.internal.ollama
 import com.tddworks.openai.gateway.di.initOpenAIGateway
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -33,16 +36,16 @@ class OpenAIGatewayITest : AutoCloseKoinTest() {
     @BeforeEach
     fun setUp() {
         gateway = initOpenAIGateway(
-            openAIConfig = OpenAIConfig(
+            openAIConfig = OpenAIProviderConfig.default(
                 baseUrl = { "api.openai.com" },
                 apiKey = { System.getenv("OPENAI_API_KEY") ?: "CONFIGURE_ME" }
             ),
-            anthropicConfig = AnthropicConfig(
+            anthropicConfig = OpenAIProviderConfig.anthropic(
                 baseUrl = { "api.anthropic.com" },
                 apiKey = { System.getenv("ANTHROPIC_API_KEY") ?: "CONFIGURE_ME" },
                 anthropicVersion = { "2023-06-01" }
             ),
-            ollamaConfig = OllamaConfig()
+            ollamaConfig = OpenAIProviderConfig.ollama()
         )
     }
 

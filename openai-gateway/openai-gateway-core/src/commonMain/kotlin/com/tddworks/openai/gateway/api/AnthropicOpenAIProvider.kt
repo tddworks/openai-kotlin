@@ -2,10 +2,12 @@ package com.tddworks.openai.gateway.api
 
 import com.tddworks.anthropic.api.Anthropic
 import com.tddworks.anthropic.api.AnthropicModel
+import com.tddworks.anthropic.api.internal.create
 import com.tddworks.anthropic.api.messages.api.*
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
+import com.tddworks.openai.gateway.api.internal.AnthropicOpenAIProviderConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.transform
@@ -16,11 +18,18 @@ import com.tddworks.openai.api.chat.api.OpenAIModel as OpenAIModel
 
 @OptIn(ExperimentalSerializationApi::class)
 class AnthropicOpenAIProvider(
-    private val client: Anthropic,
     override val name: String = "Anthropic",
     override val models: List<OpenAIModel> = AnthropicModel.availableModels.map {
         OpenAIModel(it.value)
-    }
+    },
+    override val config: AnthropicOpenAIProviderConfig,
+
+    private val client: Anthropic = Anthropic.create(
+        apiKey = config.apiKey(),
+        apiURL = config.baseUrl(),
+        anthropicVersion = config.anthropicVersion()
+    )
+
 ) : OpenAIProvider {
 
     /**
