@@ -174,7 +174,7 @@ class ExtensionsTest {
         // Given
         val chatCompletionRequest = ChatCompletionRequest(
             listOf(ChatMessage.AssistantMessage("Hello! How can I assist you today?")),
-            openAIModel = OpenAIModel(Model.CLAUDE_3_HAIKU.value)
+            model = OpenAIModel(Model.CLAUDE_3_HAIKU.value)
         )
 
         // When

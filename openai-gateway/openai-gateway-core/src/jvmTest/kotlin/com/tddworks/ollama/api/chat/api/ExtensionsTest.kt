@@ -169,7 +169,7 @@ class ExtensionsTest {
     @Test
     fun `should throw IllegalArgumentException when message not recognized`() {
         val chatCompletionRequest = ChatCompletionRequest(
-            openAIModel = OpenAIModel(OllamaModel.LLAMA2.value),
+            model = OpenAIModel(OllamaModel.LLAMA2.value),
             messages = listOf(
                 ChatMessage.vision(emptyList())
             )
@@ -183,7 +183,7 @@ class ExtensionsTest {
     @Test
     fun `should throw IllegalArgumentException when role not recognized`() {
         val chatCompletionRequest = ChatCompletionRequest(
-            openAIModel = OpenAIModel(OllamaModel.LLAMA2.value),
+            model = OpenAIModel(OllamaModel.LLAMA2.value),
             messages = listOf(
                 ChatMessage.UserMessage(
                     content = "Hello",
@@ -200,7 +200,7 @@ class ExtensionsTest {
     @Test
     fun `should convert ChatCompletionRequest to OllamaChatRequest`() {
         val chatCompletionRequest = ChatCompletionRequest(
-            openAIModel = OpenAIModel(OllamaModel.LLAMA2.value),
+            model = OpenAIModel(OllamaModel.LLAMA2.value),
             messages = listOf(
                 ChatMessage.UserMessage("Hello"),
                 ChatMessage.AssistantMessage("Hi there"),
