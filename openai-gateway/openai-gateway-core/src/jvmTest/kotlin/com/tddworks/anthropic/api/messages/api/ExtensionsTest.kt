@@ -1,7 +1,7 @@
 package com.tddworks.anthropic.api.messages.api
 
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
-import com.tddworks.anthropic.api.Model
+import com.tddworks.anthropic.api.AnthropicModel
 import com.tddworks.openai.api.chat.api.ChatMessage
 import com.tddworks.openai.api.chat.api.Role.Companion.Assistant
 import com.tddworks.openai.api.chat.api.OpenAIModel as OpenAIModel
@@ -146,7 +146,7 @@ class ExtensionsTest {
         // Given
         val chatCompletionRequest = ChatCompletionRequest(
             listOf(ChatMessage.AssistantMessage("Hello! How can I assist you today?")),
-            model = OpenAIModel(Model.CLAUDE_3_HAIKU.value)
+            model = OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value)
         )
 
         // When
@@ -174,7 +174,7 @@ class ExtensionsTest {
         // Given
         val chatCompletionRequest = ChatCompletionRequest(
             listOf(ChatMessage.AssistantMessage("Hello! How can I assist you today?")),
-            model = OpenAIModel(Model.CLAUDE_3_HAIKU.value)
+            model = OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value)
         )
 
         // When
@@ -200,7 +200,7 @@ class ExtensionsTest {
     fun `should convert user to anthropic request`() {
         // Given
         val chatCompletionRequest =
-            ChatCompletionRequest.dummy(OpenAIModel(Model.CLAUDE_3_HAIKU.value))
+            ChatCompletionRequest.dummy(OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value))
 
         // When
         val anthropicRequest = chatCompletionRequest.toAnthropicRequest()

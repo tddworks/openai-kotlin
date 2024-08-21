@@ -48,5 +48,16 @@ value class OpenAIModel(val value: String) {
         val GPT4_VISION_PREVIEW = OpenAIModel("gpt-4-vision-preview")
         val DALL_E_2 = OpenAIModel("dall-e-2")
         val DALL_E_3 = OpenAIModel("dall-e-3")
+
+        val availableModels = listOf(
+            GPT_3_5_TURBO,
+            GPT_3_5_TURBO_0125,
+            GPT_3_5_TURBO_INSTRUCT,
+            GPT_4_TURBO,
+            GPT_4O,
+            GPT4_VISION_PREVIEW,
+            DALL_E_2,
+            DALL_E_3
+        )
     }
 }

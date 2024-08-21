@@ -2,7 +2,7 @@ package com.tddworks.openai.gateway.api
 
 import app.cash.turbine.test
 import com.tddworks.anthropic.api.Anthropic
-import com.tddworks.anthropic.api.Model
+import com.tddworks.anthropic.api.AnthropicModel
 import com.tddworks.anthropic.api.messages.api.*
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
@@ -49,10 +49,10 @@ class AnthropicOpenAIProviderTest {
     @Test
     fun `should return true when model is supported`() {
         // given
-        val supportedModel = OpenAIModel(Model.CLAUDE_3_HAIKU.value)
+        val supportedAnthropicModel = OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value)
 
         // when
-        val isSupported = provider.supports(supportedModel)
+        val isSupported = provider.supports(supportedAnthropicModel)
 
         // then
         assertTrue(isSupported)
@@ -73,7 +73,7 @@ class AnthropicOpenAIProviderTest {
     @Test
     fun `should fetch completions from OpenAI API`() = runTest {
         // given
-        val request = ChatCompletionRequest.dummy(OpenAIModel(Model.CLAUDE_3_HAIKU.value))
+        val request = ChatCompletionRequest.dummy(OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value))
         val response = CreateMessageResponse(
             id = "msg_1nZdL29xx5MUA1yADyHTEsnR8uuvGzszyY",
             type = "message",
@@ -99,7 +99,7 @@ class AnthropicOpenAIProviderTest {
     @Test
     fun `should stream completions for chat`() = runTest {
         // given
-        val request = ChatCompletionRequest.dummy(OpenAIModel(Model.CLAUDE_3_HAIKU.value))
+        val request = ChatCompletionRequest.dummy(OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value))
 
         val contentBlockStart = ContentBlockStart(
             type = "content_block_start",
@@ -116,7 +116,7 @@ class AnthropicOpenAIProviderTest {
         provider.streamChatCompletions(request).test {
             // then
             assertEquals(
-                contentBlockStart.toOpenAIChatCompletionChunk(Model.CLAUDE_3_HAIKU.value),
+                contentBlockStart.toOpenAIChatCompletionChunk(AnthropicModel.CLAUDE_3_HAIKU.value),
                 awaitItem()
             )
             awaitComplete()

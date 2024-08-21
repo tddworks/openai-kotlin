@@ -56,7 +56,7 @@ fun OllamaChatResponse.toOpenAIChatCompletionChunk(): ChatCompletionChunk {
 
 @OptIn(ExperimentalSerializationApi::class)
 fun ChatCompletionRequest.toOllamaChatRequest(): OllamaChatRequest {
-    return OllamaChatRequest(model = openAIModel.value, messages = messages.map {
+    return OllamaChatRequest(model = model.value, messages = messages.map {
         OllamaChatMessage(
             role = when (it.role) {
                 Role.User -> "user"

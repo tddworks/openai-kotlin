@@ -13,21 +13,26 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 
 @ExperimentalSerializationApi
-@ExtendWith(MockitoExtension::class)
 class OllamaOpenAIProviderTest {
-    @Mock
-    lateinit var client: Ollama
+    private lateinit var client: Ollama
 
-    @InjectMocks
-    lateinit var provider: OllamaOpenAIProvider
+    private lateinit var provider: OllamaOpenAIProvider
+
+    @BeforeEach
+    fun setUp() {
+        client = mock()
+        provider = OllamaOpenAIProvider(client)
+    }
 
     @Test
     fun `should return completions response from OpenAI API`() = runTest {

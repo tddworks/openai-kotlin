@@ -9,6 +9,9 @@ import com.tddworks.openai.api.legacy.completions.api.Completions
  */
 interface OpenAIProvider : Chat, Completions {
     val name: String
+
+    val models: List<OpenAIModel>
+
     /**
      * Determines if the provided model is supported or not.
      *

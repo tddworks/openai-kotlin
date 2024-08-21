@@ -1,6 +1,6 @@
 package com.tddworks.anthropic.api.messages.api
 
-import com.tddworks.anthropic.api.Model
+import com.tddworks.anthropic.api.AnthropicModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,7 +11,7 @@ data class CreateMessageRequest(
     @SerialName("max_tokens")
     val maxTokens: Int = 1024,
     @SerialName("model")
-    val model: Model = Model.CLAUDE_3_HAIKU,
+    val model: AnthropicModel = AnthropicModel.CLAUDE_3_HAIKU,
     val stream: Boolean? = null,
 ) {
     companion object {

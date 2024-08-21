@@ -33,7 +33,11 @@ class DefaultOpenAIProviderTest {
     @BeforeEach
     fun setUp() {
         provider =
-            OpenAIProvider.openAI(OpenAIConfig(), listOf(OpenAIModel.GPT_3_5_TURBO), client)
+            OpenAIProvider.openAI(
+                OpenAIConfig(),
+                listOf(OpenAIModel.GPT_3_5_TURBO),
+                client
+            )
     }
 
     @Test
@@ -98,7 +102,11 @@ class DefaultOpenAIProviderTest {
         // Given
         val openAI = mock<OpenAI>()
         val model = OpenAIModel("gpt-3.5-turbo")
-        val provider = DefaultOpenAIProvider(OpenAIConfig(), emptyList(), openAI)
+        val provider = DefaultOpenAIProvider(
+            config = OpenAIConfig(),
+            models = emptyList(),
+            openAI = openAI
+        )
 
         // When
         val result = provider.supports(model)
@@ -112,7 +120,10 @@ class DefaultOpenAIProviderTest {
         // Given
         val openAI = mock<OpenAI>()
         val model = OpenAIModel("gpt-3.5-turbo")
-        val provider = DefaultOpenAIProvider(OpenAIConfig(), listOf(model), openAI)
+        val provider = DefaultOpenAIProvider(
+            config = OpenAIConfig(),
+            models = listOf(model), openAI = openAI
+        )
 
         // When
         val result = provider.supports(model)

@@ -2,7 +2,7 @@ package com.tddworks.openai.gateway.api
 
 import app.cash.turbine.test
 import com.tddworks.anthropic.api.AnthropicConfig
-import com.tddworks.anthropic.api.Model
+import com.tddworks.anthropic.api.AnthropicModel
 import com.tddworks.ollama.api.OllamaConfig
 import com.tddworks.ollama.api.OllamaModel
 import com.tddworks.openai.api.OpenAIConfig
@@ -85,7 +85,7 @@ class OpenAIGatewayITest : AutoCloseKoinTest() {
             OpenAIChatCompletionRequest(
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 maxTokens = 1024,
-                model = OpenAIModel(Model.CLAUDE_3_HAIKU.value)
+                model = OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value)
             )
         ).test(timeout = 10.seconds) {
             assertNotNull(awaitItem())

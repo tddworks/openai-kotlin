@@ -1,6 +1,6 @@
 package com.tddworks.anthropic.api.messages.api
 
-import com.tddworks.anthropic.api.Model
+import com.tddworks.anthropic.api.AnthropicModel
 import com.tddworks.openai.api.chat.api.ChatChoice
 import com.tddworks.openai.api.chat.api.ChatChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
@@ -91,7 +91,7 @@ fun ChatCompletionRequest.toAnthropicStreamRequest(): CreateMessageRequest {
 @OptIn(ExperimentalSerializationApi::class)
 fun ChatCompletionRequest.toAnthropicRequest(stream: Boolean? = null): CreateMessageRequest {
     return CreateMessageRequest(
-        model = Model(openAIModel.value),
+        model = AnthropicModel(model.value),
         messages = messages.map {
             Message(
                 content = when (it) {

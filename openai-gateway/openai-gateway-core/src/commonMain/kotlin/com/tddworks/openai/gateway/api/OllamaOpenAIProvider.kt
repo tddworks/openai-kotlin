@@ -16,7 +16,10 @@ import kotlinx.serialization.ExperimentalSerializationApi
 @OptIn(ExperimentalSerializationApi::class)
 class OllamaOpenAIProvider(
     private val client: Ollama,
-    override val name: String = "Ollama"
+    override val name: String = "Ollama",
+    override val models: List<OpenAIModel> = OllamaModel.availableModels.map {
+        OpenAIModel(it.value)
+    }
 ) : OpenAIProvider {
     /**
      * Check if the given OpenAIModel is supported by the available models.
@@ -24,7 +27,7 @@ class OllamaOpenAIProvider(
      * @return true if the model is supported, false otherwise.
      */
     override fun supports(openAIModel: OpenAIModel): Boolean {
-        return OllamaModel.availableModels.any { it.value == openAIModel.value }
+        return models.any { it.value == openAIModel.value }
     }
 
     /**

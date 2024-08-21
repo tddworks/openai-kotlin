@@ -1,7 +1,7 @@
 package com.tddworks.openai.gateway.api
 
 import com.tddworks.anthropic.api.Anthropic
-import com.tddworks.anthropic.api.Model
+import com.tddworks.anthropic.api.AnthropicModel
 import com.tddworks.anthropic.api.messages.api.*
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.legacy.completions.api.Completion
@@ -17,7 +17,10 @@ import com.tddworks.openai.api.chat.api.OpenAIModel as OpenAIModel
 @OptIn(ExperimentalSerializationApi::class)
 class AnthropicOpenAIProvider(
     private val client: Anthropic,
-    override val name: String = "Anthropic"
+    override val name: String = "Anthropic",
+    override val models: List<OpenAIModel> = AnthropicModel.availableModels.map {
+        OpenAIModel(it.value)
+    }
 ) : OpenAIProvider {
 
     /**
@@ -26,7 +29,7 @@ class AnthropicOpenAIProvider(
      * @return true if the model is supported, false otherwise.
      */
     override fun supports(model: OpenAIModel): Boolean {
-        return Model.availableModels.any { it.value == model.value }
+        return models.any { it.value == model.value }
     }
 
     /**

@@ -41,7 +41,7 @@ class AnthropicITest : AutoCloseKoinTest() {
             CreateMessageRequest(
                 messages = listOf(Message.user("hello")),
                 maxTokens = 1024,
-                model = Model.CLAUDE_3_HAIKU
+                model = AnthropicModel.CLAUDE_3_HAIKU
             )
         ).test(timeout = 10.seconds) {
             assertNotNull(awaitItem())
@@ -58,7 +58,7 @@ class AnthropicITest : AutoCloseKoinTest() {
             CreateMessageRequest(
                 messages = listOf(Message.user("hello")),
                 maxTokens = 1024,
-                model = Model.CLAUDE_3_HAIKU
+                model = AnthropicModel.CLAUDE_3_HAIKU
             )
         )
 

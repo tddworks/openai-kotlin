@@ -2,13 +2,10 @@ package com.tddworks.openai.gateway.api
 
 import app.cash.turbine.test
 import com.tddworks.ollama.api.OllamaModel
-import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.OpenAIModel
-import com.tddworks.openai.api.legacy.completions.api.Completion
-import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import com.tddworks.openai.gateway.api.internal.DefaultOpenAIGateway
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
@@ -18,7 +15,7 @@ import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import kotlin.test.assertEquals
-import com.tddworks.anthropic.api.Model as AnthropicModel
+import com.tddworks.anthropic.api.AnthropicModel as AnthropicModel
 
 @OptIn(ExperimentalSerializationApi::class)
 class DefaultOpenAIGatewayTest {

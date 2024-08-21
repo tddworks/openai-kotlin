@@ -10,21 +10,21 @@ import kotlin.jvm.JvmInline
  */
 @Serializable
 @JvmInline
-value class Model(val value: String) {
+value class AnthropicModel(val value: String) {
     companion object {
         /**
          * Most powerful model for highly complex tasks
          * Max output length: 4096 tokens
          * Cost (Input / Output per MTok^) $15.00 / $75.00
          */
-        val CLAUDE_3_OPUS = Model("claude-3-opus-20240229")
+        val CLAUDE_3_OPUS = AnthropicModel("claude-3-opus-20240229")
 
         /**
          * Ideal balance of intelligence and speed for enterprise workloads
          * Max output length: 4096 tokens
          * Cost (Input / Output per MTok^) $3.00 / $15.00
          */
-        val CLAUDE_3_Sonnet = Model("claude-3-sonnet-20240229")
+        val CLAUDE_3_Sonnet = AnthropicModel("claude-3-sonnet-20240229")
 
         /**
          * Most intelligent model
@@ -32,14 +32,14 @@ value class Model(val value: String) {
          * Cost (Input / Output per MTok^) $3.00 / $15.00
          * Training data cut-off: Apr 2024
          */
-        val CLAUDE_3_5_Sonnet = Model("claude-3-5-sonnet-20240620")
+        val CLAUDE_3_5_Sonnet = AnthropicModel("claude-3-5-sonnet-20240620")
 
         /**
          * Fastest and most compact model for near-instant responsiveness
          * Max output length: 4096 tokens
          * Cost (Input / Output per MTok^) $0.25 / $1.25
          */
-        val CLAUDE_3_HAIKU = Model("claude-3-haiku-20240307")
+        val CLAUDE_3_HAIKU = AnthropicModel("claude-3-haiku-20240307")
 
         val availableModels =
             listOf(CLAUDE_3_OPUS, CLAUDE_3_Sonnet, CLAUDE_3_HAIKU, CLAUDE_3_5_Sonnet)
