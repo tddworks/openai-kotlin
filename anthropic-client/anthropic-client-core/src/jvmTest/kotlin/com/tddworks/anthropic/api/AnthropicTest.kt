@@ -22,7 +22,7 @@ class AnthropicTest : AutoCloseKoinTest() {
         val target = Anthropic(
             baseUrl = { "http://localhost:8080" },
             apiKey = { "1234" },
-            anthropicVersion = { "2024-03-01" }
+            anthropicVersion = { "2024-03-01" },
         )
 
         assertEquals("http://localhost:8080", target.baseUrl())

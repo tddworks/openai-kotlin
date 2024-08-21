@@ -16,7 +16,8 @@ class AnthropicApi(
     private val apiKey: String,
     private val apiURL: String,
     private val anthropicVersion: String,
-) : Anthropic, Messages by getInstance() {
+    private val messages: Messages = getInstance()
+) : Anthropic, Messages by messages {
     /**
      * Gets the API key.
      *
