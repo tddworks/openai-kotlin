@@ -5,27 +5,28 @@ import com.tddworks.anthropic.api.Anthropic
 import com.tddworks.anthropic.api.AnthropicModel
 import com.tddworks.anthropic.api.messages.api.*
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
+import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.InjectMocks
-import org.mockito.Mock
-import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.Mockito.mock
 import org.mockito.kotlin.whenever
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import com.tddworks.openai.api.chat.api.OpenAIModel as OpenAIModel
 
-@ExtendWith(MockitoExtension::class)
 class AnthropicOpenAIProviderTest {
-    @Mock
-    lateinit var client: Anthropic
+    private lateinit var client: Anthropic
 
-    @InjectMocks
-    lateinit var provider: AnthropicOpenAIProvider
+    private lateinit var provider: AnthropicOpenAIProvider
+
+    @BeforeEach
+    fun setUp() {
+        client = mock()
+        provider = AnthropicOpenAIProvider(client)
+    }
 
     @Test
     fun `should throw not supported when invoke completions`() = runTest {
@@ -73,7 +74,8 @@ class AnthropicOpenAIProviderTest {
     @Test
     fun `should fetch completions from OpenAI API`() = runTest {
         // given
-        val request = ChatCompletionRequest.dummy(OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value))
+        val request =
+            ChatCompletionRequest.dummy(OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value))
         val response = CreateMessageResponse(
             id = "msg_1nZdL29xx5MUA1yADyHTEsnR8uuvGzszyY",
             type = "message",
@@ -99,7 +101,8 @@ class AnthropicOpenAIProviderTest {
     @Test
     fun `should stream completions for chat`() = runTest {
         // given
-        val request = ChatCompletionRequest.dummy(OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value))
+        val request =
+            ChatCompletionRequest.dummy(OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value))
 
         val contentBlockStart = ContentBlockStart(
             type = "content_block_start",

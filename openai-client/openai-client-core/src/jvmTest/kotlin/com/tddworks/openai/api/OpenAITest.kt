@@ -121,7 +121,7 @@ class OpenAITest {
                         )
                     )
                 ),
-                openAIModel = OpenAIModel.GPT4_VISION_PREVIEW
+                model = OpenAIModel.GPT4_VISION_PREVIEW
             )
         ).toList().first().content()
         assertEquals("", response)

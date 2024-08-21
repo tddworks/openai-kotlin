@@ -34,7 +34,7 @@ class OpenAIITest : AutoCloseKoinTest() {
             ChatCompletionRequest(
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 maxTokens = 1024,
-                openAIModel = OpenAIModel.GPT_3_5_TURBO
+                model = OpenAIModel.GPT_3_5_TURBO
             )
         ).test(timeout = 10.seconds) {
             assertNotNull(awaitItem())
@@ -49,7 +49,7 @@ class OpenAIITest : AutoCloseKoinTest() {
             ChatCompletionRequest(
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 maxTokens = 1024,
-                openAIModel = OpenAIModel.GPT_3_5_TURBO
+                model = OpenAIModel.GPT_3_5_TURBO
             )
         )
         assertNotNull(response)
