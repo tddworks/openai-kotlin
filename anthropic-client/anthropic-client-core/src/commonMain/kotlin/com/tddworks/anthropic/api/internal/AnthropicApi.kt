@@ -51,10 +51,12 @@ fun Anthropic.Companion.create(
     apiKey: String,
     apiURL: String,
     anthropicVersion: String,
+    messages: Messages = getInstance()
 ): Anthropic {
     return AnthropicApi(
         apiKey = apiKey,
         apiURL = apiURL,
-        anthropicVersion = anthropicVersion
+        anthropicVersion = anthropicVersion,
+        messages = messages
     )
 }
