@@ -6,31 +6,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.koin.test.junit5.AutoCloseKoinTest
 
-class AnthropicTest : AutoCloseKoinTest() {
+class AnthropicTest {
 
-    lateinit var anthropic: Anthropic
-
-    @BeforeEach
-    fun setUp() {
-        anthropic = iniAnthropic(
-            config = AnthropicConfig()
-        )
-    }
-
-    @Test
-    fun `should return overridden settings`() {
-        val target = Anthropic(
-            baseUrl = { "http://localhost:8080" },
-            apiKey = { "1234" },
-            anthropicVersion = { "2024-03-01" },
-        )
-
-        assertEquals("http://localhost:8080", target.baseUrl())
-
-        assertEquals("1234", target.apiKey())
-
-        assertEquals("2024-03-01", target.anthropicVersion())
-    }
+    val anthropic: Anthropic = Anthropic.create(AnthropicConfig())
 
     @Test
     fun `should return default settings`() {

@@ -1,6 +1,7 @@
 package com.tddworks.anthropic.api.internal
 
 import com.tddworks.anthropic.api.Anthropic
+import com.tddworks.anthropic.api.AnthropicConfig
 import com.tddworks.anthropic.api.messages.api.Messages
 import com.tddworks.di.getInstance
 
@@ -13,9 +14,7 @@ import com.tddworks.di.getInstance
  * @property anthropicVersion the version of the Anthropics library being used
  */
 class AnthropicApi(
-    private val apiKey: String,
-    private val apiURL: String,
-    private val anthropicVersion: String,
+    private val anthropicConfig: AnthropicConfig,
     private val messages: Messages = getInstance()
 ) : Anthropic, Messages by messages {
     /**
@@ -24,7 +23,7 @@ class AnthropicApi(
      * @return The API key string.
      */
     override fun apiKey(): String {
-        return apiKey
+        return anthropicConfig.apiKey()
     }
 
     /**
@@ -33,7 +32,7 @@ class AnthropicApi(
      * @return The base URL of the API
      */
     override fun baseUrl(): String {
-        return apiURL
+        return anthropicConfig.baseUrl()
     }
 
     /**
@@ -42,21 +41,15 @@ class AnthropicApi(
      * @return The anthropic version string.
      */
     override fun anthropicVersion(): String {
-        return anthropicVersion
+        return anthropicConfig.anthropicVersion()
     }
 
 }
 
 fun Anthropic.Companion.create(
-    apiKey: String,
-    apiURL: String,
-    anthropicVersion: String,
-    messages: Messages = getInstance()
+    anthropicConfig: AnthropicConfig, messages: Messages = getInstance()
 ): Anthropic {
     return AnthropicApi(
-        apiKey = apiKey,
-        apiURL = apiURL,
-        anthropicVersion = anthropicVersion,
-        messages = messages
+        anthropicConfig = anthropicConfig, messages = messages
     )
 }

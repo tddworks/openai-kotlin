@@ -2,12 +2,19 @@ package com.tddworks.anthropic.api
 
 import com.tddworks.anthropic.api.internal.AnthropicApi
 import com.tddworks.anthropic.api.messages.api.Messages
+import com.tddworks.anthropic.api.messages.api.internal.DefaultMessagesApi
+import com.tddworks.anthropic.api.messages.api.internal.JsonLenient
+import com.tddworks.common.network.api.ktor.api.HttpRequester
+import com.tddworks.common.network.api.ktor.internal.createHttpClient
+import com.tddworks.common.network.api.ktor.internal.default
+import com.tddworks.di.createJson
 import com.tddworks.di.getInstance
 
 /**
  * Interface for interacting with the Anthropic API.
  */
 interface Anthropic : Messages {
+
     /**
      * Companion object containing a constant variable for the base URL of the API.
      */
@@ -17,22 +24,21 @@ interface Anthropic : Messages {
 
         /**
          * Creates an instance of Anthropic API with the provided configurations.
-         *
-         * @param apiKey a function that returns the API key to be used for authentication. Defaults to "CONFIGURE_ME" if not provided.
-         * @param baseUrl a function that returns the base URL of the API. Defaults to the value specified in the Anthropic companion object if not provided.
-         * @param anthropicVersion a function that returns the version of the Anthropic API to be used. Defaults to "2023-06-01" if not provided.
          * @return an instance of Anthropic API configured with the provided settings.
          */
-        fun create(
-            apiKey: () -> String = { "CONFIGURE_ME" },
-            baseUrl: () -> String = { BASE_URL },
-            anthropicVersion: () -> String = { ANTHROPIC_VERSION }
-        ): Anthropic {
-            return AnthropicApi(
-                apiKey = apiKey(),
-                apiURL = baseUrl(),
-                anthropicVersion = anthropicVersion(),
+        fun create(anthropicConfig: AnthropicConfig): Anthropic {
+
+            val requester = HttpRequester.default(
+                createHttpClient(
+                    host = anthropicConfig.baseUrl,
+                    authToken = anthropicConfig.apiKey,
+                    // get from commonModule
+                    json = JsonLenient,
+                )
             )
+            val messages = DefaultMessagesApi(requester = requester)
+
+            return AnthropicApi(anthropicConfig = anthropicConfig, messages = messages)
         }
     }
 
@@ -58,26 +64,4 @@ interface Anthropic : Messages {
      * @return The anthropic version of the class as a String.
      */
     fun anthropicVersion(): String
-}
-
-/**
- * Creates an instance of Anthropic API with the provided configurations.
- *
- * @param apiKey a function that returns the API key to be used for authentication. Defaults to "CONFIGURE_ME" if not provided.
- * @param baseUrl a function that returns the base URL of the API. Defaults to the value specified in the Anthropic companion object if not provided.
- * @param anthropicVersion a function that returns the version of the Anthropic API to be used. Defaults to "2023-06-01" if not provided.
- * @return an instance of Anthropic API configured with the provided settings.
- */
-fun Anthropic(
-    apiKey: () -> String = { "CONFIGURE_ME" },
-    baseUrl: () -> String = { Anthropic.BASE_URL },
-    anthropicVersion: () -> String = { "2023-06-01" },
-    messages: Messages = getInstance()
-): Anthropic {
-    return AnthropicApi(
-        apiKey = apiKey(),
-        apiURL = baseUrl(),
-        anthropicVersion = anthropicVersion(),
-        messages = messages
-    )
 }

@@ -30,11 +30,7 @@ fun anthropicModules(
     config: AnthropicConfig,
 ) = module {
     single<Anthropic> {
-        Anthropic(
-            baseUrl = config.baseUrl,
-            apiKey = config.apiKey,
-            anthropicVersion = config.anthropicVersion
-        )
+        Anthropic.create(anthropicConfig = config)
     }
 
     single<Json>(named("anthropicJson")) { JsonLenient }

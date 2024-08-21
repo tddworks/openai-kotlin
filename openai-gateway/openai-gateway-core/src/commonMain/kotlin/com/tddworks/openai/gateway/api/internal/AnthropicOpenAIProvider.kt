@@ -1,6 +1,7 @@
 package com.tddworks.openai.gateway.api.internal
 
 import com.tddworks.anthropic.api.Anthropic
+import com.tddworks.anthropic.api.AnthropicConfig
 import com.tddworks.anthropic.api.AnthropicModel
 import com.tddworks.anthropic.api.internal.create
 import com.tddworks.anthropic.api.messages.api.*
@@ -26,9 +27,11 @@ class AnthropicOpenAIProvider(
     override val config: AnthropicOpenAIProviderConfig,
 
     private val client: Anthropic = Anthropic.create(
-        apiKey = config.apiKey(),
-        apiURL = config.baseUrl(),
-        anthropicVersion = config.anthropicVersion()
+        AnthropicConfig(
+            apiKey = config.apiKey,
+            baseUrl = config.baseUrl,
+            anthropicVersion = config.anthropicVersion
+        )
     )
 
 ) : OpenAIProvider {
@@ -78,12 +81,12 @@ fun OpenAIProvider.Companion.anthropic(
     models: List<OpenAIModel> = AnthropicModel.availableModels.map {
         OpenAIModel(it.value)
     },
-    messages: Messages = getInstance(),
     client: Anthropic = Anthropic.create(
-        apiKey = config.apiKey(),
-        apiURL = config.baseUrl(),
-        anthropicVersion = config.anthropicVersion(),
-        messages = messages
+        AnthropicConfig(
+            apiKey = config.apiKey,
+            baseUrl = config.baseUrl,
+            anthropicVersion = config.anthropicVersion
+        )
     )
 ): OpenAIProvider {
     return AnthropicOpenAIProvider(config = config, models = models, client = client)
