@@ -85,7 +85,7 @@ class OpenAIGatewayITest : AutoCloseKoinTest() {
             OpenAIChatCompletionRequest(
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 maxTokens = 1024,
-                openAIModel = OpenAIModel(Model.CLAUDE_3_HAIKU.value)
+                model = OpenAIModel(Model.CLAUDE_3_HAIKU.value)
             )
         ).test(timeout = 10.seconds) {
             assertNotNull(awaitItem())
