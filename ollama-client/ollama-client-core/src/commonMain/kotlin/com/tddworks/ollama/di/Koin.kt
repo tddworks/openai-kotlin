@@ -29,11 +29,7 @@ fun ollamaModules(
 ) = module {
 
     single<Ollama> {
-        Ollama(
-            baseUrl = config.baseUrl,
-            port = config.port,
-            protocol = config.protocol
-        )
+        Ollama.create(ollamaConfig = config)
     }
 
     single<Json>(named("ollamaJson")) { JsonLenient }

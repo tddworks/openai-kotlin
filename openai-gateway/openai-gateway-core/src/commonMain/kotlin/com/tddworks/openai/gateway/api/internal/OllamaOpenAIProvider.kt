@@ -1,9 +1,9 @@
 package com.tddworks.openai.gateway.api.internal
 
 import com.tddworks.ollama.api.Ollama
+import com.tddworks.ollama.api.OllamaConfig
 import com.tddworks.ollama.api.OllamaModel
 import com.tddworks.ollama.api.chat.api.*
-import com.tddworks.ollama.api.internal.create
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
@@ -23,9 +23,11 @@ class OllamaOpenAIProvider(
         OpenAIModel(it.value)
     },
     private val client: Ollama = Ollama.create(
-        baseUrl = config.baseUrl,
-        port = config.port,
-        protocol = config.protocol
+        ollamaConfig = OllamaConfig(
+            baseUrl = config.baseUrl,
+            port = config.port,
+            protocol = config.protocol
+        )
     )
 ) : OpenAIProvider {
     /**
@@ -75,9 +77,11 @@ fun OpenAIProvider.Companion.ollama(
         OpenAIModel(it.value)
     },
     client: Ollama = Ollama.create(
-        baseUrl = config.baseUrl,
-        port = config.port,
-        protocol = config.protocol
+        ollamaConfig = OllamaConfig(
+            baseUrl = config.baseUrl,
+            port = config.port,
+            protocol = config.protocol
+        )
     )
 ): OpenAIProvider {
     return OllamaOpenAIProvider(config = config, models = models, client = client)
