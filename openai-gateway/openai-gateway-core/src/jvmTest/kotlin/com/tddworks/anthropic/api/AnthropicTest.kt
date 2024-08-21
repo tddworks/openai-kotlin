@@ -17,9 +17,9 @@ class AnthropicTest : AutoCloseKoinTest() {
     @Test
     fun `should create anthropic with default settings`() {
 
-        val anthropic = Anthropic()
+        val anthropic = Anthropic.create(anthropicConfig = AnthropicConfig())
 
-        assertEquals("CONFIGURE_ME", anthropic.apiKey())
+        assertEquals("CONFIG_API_KEY", anthropic.apiKey())
         assertEquals(Anthropic.BASE_URL, anthropic.baseUrl())
         assertEquals("2023-06-01", anthropic.anthropicVersion())
     }

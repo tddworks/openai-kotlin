@@ -37,7 +37,7 @@ class OllamaTestTest : AutoCloseKoinTest() {
 
     @Test
     fun `should return default settings`() {
-        val target = Ollama()
+        val target = Ollama.create(ollamaConfig = OllamaConfig())
 
         assertEquals("localhost", target.baseUrl())
 
