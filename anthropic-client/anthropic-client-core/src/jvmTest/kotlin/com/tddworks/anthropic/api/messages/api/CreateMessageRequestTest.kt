@@ -16,7 +16,7 @@ class CreateMessageRequestTest {
                   "content": "hello"
                 }
               ],
-              "systemPrompt": null,
+              "system": null,
               "max_tokens": 1024,
               "model": "claude-3-haiku-20240307",
               "stream": null
