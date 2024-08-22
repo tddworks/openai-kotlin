@@ -12,6 +12,65 @@ import org.junit.jupiter.api.Test
 class ExtensionsTest {
 
     @Test
+    fun `should convert openai request to anthropic request with user message`() {
+        // Given
+        val chatCompletionRequest = ChatCompletionRequest(
+            listOf(ChatMessage.UserMessage("hello")),
+            model = OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value)
+        )
+
+        // When
+        val anthropicRequest = chatCompletionRequest.toAnthropicRequest()
+
+        // Then
+        assertEquals(
+            """
+            {
+              "messages": [
+                {
+                  "role": "user",
+                  "content": "hello"
+                }
+              ]
+            }
+        """.trimIndent(),
+            prettyJson.encodeToString(CreateMessageRequest.serializer(), anthropicRequest)
+        )
+    }
+
+    @Test
+    fun `should convert openai request to anthropic request with system role message`() {
+        // Given
+        val chatCompletionRequest = ChatCompletionRequest(
+            listOf(
+                ChatMessage.SystemMessage("You act as a system message"),
+                ChatMessage.UserMessage("hello")
+            ),
+            model = OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value)
+        )
+
+        // When
+        val anthropicRequest = chatCompletionRequest.toAnthropicRequest()
+
+        // Then
+        assertEquals(
+            """
+            {
+              "messages": [
+                {
+                  "role": "user",
+                  "content": "hello"
+                }
+              ],
+              "system": "You act as a system message"
+            }
+        """.trimIndent(),
+            prettyJson.encodeToString(CreateMessageRequest.serializer(), anthropicRequest)
+        )
+
+    }
+
+    @Test
     fun `should return Stop when finishReason is end_turn`() {
         val stopReason = mapAnthropicStopReason("end_turn")
         assertEquals(OpenAIStopReason.Stop, stopReason)

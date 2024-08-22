@@ -88,31 +88,36 @@ fun ChatCompletionRequest.toAnthropicStreamRequest(): CreateMessageRequest {
     return toAnthropicRequest(true)
 }
 
+
 @OptIn(ExperimentalSerializationApi::class)
 fun ChatCompletionRequest.toAnthropicRequest(stream: Boolean? = null): CreateMessageRequest {
-    return CreateMessageRequest(
-        model = AnthropicModel(model.value),
-        messages = messages.map {
+    val systemPrompt = messages.firstOrNull { it.role == OpenAIRole.System }?.content as? String
+
+    val formattedMessages = messages
+        .filterNot { it.role == OpenAIRole.System }
+        .map { message ->
             Message(
-                content = when (it) {
-                    is OpenAIUserMessage -> it.content
-                    is OpenAIAssistantMessage -> it.content
-                    is OpenAISystemMessage -> it.content
-                    else -> throw IllegalArgumentException("Unknown message type: $it")
+                content = when (message) {
+                    is OpenAIUserMessage -> message.content
+                    is OpenAIAssistantMessage -> message.content
+                    is OpenAISystemMessage -> message.content
+                    else -> throw IllegalArgumentException("Unknown message type: $message")
                 },
-                role = when (it.role) {
+                role = when (message.role) {
                     OpenAIRole.User -> Role.User
-                    Assistant -> Role.Assistant
-                    else -> {
-                        throw IllegalArgumentException("Unknown role: ${it.role}")
-                    }
+                    OpenAIRole.Assistant -> Role.Assistant
+                    else -> throw IllegalArgumentException("Unknown role: ${message.role}")
                 }
             )
-        },
+        }
+
+    return CreateMessageRequest(
+        model = AnthropicModel(model.value),
+        systemPrompt = systemPrompt,
+        messages = formattedMessages,
         stream = stream
     )
 }
-
 
 fun CreateMessageResponse.toOpenAIChatCompletion(): OpenAIChatCompletion {
     return OpenAIChatCompletion(

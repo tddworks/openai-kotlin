@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class CreateMessageRequest(
     val messages: List<Message>,
+    @SerialName("system")
     val systemPrompt: String? = null,
     @SerialName("max_tokens")
     val maxTokens: Int = 1024,
