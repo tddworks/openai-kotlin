@@ -32,14 +32,33 @@ class DefaultOpenAIGateway(
         models: List<OpenAIModel>
     ) {
         availableProviders.removeAll { it.id == id }
-        availableProviders.add(
-            DefaultOpenAIProvider(
+
+        val provider = when (config) {
+            is DefaultOpenAIProviderConfig -> DefaultOpenAIProvider(
                 id = id,
                 name = name,
                 config = config,
                 models = models
             )
-        )
+
+            is AnthropicOpenAIProviderConfig -> AnthropicOpenAIProvider(
+                id = id,
+                name = name,
+                config = config,
+                models = models
+            )
+
+            is OllamaOpenAIProviderConfig -> OllamaOpenAIProvider(
+                id = id,
+                name = name,
+                config = config,
+                models = models
+            )
+
+            else -> throw IllegalArgumentException("Unsupported config type")
+        }
+
+        availableProviders.add(provider)
     }
 
     override fun addProvider(provider: OpenAIProvider): OpenAIGateway {

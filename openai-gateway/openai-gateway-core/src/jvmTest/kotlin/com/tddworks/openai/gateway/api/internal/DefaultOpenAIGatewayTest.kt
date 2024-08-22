@@ -32,7 +32,15 @@ class DefaultOpenAIGatewayTest {
         on(it.name).thenReturn("Ollama")
     }
 
+    private val default = mock<OpenAIProvider> {
+        on(it.id).thenReturn("default")
+        on(it.supports(OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value))).thenReturn(false)
+        on(it.supports(OpenAIModel(OllamaModel.LLAMA2.value))).thenReturn(false)
+        on(it.name).thenReturn("Default")
+    }
+
     private val providers: List<OpenAIProvider> = listOf(
+        default,
         anthropic,
         ollama
     )
@@ -42,7 +50,50 @@ class DefaultOpenAIGatewayTest {
     )
 
     @Test
-    fun `should able to update provider`() {
+    fun `should update openai provider`() {
+        // Given
+        val id = "default"
+        val name = "new Default"
+        val config = OpenAIProviderConfig.default(
+            baseUrl = { "api.openai.com" },
+            apiKey = { "new api key" }
+        )
+
+        val models = listOf(OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value))
+
+        // When
+        openAIGateway.updateProvider(id, name, config, models)
+
+        // Then
+        assertEquals(3, openAIGateway.getProviders().size)
+        val openAIProvider = openAIGateway.getProviders().first { it.id == id }
+        assertEquals(name, openAIProvider.name)
+        assertEquals(config, openAIProvider.config)
+        assertEquals(models, openAIProvider.models)
+    }
+
+    @Test
+    fun `should update ollama provider`() {
+        // Given
+        val id = "ollama"
+        val name = "new Ollama"
+        val config = OpenAIProviderConfig.ollama()
+
+        val models = listOf(OpenAIModel(OllamaModel.LLAMA2.value))
+
+        // When
+        openAIGateway.updateProvider(id, name, config, models)
+
+        // Then
+        assertEquals(3, openAIGateway.getProviders().size)
+        val openAIProvider = openAIGateway.getProviders().first { it.id == id }
+        assertEquals(name, openAIProvider.name)
+        assertEquals(config, openAIProvider.config)
+        assertEquals(models, openAIProvider.models)
+    }
+
+    @Test
+    fun `should able to update anthropic provider`() {
         // Given
         val id = "anthropic"
         val name = "new Anthropic"
@@ -56,7 +107,7 @@ class DefaultOpenAIGatewayTest {
         openAIGateway.updateProvider(id, name, config, models)
 
         // Then
-        assertEquals(2, openAIGateway.getProviders().size)
+        assertEquals(3, openAIGateway.getProviders().size)
         val openAIProvider = openAIGateway.getProviders().first { it.id == id }
         assertEquals(name, openAIProvider.name)
         assertEquals(config, openAIProvider.config)
@@ -67,7 +118,7 @@ class DefaultOpenAIGatewayTest {
     fun `should able to remove provider`() {
         openAIGateway.removeProvider(anthropic.name)
         // Then
-        assertEquals(1, openAIGateway.getProviders().size)
+        assertEquals(2, openAIGateway.getProviders().size)
         assertEquals(ollama, openAIGateway.getProviders().last())
     }
 
@@ -84,7 +135,7 @@ class DefaultOpenAIGatewayTest {
         }
 
         // Then
-        assertEquals(3, gateway.getProviders().size)
+        assertEquals(4, gateway.getProviders().size)
         assertEquals(provider, gateway.getProviders().last())
     }
 
