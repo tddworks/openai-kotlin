@@ -3,10 +3,9 @@ package com.tddworks.openai.gateway.api.internal
 import com.tddworks.anthropic.api.Anthropic
 import com.tddworks.anthropic.api.AnthropicConfig
 import com.tddworks.anthropic.api.AnthropicModel
-import com.tddworks.anthropic.api.internal.create
 import com.tddworks.anthropic.api.messages.api.*
-import com.tddworks.di.getInstance
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
+import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import com.tddworks.openai.gateway.api.OpenAIProvider
@@ -16,7 +15,6 @@ import kotlinx.coroutines.flow.transform
 import kotlinx.serialization.ExperimentalSerializationApi
 import com.tddworks.openai.api.chat.api.ChatCompletion as OpenAIChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk as OpenAIChatCompletionChunk
-import com.tddworks.openai.api.chat.api.OpenAIModel as OpenAIModel
 
 @OptIn(ExperimentalSerializationApi::class)
 class AnthropicOpenAIProvider(

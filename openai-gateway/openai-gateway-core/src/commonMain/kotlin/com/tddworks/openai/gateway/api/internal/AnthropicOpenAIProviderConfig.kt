@@ -10,7 +10,11 @@ class AnthropicOpenAIProviderConfig(
 ) : OpenAIProviderConfig
 
 fun AnthropicOpenAIProviderConfig.toAnthropicOpenAIConfig() =
-    AnthropicConfig(anthropicVersion, apiKey, baseUrl)
+    AnthropicConfig(
+        apiKey = apiKey,
+        baseUrl = baseUrl,
+        anthropicVersion = anthropicVersion
+    )
 
 fun OpenAIProviderConfig.Companion.anthropic(
     apiKey: () -> String,
