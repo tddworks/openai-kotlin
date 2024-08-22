@@ -16,10 +16,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.ExperimentalSerializationApi
 
 class DefaultOpenAIProvider(
+    override val id: String = "openai",
     override val name: String = "OpenAI",
     override val models: List<OpenAIModel> = availableModels,
     override val config: OpenAIProviderConfig,
-    private val openAI: OpenAI = OpenAI.create(config.toOpenAIConfig())
+    private val openAI: OpenAI = OpenAI.create(config.toOpenAIConfig()),
 ) : OpenAIProvider {
 
     override fun supports(model: OpenAIModel): Boolean {
@@ -40,9 +41,13 @@ class DefaultOpenAIProvider(
 }
 
 fun OpenAIProvider.Companion.openAI(
+    id: String = "openai",
     config: OpenAIProviderConfig,
     models: List<OpenAIModel>,
     openAI: OpenAI = OpenAI.create(config.toOpenAIConfig())
 ): OpenAIProvider {
-    return DefaultOpenAIProvider(config = config, models = models, openAI = openAI)
+    return DefaultOpenAIProvider(
+        id = id,
+        config = config, models = models, openAI = openAI
+    )
 }

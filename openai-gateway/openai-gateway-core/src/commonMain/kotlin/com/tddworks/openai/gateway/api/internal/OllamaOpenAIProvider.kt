@@ -17,6 +17,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 
 @OptIn(ExperimentalSerializationApi::class)
 class OllamaOpenAIProvider(
+    override val id: String = "ollama",
     override val name: String = "Ollama",
     override val config: OllamaOpenAIProviderConfig,
     override val models: List<OpenAIModel> = OllamaModel.availableModels.map {
@@ -72,6 +73,7 @@ class OllamaOpenAIProvider(
 }
 
 fun OpenAIProvider.Companion.ollama(
+    id: String = "ollama",
     config: OllamaOpenAIProviderConfig,
     models: List<OpenAIModel> = OllamaModel.availableModels.map {
         OpenAIModel(it.value)
@@ -84,5 +86,10 @@ fun OpenAIProvider.Companion.ollama(
         )
     )
 ): OpenAIProvider {
-    return OllamaOpenAIProvider(config = config, models = models, client = client)
+    return OllamaOpenAIProvider(
+        id = id,
+        config = config,
+        models = models,
+        client = client
+    )
 }

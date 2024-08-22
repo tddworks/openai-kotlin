@@ -35,11 +35,11 @@ class DefaultOpenAIProviderTest {
     fun setUp() {
         provider =
             OpenAIProvider.openAI(
-                OpenAIProviderConfig.default(
+                config = OpenAIProviderConfig.default(
                     apiKey = { "" },
                 ),
-                listOf(OpenAIModel.GPT_3_5_TURBO),
-                client
+                models = listOf(OpenAIModel.GPT_3_5_TURBO),
+                openAI = client
             )
     }
 

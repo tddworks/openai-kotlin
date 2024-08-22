@@ -3,10 +3,12 @@ package com.tddworks.openai.gateway.api.internal
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
+import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import com.tddworks.openai.gateway.api.OpenAIGateway
 import com.tddworks.openai.gateway.api.OpenAIProvider
+import com.tddworks.openai.gateway.api.OpenAIProviderConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.ExperimentalSerializationApi
 
@@ -21,6 +23,24 @@ class DefaultOpenAIGateway(
 ) : OpenAIGateway {
     private val availableProviders: MutableList<OpenAIProvider> =
         providers.toMutableList()
+
+
+    override fun updateProvider(
+        id: String,
+        name: String,
+        config: OpenAIProviderConfig,
+        models: List<OpenAIModel>
+    ) {
+        availableProviders.removeAll { it.id == id }
+        availableProviders.add(
+            DefaultOpenAIProvider(
+                id = id,
+                name = name,
+                config = config,
+                models = models
+            )
+        )
+    }
 
     override fun addProvider(provider: OpenAIProvider): OpenAIGateway {
         availableProviders.add(provider)

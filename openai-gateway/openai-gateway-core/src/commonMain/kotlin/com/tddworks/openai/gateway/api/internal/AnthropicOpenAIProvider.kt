@@ -18,11 +18,12 @@ import com.tddworks.openai.api.chat.api.ChatCompletionChunk as OpenAIChatComplet
 
 @OptIn(ExperimentalSerializationApi::class)
 class AnthropicOpenAIProvider(
-    override val name: String = "Anthropic",
-    override val models: List<OpenAIModel> = AnthropicModel.availableModels.map {
+    override var id: String = "anthropic",
+    override var name: String = "Anthropic",
+    override var models: List<OpenAIModel> = AnthropicModel.availableModels.map {
         OpenAIModel(it.value)
     },
-    override val config: AnthropicOpenAIProviderConfig,
+    override var config: AnthropicOpenAIProviderConfig,
 
     private val client: Anthropic = Anthropic.create(
         AnthropicConfig(
@@ -75,6 +76,7 @@ class AnthropicOpenAIProvider(
 }
 
 fun OpenAIProvider.Companion.anthropic(
+    id: String = "anthropic",
     config: AnthropicOpenAIProviderConfig,
     models: List<OpenAIModel> = AnthropicModel.availableModels.map {
         OpenAIModel(it.value)
@@ -87,5 +89,10 @@ fun OpenAIProvider.Companion.anthropic(
         )
     )
 ): OpenAIProvider {
-    return AnthropicOpenAIProvider(config = config, models = models, client = client)
+    return AnthropicOpenAIProvider(
+        id = id,
+        config = config,
+        models = models,
+        client = client
+    )
 }

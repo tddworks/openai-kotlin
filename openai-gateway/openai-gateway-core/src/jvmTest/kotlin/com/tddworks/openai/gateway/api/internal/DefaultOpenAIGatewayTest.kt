@@ -7,6 +7,7 @@ import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.gateway.api.OpenAIProvider
+import com.tddworks.openai.gateway.api.OpenAIProviderConfig
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -20,11 +21,13 @@ import com.tddworks.anthropic.api.AnthropicModel as AnthropicModel
 @OptIn(ExperimentalSerializationApi::class)
 class DefaultOpenAIGatewayTest {
     private val anthropic = mock<OpenAIProvider> {
+        on(it.id).thenReturn("anthropic")
         on(it.supports(OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value))).thenReturn(true)
         on(it.name).thenReturn("Anthropic")
     }
 
     private val ollama = mock<OpenAIProvider> {
+        on(it.id).thenReturn("ollama")
         on(it.supports(OpenAIModel(OllamaModel.LLAMA2.value))).thenReturn(true)
         on(it.name).thenReturn("Ollama")
     }
@@ -37,6 +40,28 @@ class DefaultOpenAIGatewayTest {
     private val openAIGateway = DefaultOpenAIGateway(
         providers,
     )
+
+    @Test
+    fun `should able to update provider`() {
+        // Given
+        val id = "anthropic"
+        val name = "new Anthropic"
+        val config = OpenAIProviderConfig.anthropic(
+            apiKey = { "" },
+        )
+
+        val models = listOf(OpenAIModel.GPT_3_5_TURBO)
+
+        // When
+        openAIGateway.updateProvider(id, name, config, models)
+
+        // Then
+        assertEquals(2, openAIGateway.getProviders().size)
+        val openAIProvider = openAIGateway.getProviders().first { it.id == id }
+        assertEquals(name, openAIProvider.name)
+        assertEquals(config, openAIProvider.config)
+        assertEquals(models, openAIProvider.models)
+    }
 
     @Test
     fun `should able to remove provider`() {
