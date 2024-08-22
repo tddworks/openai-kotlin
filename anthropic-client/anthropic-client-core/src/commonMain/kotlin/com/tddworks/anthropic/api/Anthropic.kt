@@ -31,12 +31,14 @@ interface Anthropic : Messages {
             val requester = HttpRequester.default(
                 createHttpClient(
                     host = anthropicConfig.baseUrl,
-                    authToken = anthropicConfig.apiKey,
                     // get from commonModule
                     json = JsonLenient,
                 )
             )
-            val messages = DefaultMessagesApi(requester = requester)
+            val messages = DefaultMessagesApi(
+                anthropicConfig = anthropicConfig,
+                requester = requester
+            )
 
             return AnthropicApi(anthropicConfig = anthropicConfig, messages = messages)
         }

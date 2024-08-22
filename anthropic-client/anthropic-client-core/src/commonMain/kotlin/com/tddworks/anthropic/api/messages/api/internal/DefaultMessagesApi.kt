@@ -1,17 +1,20 @@
 package com.tddworks.anthropic.api.messages.api.internal
 
 import com.tddworks.anthropic.api.AnthropicConfig
-import com.tddworks.anthropic.api.messages.api.*
+import com.tddworks.anthropic.api.messages.api.CreateMessageRequest
+import com.tddworks.anthropic.api.messages.api.CreateMessageResponse
+import com.tddworks.anthropic.api.messages.api.Messages
+import com.tddworks.anthropic.api.messages.api.StreamMessageResponse
 import com.tddworks.common.network.api.ktor.api.HttpRequester
 import com.tddworks.common.network.api.ktor.api.performRequest
 import com.tddworks.common.network.api.ktor.api.streamRequest
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.serialization.json.Json
 
 /**
  * Anthropic Messages API - https://docs.anthropic.com/claude/reference/messages_post
+ * All requests to the Anthropic API must include an x-api-key header with your API key
  */
 class DefaultMessagesApi(
     private val anthropicConfig: AnthropicConfig = AnthropicConfig(),
