@@ -1,5 +1,7 @@
 package com.tddworks.openai.gateway.api
 
+import com.tddworks.anthropic.api.Anthropic
+import com.tddworks.ollama.api.Ollama
 import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.gateway.api.internal.anthropic
 import com.tddworks.openai.gateway.api.internal.default
@@ -28,26 +30,19 @@ object DarwinOpenAIGateway {
     fun openAIGateway(
         openAIBaseUrl: () -> String = { OpenAI.BASE_URL },
         openAIKey: () -> String = { "CONFIGURE_ME" },
-        anthropicBaseUrl: () -> String = { "api.anthropic.com" },
+        anthropicBaseUrl: () -> String = { Anthropic.BASE_URL },
         anthropicKey: () -> String = { "CONFIGURE_ME" },
-        anthropicVersion: () -> String = { "2023-06-01" },
-        ollamaBaseUrl: () -> String = { "localhost" },
-        ollamaPort: () -> Int = { 8080 },
-        ollamaProtocol: () -> String = { "http" },
+        anthropicVersion: () -> String = { Anthropic.ANTHROPIC_VERSION },
+        ollamaBaseUrl: () -> String = { Ollama.BASE_URL },
     ) = initOpenAIGateway(
         openAIConfig = OpenAIProviderConfig.default(
-            baseUrl = openAIBaseUrl,
-            apiKey = openAIKey
-        ),
-        anthropicConfig = OpenAIProviderConfig.anthropic(
+            baseUrl = openAIBaseUrl, apiKey = openAIKey
+        ), anthropicConfig = OpenAIProviderConfig.anthropic(
             baseUrl = anthropicBaseUrl,
             apiKey = anthropicKey,
             anthropicVersion = anthropicVersion
-        ),
-        ollamaConfig = OpenAIProviderConfig.ollama(
+        ), ollamaConfig = OpenAIProviderConfig.ollama(
             baseUrl = ollamaBaseUrl,
-            port = ollamaPort,
-            protocol = ollamaProtocol
         )
     )
 }

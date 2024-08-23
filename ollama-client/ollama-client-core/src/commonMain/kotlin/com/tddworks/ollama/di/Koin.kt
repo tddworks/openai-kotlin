@@ -1,8 +1,7 @@
 package com.tddworks.ollama.di
 
 import com.tddworks.common.network.api.ktor.api.HttpRequester
-import com.tddworks.common.network.api.ktor.internal.createHttpClient
-import com.tddworks.common.network.api.ktor.internal.default
+import com.tddworks.common.network.api.ktor.internal.*
 import com.tddworks.di.commonModule
 import com.tddworks.ollama.api.Ollama
 import com.tddworks.ollama.api.OllamaConfig
@@ -37,10 +36,10 @@ fun ollamaModules(
     single<HttpRequester>(named("ollamaHttpRequester")) {
         HttpRequester.default(
             createHttpClient(
-                protocol = config.protocol,
-                host = config.baseUrl,
-                port = config.port,
-                json = get(named("ollamaJson")),
+                connectionConfig = UrlBasedConnectionConfig(
+                    baseUrl = config.baseUrl,
+                ),
+                features = ClientFeatures(json = get(named("ollamaJson")))
             )
         )
     }

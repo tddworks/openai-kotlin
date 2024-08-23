@@ -22,9 +22,7 @@ object DarwinOllama {
      * @return an Ollama instance created with the provided configuration
      */
     fun ollama(
-        port: () -> Int = { Ollama.PORT },
-        protocol: () -> String = { Ollama.PROTOCOL },
         baseUrl: () -> String = { Ollama.BASE_URL },
     ): Ollama =
-        initOllama(OllamaConfig(baseUrl = baseUrl, port = port, protocol = protocol))
+        initOllama(OllamaConfig(baseUrl = baseUrl))
 }

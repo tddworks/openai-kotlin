@@ -24,11 +24,7 @@ class OllamaOpenAIProvider(
         OpenAIModel(it.value)
     },
     private val client: Ollama = Ollama.create(
-        ollamaConfig = OllamaConfig(
-            baseUrl = config.baseUrl,
-            port = config.port,
-            protocol = config.protocol
-        )
+        ollamaConfig = OllamaConfig(baseUrl = config.baseUrl)
     )
 ) : OpenAIProvider {
     /**
@@ -79,11 +75,7 @@ fun OpenAIProvider.Companion.ollama(
         OpenAIModel(it.value)
     },
     client: Ollama = Ollama.create(
-        ollamaConfig = OllamaConfig(
-            baseUrl = config.baseUrl,
-            port = config.port,
-            protocol = config.protocol
-        )
+        ollamaConfig = OllamaConfig(baseUrl = config.baseUrl)
     )
 ): OpenAIProvider {
     return OllamaOpenAIProvider(

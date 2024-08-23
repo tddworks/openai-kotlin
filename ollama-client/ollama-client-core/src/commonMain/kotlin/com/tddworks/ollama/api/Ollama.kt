@@ -1,8 +1,7 @@
 package com.tddworks.ollama.api
 
 import com.tddworks.common.network.api.ktor.api.HttpRequester
-import com.tddworks.common.network.api.ktor.internal.createHttpClient
-import com.tddworks.common.network.api.ktor.internal.default
+import com.tddworks.common.network.api.ktor.internal.*
 import com.tddworks.ollama.api.chat.OllamaChat
 import com.tddworks.ollama.api.chat.internal.DefaultOllamaChatApi
 import com.tddworks.ollama.api.generate.OllamaGenerate
@@ -16,18 +15,16 @@ import com.tddworks.ollama.api.json.JsonLenient
 interface Ollama : OllamaChat, OllamaGenerate {
 
     companion object {
-        const val BASE_URL = "localhost"
-        const val PORT = 11434
-        const val PROTOCOL = "http"
+        const val BASE_URL = "http://localhost:11434"
 
         fun create(ollamaConfig: OllamaConfig): Ollama {
-
             val requester = HttpRequester.default(
                 createHttpClient(
-                    host = ollamaConfig.baseUrl,
-                    port = ollamaConfig.port,
-                    protocol = ollamaConfig.protocol,
-                    json = JsonLenient,
+                    connectionConfig = UrlBasedConnectionConfig(
+                        baseUrl = ollamaConfig.baseUrl,
+                    ),
+                    // get from commonModule
+                    features = ClientFeatures(json = JsonLenient)
                 )
             )
             val ollamaChat = DefaultOllamaChatApi(requester = requester)
@@ -47,18 +44,4 @@ interface Ollama : OllamaChat, OllamaGenerate {
      * @return a string representing the base URL
      */
     fun baseUrl(): String
-
-    /**
-     * This function returns the port as an integer.
-     *
-     * @return an integer representing the port
-     */
-    fun port(): Int
-
-    /**
-     * This function returns the protocol as a string.
-     *
-     * @return a string representing the protocol
-     */
-    fun protocol(): String
 }

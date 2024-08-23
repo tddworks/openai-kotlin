@@ -6,8 +6,7 @@ import io.ktor.client.engine.okhttp.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.utils.io.*
-import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.json.Json
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -15,25 +14,44 @@ import org.junit.jupiter.api.Test
 class HttpClientTest {
 
     @Test
-    fun `should return correct json response with default settings`() {
-        runBlocking {
-            val mockEngine = MockEngine { request ->
-                respond(
-                    content = ByteReadChannel("""{"ip":"127.0.0.1"}"""),
-                    status = HttpStatusCode.OK,
-                    headers = headersOf(HttpHeaders.ContentType, "application/json")
-                )
-            }
-            val apiClient = createHttpClient(
-                host = { "some-host" },
-                httpClientEngine = mockEngine
+    fun `should return correct response with host and port based config`() = runTest {
+        val mockEngine = MockEngine { _ ->
+            respond(
+                content = ByteReadChannel("""{"ip":"127.0.0.1"}"""),
+                status = HttpStatusCode.OK,
+                headers = headersOf(HttpHeaders.ContentType, "application/json")
             )
-
-            val body = apiClient.get("https://some-host:443").body<String>()
-            assertEquals("""{"ip":"127.0.0.1"}""", body)
         }
+        val apiClient = createHttpClient(
+            connectionConfig = HostPortConnectionConfig(
+                protocol = { "https" },
+                host = { "some-host" },
+                port = { 443 }
+            ),
+            httpClientEngine = mockEngine
+        )
+
+        val body = apiClient.get("https://some-host").body<String>()
+        assertEquals("""{"ip":"127.0.0.1"}""", body)
     }
 
+    @Test
+    fun `should return correct response with url based config`() = runTest {
+        val mockEngine = MockEngine { _ ->
+            respond(
+                content = ByteReadChannel("""{"ip":"127.0.0.1"}"""),
+                status = HttpStatusCode.OK,
+                headers = headersOf(HttpHeaders.ContentType, "application/json")
+            )
+        }
+        val apiClient = createHttpClient(
+            connectionConfig = UrlBasedConnectionConfig { "https://some-host" },
+            httpClientEngine = mockEngine
+        )
+
+        val body = apiClient.get("https://some-host").body<String>()
+        assertEquals("""{"ip":"127.0.0.1"}""", body)
+    }
 
     @Test
     fun `should return OkHttp engine`() {

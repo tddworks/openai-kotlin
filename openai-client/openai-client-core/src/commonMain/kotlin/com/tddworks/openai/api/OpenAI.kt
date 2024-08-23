@@ -1,8 +1,7 @@
 package com.tddworks.openai.api
 
 import com.tddworks.common.network.api.ktor.api.HttpRequester
-import com.tddworks.common.network.api.ktor.internal.createHttpClient
-import com.tddworks.common.network.api.ktor.internal.default
+import com.tddworks.common.network.api.ktor.internal.*
 import com.tddworks.di.createJson
 import com.tddworks.di.getInstance
 import com.tddworks.openai.api.chat.api.Chat
@@ -19,14 +18,21 @@ interface OpenAI : Chat, Images, Completions {
         fun create(config: OpenAIConfig): OpenAI {
             val requester = HttpRequester.default(
                 createHttpClient(
-                    host = config.baseUrl,
-                    authToken = config.apiKey,
-                    // get from commonModule
-                    json = createJson(),
+                    connectionConfig = UrlBasedConnectionConfig(config.baseUrl),
+                    authConfig = AuthConfig(config.apiKey),
+                    features = ClientFeatures(json = createJson())
                 )
             )
+            return create(requester)
+        }
+
+        fun create(
+            requester: HttpRequester,
+            chatCompletionPath: String = Chat.CHAT_COMPLETIONS_PATH
+        ): OpenAI {
             val chatApi = DefaultChatApi(
-                requester = requester
+                requester = requester,
+                chatCompletionPath = chatCompletionPath
             )
 
             val imagesApi = DefaultImagesApi(

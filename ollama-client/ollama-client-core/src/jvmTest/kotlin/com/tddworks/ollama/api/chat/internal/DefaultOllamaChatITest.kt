@@ -20,11 +20,7 @@ class DefaultOllamaChatITest : AutoCloseKoinTest() {
     @BeforeEach
     fun setUp() {
         initOllama(
-            config = OllamaConfig(
-                protocol = { "http" },
-                baseUrl = { "localhost" },
-                port = { 11434 }
-            )
+            config = OllamaConfig(baseUrl = { "http://localhost:11434" })
         )
     }
 
@@ -69,8 +65,6 @@ class DefaultOllamaChatITest : AutoCloseKoinTest() {
                 )
             )
         )
-
-        println("create response: $r")
 
         assertNotNull(r.message?.content)
     }

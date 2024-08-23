@@ -1,5 +1,8 @@
 package com.tddworks.openai.gateway.api.internal
 
+import com.tddworks.azure.api.AzureAIProviderConfig
+import com.tddworks.azure.api.azure
+import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
@@ -53,6 +56,14 @@ class DefaultOpenAIGateway(
                 name = name,
                 config = config,
                 models = models
+            )
+
+            is AzureAIProviderConfig -> DefaultOpenAIProvider(
+                id = id,
+                name = name,
+                config = config,
+                models = models,
+                openAI = OpenAI.azure(config)
             )
 
             else -> throw IllegalArgumentException("Unsupported config type")

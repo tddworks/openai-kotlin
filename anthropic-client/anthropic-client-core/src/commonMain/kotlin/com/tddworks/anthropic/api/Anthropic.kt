@@ -5,10 +5,7 @@ import com.tddworks.anthropic.api.messages.api.Messages
 import com.tddworks.anthropic.api.messages.api.internal.DefaultMessagesApi
 import com.tddworks.anthropic.api.messages.api.internal.JsonLenient
 import com.tddworks.common.network.api.ktor.api.HttpRequester
-import com.tddworks.common.network.api.ktor.internal.createHttpClient
-import com.tddworks.common.network.api.ktor.internal.default
-import com.tddworks.di.createJson
-import com.tddworks.di.getInstance
+import com.tddworks.common.network.api.ktor.internal.*
 
 /**
  * Interface for interacting with the Anthropic API.
@@ -30,9 +27,10 @@ interface Anthropic : Messages {
 
             val requester = HttpRequester.default(
                 createHttpClient(
-                    host = anthropicConfig.baseUrl,
+                    connectionConfig = UrlBasedConnectionConfig(anthropicConfig.baseUrl),
+                    authConfig = AuthConfig(anthropicConfig.apiKey),
                     // get from commonModule
-                    json = JsonLenient,
+                    features = ClientFeatures(json = JsonLenient)
                 )
             )
             val messages = DefaultMessagesApi(

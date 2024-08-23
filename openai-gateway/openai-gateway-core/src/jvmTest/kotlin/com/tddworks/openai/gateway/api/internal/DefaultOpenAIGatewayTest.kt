@@ -1,6 +1,7 @@
 package com.tddworks.openai.gateway.api.internal
 
 import app.cash.turbine.test
+import com.tddworks.azure.api.AzureAIProviderConfig
 import com.tddworks.ollama.api.OllamaModel
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
@@ -20,6 +21,7 @@ import com.tddworks.anthropic.api.AnthropicModel as AnthropicModel
 
 @OptIn(ExperimentalSerializationApi::class)
 class DefaultOpenAIGatewayTest {
+
     private val anthropic = mock<OpenAIProvider> {
         on(it.id).thenReturn("anthropic")
         on(it.supports(OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value))).thenReturn(true)
@@ -39,15 +41,47 @@ class DefaultOpenAIGatewayTest {
         on(it.name).thenReturn("Default")
     }
 
+    private val azure = mock<OpenAIProvider> {
+        on(it.id).thenReturn("azure")
+        on(it.supports(OpenAIModel(OpenAIModel.GPT_3_5_TURBO.value))).thenReturn(false)
+        on(it.name).thenReturn("azure")
+    }
+
     private val providers: List<OpenAIProvider> = listOf(
         default,
         anthropic,
-        ollama
+        ollama,
+        azure
     )
 
     private val openAIGateway = DefaultOpenAIGateway(
         providers,
     )
+
+    @Test
+    fun `should update azure provider`() {
+        // Given
+        val id = "default"
+        val name = "new Default"
+        val config = AzureAIProviderConfig(
+            apiKey = { "new api key" },
+            baseUrl = { "new endpoint" },
+            deploymentId = { "new deployment id" },
+            apiVersion = { "new api version" }
+        )
+
+        val models = listOf(OpenAIModel(OpenAIModel.GPT_3_5_TURBO.value))
+
+        // When
+        openAIGateway.updateProvider(id, name, config, models)
+
+        // Then
+        assertEquals(4, openAIGateway.getProviders().size)
+        val openAIProvider = openAIGateway.getProviders().first { it.id == id }
+        assertEquals(name, openAIProvider.name)
+        assertEquals(config, openAIProvider.config)
+        assertEquals(models, openAIProvider.models)
+    }
 
     @Test
     fun `should update openai provider`() {
@@ -65,7 +99,7 @@ class DefaultOpenAIGatewayTest {
         openAIGateway.updateProvider(id, name, config, models)
 
         // Then
-        assertEquals(3, openAIGateway.getProviders().size)
+        assertEquals(4, openAIGateway.getProviders().size)
         val openAIProvider = openAIGateway.getProviders().first { it.id == id }
         assertEquals(name, openAIProvider.name)
         assertEquals(config, openAIProvider.config)
@@ -85,7 +119,7 @@ class DefaultOpenAIGatewayTest {
         openAIGateway.updateProvider(id, name, config, models)
 
         // Then
-        assertEquals(3, openAIGateway.getProviders().size)
+        assertEquals(4, openAIGateway.getProviders().size)
         val openAIProvider = openAIGateway.getProviders().first { it.id == id }
         assertEquals(name, openAIProvider.name)
         assertEquals(config, openAIProvider.config)
@@ -107,7 +141,7 @@ class DefaultOpenAIGatewayTest {
         openAIGateway.updateProvider(id, name, config, models)
 
         // Then
-        assertEquals(3, openAIGateway.getProviders().size)
+        assertEquals(4, openAIGateway.getProviders().size)
         val openAIProvider = openAIGateway.getProviders().first { it.id == id }
         assertEquals(name, openAIProvider.name)
         assertEquals(config, openAIProvider.config)
@@ -118,8 +152,8 @@ class DefaultOpenAIGatewayTest {
     fun `should able to remove provider`() {
         openAIGateway.removeProvider(anthropic.name)
         // Then
-        assertEquals(2, openAIGateway.getProviders().size)
-        assertEquals(ollama, openAIGateway.getProviders().last())
+        assertEquals(3, openAIGateway.getProviders().size)
+        assertEquals(azure, openAIGateway.getProviders().last())
     }
 
     @Test
@@ -135,7 +169,7 @@ class DefaultOpenAIGatewayTest {
         }
 
         // Then
-        assertEquals(4, gateway.getProviders().size)
+        assertEquals(5, gateway.getProviders().size)
         assertEquals(provider, gateway.getProviders().last())
     }
 

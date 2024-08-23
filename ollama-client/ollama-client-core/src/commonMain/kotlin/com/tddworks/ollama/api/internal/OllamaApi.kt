@@ -15,14 +15,6 @@ class OllamaApi(
     override fun baseUrl(): String {
         return config.baseUrl()
     }
-
-    override fun port(): Int {
-        return config.port()
-    }
-
-    override fun protocol(): String {
-        return config.protocol()
-    }
 }
 
 fun Ollama.Companion.create(

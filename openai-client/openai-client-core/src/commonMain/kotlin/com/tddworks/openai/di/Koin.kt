@@ -1,8 +1,7 @@
 package com.tddworks.openai.di
 
 import com.tddworks.common.network.api.ktor.api.HttpRequester
-import com.tddworks.common.network.api.ktor.internal.createHttpClient
-import com.tddworks.common.network.api.ktor.internal.default
+import com.tddworks.common.network.api.ktor.internal.*
 import com.tddworks.di.commonModule
 import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.api.OpenAIApi
@@ -37,10 +36,10 @@ fun openAIModules(
     single<HttpRequester>(named("openAIHttpRequester")) {
         HttpRequester.default(
             createHttpClient(
-                host = config.baseUrl,
-                authToken = config.apiKey,
+                connectionConfig = UrlBasedConnectionConfig(config.baseUrl),
+                authConfig = AuthConfig(config.apiKey),
                 // get from commonModule
-                json = get(),
+                features = ClientFeatures(json = get())
             )
         )
     }
