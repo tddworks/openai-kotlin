@@ -150,7 +150,7 @@ class DefaultOpenAIGatewayTest {
 
     @Test
     fun `should able to remove provider`() {
-        openAIGateway.removeProvider(anthropic.name)
+        openAIGateway.removeProvider(anthropic.id)
         // Then
         assertEquals(3, openAIGateway.getProviders().size)
         assertEquals(azure, openAIGateway.getProviders().last())

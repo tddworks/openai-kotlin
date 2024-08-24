@@ -16,6 +16,6 @@ interface OpenAIGateway : Chat, Completions {
     )
 
     fun addProvider(provider: OpenAIProvider): OpenAIGateway
-    fun removeProvider(name: String)
+    fun removeProvider(id: String)
     fun getProviders(): List<OpenAIProvider>
 }

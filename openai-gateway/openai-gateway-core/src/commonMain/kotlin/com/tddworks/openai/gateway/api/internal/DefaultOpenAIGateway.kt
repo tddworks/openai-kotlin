@@ -77,8 +77,8 @@ class DefaultOpenAIGateway(
         return this
     }
 
-    override fun removeProvider(name: String) {
-        availableProviders.removeAll { it.name == name }
+    override fun removeProvider(id: String) {
+        availableProviders.removeAll { it.id == id }
     }
 
     override fun getProviders(): List<OpenAIProvider> {
