@@ -9,37 +9,10 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.*
 import io.ktor.util.*
-import kotlinx.serialization.json.Json
 
 
 internal expect fun httpClientEngine(): HttpClientEngine
 
-
-interface ConnectionConfig {
-    fun setupUrl(builder: DefaultRequest.DefaultRequestBuilder) {
-        builder.setupUrl(this)
-    }
-}
-
-data class UrlBasedConnectionConfig(
-    val baseUrl: () -> String = { "" }
-) : ConnectionConfig
-
-data class HostPortConnectionConfig(
-    val protocol: () -> String? = { null },
-    val host: () -> String = { "" },
-    val port: () -> Int? = { null },
-) : ConnectionConfig
-
-data class AuthConfig(
-    val authToken: (() -> String)? = null
-)
-
-data class ClientFeatures(
-    val json: Json = Json,
-    val queryParams: Map<String, String> = emptyMap(),
-    val expectSuccess: Boolean = true
-)
 
 fun createHttpClient(
     connectionConfig: ConnectionConfig = UrlBasedConnectionConfig(),
@@ -74,24 +47,6 @@ fun createHttpClient(
         }
 
         expectSuccess = features.expectSuccess
-    }
-}
-
-private fun DefaultRequest.DefaultRequestBuilder.setupUrl(connectionConfig: ConnectionConfig) {
-    when (connectionConfig) {
-        is HostPortConnectionConfig -> {
-            url {
-                protocol =
-                    connectionConfig.protocol()?.let { URLProtocol.createOrDefault(it) }
-                        ?: URLProtocol.HTTPS
-                host = connectionConfig.host()
-                connectionConfig.port()?.let { port = it }
-            }
-        }
-
-        is UrlBasedConnectionConfig -> {
-            connectionConfig.baseUrl().let { url.takeFrom(it) }
-        }
     }
 }
 
