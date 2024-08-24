@@ -31,8 +31,8 @@ class HttpClientTest {
             val apiClient = createHttpClient(
                 connectionConfig = HostPortConnectionConfig(
                     protocol = { "https" },
-                    host = { "some-host" },
-                    port = { 443 }
+                    port = { 443 },
+                    host = { "some-host" }
                 ),
                 httpClientEngine = mockEngine,
                 authConfig = AuthConfig(authToken = { "token" }),
@@ -50,8 +50,8 @@ class HttpClientTest {
         val apiClient = createHttpClient(
             connectionConfig = HostPortConnectionConfig(
                 protocol = { "https" },
-                host = { "some-host" },
-                port = { 443 }
+                port = { 443 },
+                host = { "some-host" }
             ),
             httpClientEngine = mockEngine
         )
