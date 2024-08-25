@@ -13,7 +13,7 @@ import com.tddworks.openai.api.legacy.completions.api.internal.DefaultCompletion
 
 interface OpenAI : Chat, Images, Completions {
     companion object {
-        const val BASE_URL = "api.openai.com"
+        const val BASE_URL = "https://api.openai.com"
 
         fun create(config: OpenAIConfig): OpenAI {
             val requester = HttpRequester.default(

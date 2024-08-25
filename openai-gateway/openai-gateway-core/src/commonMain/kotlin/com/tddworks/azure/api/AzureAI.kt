@@ -26,14 +26,10 @@ import kotlinx.serialization.ExperimentalSerializationApi
 
 data class AzureAIProviderConfig(
     override val apiKey: () -> String,
-    override val baseUrl: () -> String = { DEFAULT_BASE_URL },
+    override val baseUrl: () -> String = { AzureChatApi.BASE_URL },
     val deploymentId: () -> String,
     val apiVersion: () -> String,
-) : OpenAIProviderConfig {
-    companion object {
-        const val DEFAULT_BASE_URL = "https://YOUR_RESOURCE_NAME.openai.azure.com"
-    }
-}
+) : OpenAIProviderConfig
 
 fun OpenAIProviderConfig.Companion.azure(
     apiKey: () -> String,
@@ -103,6 +99,11 @@ class AzureChatApi(
     private val requester: HttpRequester,
     private val chatCompletionPath: String = CHAT_COMPLETIONS_PATH
 ) : Chat {
+
+    companion object {
+        const val BASE_URL = "https://YOUR_RESOURCE_NAME.openai.azure.com"
+    }
+
     override suspend fun chatCompletions(request: ChatCompletionRequest): ChatCompletion {
         return requester.performRequest<ChatCompletion> {
             method = HttpMethod.Post

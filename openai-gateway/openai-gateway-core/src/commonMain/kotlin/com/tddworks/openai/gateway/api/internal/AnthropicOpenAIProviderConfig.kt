@@ -1,18 +1,14 @@
 package com.tddworks.openai.gateway.api.internal
 
+import com.tddworks.anthropic.api.Anthropic
 import com.tddworks.anthropic.api.AnthropicConfig
 import com.tddworks.openai.gateway.api.OpenAIProviderConfig
 
 class AnthropicOpenAIProviderConfig(
-    val anthropicVersion: () -> String = { "2023-06-01" },
+    val anthropicVersion: () -> String = { Anthropic.ANTHROPIC_VERSION },
     override val apiKey: () -> String,
-    override val baseUrl: () -> String = { DEFAULT_BASE_URL }
-) : OpenAIProviderConfig {
-    companion object {
-        const val DEFAULT_BASE_URL = "https://api.anthropic.com"
-        const val DEFAULT_ANTHROPIC_VERSION = "2023-06-01"
-    }
-}
+    override val baseUrl: () -> String = { Anthropic.BASE_URL }
+) : OpenAIProviderConfig
 
 fun AnthropicOpenAIProviderConfig.toAnthropicOpenAIConfig() =
     AnthropicConfig(
@@ -23,6 +19,6 @@ fun AnthropicOpenAIProviderConfig.toAnthropicOpenAIConfig() =
 
 fun OpenAIProviderConfig.Companion.anthropic(
     apiKey: () -> String,
-    baseUrl: () -> String = { AnthropicOpenAIProviderConfig.DEFAULT_BASE_URL },
-    anthropicVersion: () -> String = { AnthropicOpenAIProviderConfig.DEFAULT_ANTHROPIC_VERSION }
+    baseUrl: () -> String = { Anthropic.BASE_URL },
+    anthropicVersion: () -> String = { Anthropic.ANTHROPIC_VERSION }
 ) = AnthropicOpenAIProviderConfig(anthropicVersion, apiKey, baseUrl)
