@@ -1,5 +1,6 @@
 package com.tddworks.openai.gateway.api.internal
 
+import com.tddworks.common.network.api.ktor.api.ListResponse
 import com.tddworks.ollama.api.Ollama
 import com.tddworks.ollama.api.OllamaConfig
 import com.tddworks.ollama.api.OllamaModel
@@ -8,6 +9,8 @@ import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.OpenAIModel
+import com.tddworks.openai.api.images.api.Image
+import com.tddworks.openai.api.images.api.ImageCreate
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import com.tddworks.openai.gateway.api.OpenAIProvider
@@ -65,6 +68,10 @@ class OllamaOpenAIProvider(
         return client.request(request.toOllamaGenerateRequest()).let {
             it.toOpenAICompletion()
         }
+    }
+
+    override suspend fun generate(request: ImageCreate): ListResponse<Image> {
+        TODO("Not yet implemented")
     }
 }
 

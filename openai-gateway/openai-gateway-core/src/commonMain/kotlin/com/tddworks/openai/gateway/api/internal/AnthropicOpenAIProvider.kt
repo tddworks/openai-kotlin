@@ -4,8 +4,11 @@ import com.tddworks.anthropic.api.Anthropic
 import com.tddworks.anthropic.api.AnthropicConfig
 import com.tddworks.anthropic.api.AnthropicModel
 import com.tddworks.anthropic.api.messages.api.*
+import com.tddworks.common.network.api.ktor.api.ListResponse
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.OpenAIModel
+import com.tddworks.openai.api.images.api.Image
+import com.tddworks.openai.api.images.api.ImageCreate
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import com.tddworks.openai.gateway.api.OpenAIProvider
@@ -72,6 +75,10 @@ class AnthropicOpenAIProvider(
 
     override suspend fun completions(request: CompletionRequest): Completion {
         throw UnsupportedOperationException("Not supported")
+    }
+
+    override suspend fun generate(request: ImageCreate): ListResponse<Image> {
+        TODO("Not yet implemented")
     }
 }
 

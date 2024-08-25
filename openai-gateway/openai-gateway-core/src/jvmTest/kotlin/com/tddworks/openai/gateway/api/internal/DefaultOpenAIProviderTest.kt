@@ -1,18 +1,22 @@
 package com.tddworks.openai.gateway.api.internal
 
 import app.cash.turbine.test
+import com.tddworks.common.network.api.ktor.api.ListResponse
 import com.tddworks.ollama.api.OllamaModel
 import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.OpenAIModel
+import com.tddworks.openai.api.images.api.Image
+import com.tddworks.openai.api.images.api.ImageCreate
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import com.tddworks.openai.gateway.api.OpenAIProvider
 import com.tddworks.openai.gateway.api.OpenAIProviderConfig
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
+import kotlinx.serialization.ExperimentalSerializationApi
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -41,6 +45,21 @@ class DefaultOpenAIProviderTest {
                 models = listOf(OpenAIModel.GPT_3_5_TURBO),
                 openAI = client
             )
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    @Test
+    fun `should return images from OpenAI API`() = runTest {
+        // given
+        val request = ImageCreate.create("A cute baby sea otter", OpenAIModel.DALL_E_3)
+        val response = ListResponse<Image>(created = 1707567219, data = emptyList())
+        whenever(client.generate(request)).thenReturn(response)
+
+        // when
+        val images = provider.generate(request)
+
+        // then
+        assertEquals(response, images)
     }
 
     @Test

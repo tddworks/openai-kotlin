@@ -2,12 +2,15 @@
 
 package com.tddworks.openai.gateway.api.internal
 
+import com.tddworks.common.network.api.ktor.api.ListResponse
 import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.chat.api.OpenAIModel.Companion.availableModels
+import com.tddworks.openai.api.images.api.Image
+import com.tddworks.openai.api.images.api.ImageCreate
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import com.tddworks.openai.gateway.api.OpenAIProvider
@@ -37,6 +40,10 @@ class DefaultOpenAIProvider(
 
     override suspend fun completions(request: CompletionRequest): Completion {
         return openAI.completions(request)
+    }
+
+    override suspend fun generate(request: ImageCreate): ListResponse<Image> {
+        return openAI.generate(request)
     }
 }
 

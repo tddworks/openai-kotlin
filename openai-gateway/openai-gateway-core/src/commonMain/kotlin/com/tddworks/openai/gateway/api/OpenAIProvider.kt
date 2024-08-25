@@ -2,12 +2,13 @@ package com.tddworks.openai.gateway.api
 
 import com.tddworks.openai.api.chat.api.Chat
 import com.tddworks.openai.api.chat.api.OpenAIModel
+import com.tddworks.openai.api.images.api.Images
 import com.tddworks.openai.api.legacy.completions.api.Completions
 
 /**
  * Represents a provider for the OpenAI chat functionality.
  */
-interface OpenAIProvider : Chat, Completions {
+interface OpenAIProvider : Chat, Completions, Images {
 
     /**
      * The id of the provider.

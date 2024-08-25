@@ -8,8 +8,10 @@ import com.tddworks.openai.api.images.api.ImageCreate
 import com.tddworks.openai.api.images.api.Images
 import io.ktor.client.request.*
 import io.ktor.http.*
+import kotlinx.serialization.ExperimentalSerializationApi
 
 class DefaultImagesApi(private val requester: HttpRequester) : Images {
+    @OptIn(ExperimentalSerializationApi::class)
     override suspend fun generate(request: ImageCreate): ListResponse<Image> {
         return requester.performRequest<ListResponse<Image>> {
             method = HttpMethod.Post

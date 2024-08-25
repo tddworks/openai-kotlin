@@ -2,11 +2,14 @@ package com.tddworks.openai.gateway.api.internal
 
 import com.tddworks.azure.api.AzureAIProviderConfig
 import com.tddworks.azure.api.azure
+import com.tddworks.common.network.api.ktor.api.ListResponse
 import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.OpenAIModel
+import com.tddworks.openai.api.images.api.Image
+import com.tddworks.openai.api.images.api.ImageCreate
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import com.tddworks.openai.gateway.api.OpenAIGateway
@@ -121,6 +124,13 @@ class DefaultOpenAIGateway(
         return availableProviders.firstOrNull {
             it.supports(request.model)
         }?.completions(request)
+            ?: throwNoProviderFound(request.model.value)
+    }
+
+    override suspend fun generate(request: ImageCreate): ListResponse<Image> {
+        return availableProviders.firstOrNull {
+            it.supports(request.model)
+        }?.generate(request)
             ?: throwNoProviderFound(request.model.value)
     }
 
