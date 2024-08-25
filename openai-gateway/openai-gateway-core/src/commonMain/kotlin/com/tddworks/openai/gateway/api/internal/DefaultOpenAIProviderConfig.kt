@@ -8,7 +8,7 @@ data class DefaultOpenAIProviderConfig(
     override val baseUrl: () -> String = { DEFAULT_BASE_URL }
 ) : OpenAIProviderConfig {
     companion object {
-        const val DEFAULT_BASE_URL = "api.openai.com"
+        const val DEFAULT_BASE_URL = "https://api.openai.com"
     }
 }
 

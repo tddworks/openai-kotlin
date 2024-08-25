@@ -26,10 +26,14 @@ import kotlinx.serialization.ExperimentalSerializationApi
 
 data class AzureAIProviderConfig(
     override val apiKey: () -> String,
-    override val baseUrl: () -> String,
+    override val baseUrl: () -> String = { DEFAULT_BASE_URL },
     val deploymentId: () -> String,
     val apiVersion: () -> String,
-) : OpenAIProviderConfig
+) : OpenAIProviderConfig {
+    companion object {
+        const val DEFAULT_BASE_URL = "https://YOUR_RESOURCE_NAME.openai.azure.com"
+    }
+}
 
 fun OpenAIProviderConfig.Companion.azure(
     apiKey: () -> String,
