@@ -21,7 +21,9 @@ class AnthropicITest : AutoCloseKoinTest() {
     fun setUp() {
         anthropic = iniAnthropic(
             config = AnthropicConfig(
-                baseUrl = { System.getenv("ANTHROPIC_BASE_URL") ?: "api.anthropic.com" },
+                baseUrl = {
+                    System.getenv("ANTHROPIC_BASE_URL") ?: "https://api.anthropic.com"
+                },
                 apiKey = { System.getenv("ANTHROPIC_API_KEY") ?: "CONFIGURE_ME" },
                 anthropicVersion = { "2023-06-01" }
             )
@@ -31,7 +33,7 @@ class AnthropicITest : AutoCloseKoinTest() {
 
     @Test
     fun `should return correct base url`() {
-        assertEquals("api.anthropic.com", Anthropic.BASE_URL)
+        assertEquals("https://api.anthropic.com", Anthropic.BASE_URL)
     }
 
 

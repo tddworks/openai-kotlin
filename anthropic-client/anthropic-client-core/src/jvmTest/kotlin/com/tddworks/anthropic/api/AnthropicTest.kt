@@ -9,11 +9,9 @@ class AnthropicTest {
 
     @Test
     fun `should return default settings`() {
-        assertEquals("api.anthropic.com", anthropic.baseUrl())
+        assertEquals("https://api.anthropic.com", anthropic.baseUrl())
 
         assertEquals("CONFIG_API_KEY", anthropic.apiKey())
-
-        assertEquals("api.anthropic.com", anthropic.baseUrl())
 
         assertEquals("2023-06-01", anthropic.anthropicVersion())
     }
