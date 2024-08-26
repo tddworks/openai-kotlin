@@ -1,8 +1,8 @@
 package com.tddworks.azure.api
 
+import com.tddworks.azure.api.internal.AzureChatApi
+import com.tddworks.azure.api.internal.azure
 import com.tddworks.common.network.api.ktor.api.HttpRequester
-import com.tddworks.common.network.api.ktor.api.performRequest
-import com.tddworks.common.network.api.ktor.api.streamRequest
 import com.tddworks.common.network.api.ktor.internal.ClientFeatures
 import com.tddworks.common.network.api.ktor.internal.UrlBasedConnectionConfig
 import com.tddworks.common.network.api.ktor.internal.createHttpClient
@@ -10,19 +10,11 @@ import com.tddworks.common.network.api.ktor.internal.default
 import com.tddworks.di.createJson
 import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.api.chat.api.Chat
-import com.tddworks.openai.api.chat.api.Chat.Companion.CHAT_COMPLETIONS_PATH
-import com.tddworks.openai.api.chat.api.ChatCompletion
-import com.tddworks.openai.api.chat.api.ChatCompletionChunk
-import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.images.api.Images
-import com.tddworks.openai.api.images.internal.DefaultImagesApi
+import com.tddworks.openai.api.images.internal.default
 import com.tddworks.openai.api.legacy.completions.api.Completions
-import com.tddworks.openai.api.legacy.completions.api.internal.DefaultCompletionsApi
+import com.tddworks.openai.api.legacy.completions.api.internal.default
 import com.tddworks.openai.gateway.api.OpenAIProviderConfig
-import io.ktor.client.request.*
-import io.ktor.http.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.serialization.ExperimentalSerializationApi
 
 data class AzureAIProviderConfig(
     override val apiKey: () -> String,
@@ -42,6 +34,7 @@ fun OpenAIProviderConfig.Companion.azure(
     deploymentId = deploymentId,
     apiVersion = apiVersion
 )
+
 
 /**
  * Authentication
@@ -63,69 +56,21 @@ fun OpenAI.Companion.azure(config: AzureAIProviderConfig): OpenAI {
             )
         )
     )
-    return azure(
-        config = config,
+    val chatApi = Chat.azure(
+        apiKey = config.apiKey,
         requester = requester,
-        chatCompletionPath = "chat/completions"
-    )
-}
-
-fun azure(
-    config: AzureAIProviderConfig,
-    requester: HttpRequester,
-    chatCompletionPath: String
-): OpenAI {
-    val chatApi = AzureChatApi(
-        config = config,
-        requester = requester,
-        chatCompletionPath = chatCompletionPath
+        chatCompletionPath = AzureChatApi.CHAT_COMPLETIONS
     )
 
-    val imagesApi = DefaultImagesApi(
+    //TODO implement the rest of the APIs for Azure Images.azure
+    val imagesApi = Images.default(
         requester = requester
     )
-
-    val completionsApi = DefaultCompletionsApi(
+    //TODO implement the rest of the APIs for Azure Completions.azure
+    val completionsApi = Completions.default(
         requester = requester
     )
-
     return object : OpenAI, Chat by chatApi, Images by imagesApi,
         Completions by completionsApi {}
 }
 
-@OptIn(ExperimentalSerializationApi::class)
-class AzureChatApi(
-    private val config: AzureAIProviderConfig,
-    private val requester: HttpRequester,
-    private val chatCompletionPath: String = CHAT_COMPLETIONS_PATH
-) : Chat {
-
-    companion object {
-        const val BASE_URL = "https://YOUR_RESOURCE_NAME.openai.azure.com"
-    }
-
-    override suspend fun chatCompletions(request: ChatCompletionRequest): ChatCompletion {
-        return requester.performRequest<ChatCompletion> {
-            method = HttpMethod.Post
-            url(path = chatCompletionPath)
-            setBody(request)
-            contentType(ContentType.Application.Json)
-        }
-    }
-
-    override fun streamChatCompletions(request: ChatCompletionRequest): Flow<ChatCompletionChunk> {
-        return requester.streamRequest<ChatCompletionChunk> {
-            method = HttpMethod.Post
-            url(path = chatCompletionPath)
-            setBody(request.copy(stream = true))
-            contentType(ContentType.Application.Json)
-            accept(ContentType.Text.EventStream)
-            headers {
-                append("api-key", config.apiKey())
-                append(HttpHeaders.CacheControl, "no-cache")
-                append(HttpHeaders.Connection, "keep-alive")
-            }
-        }
-    }
-
-}

@@ -32,11 +32,11 @@ class OllamaOpenAIProvider(
 ) : OpenAIProvider {
     /**
      * Check if the given OpenAIModel is supported by the available models.
-     * @param openAIModel The OpenAIModel to check for support.
+     * @param model The OpenAIModel to check for support.
      * @return true if the model is supported, false otherwise.
      */
-    override fun supports(openAIModel: OpenAIModel): Boolean {
-        return models.any { it.value == openAIModel.value }
+    override fun supports(model: OpenAIModel): Boolean {
+        return models.any { it.value == model.value }
     }
 
     /**
@@ -46,9 +46,7 @@ class OllamaOpenAIProvider(
      */
     override suspend fun chatCompletions(request: ChatCompletionRequest): ChatCompletion {
         val ollamaChatRequest = request.toOllamaChatRequest()
-        return client.request(ollamaChatRequest).let {
-            it.toOpenAIChatCompletion()
-        }
+        return client.request(ollamaChatRequest).toOpenAIChatCompletion()
     }
 
     /**
@@ -65,9 +63,7 @@ class OllamaOpenAIProvider(
     }
 
     override suspend fun completions(request: CompletionRequest): Completion {
-        return client.request(request.toOllamaGenerateRequest()).let {
-            it.toOpenAICompletion()
-        }
+        return client.request(request.toOllamaGenerateRequest()).toOpenAICompletion()
     }
 
     override suspend fun generate(request: ImageCreate): ListResponse<Image> {

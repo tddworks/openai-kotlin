@@ -6,4 +6,5 @@ package com.tddworks.openai.api.legacy.completions.api
  */
 interface Completions {
     suspend fun completions(request: CompletionRequest): Completion
+    companion object
 }

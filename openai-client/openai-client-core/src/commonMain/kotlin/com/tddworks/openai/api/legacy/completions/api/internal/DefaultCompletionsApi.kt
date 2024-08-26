@@ -8,7 +8,7 @@ import com.tddworks.openai.api.legacy.completions.api.Completions
 import io.ktor.client.request.*
 import io.ktor.http.*
 
-class DefaultCompletionsApi(
+internal class DefaultCompletionsApi(
     private val requester: HttpRequester,
 ) : Completions {
     override suspend fun completions(request: CompletionRequest): Completion {
@@ -24,3 +24,6 @@ class DefaultCompletionsApi(
         const val COMPLETIONS_PATH = "/v1/completions"
     }
 }
+
+fun Completions.Companion.default(requester: HttpRequester): Completions =
+    DefaultCompletionsApi(requester)

@@ -5,17 +5,17 @@ import com.tddworks.common.network.api.ktor.internal.*
 import com.tddworks.di.createJson
 import com.tddworks.di.getInstance
 import com.tddworks.openai.api.chat.api.Chat
-import com.tddworks.openai.api.chat.internal.DefaultChatApi
+import com.tddworks.openai.api.chat.internal.default
 import com.tddworks.openai.api.images.api.Images
-import com.tddworks.openai.api.images.internal.DefaultImagesApi
+import com.tddworks.openai.api.images.internal.default
 import com.tddworks.openai.api.legacy.completions.api.Completions
-import com.tddworks.openai.api.legacy.completions.api.internal.DefaultCompletionsApi
+import com.tddworks.openai.api.legacy.completions.api.internal.default
 
 interface OpenAI : Chat, Images, Completions {
     companion object {
         const val BASE_URL = "https://api.openai.com"
 
-        fun create(config: OpenAIConfig): OpenAI {
+        fun default(config: OpenAIConfig): OpenAI {
             val requester = HttpRequester.default(
                 createHttpClient(
                     connectionConfig = UrlBasedConnectionConfig(config.baseUrl),
@@ -23,23 +23,23 @@ interface OpenAI : Chat, Images, Completions {
                     features = ClientFeatures(json = createJson())
                 )
             )
-            return create(requester)
+            return default(requester)
         }
 
-        fun create(
+        fun default(
             requester: HttpRequester,
             chatCompletionPath: String = Chat.CHAT_COMPLETIONS_PATH
         ): OpenAI {
-            val chatApi = DefaultChatApi(
+            val chatApi = Chat.default(
                 requester = requester,
                 chatCompletionPath = chatCompletionPath
             )
 
-            val imagesApi = DefaultImagesApi(
+            val imagesApi = Images.default(
                 requester = requester
             )
 
-            val completionsApi = DefaultCompletionsApi(
+            val completionsApi = Completions.default(
                 requester = requester
             )
 

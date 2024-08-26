@@ -19,9 +19,10 @@ import kotlinx.serialization.ExperimentalSerializationApi
  * @property requester The HttpRequester to use for performing HTTP requests.
  */
 @OptIn(ExperimentalSerializationApi::class)
-class DefaultChatApi(
+internal class DefaultChatApi(
     private val requester: HttpRequester,
-    private val chatCompletionPath: String = CHAT_COMPLETIONS_PATH
+    private val chatCompletionPath: String = CHAT_COMPLETIONS_PATH,
+    private val extraHeaders: Map<String, String> = mapOf()
 ) : Chat {
     override suspend fun chatCompletions(request: ChatCompletionRequest): ChatCompletion {
         return requester.performRequest<ChatCompletion> {
@@ -29,6 +30,9 @@ class DefaultChatApi(
             url(path = chatCompletionPath)
             setBody(request)
             contentType(ContentType.Application.Json)
+            headers {
+                extraHeaders.forEach { (key, value) -> append(key, value) }
+            }
         }
     }
 
@@ -42,8 +46,14 @@ class DefaultChatApi(
             headers {
                 append(HttpHeaders.CacheControl, "no-cache")
                 append(HttpHeaders.Connection, "keep-alive")
+                extraHeaders.forEach { (key, value) -> append(key, value) }
             }
         }
     }
-
 }
+
+fun Chat.Companion.default(
+    requester: HttpRequester,
+    chatCompletionPath: String = CHAT_COMPLETIONS_PATH,
+    extraHeaders: Map<String, String> = mapOf()
+): Chat = DefaultChatApi(requester, chatCompletionPath, extraHeaders)

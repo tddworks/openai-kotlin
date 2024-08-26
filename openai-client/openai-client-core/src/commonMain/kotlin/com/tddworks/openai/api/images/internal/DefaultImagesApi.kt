@@ -10,7 +10,7 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.serialization.ExperimentalSerializationApi
 
-class DefaultImagesApi(private val requester: HttpRequester) : Images {
+internal class DefaultImagesApi(private val requester: HttpRequester) : Images {
     @OptIn(ExperimentalSerializationApi::class)
     override suspend fun generate(request: ImageCreate): ListResponse<Image> {
         return requester.performRequest<ListResponse<Image>> {
@@ -21,3 +21,6 @@ class DefaultImagesApi(private val requester: HttpRequester) : Images {
         }
     }
 }
+
+fun Images.Companion.default(requester: HttpRequester): Images =
+    DefaultImagesApi(requester)

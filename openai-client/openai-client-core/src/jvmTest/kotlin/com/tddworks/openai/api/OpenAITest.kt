@@ -17,7 +17,7 @@ class OpenAITest {
 
     @Test
     fun `should create openai instance`() {
-        val openAI = OpenAI.create(OpenAIConfig())
+        val openAI = OpenAI.default(OpenAIConfig())
 
         assertNotNull(openAI)
     }

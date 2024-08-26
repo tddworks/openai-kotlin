@@ -2,6 +2,8 @@
 
 package com.tddworks.openai.gateway.api.internal
 
+import com.tddworks.azure.api.AzureAIProviderConfig
+import com.tddworks.azure.api.azure
 import com.tddworks.common.network.api.ktor.api.ListResponse
 import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.api.chat.api.ChatCompletion
@@ -23,7 +25,7 @@ class DefaultOpenAIProvider(
     override val name: String = "OpenAI",
     override val models: List<OpenAIModel> = availableModels,
     override val config: OpenAIProviderConfig,
-    private val openAI: OpenAI = OpenAI.create(config.toOpenAIConfig()),
+    private val openAI: OpenAI = OpenAI.default(config.toOpenAIConfig()),
 ) : OpenAIProvider {
 
     override fun supports(model: OpenAIModel): Boolean {
@@ -51,7 +53,19 @@ fun OpenAIProvider.Companion.openAI(
     id: String = "openai",
     config: OpenAIProviderConfig,
     models: List<OpenAIModel>,
-    openAI: OpenAI = OpenAI.create(config.toOpenAIConfig())
+    openAI: OpenAI = OpenAI.default(config.toOpenAIConfig())
+): OpenAIProvider {
+    return DefaultOpenAIProvider(
+        id = id,
+        config = config, models = models, openAI = openAI
+    )
+}
+
+fun OpenAIProvider.Companion.azure(
+    id: String = "azure",
+    config: OpenAIProviderConfig,
+    models: List<OpenAIModel>,
+    openAI: OpenAI = OpenAI.azure(config as AzureAIProviderConfig)
 ): OpenAIProvider {
     return DefaultOpenAIProvider(
         id = id,
