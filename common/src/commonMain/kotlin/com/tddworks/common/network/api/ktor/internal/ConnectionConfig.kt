@@ -11,18 +11,15 @@ interface ConnectionConfig {
 
 private fun DefaultRequest.DefaultRequestBuilder.setupUrl(connectionConfig: ConnectionConfig) {
     when (connectionConfig) {
-        is HostPortConnectionConfig -> {
-            url {
-                protocol =
-                    connectionConfig.protocol()?.let { URLProtocol.createOrDefault(it) }
-                        ?: URLProtocol.HTTPS
-                host = connectionConfig.host()
-                connectionConfig.port()?.let { port = it }
-            }
-        }
+        is HostPortConnectionConfig -> setupHostPortConnectionConfig(connectionConfig)
+        is UrlBasedConnectionConfig -> url.takeFrom(connectionConfig.baseUrl())
+    }
+}
 
-        is UrlBasedConnectionConfig -> {
-            connectionConfig.baseUrl().let { url.takeFrom(it) }
-        }
+private fun DefaultRequest.DefaultRequestBuilder.setupHostPortConnectionConfig(config: HostPortConnectionConfig) {
+    url {
+        protocol = config.protocol()?.let { URLProtocol.createOrDefault(it) } ?: URLProtocol.HTTPS
+        host = config.host()
+        config.port()?.let { port = it }
     }
 }
