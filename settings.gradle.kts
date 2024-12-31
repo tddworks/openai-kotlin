@@ -56,4 +56,6 @@ include(":ollama-client")
 include(":ollama-client:ollama-client-core")
 include(":ollama-client:ollama-client-darwin")
 
-//include(":gemini-client")
+include(":gemini-client")
+include(":gemini-client:gemini-client-core")
+include(":gemini-client:gemini-client-darwin")
