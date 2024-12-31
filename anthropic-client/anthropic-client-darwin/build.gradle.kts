@@ -5,24 +5,6 @@ plugins {
     `maven-publish`
 }
 
-
-kmmbridge {
-    /**
-     * reference: https://kmmbridge.touchlab.co/docs/artifacts/MAVEN_REPO_ARTIFACTS#github-packages
-     * In kmmbridge, notice mavenPublishArtifacts() tells the plugin to push KMMBridge artifacts to a Maven repo. You then need to define a repo. Rather than do everything manually, you can just call addGithubPackagesRepository(), which will add the correct repo given parameters that are passed in from GitHub Actions.
-     */
-    mavenPublishArtifacts() // <- Publish using a Maven repo
-//    spm {
-//        swiftToolsVersion = "5.9"
-//        platforms {
-//            iOS("14")
-//            macOS("13")
-//            watchOS("7")
-//            tvOS("14")
-//        }
-//    }
-}
-
 kotlin {
     listOf(
         macosArm64(),
@@ -53,8 +35,7 @@ kmmbridge {
      * reference: https://kmmbridge.touchlab.co/docs/artifacts/MAVEN_REPO_ARTIFACTS#github-packages
      * In kmmbridge, notice mavenPublishArtifacts() tells the plugin to push KMMBridge artifacts to a Maven repo. You then need to define a repo. Rather than do everything manually, you can just call addGithubPackagesRepository(), which will add the correct repo given parameters that are passed in from GitHub Actions.
      */
-//    mavenPublishArtifacts() // <- Publish using a Maven repo
-//    spm(swiftToolVersion = "5.9")
+    mavenPublishArtifacts() // <- Publish using a Maven repo
 //    spm {
 //        swiftToolsVersion = "5.9"
 //        platforms {
@@ -65,3 +46,4 @@ kmmbridge {
 //        }
 //    }
 }
+

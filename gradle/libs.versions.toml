@@ -18,13 +18,19 @@ touchlab-skie = { id = "co.touchlab.skie", version.ref = "touchlab-skie" }
 
 com-linecorp-build-recipe = { id = "com.linecorp.build-recipe-plugin", version.ref = "com-linecorp-build-recipe-plugin" }
 
-kotlinx-binary-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.17.0" }
+kotlinx-binary-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.14.0" }
+##                                                                                             ⬆ = "0.15.0" }
+##                                                                                             ⬆ = "0.15.1" }
+##                                                                                             ⬆ = "0.16.0" }
+##                                                                                             ⬆ = "0.16.1" }
+##                                                                                             ⬆ = "0.16.2" }
+##                                                                                             ⬆ = "0.16.3" }
 
 # Quality and coverage
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 
 # Publishing
-touchlab-kmmbridge = { id = "co.touchlab.kmmbridge", version.ref = "touchlab-kmmbridge" }
+touchlab-kmmbridge = { id = "co.touchlab.kmmbridge.github", version.ref = "touchlab-kmmbridge" }
 
 build-dokka-plugin = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 
@@ -33,38 +39,38 @@ gradle-kotlinter = { id = "org.jmailen.kotlinter", version.ref = "gradle-kotlint
 
 [versions]
 
-agp = "8.7.3"
-kotlin = "2.1.0"
+agp = "8.7.0"
+kotlin = "2.0.20"
 
-ktor = "3.0.3"
+ktor = "2.3.12"
 kotlinx-serialization = "1.7.3"
-kover = "0.9.0"
-kotlinx-coroutines = "1.10.1"
+kover = "0.8.3"
+kotlinx-coroutines = "1.9.0"
 
 #logging-versions
 napier = "2.6.1"
 
 #test-versions
-junit = "5.11.4"
-mockito-junit-jupiter = "5.14.2"
+junit = "5.11.2"
+mockito-junit-jupiter = "5.14.1"
 mockito-kotlin = "5.4.0"
-assertj-core = "3.27.0"
+assertj-core = "3.26.3"
 app-cash-turbine = "1.0.0"
 
 #formatting-versions
 gradle-kotlinter = "4.2.0"
 
 # DI
-koin-core = "4.0.1"
+koin-core = "4.0.0"
 
 # plugins
-touchlab-skie = "0.10.0"
+touchlab-skie = "0.9.2"
 
-touchlab-kmmbridge = "0.5.3"
+touchlab-kmmbridge = "1.2.0"
 
 com-linecorp-build-recipe-plugin = "1.1.1"
 
-dokka = "2.0.0"
+dokka = "1.9.20"
 
 android-minSdk = "24"
 android-compileSdk = "34"
@@ -109,7 +115,8 @@ assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj-cor
 
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 
-app-cash-turbine = { module = "app.cash.turbine:turbine", version = "1.2.0" }
+app-cash-turbine = { module = "app.cash.turbine:turbine", version = "1.0.0" }
+##                                                             ⬆ = "1.1.0" }
 
 # Formatting
 gradle-kotlinter = { module = "org.jmailen.gradle:kotlinter-gradle", version.ref = "gradle-kotlinter" }
