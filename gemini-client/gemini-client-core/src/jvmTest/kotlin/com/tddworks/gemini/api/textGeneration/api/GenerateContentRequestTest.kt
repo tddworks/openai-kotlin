@@ -11,7 +11,6 @@ class GenerateContentRequestTest {
         val generateContentRequest = GenerateContentRequest(
             contents = listOf(),
             stream = true,
-            apiKey = "some-key"
         )
 
         // When
@@ -19,7 +18,7 @@ class GenerateContentRequestTest {
 
         // Then
         assertEquals(
-            "/v1beta/models/gemini-1.5-flash:streamGenerateContent?alt=sse&key=some-key",
+            "/v1beta/models/gemini-1.5-flash:streamGenerateContent",
             result
         )
     }
@@ -39,7 +38,7 @@ class GenerateContentRequestTest {
 
         // Then
         assertEquals(
-            "/v1beta/models/gemini-1.5-flash:generateContent?key=some-key",
+            "/v1beta/models/gemini-1.5-flash:generateContent",
             result
         )
     }

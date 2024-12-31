@@ -34,9 +34,9 @@ data class GenerateContentRequest(
 ) {
     fun toRequestUrl(): String {
         val endpoint = if (stream) {
-            "streamGenerateContent?alt=sse&key=$apiKey"
+            "streamGenerateContent"
         } else {
-            "generateContent?key=$apiKey"
+            "generateContent"
         }
         return "$GEMINI_API_PATH/${model.value}:$endpoint"
     }

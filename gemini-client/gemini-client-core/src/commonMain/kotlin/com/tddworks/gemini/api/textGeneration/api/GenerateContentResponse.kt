@@ -13,7 +13,7 @@ data class GenerateContentResponse(
 data class Candidate(
     val content: Content,
     val finishReason: String,
-    val avgLogprobs: Double
+    val avgLogprobs: Double? = null
 )
 
 @Serializable

@@ -23,10 +23,18 @@ fun mockHttpClient(mockResponse: String) = HttpClient(MockEngine) {
 
     engine {
         addHandler { request ->
-            if (request.url.encodedPath == "/v1beta/models/gemini-1.5-flash:generateContent") {
-                respond(mockResponse, HttpStatusCode.OK, headers)
-            } else {
-                error("Unhandled ${request.url.encodedPath}")
+            when (request.url.encodedPath) {
+                "/v1beta/models/gemini-1.5-flash:generateContent" -> {
+                    respond(mockResponse, HttpStatusCode.OK, headers)
+                }
+
+                "/v1beta/models/gemini-1.5-flash:streamGenerateContent" -> {
+                    respond(mockResponse, HttpStatusCode.OK, headers)
+                }
+
+                else -> {
+                    error("Unhandled ${request.url.encodedPath}")
+                }
             }
         }
     }

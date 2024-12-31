@@ -2,6 +2,7 @@ package com.tddworks.gemini.api.textGeneration.api.internal
 
 import com.tddworks.common.network.api.ktor.api.HttpRequester
 import com.tddworks.common.network.api.ktor.api.performRequest
+import com.tddworks.common.network.api.ktor.api.streamRequest
 import com.tddworks.gemini.api.textGeneration.api.GenerateContentRequest
 import com.tddworks.gemini.api.textGeneration.api.GenerateContentResponse
 import com.tddworks.gemini.api.textGeneration.api.TextGeneration
@@ -14,15 +15,32 @@ class DefaultTextGenerationApi(
 ) : TextGeneration {
     override suspend fun generateContent(request: GenerateContentRequest): GenerateContentResponse {
         return requester.performRequest<GenerateContentResponse> {
-            method = HttpMethod.Post
-            url(path = request.toRequestUrl())
-            setBody(request)
-            contentType(ContentType.Application.Json)
+            configureRequest(request)
         }
     }
 
+
     override fun streamGenerateContent(request: GenerateContentRequest): Flow<GenerateContentResponse> {
-        TODO("Not yet implemented")
+        return requester.streamRequest<GenerateContentResponse> {
+            configureRequest(request)
+        }
+    }
+
+    private fun HttpRequestBuilder.configureRequest(request: GenerateContentRequest) {
+        method = HttpMethod.Post
+        url(path = request.toRequestUrl())
+        parameters {
+            configureParameters(request)
+        }
+        setBody(request)
+        contentType(ContentType.Application.Json)
+    }
+
+    private fun ParametersBuilder.configureParameters(request: GenerateContentRequest) {
+        append("api_key", request.apiKey)
+        if (request.stream) {
+            append("alt", "sse")
+        }
     }
 
     companion object {

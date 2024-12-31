@@ -1,11 +1,9 @@
 package com.tddworks.gemini.api.textGeneration.api.internal
 
+import app.cash.turbine.test
 import com.tddworks.common.network.api.ktor.internal.DefaultHttpRequester
 import com.tddworks.common.network.api.ktor.internal.JsonLenient
-import com.tddworks.gemini.api.textGeneration.api.Content
-import com.tddworks.gemini.api.textGeneration.api.GenerateContentRequest
-import com.tddworks.gemini.api.textGeneration.api.Part
-import com.tddworks.gemini.api.textGeneration.api.mockHttpClient
+import com.tddworks.gemini.api.textGeneration.api.*
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -23,6 +21,47 @@ class DefaultTextGenerationTest : KoinTest {
             module {
                 single<Json> { JsonLenient }
             })
+    }
+
+    @Test
+    fun `should return correct streamGenerateContent response`() = runTest {
+        // Given
+        val jsonResponse =
+            """data: {"candidates": [{"content": {"parts": [{"text": "some-text"}],"role": "model"},"finishReason": "STOP"}],"usageMetadata": {"promptTokenCount": 4,"candidatesTokenCount": 724,"totalTokenCount": 728},"modelVersion": "gemini-1.5-flash"}"""
+        val textGenerationApi = DefaultTextGenerationApi(
+            requester = DefaultHttpRequester(
+                httpClient = mockHttpClient(jsonResponse)
+            )
+        )
+        val request = GenerateContentRequest(
+            contents = listOf(Content(parts = listOf(Part("some-text")), role = "model")),
+            stream = true
+        )
+
+        // When
+        textGenerationApi.streamGenerateContent(request).test {
+            // Then
+            assertEquals(
+                GenerateContentResponse(
+                    candidates = listOf(
+                        Candidate(
+                            content = Content(
+                                parts = listOf(Part("some-text")),
+                                role = "model"
+                            ),
+                            finishReason = "STOP"
+                        )
+                    ),
+                    usageMetadata = UsageMetadata(
+                        promptTokenCount = 4,
+                        candidatesTokenCount = 724,
+                        totalTokenCount = 728
+                    ),
+                    modelVersion = "gemini-1.5-flash"
+                ), awaitItem()
+            )
+            awaitComplete()
+        }
     }
 
     @Test
