@@ -17,6 +17,7 @@ kotlin {
             api(libs.bundles.ktor.client)
             // di
             api(libs.koin.core)
+            api(libs.koin.annotations)
         }
 
         commonTest.dependencies {
