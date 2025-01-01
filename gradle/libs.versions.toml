@@ -8,6 +8,8 @@ jvm-test = ["juinit-jupiter", "mockito-junit-jupiter", "mockito-kotlin", "ktor-c
 [plugins]
 
 #kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp = { id ="com.google.devtools.ksp", version.ref = "ksp" }
+
 
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -73,6 +75,8 @@ com-linecorp-build-recipe-plugin = "1.1.1"
 
 dokka = "1.9.20"
 
+ksp = "2.1.0-1.0.29"
+
 android-minSdk = "24"
 android-compileSdk = "34"
 
@@ -97,6 +101,7 @@ ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "kto
 #di-libraries
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin-core" }
 koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin-annotations" }
+koin-ksp-compiler = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-annotations" }
 koin-core-jvm = { module = "io.insert-koin:koin-core-jvm", version.ref = "koin-core" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin-core" }
 koin-test-junit5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "koin-core" }
