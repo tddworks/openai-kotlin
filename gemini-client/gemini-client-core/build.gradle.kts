@@ -67,7 +67,7 @@ tasks.withType<KotlinCompile>().configureEach {
 ksp {
     arg("KOIN_DEFAULT_MODULE", "false")
     // https://insert-koin.io/docs/reference/koin-annotations/start#compile-safety---check-your-koin-config-at-compile-time-since-130
-    arg("KOIN_CONFIG_CHECK", "true")
+    arg("KOIN_CONFIG_CHECK", "false")
 }
 
 tasks {

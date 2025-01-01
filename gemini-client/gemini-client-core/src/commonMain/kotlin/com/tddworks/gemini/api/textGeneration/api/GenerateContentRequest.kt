@@ -28,9 +28,7 @@ data class GenerateContentRequest(
     @Transient
     val model: GeminiModel = GeminiModel.GEMINI_1_5_FLASH,
     @Transient
-    val stream: Boolean = false,
-    @Transient
-    val apiKey: String = ""
+    val stream: Boolean = false
 ) {
     fun toRequestUrl(): String {
         val endpoint = if (stream) {

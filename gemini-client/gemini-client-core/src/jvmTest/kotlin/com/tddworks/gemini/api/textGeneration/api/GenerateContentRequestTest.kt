@@ -29,8 +29,7 @@ class GenerateContentRequestTest {
         // Given
         val generateContentRequest = GenerateContentRequest(
             contents = listOf(),
-            stream = false,
-            apiKey = "some-key"
+            stream = false
         )
 
         // When

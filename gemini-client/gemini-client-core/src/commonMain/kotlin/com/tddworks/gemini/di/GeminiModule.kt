@@ -1,26 +1,39 @@
 package com.tddworks.gemini.di
 
 import com.tddworks.common.network.api.ktor.api.HttpRequester
-import com.tddworks.common.network.api.ktor.internal.*
-import com.tddworks.di.commonModule
-import kotlinx.serialization.json.Json
-import org.koin.core.context.startKoin
-import org.koin.core.qualifier.named
-import org.koin.dsl.KoinAppDeclaration
-import org.koin.dsl.module
+import com.tddworks.common.network.api.ktor.internal.ClientFeatures
+import com.tddworks.common.network.api.ktor.internal.UrlBasedConnectionConfig
+import com.tddworks.common.network.api.ktor.internal.createHttpClient
+import com.tddworks.common.network.api.ktor.internal.default
+import com.tddworks.di.createJson
+import com.tddworks.gemini.api.textGeneration.api.Gemini
+import com.tddworks.gemini.api.textGeneration.api.GeminiConfig
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Module
-
-//
-//fun initGemini(
-//    appDeclaration: KoinAppDeclaration = {}
-//): HttpRequester {
-//    return startKoin {
-//        appDeclaration()
-//        modules(commonModule(false) + geminiModules())
-//    }.koin.get<HttpRequester>()
-//}
+import org.koin.dsl.module
+import org.koin.ksp.generated.module
 
 @Module
 @ComponentScan("com.tddworks.gemini")
-class GeminiModule
+class GeminiModule {
+    companion object {
+        fun initGeminiModule(config: GeminiConfig, enableNetworkLogs: Boolean) = module {
+            single {
+                HttpRequester.default(
+                    createHttpClient(
+                        connectionConfig = UrlBasedConnectionConfig(config.baseUrl),
+                        features = ClientFeatures(
+                            json = createJson(),
+                            queryParams = mapOf("key" to config.apiKey())
+                        )
+                    )
+                )
+            }
+
+            includes(GeminiModule().module)
+
+            single { Gemini.default() }
+        }
+    }
+}
+

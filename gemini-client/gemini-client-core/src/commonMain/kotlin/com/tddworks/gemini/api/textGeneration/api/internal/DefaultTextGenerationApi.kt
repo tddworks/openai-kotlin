@@ -31,18 +31,11 @@ class DefaultTextGenerationApi(
     private fun HttpRequestBuilder.configureRequest(request: GenerateContentRequest) {
         method = HttpMethod.Post
         url(path = request.toRequestUrl())
-        parameters {
-            configureParameters(request)
+        if (request.stream) {
+            parameter("alt", "sse")
         }
         setBody(request)
         contentType(ContentType.Application.Json)
-    }
-
-    private fun ParametersBuilder.configureParameters(request: GenerateContentRequest) {
-        append("api_key", request.apiKey)
-        if (request.stream) {
-            append("alt", "sse")
-        }
     }
 
     companion object {

@@ -14,4 +14,6 @@ interface TextGeneration {
      * data: {"candidates": [{"content": {"parts": [{"text": " it uses.  It doesn't possess consciousness or genuine understanding in the human sense.\n"}],"role": "model"},"finishReason": "STOP"}],"usageMetadata": {"promptTokenCount": 4,"candidatesTokenCount": 724,"totalTokenCount": 728},"modelVersion": "gemini-1.5-flash"}
      */
     fun streamGenerateContent(request: GenerateContentRequest): Flow<GenerateContentResponse>
+
+    companion object
 }

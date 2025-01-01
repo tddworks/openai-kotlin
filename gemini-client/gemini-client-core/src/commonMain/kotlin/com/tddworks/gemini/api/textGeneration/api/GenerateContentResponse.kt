@@ -12,14 +12,14 @@ data class GenerateContentResponse(
 @Serializable
 data class Candidate(
     val content: Content,
-    val finishReason: String,
+    val finishReason: String? = null,
     val avgLogprobs: Double? = null
 )
 
 @Serializable
 data class Content(
     val parts: List<Part>,
-    val role: String
+    val role: String? = null
 )
 
 @Serializable
@@ -30,6 +30,6 @@ data class Part(
 @Serializable
 data class UsageMetadata(
     val promptTokenCount: Int,
-    val candidatesTokenCount: Int,
+    val candidatesTokenCount: Int? = null,
     val totalTokenCount: Int
 )
