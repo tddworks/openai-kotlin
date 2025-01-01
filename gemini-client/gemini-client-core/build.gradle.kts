@@ -1,6 +1,10 @@
+import com.google.devtools.ksp.gradle.KspTaskMetadata
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.kover)
+    alias(libs.plugins.ksp)
     `maven-publish`
 }
 
@@ -10,9 +14,15 @@ kotlin {
     macosX64()
 
     sourceSets {
-        commonMain.dependencies {
-            // put your Multiplatform dependencies here
-            api(projects.common)
+        commonMain {
+            // https://github.com/google/ksp/issues/963#issuecomment-1894144639
+            tasks.withType<KspTaskMetadata> { kotlin.srcDir(destinationDirectory) }
+
+            kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+            dependencies {
+                // put your Multiplatform dependencies here
+                api(projects.common)
+            }
         }
 
         commonTest.dependencies {
@@ -39,6 +49,25 @@ kotlin {
             implementation("org.reflections:reflections:0.10.2")
         }
     }
+}
+
+// KSP Tasks
+dependencies {
+    add("kspCommonMainMetadata", libs.koin.ksp.compiler)
+}
+
+// WORKAROUND: ADD this dependsOn("kspCommonMainKotlinMetadata") instead of above dependencies
+tasks.withType<KotlinCompile>().configureEach {
+    if (name != "kspCommonMainKotlinMetadata") {
+        dependsOn("kspCommonMainKotlinMetadata")
+    }
+}
+
+
+ksp {
+    arg("KOIN_DEFAULT_MODULE", "false")
+    // https://insert-koin.io/docs/reference/koin-annotations/start#compile-safety---check-your-koin-config-at-compile-time-since-130
+    arg("KOIN_CONFIG_CHECK", "true")
 }
 
 tasks {

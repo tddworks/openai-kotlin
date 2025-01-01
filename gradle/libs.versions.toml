@@ -75,7 +75,7 @@ com-linecorp-build-recipe-plugin = "1.1.1"
 
 dokka = "1.9.20"
 
-ksp = "2.1.0-1.0.29"
+ksp = "2.0.20-1.0.25"
 
 android-minSdk = "24"
 android-compileSdk = "34"
