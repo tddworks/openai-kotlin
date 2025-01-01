@@ -24,6 +24,7 @@ dependencies {
     kover(projects.anthropicClient.anthropicClientCore)
     kover(projects.openaiGateway.openaiGatewayCore)
     kover(projects.ollamaClient.ollamaClientCore)
+    kover(projects.geminiClient.geminiClientCore)
     kover(projects.common)
 }
 
