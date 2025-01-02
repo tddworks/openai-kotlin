@@ -1,15 +1,31 @@
 package com.tddworks.gemini.api.textGeneration.api
 
-import com.tddworks.openai.api.chat.api.ChatChunk
-import com.tddworks.openai.api.chat.api.ChatCompletionRequest
-import com.tddworks.openai.api.chat.api.ChatDelta
+import com.tddworks.openai.api.chat.api.*
+import com.tddworks.openai.api.chat.api.ChatCompletion
+import com.tddworks.openai.api.chat.api.ChatMessage
 import kotlinx.serialization.ExperimentalSerializationApi
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk as OpenAIChatCompletionChunk
+import com.tddworks.openai.api.chat.api.ChatCompletion as OpenAIChatCompletion
 import com.tddworks.openai.api.chat.api.ChatMessage.AssistantMessage as OpenAIAssistantMessage
 import com.tddworks.openai.api.chat.api.ChatMessage.SystemMessage as OpenAISystemMessage
 import com.tddworks.openai.api.chat.api.ChatMessage.UserMessage as OpenAIUserMessage
 import com.tddworks.openai.api.chat.api.ChatMessage as OpenAIMessage
 import com.tddworks.openai.api.chat.api.Role as OpenAIRole
+
+
+fun GenerateContentResponse.toOpenAIChatCompletion(): OpenAIChatCompletion {
+    val id = "chatcmpl-gemini-123"
+    return ChatCompletion(
+        id = id,
+        created = 1L,
+        model = modelVersion,
+        choices = candidates.mapIndexed { index, candidate ->
+            ChatChoice(
+                message = ChatMessage.assistant(candidate.content.parts.first().text),
+                index = index,
+                finishReason = candidate.finishReason?.let { FinishReason(it) })
+        })
+}
 
 
 fun GenerateContentResponse.toOpenAIChatCompletionChunk(): OpenAIChatCompletionChunk {
@@ -39,11 +55,9 @@ fun GenerateContentResponse.toOpenAIChatCompletionChunk(): OpenAIChatCompletionC
 @OptIn(ExperimentalSerializationApi::class)
 fun ChatCompletionRequest.toGeminiGenerateContentRequest(): GenerateContentRequest {
     val systemMessage = messages.firstOrNull { it.role.name == OpenAIRole.System.name }
-        ?.let { it as? OpenAISystemMessage }
-        ?.toGeminiMessage()
+        .let { it as? OpenAISystemMessage }?.toGeminiMessage()
 
-    val contentMessages = messages
-        .filter { it.role.name != OpenAIRole.System.name }
+    val contentMessages = messages.filter { it.role.name != OpenAIRole.System.name }
         .mapNotNull { it.toGeminiMessageOrNull() }
 
     return GenerateContentRequest(
@@ -65,15 +79,13 @@ private fun OpenAIMessage.toGeminiMessageOrNull(): Content? {
 
 private fun OpenAIUserMessage.toGeminiMessage(): Content {
     return Content(
-        parts = listOf(Part(text = content)),
-        role = OpenAIRole.User.name
+        parts = listOf(Part(text = content)), role = OpenAIRole.User.name
     )
 }
 
 private fun OpenAIAssistantMessage.toGeminiMessage(): Content {
     return Content(
-        parts = listOf(Part(text = content)),
-        role = "model"
+        parts = listOf(Part(text = content)), role = "model"
     )
 }
 
