@@ -37,9 +37,9 @@ fun GenerateContentResponse.toOpenAIChatCompletionChunk(): OpenAIChatCompletionC
             index = 0,
             delta = ChatDelta(
                 role = OpenAIRole.Assistant,
-                content = candidates.first().content.parts.first().text
+                content = candidates.firstOrNull()?.content?.parts?.firstOrNull()?.text
             ),
-            finishReason = candidates.first().finishReason,
+            finishReason = candidates.firstOrNull()?.finishReason,
         )
     )
 

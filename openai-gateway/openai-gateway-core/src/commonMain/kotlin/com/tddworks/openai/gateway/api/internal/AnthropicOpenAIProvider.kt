@@ -78,7 +78,7 @@ class AnthropicOpenAIProvider(
     }
 
     override suspend fun generate(request: ImageCreate): ListResponse<Image> {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException("Not supported")
     }
 }
 

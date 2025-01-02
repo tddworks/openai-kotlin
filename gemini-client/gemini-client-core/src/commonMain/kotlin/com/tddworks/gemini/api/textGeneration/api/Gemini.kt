@@ -11,5 +11,9 @@ interface Gemini : TextGeneration {
         fun default(): Gemini {
             return object : Gemini, TextGeneration by getInstance() {}
         }
+
+        fun create(config: GeminiConfig): Gemini {
+            return object : Gemini, TextGeneration by getInstance() {}
+        }
     }
 }

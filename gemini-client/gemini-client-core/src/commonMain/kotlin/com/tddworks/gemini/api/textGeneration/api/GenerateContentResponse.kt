@@ -7,7 +7,15 @@ data class GenerateContentResponse(
     val candidates: List<Candidate>,
     val usageMetadata: UsageMetadata,
     val modelVersion: String
-)
+) {
+    companion object {
+        fun dummy() = GenerateContentResponse(
+            candidates = emptyList(),
+            usageMetadata = UsageMetadata(0, 0, 0),
+            modelVersion = ""
+        )
+    }
+}
 
 @Serializable
 data class Candidate(

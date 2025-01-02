@@ -38,5 +38,12 @@ value class GeminiModel(val value: String) {
          * Optimized for: Next generation features, speed, and multimodal generation for a diverse variety of tasks
          */
         val GEMINI_2_0_FLASH = GeminiModel("gemini-2.0-flash-exp")
+
+        val availableModels = listOf(
+            GEMINI_1_5_PRO,
+            GEMINI_1_5_FLASH_8b,
+            GEMINI_1_5_FLASH,
+            GEMINI_2_0_FLASH
+        )
     }
 }
