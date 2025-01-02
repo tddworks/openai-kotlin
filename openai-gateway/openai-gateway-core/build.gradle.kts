@@ -11,6 +11,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            api(projects.geminiClient.geminiClientCore)
             api(projects.openaiClient.openaiClientCore)
             api(projects.anthropicClient.anthropicClientCore)
             api(projects.ollamaClient.ollamaClientCore)

@@ -1,6 +1,7 @@
 package com.tddworks.gemini.api.textGeneration.api
 
 import com.tddworks.gemini.api.textGeneration.api.internal.DefaultTextGenerationApi.Companion.GEMINI_API_PATH
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
@@ -24,11 +25,11 @@ import kotlinx.serialization.Transient
  */
 @Serializable
 data class GenerateContentRequest(
+    @SerialName("system_instruction")
+    val systemInstruction: Content? = null,
     val contents: List<Content>,
-    @Transient
-    val model: GeminiModel = GeminiModel.GEMINI_1_5_FLASH,
-    @Transient
-    val stream: Boolean = false
+    @Transient val model: GeminiModel = GeminiModel.GEMINI_1_5_FLASH,
+    @Transient val stream: Boolean = false
 ) {
     fun toRequestUrl(): String {
         val endpoint = if (stream) {
