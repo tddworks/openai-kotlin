@@ -1,6 +1,5 @@
 package com.tddworks.openai.gateway.api.internal
 
-import com.tddworks.anthropic.api.messages.api.toAnthropicRequest
 import com.tddworks.common.network.api.ktor.api.ListResponse
 import com.tddworks.gemini.api.textGeneration.api.*
 import com.tddworks.openai.api.chat.api.ChatCompletion
@@ -12,7 +11,6 @@ import com.tddworks.openai.api.images.api.ImageCreate
 import com.tddworks.openai.api.legacy.completions.api.Completion
 import com.tddworks.openai.api.legacy.completions.api.CompletionRequest
 import com.tddworks.openai.gateway.api.OpenAIProvider
-import com.tddworks.openai.gateway.api.OpenAIProviderConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -21,10 +19,10 @@ import kotlinx.serialization.ExperimentalSerializationApi
 class GeminiOpenAIProvider(
     override val id: String = "gemini",
     override val name: String = "Gemini",
+    override val config: GeminiOpenAIProviderConfig,
     override val models: List<OpenAIModel> = GeminiModel.availableModels.map {
         OpenAIModel(it.value)
     },
-    override val config: OpenAIProviderConfig,
     val client: Gemini
 ) : OpenAIProvider {
 
@@ -38,7 +36,7 @@ class GeminiOpenAIProvider(
     }
 
     override fun streamChatCompletions(request: ChatCompletionRequest): Flow<ChatCompletionChunk> {
-        val geminiRequest = request.toGeminiGenerateContentRequest()
+        val geminiRequest = request.toGeminiGenerateContentRequest().copy(stream = true)
 
         return client.streamGenerateContent(geminiRequest).transform {
             emit(it.toOpenAIChatCompletionChunk())
@@ -57,7 +55,7 @@ class GeminiOpenAIProvider(
 fun OpenAIProvider.Companion.gemini(
     id: String = "gemini", models: List<OpenAIModel> = GeminiModel.availableModels.map {
         OpenAIModel(it.value)
-    }, config: OpenAIProviderConfig, client: Gemini
+    }, config: GeminiOpenAIProviderConfig, client: Gemini
 ): OpenAIProvider {
     return GeminiOpenAIProvider(
         id = id, models = models, config = config, client = client

@@ -17,7 +17,7 @@ import org.koin.ksp.generated.module
 @ComponentScan("com.tddworks.gemini")
 class GeminiModule {
     companion object {
-        fun initGeminiModule(config: GeminiConfig, enableNetworkLogs: Boolean) = module {
+        fun geminiModules(config: GeminiConfig) = module {
             single {
                 HttpRequester.default(
                     createHttpClient(

@@ -92,7 +92,11 @@ class GeminiOpenAIProviderTest {
             ChatCompletionRequest.dummy(OpenAIModel(GeminiModel.GEMINI_1_5_FLASH.value))
 
         val response = GenerateContentResponse.dummy()
-        whenever(client.streamGenerateContent(request.toGeminiGenerateContentRequest())).thenReturn(
+        whenever(
+            client.streamGenerateContent(
+                request.toGeminiGenerateContentRequest().copy(stream = true)
+            )
+        ).thenReturn(
             flow {
                 emit(
                     response

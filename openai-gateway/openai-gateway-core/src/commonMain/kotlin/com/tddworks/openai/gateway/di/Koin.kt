@@ -13,22 +13,30 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
+import com.tddworks.gemini.di.GeminiModule.Companion.geminiModules
 
 @ExperimentalSerializationApi
 fun initOpenAIGateway(
     openAIConfig: DefaultOpenAIProviderConfig,
     anthropicConfig: AnthropicOpenAIProviderConfig,
     ollamaConfig: OllamaOpenAIProviderConfig,
+    geminiConfig: GeminiOpenAIProviderConfig,
     appDeclaration: KoinAppDeclaration = {},
 ) = startKoin {
     appDeclaration()
     modules(
-        commonModule(false)
-                + openAIModules(openAIConfig.toOpenAIConfig())
-                + anthropicModules(anthropicConfig.toAnthropicOpenAIConfig())
-                + ollamaModules(ollamaConfig.toOllamaConfig())
-                + openAIProviderConfigsModule(openAIConfig, anthropicConfig, ollamaConfig)
-                + openAIGatewayModules()
+        commonModule(false),
+        openAIModules(openAIConfig.toOpenAIConfig()),
+        anthropicModules(anthropicConfig.toAnthropicOpenAIConfig()),
+        ollamaModules(ollamaConfig.toOllamaConfig()),
+        geminiModules(geminiConfig.toGeminiConfig()),
+        openAIProviderConfigsModule(
+            openAIConfig,
+            anthropicConfig,
+            ollamaConfig,
+            geminiConfig
+        ),
+        openAIGatewayModules()
     )
 }.koin.get<OpenAIGateway>()
 
@@ -36,11 +44,13 @@ fun initOpenAIGateway(
 private fun openAIProviderConfigsModule(
     openAIConfig: DefaultOpenAIProviderConfig,
     anthropicConfig: AnthropicOpenAIProviderConfig,
-    ollamaConfig: OllamaOpenAIProviderConfig
+    ollamaConfig: OllamaOpenAIProviderConfig,
+    geminiConfig: GeminiOpenAIProviderConfig
 ) = module {
     single { openAIConfig }
     single { anthropicConfig }
     single { ollamaConfig }
+    single { geminiConfig }
 }
 
 
@@ -60,12 +70,14 @@ fun openAIGatewayModules(providers: List<OpenAIProvider>) = module {
 
 @ExperimentalSerializationApi
 fun openAIGatewayModules() = module {
-    single<AnthropicOpenAIProvider> { AnthropicOpenAIProvider(config = get()) }
-    single<OllamaOpenAIProvider> { OllamaOpenAIProvider(config = get()) }
-
     single {
         listOf(
-            get<AnthropicOpenAIProvider>(), get<OllamaOpenAIProvider>()
+            AnthropicOpenAIProvider(config = get()),
+            OllamaOpenAIProvider(config = get()),
+            GeminiOpenAIProvider(
+                config = get(),
+                client = get()
+            )
         )
     }
 

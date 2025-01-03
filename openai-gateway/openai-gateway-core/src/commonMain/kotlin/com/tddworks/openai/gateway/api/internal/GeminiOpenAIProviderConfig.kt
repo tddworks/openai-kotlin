@@ -18,5 +18,5 @@ fun OpenAIProviderConfig.toGeminiConfig() =
 
 fun OpenAIProviderConfig.Companion.gemini(
     apiKey: () -> String,
-    baseUrl: () -> String = { Anthropic.BASE_URL },
+    baseUrl: () -> String = { Gemini.BASE_URL },
 ) = GeminiOpenAIProviderConfig(apiKey, baseUrl)

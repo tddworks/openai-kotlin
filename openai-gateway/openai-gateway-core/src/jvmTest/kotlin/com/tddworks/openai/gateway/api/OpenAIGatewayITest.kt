@@ -2,11 +2,14 @@ package com.tddworks.openai.gateway.api
 
 import app.cash.turbine.test
 import com.tddworks.anthropic.api.AnthropicModel
+import com.tddworks.gemini.api.textGeneration.api.Gemini
+import com.tddworks.gemini.api.textGeneration.api.GeminiModel
 import com.tddworks.ollama.api.OllamaModel
 import com.tddworks.openai.api.chat.api.ChatMessage
 import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.gateway.api.internal.anthropic
 import com.tddworks.openai.gateway.api.internal.default
+import com.tddworks.openai.gateway.api.internal.gemini
 import com.tddworks.openai.gateway.api.internal.ollama
 import com.tddworks.openai.gateway.di.initOpenAIGateway
 import kotlinx.coroutines.test.runTest
@@ -42,8 +45,26 @@ class OpenAIGatewayITest : AutoCloseKoinTest() {
                 apiKey = { System.getenv("ANTHROPIC_API_KEY") ?: "CONFIGURE_ME" },
                 anthropicVersion = { "2023-06-01" }
             ),
-            ollamaConfig = OpenAIProviderConfig.ollama()
+            ollamaConfig = OpenAIProviderConfig.ollama(),
+            geminiConfig = OpenAIProviderConfig.gemini(
+                baseUrl = { Gemini.BASE_URL },
+                apiKey = { System.getenv("GEMINI_API_KEY") ?: "CONFIGURE_ME" }
+            )
         )
+    }
+
+    @Test
+    @EnabledIfEnvironmentVariable(named = "GEMINI_API_KEY", matches = ".+")
+    fun `should use gemini client to get chat completions`() = runTest {
+        gateway.streamChatCompletions(
+            OpenAIChatCompletionRequest(
+                messages = listOf(ChatMessage.UserMessage("hello")),
+                model = OpenAIModel(GeminiModel.GEMINI_1_5_FLASH.value),
+            )
+        ).test(timeout = 10.seconds) {
+            assertNotNull(awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 
     @Test
