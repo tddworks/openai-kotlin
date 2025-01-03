@@ -72,6 +72,7 @@ fun openAIGatewayModules(providers: List<OpenAIProvider>) = module {
 fun openAIGatewayModules() = module {
     single {
         listOf(
+            DefaultOpenAIProvider(config = get<DefaultOpenAIProviderConfig>()),
             AnthropicOpenAIProvider(config = get()),
             OllamaOpenAIProvider(config = get()),
             GeminiOpenAIProvider(
