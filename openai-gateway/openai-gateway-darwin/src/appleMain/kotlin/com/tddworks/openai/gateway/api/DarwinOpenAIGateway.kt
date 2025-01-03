@@ -5,6 +5,7 @@ import com.tddworks.ollama.api.Ollama
 import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.gateway.api.internal.anthropic
 import com.tddworks.openai.gateway.api.internal.default
+import com.tddworks.openai.gateway.api.internal.gemini
 import com.tddworks.openai.gateway.api.internal.ollama
 import com.tddworks.openai.gateway.di.initOpenAIGateway
 
@@ -34,6 +35,8 @@ object DarwinOpenAIGateway {
         anthropicKey: () -> String = { "CONFIGURE_ME" },
         anthropicVersion: () -> String = { Anthropic.ANTHROPIC_VERSION },
         ollamaBaseUrl: () -> String = { Ollama.BASE_URL },
+        geminiBaseUrl: () -> String = { "api.gemini.com" },
+        geminiKey: () -> String = { "CONFIGURE_ME" }
     ) = initOpenAIGateway(
         openAIConfig = OpenAIProviderConfig.default(
             baseUrl = openAIBaseUrl, apiKey = openAIKey
@@ -43,6 +46,10 @@ object DarwinOpenAIGateway {
             anthropicVersion = anthropicVersion
         ), ollamaConfig = OpenAIProviderConfig.ollama(
             baseUrl = ollamaBaseUrl,
+        ),
+        geminiConfig = OpenAIProviderConfig.gemini(
+            baseUrl = geminiBaseUrl,
+            apiKey = geminiKey
         )
     )
 }
