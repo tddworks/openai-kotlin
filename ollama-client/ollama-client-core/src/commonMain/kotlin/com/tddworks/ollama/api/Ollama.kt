@@ -15,13 +15,17 @@ import com.tddworks.ollama.api.json.JsonLenient
 interface Ollama : OllamaChat, OllamaGenerate {
 
     companion object {
-        const val BASE_URL = "http://localhost:11434"
+        const val BASE_URL = "localhost"
+        const val PORT = 11434
+        const val PROTOCOL = "http"
 
         fun create(ollamaConfig: OllamaConfig): Ollama {
             val requester = HttpRequester.default(
                 createHttpClient(
-                    connectionConfig = UrlBasedConnectionConfig(
-                        baseUrl = ollamaConfig.baseUrl,
+                    connectionConfig = HostPortConnectionConfig(
+                        protocol = ollamaConfig.protocol,
+                        port = ollamaConfig.port,
+                        host = ollamaConfig.baseUrl
                     ),
                     // get from commonModule
                     features = ClientFeatures(json = JsonLenient)
@@ -44,4 +48,18 @@ interface Ollama : OllamaChat, OllamaGenerate {
      * @return a string representing the base URL
      */
     fun baseUrl(): String
+
+    /**
+     * This function returns the port as an integer.
+     *
+     * @return an integer representing the port
+     */
+    fun port(): Int
+
+    /**
+     * This function returns the protocol as a string.
+     *
+     * @return a string representing the protocol
+     */
+    fun protocol(): String
 }

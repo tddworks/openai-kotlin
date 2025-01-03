@@ -16,7 +16,9 @@ class OllamaTestTest : AutoCloseKoinTest() {
         koinApplication {
             initOllama(
                 config = OllamaConfig(
-                    baseUrl = { "http://127.0.0.1:8080" },
+                    baseUrl = { "127.0.0.1" },
+                    port = { 8080 },
+                    protocol = { "https" }
                 )
             )
         }.checkModules()
@@ -26,14 +28,22 @@ class OllamaTestTest : AutoCloseKoinTest() {
     fun `should return overridden settings`() {
         val target = getInstance<Ollama>()
 
-        assertEquals("http://127.0.0.1:8080", target.baseUrl())
+        assertEquals("127.0.0.1", target.baseUrl())
+
+        assertEquals(8080, target.port())
+
+        assertEquals("https", target.protocol())
     }
 
     @Test
     fun `should return default settings`() {
         val target = Ollama.create(ollamaConfig = OllamaConfig())
 
-        assertEquals("http://localhost:11434", target.baseUrl())
+        assertEquals("localhost", target.baseUrl())
+
+        assertEquals(11434, target.port())
+
+        assertEquals("http", target.protocol())
     }
 
 }
