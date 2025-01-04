@@ -74,9 +74,9 @@ implementation("com.tddworks:openai-gateway-jvm:0.2.1")
 **Then, configure the OpenAIGateway with your API keys and settings:**
  - Default values are provided for the baseUrl, but you can override them with your own values.
  - OpenAI
-   - default baseUrl is `api.openai.com`
+   - default baseUrl is `https://api.openai.com`
  - Anthropic 
-   - default baseUrl is `api.anthropic.com`
+   - default baseUrl is `https://api.anthropic.com`
    - default anthropicVersion is `2023-06-01`
  - Ollama
    - default baseUrl is `localhost`
@@ -95,22 +95,54 @@ import com.tddworks.openai.api.chat.api.Model
 import com.tddworks.openai.gateway.api.OpenAIGateway
 import com.tddworks.openai.gateway.di.initOpenAIGateway
 
-val openAIGateway = initOpenAIGateway(
-   OpenAIConfig(
-      baseUrl = { "YOUR_OPENAI_BASE_URL" },
-      apiKey = { "YOUR_OPENAI_API_KEY" }
+
+initOpenAIGateway(
+   DefaultOpenAIProviderConfig(
+      baseUrl = { "YOUR_OPENAI_BASE_URL" }, // Replace with the base URL for the OpenAI API
+      apiKey = { "YOUR_OPENAI_API_KEY" } // Replace with your OpenAI API key
    ),
-   AnthropicConfig(
-      baseUrl = { "YOUR_ANTHROPIC_BASE_URL" },
-      apiKey = { "YOUR_ANTHROPIC_API_KEY" },
-      anthropicVersion = { "YOUR_ANTHROPIC_VERSION" }
+   AnthropicOpenAIProviderConfig(
+      baseUrl = { "YOUR_ANTHROPIC_BASE_URL" }, // Replace with the base URL for the Anthropic service
+      apiKey = { "YOUR_ANTHROPIC_API_KEY" }, // Replace with your Anthropic API key
+      anthropicVersion = { "ANTHROPIC_API_VERSION" } // Replace with the version of Anthropic API you want to use
    ),
-   OllamaConfig(
-      baseUrl = { "YOUR_OLLAMA_BASE_URL" },
-      protocol = { "YOUR_OLLAMA_PROTOCOL" },
-      port = { "YOUR_OLLAMA_PORT" }
+   OllamaOpenAIProviderConfig(
+      protocol = { "PROTOCOL" }, // Replace with the protocol (e.g., 'http' or 'https')
+      baseUrl = { "YOUR_OLLAMA_BASE_URL" }, // Replace with the base URL for the Ollama service
+      port = { "PORT_NUMBER" } // Replace with the port number if required
+   ),
+   GeminiOpenAIProviderConfig(
+      baseUrl = { "YOUR_GEMINI_BASE_URL" }, // Replace with the base URL for the Gemini service
+      apiKey = { "YOUR_GEMINI_API_KEY" } // Replace with your Gemini API key
    )
-)
+).apply {
+   addProvider(
+      DefaultOpenAIProvider(
+         config = DefaultOpenAIProviderConfig(
+            baseUrl = { "YOUR_MOONSHOT_BASE_URL" }, // Replace with the base URL for the Moonshot service
+            apiKey = { "YOUR_MOONSHOT_API_KEY" } // Replace with your Moonshot API key
+         ),
+         models = moonshotmodels.map { // Replace with the models you wish to use with the Moonshot service
+            OpenAIModel(it.name) // Define the models you wish to use with the Moonshot service
+         }
+      )
+   )
+
+   addProvider(
+      DefaultOpenAIProvider(
+         config = DefaultOpenAIProviderConfig(
+            baseUrl = { "YOUR_DEEPSEEK_BASE_URL" }, // Replace with the base URL for the Deepseek service
+            apiKey = { "YOUR_DEEPSEEK_API_KEY" } // Replace with your Deepseek API key
+         ),
+         models = deepseekModels.map { // Replace with the models you wish to use with the Deepseek service
+            OpenAIModel(it.name) // Define the models you wish to use with the Deepseek service
+         }
+      )
+   )
+}.also {
+   Logger.d("OpenAI Gateway initialized") // Log the initialization of the OpenAI Gateway
+}
+
 
 // stream completions
 openAIGateway.streamChatCompletions(
