@@ -34,7 +34,7 @@ class DefaultTextGenerationTest : KoinTest {
             )
         )
         val request = GenerateContentRequest(
-            contents = listOf(Content(parts = listOf(Part("some-text")), role = "model")),
+            contents = listOf(Content(parts = listOf(Part.TextPart("some-text")), role = "model")),
             stream = true
         )
 
@@ -46,7 +46,7 @@ class DefaultTextGenerationTest : KoinTest {
                     candidates = listOf(
                         Candidate(
                             content = Content(
-                                parts = listOf(Part("some-text")),
+                                parts = listOf(Part.TextPart("some-text")),
                                 role = "model"
                             ),
                             finishReason = "STOP"
@@ -97,7 +97,7 @@ class DefaultTextGenerationTest : KoinTest {
             )
         )
         val request = GenerateContentRequest(
-            contents = listOf(Content(parts = listOf(Part("some-text")), role = "model")),
+            contents = listOf(Content(parts = listOf(Part.TextPart("some-text")), role = "model")),
         )
 
         // When
@@ -108,7 +108,7 @@ class DefaultTextGenerationTest : KoinTest {
         assertEquals(-0.24741496906413898, response.candidates[0].avgLogprobs)
         assertEquals("model", response.candidates[0].content.role)
         assertEquals(1, response.candidates[0].content.parts.size)
-        assertEquals("some-text", response.candidates[0].content.parts[0].text)
+        assertEquals("some-text", (response.candidates[0].content.parts[0] as Part.TextPart).text)
         assertEquals("gemini-1.5-flash", response.modelVersion)
         assertEquals(4, response.usageMetadata.promptTokenCount)
         assertEquals(715, response.usageMetadata.candidatesTokenCount)
