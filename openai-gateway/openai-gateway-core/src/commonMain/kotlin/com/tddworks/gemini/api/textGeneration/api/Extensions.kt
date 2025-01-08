@@ -14,17 +14,27 @@ import com.tddworks.openai.api.chat.api.Role as OpenAIRole
 
 
 fun GenerateContentResponse.toOpenAIChatCompletion(): OpenAIChatCompletion {
-    val id = "chatcmpl-gemini-123"
+    val completionId = "chatcmpl-gemini-123"
+    val creationTimestamp = 1L
+
+    val chatChoices = candidates.mapIndexed { index, candidate ->
+        val textPart = candidate.content.parts.first() as Part.TextPart
+        val message = ChatMessage.assistant(textPart.text)
+        val reason = candidate.finishReason?.let { FinishReason(it) }
+
+        ChatChoice(
+            message = message,
+            index = index,
+            finishReason = reason
+        )
+    }
+
     return ChatCompletion(
-        id = id,
-        created = 1L,
+        id = completionId,
+        created = creationTimestamp,
         model = modelVersion,
-        choices = candidates.mapIndexed { index, candidate ->
-            ChatChoice(
-                message = ChatMessage.assistant(candidate.content.parts.first().text),
-                index = index,
-                finishReason = candidate.finishReason?.let { FinishReason(it) })
-        })
+        choices = chatChoices
+    )
 }
 
 
@@ -32,15 +42,16 @@ fun GenerateContentResponse.toOpenAIChatCompletionChunk(): OpenAIChatCompletionC
     val id = "chatcmpl-gemini-123"
     val created = 1L
 
-    val chatChunkList = listOf(
-        ChatChunk(
-            index = 0,
-            delta = ChatDelta(
-                role = OpenAIRole.Assistant,
-                content = candidates.firstOrNull()?.content?.parts?.firstOrNull()?.text
-            ),
-            finishReason = candidates.firstOrNull()?.finishReason,
-        )
+    val firstCandidate = candidates.firstOrNull()
+    val firstTextPart = firstCandidate?.content?.parts?.firstOrNull() as? Part.TextPart
+
+    val chatChunk = ChatChunk(
+        index = 0,
+        delta = ChatDelta(
+            role = OpenAIRole.Assistant,
+            content = firstTextPart?.text
+        ),
+        finishReason = firstCandidate?.finishReason
     )
 
     return OpenAIChatCompletionChunk(
@@ -48,7 +59,7 @@ fun GenerateContentResponse.toOpenAIChatCompletionChunk(): OpenAIChatCompletionC
         `object` = "gemini-chunk",
         created = created,
         model = modelVersion,
-        choices = chatChunkList
+        choices = listOf(chatChunk)
     )
 }
 
@@ -79,13 +90,13 @@ private fun OpenAIMessage.toGeminiMessageOrNull(): Content? {
 
 private fun OpenAIUserMessage.toGeminiMessage(): Content {
     return Content(
-        parts = listOf(Part(text = content)), role = OpenAIRole.User.name
+        parts = listOf(Part.TextPart(text = content)), role = OpenAIRole.User.name
     )
 }
 
 private fun OpenAIAssistantMessage.toGeminiMessage(): Content {
     return Content(
-        parts = listOf(Part(text = content)), role = "model"
+        parts = listOf(Part.TextPart(text = content)), role = "model"
     )
 }
 
@@ -106,6 +117,6 @@ private fun OpenAIAssistantMessage.toGeminiMessage(): Content {
  */
 private fun OpenAISystemMessage.toGeminiMessage(): Content {
     return Content(
-        parts = listOf(Part(text = content))
+        parts = listOf(Part.TextPart(text = content))
     )
 }

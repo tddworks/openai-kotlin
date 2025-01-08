@@ -3,7 +3,7 @@ package com.tddworks.gemini.api.textGeneration.api
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-internal typealias Base64 = String
+internal typealias Base64String = String
 
 @Serializable
 data class GenerateContentResponse(
@@ -55,7 +55,7 @@ sealed interface Part {
         @Serializable
         data class InlineData(
             @SerialName("mime_type") val mimeType: String,
-            val data: Base64
+            val data: Base64String
         )
     }
 }

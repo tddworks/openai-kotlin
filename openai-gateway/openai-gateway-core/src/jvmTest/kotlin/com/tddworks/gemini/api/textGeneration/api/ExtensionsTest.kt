@@ -17,7 +17,7 @@ class ExtensionsTest {
             candidates = listOf(
                 Candidate(
                     content = Content(
-                        parts = listOf(Part("some-text")),
+                        parts = listOf(Part.TextPart("some-text")),
                         role = "model"
                     )
                 )
@@ -30,7 +30,8 @@ class ExtensionsTest {
             modelVersion = "gemini-1.5-flash"
         )
 
-        val openAIChatCompletionChunk = generateContentResponse.toOpenAIChatCompletionChunk()
+        val openAIChatCompletionChunk =
+            generateContentResponse.toOpenAIChatCompletionChunk()
 
         assertEquals("gemini-1.5-flash", openAIChatCompletionChunk.model)
         assertEquals(1, openAIChatCompletionChunk.choices.size)
@@ -46,7 +47,7 @@ class ExtensionsTest {
             candidates = listOf(
                 Candidate(
                     content = Content(
-                        parts = listOf(Part("some-text")),
+                        parts = listOf(Part.TextPart("some-text")),
                         role = "model"
                     )
                 )
@@ -74,7 +75,7 @@ class ExtensionsTest {
             candidates = listOf(
                 Candidate(
                     content = Content(
-                        parts = listOf(Part("some-text")),
+                        parts = listOf(Part.TextPart("some-text")),
                         role = "model"
                     ),
                     finishReason = "STOP"
@@ -117,14 +118,20 @@ class ExtensionsTest {
         assertEquals(GeminiModel.GEMINI_1_5_FLASH, generateContentRequest.model)
         assertEquals(
             "How are you?",
-            generateContentRequest.systemInstruction?.parts?.get(0)?.text
+            (generateContentRequest.systemInstruction?.parts?.get(0) as? Part.TextPart)?.text
         )
         assertNull(generateContentRequest.systemInstruction?.role)
 
         assertEquals(2, generateContentRequest.contents.size)
         assertEquals("user", generateContentRequest.contents[0].role)
-        assertEquals("Hello", generateContentRequest.contents[0].parts[0].text)
+        assertEquals(
+            "Hello",
+            (generateContentRequest.contents[0].parts[0] as Part.TextPart).text
+        )
         assertEquals("model", generateContentRequest.contents[1].role)
-        assertEquals("Hi there", generateContentRequest.contents[1].parts[0].text)
+        assertEquals(
+            "Hi there",
+            (generateContentRequest.contents[1].parts[0] as Part.TextPart).text
+        )
     }
 }
