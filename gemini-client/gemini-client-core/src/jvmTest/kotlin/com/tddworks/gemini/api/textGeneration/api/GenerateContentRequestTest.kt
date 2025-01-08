@@ -30,17 +30,8 @@ class GenerateContentRequestTest {
             stream = false
         )
 
-        val json = Json {
-            serializersModule = SerializersModule {
-                polymorphic(Part::class) {
-                    subclass(Part.TextPart::class, Part.TextPart.serializer())
-                    subclass(Part.InlineDataPart::class, Part.InlineDataPart.serializer())
-                }
-            }
-        }
-
         // When
-        val result = json.encodeToString(
+        val result = Json.encodeToString(
             GenerateContentRequest.serializer(),
             generateContentRequest
         )
