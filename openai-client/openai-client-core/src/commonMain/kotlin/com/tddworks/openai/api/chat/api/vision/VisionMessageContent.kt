@@ -49,6 +49,45 @@ sealed interface VisionMessageContent {
     ) : VisionMessageContent
 }
 
+
+/**
+ * Represents an image URL with associated details for serialization.
+ *
+ * This data class is used to serialize and deserialize image URL information,
+ * including the URL itself and additional details as an enumeration.
+ * It's annotated for use with Kotlin Serialization.
+ *
+ * @property value The URL of the image. This is represented as a [String].
+ *
+ * @see [OpenAI Vision Documentation](https://platform.openai.com/docs/guides/vision#uploading-base64-encoded-images)
+ * The Chat Completions API is capable of taking in and processing multiple image inputs
+ * in both base64 encoded format or as an image URL.
+ *
+ * @property detail An additional detail about the image URL. This defaults to [ImageUrlDetail.AUTO]
+ * and is always encoded in serialized format.
+ *
+ * Example JSON structure for using with the Chat Completions API.
+ *
+ * ```
+ * {
+ *     "role": "user",
+ *     "content": [
+ *         {
+ *             "type": "text",
+ *             "text": "What is in this image?"
+ *         },
+ *         {
+ *             "type": "image_url",
+ *             "image_url": {"url": "data:image/jpeg;base64,[base64_image]"}
+ *         },
+ *         {
+ *             "type": "image_url",
+ *             "image_url": {"url": "https://example.com/image.jpg"}
+ *         }
+ *     ]
+ * }
+ * ```
+ */
 @Serializable
 data class ImageUrl(
     @SerialName("url")
