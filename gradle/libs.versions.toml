@@ -58,6 +58,7 @@ mockito-junit-jupiter = "5.14.1"
 mockito-kotlin = "5.4.0"
 assertj-core = "3.26.3"
 app-cash-turbine = "1.0.0"
+org-skyscreamer-jsonassert = "2.0-rc1"
 
 #formatting-versions
 gradle-kotlinter = "4.2.0"
@@ -121,6 +122,8 @@ ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj-core" }
 
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+
+org-skyscreamer-jsonassert = { module = "org.skyscreamer:jsonassert", version.ref = "org-skyscreamer-jsonassert" }
 
 app-cash-turbine = { module = "app.cash.turbine:turbine", version = "1.0.0" }
 ##                                                             ⬆ = "1.1.0" }
