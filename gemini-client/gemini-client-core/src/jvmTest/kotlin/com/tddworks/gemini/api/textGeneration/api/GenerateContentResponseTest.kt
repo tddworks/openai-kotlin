@@ -47,6 +47,6 @@ class GenerateContentResponseTest {
         assertEquals(-0.24741496906413898, response.candidates[0].avgLogprobs)
         assertEquals("model", response.candidates[0].content.role)
         assertEquals(1, response.candidates[0].content.parts.size)
-        assertEquals("some-text", response.candidates[0].content.parts[0].text)
+        assertEquals("some-text", (response.candidates[0].content.parts[0] as Part.TextPart).text)
     }
 }

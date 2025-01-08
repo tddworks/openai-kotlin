@@ -31,7 +31,7 @@ class GeminiITest : AutoCloseKoinTest() {
 
         gemini.streamGenerateContent(
             GenerateContentRequest(
-                contents = listOf(Content(parts = listOf(Part(text = "hello")))),
+                contents = listOf(Content(parts = listOf(Part.TextPart(text = "hello")))),
                 stream = true
             )
         ).test(timeout = 10.seconds) {
@@ -47,7 +47,7 @@ class GeminiITest : AutoCloseKoinTest() {
 
         val response = gemini.generateContent(
             GenerateContentRequest(
-                contents = listOf(Content(parts = listOf(Part(text = "hello")))),
+                contents = listOf(Content(parts = listOf(Part.TextPart(text = "hello")))),
             )
         )
 
