@@ -23,5 +23,5 @@ object DarwinGemini {
     fun gemini(
         apiKey: () -> String = { "CONFIG_API_KEY" },
         baseUrl: () -> String = { Gemini.BASE_URL },
-    ) = initGemini(GeminiConfig(apiKey, baseUrl))
+    ): Gemini = initGemini(GeminiConfig(apiKey, baseUrl)).koin.get<Gemini>()
 }

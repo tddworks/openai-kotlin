@@ -13,7 +13,7 @@ kotlin {
     ).forEach { macosTarget ->
         macosTarget.binaries.framework {
             export(projects.geminiClient.geminiClientCore)
-            baseName = "geminiClientDarwin"
+            baseName = "GeminiClient"
             isStatic = true
         }
     }
