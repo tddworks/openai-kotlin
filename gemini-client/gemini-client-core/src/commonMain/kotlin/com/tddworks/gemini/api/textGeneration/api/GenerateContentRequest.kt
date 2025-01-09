@@ -28,6 +28,7 @@ data class GenerateContentRequest(
     @SerialName("system_instruction")
     val systemInstruction: Content? = null,
     val contents: List<Content>,
+    val generationConfig: GenerationConfig? = null,
     @Transient val model: GeminiModel = GeminiModel.GEMINI_1_5_FLASH,
     @Transient val stream: Boolean = false
 ) {

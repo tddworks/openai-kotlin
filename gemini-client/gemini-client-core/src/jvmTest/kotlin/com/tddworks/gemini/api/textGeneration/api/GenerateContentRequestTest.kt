@@ -10,6 +10,48 @@ import org.skyscreamer.jsonassert.JSONAssert
 class GenerateContentRequestTest {
 
     @Test
+    fun `should return correct text request with response mime type`() {
+        // Given
+        val generateContentRequest = GenerateContentRequest(
+            contents = listOf(
+                Content(
+                    parts = listOf(
+                        Part.TextPart(text = "hello")
+                    )
+                )
+            ),
+            stream = false,
+            generationConfig = GenerationConfig(
+                responseMimeType = "application/json"
+            )
+        )
+
+        // When
+        val result = Json.encodeToString(
+            GenerateContentRequest.serializer(),
+            generateContentRequest
+        )
+
+        // Then
+        JSONAssert.assertEquals(
+            """
+            {
+                "contents": [{
+                    "parts": [{
+                        "text": "hello"
+                    }]
+                }],
+                "generationConfig": {
+                    "response_mime_type": "application/json"
+                }
+            }
+            """.trimIndent(),
+            result,
+            false
+        )
+    }
+
+    @Test
     fun `should return correct text and image request`() {
 
         // Given
