@@ -7,7 +7,8 @@ plugins {
 kotlin {
     jvm()
     macosArm64()
-    macosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     sourceSets {
         commonMain.dependencies {

@@ -8,7 +8,8 @@ plugins {
 kotlin {
     listOf(
         macosArm64(),
-        macosX64()
+        iosArm64(),
+        iosSimulatorArm64()
     ).forEach { macosTarget ->
         macosTarget.binaries.framework {
             baseName = "anthropic-client-darwin"
@@ -36,14 +37,16 @@ kmmbridge {
      * In kmmbridge, notice mavenPublishArtifacts() tells the plugin to push KMMBridge artifacts to a Maven repo. You then need to define a repo. Rather than do everything manually, you can just call addGithubPackagesRepository(), which will add the correct repo given parameters that are passed in from GitHub Actions.
      */
     mavenPublishArtifacts() // <- Publish using a Maven repo
-//    spm {
-//        swiftToolsVersion = "5.9"
-//        platforms {
-//            iOS("14")
-//            macOS("13")
-//            watchOS("7")
-//            tvOS("14")
-//        }
-//    }
+    /**
+     * https://github.com/touchlab/KMMBridge/issues/258
+     */
+    spm(
+        swiftToolVersion = "5.9",
+        useCustomPackageFile = true,
+        perModuleVariablesBlock = true
+    ) {
+        iOS { v("18") }
+        macOS { v("15") }
+    }
 }
 
