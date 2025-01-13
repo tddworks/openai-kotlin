@@ -38,6 +38,7 @@ kotlin {
             implementation(libs.app.cash.turbine)
             implementation("com.tngtech.archunit:archunit-junit5:1.1.0")
             implementation("org.reflections:reflections:0.10.2")
+            implementation(libs.org.skyscreamer.jsonassert)
         }
     }
 }

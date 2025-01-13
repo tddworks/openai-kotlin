@@ -12,7 +12,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { macosTarget ->
         macosTarget.binaries.framework {
-            baseName = "anthropic-client-darwin"
+            baseName = "AnthropicClient"
             export(projects.anthropicClient.anthropicClientCore)
             isStatic = true
         }
