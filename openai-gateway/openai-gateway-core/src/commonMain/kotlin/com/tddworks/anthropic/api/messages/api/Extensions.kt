@@ -91,16 +91,17 @@ fun ChatCompletionRequest.toAnthropicStreamRequest(): CreateMessageRequest {
 
 @OptIn(ExperimentalSerializationApi::class)
 fun ChatCompletionRequest.toAnthropicRequest(stream: Boolean? = null): CreateMessageRequest {
-    val systemPrompt = messages.firstOrNull { it.role == OpenAIRole.System }?.content as? String
+    val systemPrompt =
+        messages.firstOrNull { it.role == OpenAIRole.System }?.content as? String
 
     val formattedMessages = messages
         .filterNot { it.role == OpenAIRole.System }
         .map { message ->
             Message(
                 content = when (message) {
-                    is OpenAIUserMessage -> message.content
-                    is OpenAIAssistantMessage -> message.content
-                    is OpenAISystemMessage -> message.content
+                    is OpenAIUserMessage -> Content.TextContent(message.content)
+                    is OpenAIAssistantMessage -> Content.TextContent(message.content)
+                    is OpenAISystemMessage -> Content.TextContent(message.content)
                     else -> throw IllegalArgumentException("Unknown message type: $message")
                 },
                 role = when (message.role) {
