@@ -13,6 +13,20 @@ value class GeminiModel(val value: String) {
 
         /**
          * Input(s): Audio, images, videos, and text
+         * Output(s): Text, images (coming soon), and audio (coming soon)
+         * Optimized for: Next generation features, speed, and multimodal generation for a diverse variety of tasks
+         */
+        val GEMINI_2_0_FLASH = GeminiModel("gemini-2.0-flash")
+
+        /**
+         * Audio, images, videos, and text
+         * Output(s): Text
+         * A Gemini 2.0 Flash model optimized for cost efficiency and low latency
+         */
+        val GEMINI_2_0_FLASH_LITE = GeminiModel("gemini-2.0-flash-lite-preview-02-05")
+
+        /**
+         * Input(s): Audio, images, videos, and text
          * Output(s): Text
          * Optimized for: Complex reasoning tasks requiring more intelligence
          */
@@ -32,18 +46,12 @@ value class GeminiModel(val value: String) {
          */
         val GEMINI_1_5_FLASH = GeminiModel("gemini-1.5-flash")
 
-        /**
-         * Input(s): Audio, images, videos, and text
-         * Output(s): Text, images (coming soon), and audio (coming soon)
-         * Optimized for: Next generation features, speed, and multimodal generation for a diverse variety of tasks
-         */
-        val GEMINI_2_0_FLASH = GeminiModel("gemini-2.0-flash-exp")
-
         val availableModels = listOf(
             GEMINI_1_5_PRO,
             GEMINI_1_5_FLASH_8b,
             GEMINI_1_5_FLASH,
-            GEMINI_2_0_FLASH
+            GEMINI_2_0_FLASH,
+            GEMINI_2_0_FLASH_LITE
         )
     }
 }
