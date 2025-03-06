@@ -3,12 +3,14 @@ package com.tddworks.openai.gateway.api.internal
 import com.tddworks.common.network.api.ktor.api.ListResponse
 import com.tddworks.ollama.api.Ollama
 import com.tddworks.ollama.api.OllamaConfig
-import com.tddworks.ollama.api.OllamaModel
-import com.tddworks.ollama.api.chat.api.*
+import com.tddworks.ollama.api.chat.api.toOllamaChatRequest
+import com.tddworks.ollama.api.chat.api.toOllamaGenerateRequest
+import com.tddworks.ollama.api.chat.api.toOpenAIChatCompletion
+import com.tddworks.ollama.api.chat.api.toOpenAIChatCompletionChunk
+import com.tddworks.ollama.api.chat.api.toOpenAICompletion
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
-import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.images.api.Image
 import com.tddworks.openai.api.images.api.ImageCreate
 import com.tddworks.openai.api.legacy.completions.api.Completion
@@ -23,21 +25,10 @@ class OllamaOpenAIProvider(
     override val id: String = "ollama",
     override val name: String = "Ollama",
     override val config: OllamaOpenAIProviderConfig,
-    override val models: List<OpenAIModel> = OllamaModel.availableModels.map {
-        OpenAIModel(it.value)
-    },
     private val client: Ollama = Ollama.create(
         ollamaConfig = OllamaConfig(baseUrl = config.baseUrl)
     )
 ) : OpenAIProvider {
-    /**
-     * Check if the given OpenAIModel is supported by the available models.
-     * @param model The OpenAIModel to check for support.
-     * @return true if the model is supported, false otherwise.
-     */
-    override fun supports(model: OpenAIModel): Boolean {
-        return models.any { it.value == model.value }
-    }
 
     /**
      * Override function to fetch completions from OpenAI API based on the given ChatCompletionRequest
@@ -74,9 +65,6 @@ class OllamaOpenAIProvider(
 fun OpenAIProvider.Companion.ollama(
     id: String = "ollama",
     config: OllamaOpenAIProviderConfig,
-    models: List<OpenAIModel> = OllamaModel.availableModels.map {
-        OpenAIModel(it.value)
-    },
     client: Ollama = Ollama.create(
         ollamaConfig = OllamaConfig(baseUrl = config.baseUrl)
     )
@@ -84,7 +72,6 @@ fun OpenAIProvider.Companion.ollama(
     return OllamaOpenAIProvider(
         id = id,
         config = config,
-        models = models,
         client = client
     )
 }

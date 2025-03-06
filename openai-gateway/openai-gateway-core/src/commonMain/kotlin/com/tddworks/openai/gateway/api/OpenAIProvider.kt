@@ -21,22 +21,9 @@ interface OpenAIProvider : Chat, Completions, Images {
     val name: String
 
     /**
-     * The models supported by the provider.
-     */
-    val models: List<OpenAIModel>
-
-    /**
      * The configuration for the provider.
      */
     val config: OpenAIProviderConfig
-
-    /**
-     * Determines if the provided model is supported or not.
-     *
-     * @param model The model to check for support
-     * @return true if the model is supported, false otherwise
-     */
-    fun supports(model: OpenAIModel): Boolean
 
     companion object
 }

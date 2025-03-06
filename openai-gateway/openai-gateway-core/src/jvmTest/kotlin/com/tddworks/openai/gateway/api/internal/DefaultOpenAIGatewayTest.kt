@@ -1,12 +1,14 @@
 package com.tddworks.openai.gateway.api.internal
 
 import app.cash.turbine.test
+import com.tddworks.anthropic.api.AnthropicModel
 import com.tddworks.azure.api.AzureAIProviderConfig
 import com.tddworks.ollama.api.OllamaModel
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.OpenAIModel
+import com.tddworks.openai.gateway.api.LLMProvider
 import com.tddworks.openai.gateway.api.OpenAIProvider
 import com.tddworks.openai.gateway.api.OpenAIProviderConfig
 import kotlinx.coroutines.flow.flow
@@ -17,33 +19,27 @@ import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import kotlin.test.assertEquals
-import com.tddworks.anthropic.api.AnthropicModel as AnthropicModel
 
 @OptIn(ExperimentalSerializationApi::class)
 class DefaultOpenAIGatewayTest {
 
     private val anthropic = mock<OpenAIProvider> {
         on(it.id).thenReturn("anthropic")
-        on(it.supports(OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value))).thenReturn(true)
         on(it.name).thenReturn("Anthropic")
     }
 
     private val ollama = mock<OpenAIProvider> {
         on(it.id).thenReturn("ollama")
-        on(it.supports(OpenAIModel(OllamaModel.LLAMA2.value))).thenReturn(true)
         on(it.name).thenReturn("Ollama")
     }
 
     private val default = mock<OpenAIProvider> {
         on(it.id).thenReturn("default")
-        on(it.supports(OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value))).thenReturn(false)
-        on(it.supports(OpenAIModel(OllamaModel.LLAMA2.value))).thenReturn(false)
         on(it.name).thenReturn("Default")
     }
 
     private val azure = mock<OpenAIProvider> {
         on(it.id).thenReturn("azure")
-        on(it.supports(OpenAIModel(OpenAIModel.GPT_3_5_TURBO.value))).thenReturn(false)
         on(it.name).thenReturn("azure")
     }
 
@@ -70,17 +66,14 @@ class DefaultOpenAIGatewayTest {
             apiVersion = { "new api version" }
         )
 
-        val models = listOf(OpenAIModel(OpenAIModel.GPT_3_5_TURBO.value))
-
         // When
-        openAIGateway.updateProvider(id, name, config, models)
+        openAIGateway.updateProvider(id, name, config)
 
         // Then
         assertEquals(4, openAIGateway.getProviders().size)
         val openAIProvider = openAIGateway.getProviders().first { it.id == id }
         assertEquals(name, openAIProvider.name)
         assertEquals(config, openAIProvider.config)
-        assertEquals(models, openAIProvider.models)
     }
 
     @Test
@@ -93,17 +86,14 @@ class DefaultOpenAIGatewayTest {
             apiKey = { "new api key" }
         )
 
-        val models = listOf(OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value))
-
         // When
-        openAIGateway.updateProvider(id, name, config, models)
+        openAIGateway.updateProvider(id, name, config)
 
         // Then
         assertEquals(4, openAIGateway.getProviders().size)
         val openAIProvider = openAIGateway.getProviders().first { it.id == id }
         assertEquals(name, openAIProvider.name)
         assertEquals(config, openAIProvider.config)
-        assertEquals(models, openAIProvider.models)
     }
 
     @Test
@@ -113,17 +103,14 @@ class DefaultOpenAIGatewayTest {
         val name = "new Ollama"
         val config = OpenAIProviderConfig.ollama()
 
-        val models = listOf(OpenAIModel(OllamaModel.LLAMA2.value))
-
         // When
-        openAIGateway.updateProvider(id, name, config, models)
+        openAIGateway.updateProvider(id, name, config)
 
         // Then
         assertEquals(4, openAIGateway.getProviders().size)
         val openAIProvider = openAIGateway.getProviders().first { it.id == id }
         assertEquals(name, openAIProvider.name)
         assertEquals(config, openAIProvider.config)
-        assertEquals(models, openAIProvider.models)
     }
 
     @Test
@@ -135,17 +122,14 @@ class DefaultOpenAIGatewayTest {
             apiKey = { "" },
         )
 
-        val models = listOf(OpenAIModel.GPT_3_5_TURBO)
-
         // When
-        openAIGateway.updateProvider(id, name, config, models)
+        openAIGateway.updateProvider(id, name, config)
 
         // Then
         assertEquals(4, openAIGateway.getProviders().size)
         val openAIProvider = openAIGateway.getProviders().first { it.id == id }
         assertEquals(name, openAIProvider.name)
         assertEquals(config, openAIProvider.config)
-        assertEquals(models, openAIProvider.models)
     }
 
     @Test
@@ -182,7 +166,7 @@ class DefaultOpenAIGatewayTest {
         whenever(ollama.chatCompletions(request)).thenReturn(response)
 
         // When
-        val r = openAIGateway.chatCompletions(request)
+        val r = openAIGateway.chatCompletions(request, LLMProvider.OLLAMA)
         // Then
         assertEquals(response, r)
     }
@@ -199,7 +183,7 @@ class DefaultOpenAIGatewayTest {
         })
 
         // When
-        openAIGateway.streamChatCompletions(request).test {
+        openAIGateway.streamChatCompletions(request, LLMProvider.OLLAMA).test {
             // Then
             assertEquals(
                 chatCompletionChunk, awaitItem()
@@ -217,7 +201,7 @@ class DefaultOpenAIGatewayTest {
 
             // When
             assertThrows<UnsupportedOperationException> {
-                openAIGateway.streamChatCompletions(request)
+                openAIGateway.streamChatCompletions(request, LLMProvider.OLLAMA)
             }
         }
 
@@ -233,7 +217,7 @@ class DefaultOpenAIGatewayTest {
         })
 
         // When
-        openAIGateway.streamChatCompletions(request).test {
+        openAIGateway.streamChatCompletions(request, LLMProvider.ANTHROPIC).test {
             // Then
             assertEquals(
                 chatCompletionChunk, awaitItem()
@@ -251,7 +235,7 @@ class DefaultOpenAIGatewayTest {
         whenever(anthropic.chatCompletions(request)).thenReturn(response)
 
         // When
-        val r = openAIGateway.chatCompletions(request)
+        val r = openAIGateway.chatCompletions(request, LLMProvider.ANTHROPIC)
         // Then
         assertEquals(response, r)
     }

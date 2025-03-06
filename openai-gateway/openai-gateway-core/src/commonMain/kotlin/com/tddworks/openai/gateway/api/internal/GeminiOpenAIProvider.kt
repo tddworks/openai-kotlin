@@ -20,15 +20,8 @@ class GeminiOpenAIProvider(
     override val id: String = "gemini",
     override val name: String = "Gemini",
     override val config: GeminiOpenAIProviderConfig,
-    override val models: List<OpenAIModel> = GeminiModel.availableModels.map {
-        OpenAIModel(it.value)
-    },
     val client: Gemini
 ) : OpenAIProvider {
-
-    override fun supports(model: OpenAIModel): Boolean {
-        return models.any { it.value == model.value }
-    }
 
     override suspend fun chatCompletions(request: ChatCompletionRequest): ChatCompletion {
         val geminiRequest = request.toGeminiGenerateContentRequest()
@@ -53,11 +46,9 @@ class GeminiOpenAIProvider(
 }
 
 fun OpenAIProvider.Companion.gemini(
-    id: String = "gemini", models: List<OpenAIModel> = GeminiModel.availableModels.map {
-        OpenAIModel(it.value)
-    }, config: GeminiOpenAIProviderConfig, client: Gemini
+    id: String = "gemini", config: GeminiOpenAIProviderConfig, client: Gemini
 ): OpenAIProvider {
     return GeminiOpenAIProvider(
-        id = id, models = models, config = config, client = client
+        id = id, config = config, client = client
     )
 }

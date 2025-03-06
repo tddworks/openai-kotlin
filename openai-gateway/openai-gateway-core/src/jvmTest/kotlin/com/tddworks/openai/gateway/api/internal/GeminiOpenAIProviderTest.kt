@@ -114,28 +114,4 @@ class GeminiOpenAIProviderTest {
         }
 
     }
-
-    @Test
-    fun `should return false when model is not supported`() {
-        // given
-        val model = OpenAIModel(OpenAIModel.GPT_3_5_TURBO.value)
-
-        // when
-        val supported = provider.supports(model)
-
-        // then
-        assertFalse(supported)
-    }
-
-    @Test
-    fun `should return true when model is supported`() {
-        // given
-        val model = OpenAIModel(GeminiModel.GEMINI_1_5_FLASH.value)
-
-        // when
-        val supported = provider.supports(model)
-
-        // then
-        assertTrue(supported)
-    }
 }

@@ -60,7 +60,8 @@ class OpenAIGatewayITest : AutoCloseKoinTest() {
             OpenAIChatCompletionRequest(
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 model = OpenAIModel(GeminiModel.GEMINI_1_5_FLASH.value),
-            )
+            ),
+            LLMProvider.GEMINI
         ).test(timeout = 10.seconds) {
             assertNotNull(awaitItem())
             cancelAndIgnoreRemainingEvents()
@@ -75,7 +76,8 @@ class OpenAIGatewayITest : AutoCloseKoinTest() {
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 maxTokens = 1024,
                 model = OpenAIModel(OllamaModel.LLAMA3.value)
-            )
+            ),
+            LLMProvider.OLLAMA
         ).test(timeout = 10.seconds) {
             assertNotNull(awaitItem())
             assertNotNull(awaitItem())
@@ -91,7 +93,8 @@ class OpenAIGatewayITest : AutoCloseKoinTest() {
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 maxTokens = 1024,
                 model = OpenAIModel.GPT_3_5_TURBO
-            )
+            ),
+            LLMProvider.OPENAI
         ).test(timeout = 10.seconds) {
             assertNotNull(awaitItem())
             assertNotNull(awaitItem())
@@ -107,7 +110,8 @@ class OpenAIGatewayITest : AutoCloseKoinTest() {
                 messages = listOf(ChatMessage.UserMessage("hello")),
                 maxTokens = 1024,
                 model = OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value)
-            )
+            ),
+            LLMProvider.ANTHROPIC
         ).test(timeout = 10.seconds) {
             assertNotNull(awaitItem())
             assertNotNull(awaitItem())

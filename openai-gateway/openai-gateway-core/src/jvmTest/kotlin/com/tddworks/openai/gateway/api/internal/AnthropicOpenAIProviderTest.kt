@@ -51,30 +51,6 @@ class AnthropicOpenAIProviderTest {
     }
 
     @Test
-    fun `should return true when model is supported`() {
-        // given
-        val supportedAnthropicModel = OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value)
-
-        // when
-        val isSupported = provider.supports(supportedAnthropicModel)
-
-        // then
-        assertTrue(isSupported)
-    }
-
-    @Test
-    fun `should return false when model is not supported`() {
-        // given
-        val unsupportedModel = OpenAIModel.GPT_3_5_TURBO
-
-        // when
-        val isSupported = provider.supports(unsupportedModel)
-
-        // then
-        assertFalse(isSupported)
-    }
-
-    @Test
     fun `should fetch completions from OpenAI API`() = runTest {
         // given
         val request =

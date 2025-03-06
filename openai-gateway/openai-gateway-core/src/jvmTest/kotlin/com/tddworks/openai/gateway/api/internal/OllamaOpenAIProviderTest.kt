@@ -72,30 +72,6 @@ class OllamaOpenAIProviderTest {
     }
 
     @Test
-    fun `should return true when model is supported`() {
-        // given
-        val supportedModel = OpenAIModel(OllamaModel.LLAMA2.value)
-
-        // when
-        val isSupported = provider.supports(supportedModel)
-
-        // then
-        kotlin.test.assertTrue(isSupported)
-    }
-
-    @Test
-    fun `should return false when model is not supported`() {
-        // given
-        val unsupportedModel = OpenAIModel.GPT_3_5_TURBO
-
-        // when
-        val isSupported = provider.supports(unsupportedModel)
-
-        // then
-        kotlin.test.assertFalse(isSupported)
-    }
-
-    @Test
     fun `should fetch chat completions from OpenAI API`() = runTest {
         // given
         val request = ChatCompletionRequest.dummy(OpenAIModel(OllamaModel.LLAMA2.value))

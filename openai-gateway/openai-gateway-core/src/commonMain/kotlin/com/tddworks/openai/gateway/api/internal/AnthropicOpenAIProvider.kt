@@ -2,11 +2,13 @@ package com.tddworks.openai.gateway.api.internal
 
 import com.tddworks.anthropic.api.Anthropic
 import com.tddworks.anthropic.api.AnthropicConfig
-import com.tddworks.anthropic.api.AnthropicModel
-import com.tddworks.anthropic.api.messages.api.*
+import com.tddworks.anthropic.api.messages.api.ContentBlockStop
+import com.tddworks.anthropic.api.messages.api.Ping
+import com.tddworks.anthropic.api.messages.api.toAnthropicRequest
+import com.tddworks.anthropic.api.messages.api.toOpenAIChatCompletion
+import com.tddworks.anthropic.api.messages.api.toOpenAIChatCompletionChunk
 import com.tddworks.common.network.api.ktor.api.ListResponse
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
-import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.images.api.Image
 import com.tddworks.openai.api.images.api.ImageCreate
 import com.tddworks.openai.api.legacy.completions.api.Completion
@@ -23,9 +25,6 @@ import com.tddworks.openai.api.chat.api.ChatCompletionChunk as OpenAIChatComplet
 class AnthropicOpenAIProvider(
     override var id: String = "anthropic",
     override var name: String = "Anthropic",
-    override var models: List<OpenAIModel> = AnthropicModel.availableModels.map {
-        OpenAIModel(it.value)
-    },
     override var config: AnthropicOpenAIProviderConfig,
 
     private val client: Anthropic = Anthropic.create(
@@ -37,15 +36,6 @@ class AnthropicOpenAIProvider(
     )
 
 ) : OpenAIProvider {
-
-    /**
-     * Check if the given OpenAIModel is supported by the available models.
-     * @param model The OpenAIModel to check for support.
-     * @return true if the model is supported, false otherwise.
-     */
-    override fun supports(model: OpenAIModel): Boolean {
-        return models.any { it.value == model.value }
-    }
 
     /**
      * Override function to fetch completions from OpenAI API based on the given ChatCompletionRequest
@@ -85,9 +75,6 @@ class AnthropicOpenAIProvider(
 fun OpenAIProvider.Companion.anthropic(
     id: String = "anthropic",
     config: AnthropicOpenAIProviderConfig,
-    models: List<OpenAIModel> = AnthropicModel.availableModels.map {
-        OpenAIModel(it.value)
-    },
     client: Anthropic = Anthropic.create(
         AnthropicConfig(
             apiKey = config.apiKey,
@@ -99,7 +86,6 @@ fun OpenAIProvider.Companion.anthropic(
     return AnthropicOpenAIProvider(
         id = id,
         config = config,
-        models = models,
         client = client
     )
 }

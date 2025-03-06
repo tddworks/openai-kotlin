@@ -18,12 +18,10 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.Mockito.mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.whenever
 
@@ -42,7 +40,6 @@ class DefaultOpenAIProviderTest {
                 config = OpenAIProviderConfig.default(
                     apiKey = { "" },
                 ),
-                models = listOf(OpenAIModel.GPT_3_5_TURBO),
                 openAI = client
             )
     }
@@ -118,44 +115,4 @@ class DefaultOpenAIProviderTest {
         }
 
     }
-
-    @Test
-    fun `should return false when model is not supported`() {
-        // Given
-        val openAI = mock<OpenAI>()
-        val model = OpenAIModel("gpt-3.5-turbo")
-        val provider = DefaultOpenAIProvider(
-            config = OpenAIProviderConfig.default(
-                apiKey = { "" },
-            ),
-            models = emptyList(),
-            openAI = openAI
-        )
-
-        // When
-        val result = provider.supports(model)
-
-        // Then
-        assertTrue(!result)
-    }
-
-    @Test
-    fun `should return true when model is supported`() {
-        // Given
-        val openAI = mock<OpenAI>()
-        val model = OpenAIModel("gpt-3.5-turbo")
-        val provider = DefaultOpenAIProvider(
-            config = OpenAIProviderConfig.default(
-                apiKey = { "" },
-            ),
-            models = listOf(model), openAI = openAI
-        )
-
-        // When
-        val result = provider.supports(model)
-
-        // Then
-        assertTrue(result)
-    }
-
 }

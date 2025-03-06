@@ -9,8 +9,6 @@ import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
-import com.tddworks.openai.api.chat.api.OpenAIModel
-import com.tddworks.openai.api.chat.api.OpenAIModel.Companion.availableModels
 import com.tddworks.openai.api.images.api.Image
 import com.tddworks.openai.api.images.api.ImageCreate
 import com.tddworks.openai.api.legacy.completions.api.Completion
@@ -23,14 +21,9 @@ import kotlinx.serialization.ExperimentalSerializationApi
 class DefaultOpenAIProvider(
     override val id: String = "openai",
     override val name: String = "OpenAI",
-    override val models: List<OpenAIModel> = availableModels,
     override val config: OpenAIProviderConfig,
     private val openAI: OpenAI = OpenAI.default(config.toOpenAIConfig()),
 ) : OpenAIProvider {
-
-    override fun supports(model: OpenAIModel): Boolean {
-        return models.any { it.value == model.value }
-    }
 
     override suspend fun chatCompletions(request: ChatCompletionRequest): ChatCompletion {
         return openAI.chatCompletions(request)
@@ -52,23 +45,21 @@ class DefaultOpenAIProvider(
 fun OpenAIProvider.Companion.openAI(
     id: String = "openai",
     config: OpenAIProviderConfig,
-    models: List<OpenAIModel>,
     openAI: OpenAI = OpenAI.default(config.toOpenAIConfig())
 ): OpenAIProvider {
     return DefaultOpenAIProvider(
         id = id,
-        config = config, models = models, openAI = openAI
+        config = config, openAI = openAI
     )
 }
 
 fun OpenAIProvider.Companion.azure(
     id: String = "azure",
     config: OpenAIProviderConfig,
-    models: List<OpenAIModel>,
     openAI: OpenAI = OpenAI.azure(config as AzureAIProviderConfig)
 ): OpenAIProvider {
     return DefaultOpenAIProvider(
         id = id,
-        config = config, models = models, openAI = openAI
+        config = config, openAI = openAI
     )
 }
