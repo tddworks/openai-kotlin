@@ -1,6 +1,5 @@
 package com.tddworks.openai.gateway.api.internal
 
-import com.tddworks.anthropic.api.Anthropic
 import com.tddworks.gemini.api.textGeneration.api.Gemini
 import com.tddworks.gemini.api.textGeneration.api.GeminiConfig
 import com.tddworks.openai.gateway.api.OpenAIProviderConfig

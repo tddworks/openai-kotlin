@@ -51,10 +51,10 @@ fun createHttpClient(
 }
 
 private fun DefaultRequest.DefaultRequestBuilder.commonSettings(
-    queryParams: Map<String, String>,
+    queryParams: (() -> Map<String, String>),
     authToken: (() -> String)?
 ) {
-    queryParams.forEach { (key, value) ->
+    queryParams().forEach { (key, value) ->
         url.parameters.appendIfNameAbsent(
             key,
             value

@@ -52,7 +52,7 @@ fun OpenAI.Companion.azure(config: AzureAIProviderConfig): OpenAI {
             connectionConfig = UrlBasedConnectionConfig { "${config.baseUrl()}/openai/deployments/${config.deploymentId()}/" },
             features = ClientFeatures(
                 json = createJson(),
-                queryParams = mapOf("api-version" to config.apiVersion())
+                queryParams = { mapOf("api-version" to config.apiVersion()) }
             )
         )
     )

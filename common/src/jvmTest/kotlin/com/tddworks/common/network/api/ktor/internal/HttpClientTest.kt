@@ -37,7 +37,7 @@ class HttpClientTest {
                 httpClientEngine = mockEngine,
                 authConfig = AuthConfig(authToken = { "token" }),
                 features = ClientFeatures(
-                    queryParams = mapOf("key" to "value"),
+                    queryParams = { mapOf("key" to "value") },
                 )
             )
 

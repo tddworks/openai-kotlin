@@ -24,7 +24,7 @@ class GeminiModule {
                         connectionConfig = UrlBasedConnectionConfig(config.baseUrl),
                         features = ClientFeatures(
                             json = createJson(),
-                            queryParams = mapOf("key" to config.apiKey())
+                            queryParams = { mapOf("key" to config.apiKey()) }
                         )
                     )
                 )
