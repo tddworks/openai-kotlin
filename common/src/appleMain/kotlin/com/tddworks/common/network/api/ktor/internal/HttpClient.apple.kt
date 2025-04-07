@@ -4,5 +4,9 @@ import io.ktor.client.engine.*
 import io.ktor.client.engine.darwin.*
 
 internal actual fun httpClientEngine(): HttpClientEngine {
-    return Darwin.create()
+    return Darwin.create {
+        this.configureSession {
+            connectionProxyDictionary = emptyMap<Any?, Any>()
+        }
+    }
 }
