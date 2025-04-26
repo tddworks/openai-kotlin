@@ -49,6 +49,13 @@ value class OpenAIModel(val value: String) {
         val DALL_E_2 = OpenAIModel("dall-e-2")
         val DALL_E_3 = OpenAIModel("dall-e-3")
 
+        /**
+         * https://platform.openai.com/docs/guides/image-generation?image-generation-model=gpt-image-1
+         * Image API: Generations, Edits – Responses API support coming soon
+         * Superior instruction following, text rendering, detailed editing, real-world knowledge
+         */
+        val GPT_IMAGE_1 = OpenAIModel("gpt-image-1")
+
         val availableModels = listOf(
             GPT_3_5_TURBO,
             GPT_3_5_TURBO_0125,
@@ -57,7 +64,8 @@ value class OpenAIModel(val value: String) {
             GPT_4O,
             GPT4_VISION_PREVIEW,
             DALL_E_2,
-            DALL_E_3
+            DALL_E_3,
+            GPT_IMAGE_1
         )
     }
 }
