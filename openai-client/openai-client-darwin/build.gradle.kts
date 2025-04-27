@@ -38,13 +38,12 @@ kmmbridge {
      */
     mavenPublishArtifacts() // <- Publish using a Maven repo
 //    spm(swiftToolVersion = "5.9")
-//    spm {
-//        swiftToolsVersion = "5.9"
-//        platforms {
-//            iOS("14")
-//            macOS("13")
-//            watchOS("7")
-//            tvOS("14")
-//        }
-//    }
+    spm(
+        swiftToolVersion = "5.9",
+//        useCustomPackageFile = true,
+//        perModuleVariablesBlock = true
+    ) {
+        iOS { v("15") }
+//        macOS { v("15") }
+    }
 }
