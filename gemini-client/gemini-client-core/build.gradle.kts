@@ -1,5 +1,7 @@
+import com.google.devtools.ksp.gradle.KspAATask
 import com.google.devtools.ksp.gradle.KspTaskMetadata
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
 
 plugins {
     alias(libs.plugins.kotlinx.serialization)
@@ -46,9 +48,10 @@ kotlin {
             implementation(libs.koin.test)
             implementation(libs.koin.test.junit5)
             implementation(libs.app.cash.turbine)
-            implementation("com.tngtech.archunit:archunit-junit5:1.1.0")
+            implementation("com.tngtech.archunit:archunit-junit5:1.4.1")
             implementation("org.reflections:reflections:0.10.2")
             implementation(libs.org.skyscreamer.jsonassert)
+            implementation("org.junit.platform:junit-platform-launcher")
         }
     }
 }
@@ -59,12 +62,22 @@ dependencies {
 }
 
 // WORKAROUND: ADD this dependsOn("kspCommonMainKotlinMetadata") instead of above dependencies
-tasks.withType<KotlinCompile>().configureEach {
+//tasks.withType<KotlinCompile>().configureEach {
+//    if (name != "kspCommonMainKotlinMetadata") {
+//        dependsOn("kspCommonMainKotlinMetadata")
+//    }
+//}
+
+// Add dependency for native compilation tasks as well
+tasks.withType<KspAATask>().configureEach {
     if (name != "kspCommonMainKotlinMetadata") {
         dependsOn("kspCommonMainKotlinMetadata")
     }
 }
-
+// `tasks.sourcesJar` is not exists, so `tasks.metadataSourcesJar`
+tasks.sourcesJar.configure {
+    dependsOn("kspCommonMainKotlinMetadata")
+}
 
 ksp {
     arg("KOIN_DEFAULT_MODULE", "false")

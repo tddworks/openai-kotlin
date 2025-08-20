@@ -1,3 +1,5 @@
+import nl.littlerobots.vcu.plugin.resolver.VersionSelectors
+
 plugins {
     `maven-publish`
     //trick: for the same plugin versions in all sub-modules
@@ -8,6 +10,7 @@ plugins {
     alias(libs.plugins.build.dokka.plugin)
 
     alias(libs.plugins.kotlinx.binary.validator) apply false
+    id("nl.littlerobots.version-catalog-update") version "1.0.0"
     id("com.tddworks.central-portal-publisher") version "0.0.5"
 }
 
@@ -26,6 +29,10 @@ dependencies {
     kover(projects.ollamaClient.ollamaClientCore)
     kover(projects.geminiClient.geminiClientCore)
     kover(projects.common)
+}
+
+versionCatalogUpdate {
+    versionSelector(VersionSelectors.STABLE)
 }
 
 val autoVersion = project.property(
