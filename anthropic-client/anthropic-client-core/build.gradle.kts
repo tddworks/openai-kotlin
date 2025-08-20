@@ -36,9 +36,10 @@ kotlin {
             implementation(libs.koin.test)
             implementation(libs.koin.test.junit5)
             implementation(libs.app.cash.turbine)
-            implementation("com.tngtech.archunit:archunit-junit5:1.1.0")
+            implementation("com.tngtech.archunit:archunit-junit5:1.4.1")
             implementation("org.reflections:reflections:0.10.2")
             implementation(libs.org.skyscreamer.jsonassert)
+            implementation("org.junit.platform:junit-platform-launcher")
         }
     }
 }

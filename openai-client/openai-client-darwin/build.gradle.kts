@@ -8,6 +8,7 @@ plugins {
 kotlin {
     listOf(
         macosArm64(),
+        macosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { macosTarget ->
