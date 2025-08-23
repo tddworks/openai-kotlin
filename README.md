@@ -2,9 +2,14 @@
 
 ![CI](https://github.com/tddworks/openai-kotlin/actions/workflows/main.yml/badge.svg)
 [![codecov](https://codecov.io/gh/tddworks/openai-kotlin/graph/badge.svg?token=ZHqC4RjnCf)](https://codecov.io/gh/tddworks/openai-kotlin)
+[![Maven Central](https://img.shields.io/maven-central/v/com.tddworks/openai-client-core?label=Maven%20Central)](https://central.sonatype.com/artifact/com.tddworks/openai-client-core)
 [![Kotlin](https://img.shields.io/badge/kotlin-2.2.10-blue.svg?logo=kotlin)](http://kotlinlang.org)
-[![Maven Central](https://img.shields.io/maven-central/v/com.tddworks/openai-client-core/0.2.2)](https://central.sonatype.com/artifact/com.tddworks/openai-client-jvm)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![KMP](https://img.shields.io/badge/Kotlin-Multiplatform-blue.svg?logo=kotlin)](https://kotlinlang.org/docs/multiplatform.html)
+[![Ktor](https://img.shields.io/badge/ktor-3.2.3-blue.svg?logo=ktor)](https://ktor.io)
+[![License](https://img.shields.io/github/license/tddworks/openai-kotlin?color=blue)](LICENSE)
+[![GitHub Release](https://img.shields.io/github/v/release/tddworks/openai-kotlin?include_prereleases&label=Latest%20Release)](https://github.com/tddworks/openai-kotlin/releases)
+[![Issues](https://img.shields.io/github/issues/tddworks/openai-kotlin?color=blue)](https://github.com/tddworks/openai-kotlin/issues)
+[![Stars](https://img.shields.io/github/stars/tddworks/openai-kotlin?style=social)](https://github.com/tddworks/openai-kotlin/stargazers)
 
 A comprehensive Kotlin Multiplatform library providing unified access to multiple AI/LLM providers including OpenAI, Anthropic Claude, Google Gemini, and Ollama. Built with modern Kotlin practices and designed for seamless integration across JVM, Android, iOS, and native platforms.
 
