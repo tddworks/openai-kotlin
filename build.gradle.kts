@@ -1,7 +1,6 @@
 import nl.littlerobots.vcu.plugin.resolver.VersionSelectors
 
 plugins {
-
     `maven-publish`
     // trick: for the same plugin versions in all sub-modules
     alias(libs.plugins.androidLibrary).apply(false)
@@ -78,29 +77,28 @@ kover {
     }
 }
 
-
 centralPublisher {
     credentials {
         username = project.findProperty("SONATYPE_USERNAME")?.toString() ?: ""
         password = project.findProperty("SONATYPE_PASSWORD")?.toString() ?: ""
     }
-    
+
     projectInfo {
         name = "openai-kotlin"
         description = "OpenAI API KMP Client"
         url = "https://github.com/tddworks/openai-kotlin"
-        
+
         license {
             name = "The Apache Software License, Version 2.0"
             url = "https://github.com/tddworks/openai-kotlin/blob/main/LICENSE"
         }
-        
+
         developer {
             id = "tddworks"
             name = "itshan"
             email = "itshan@tddworks.com"
         }
-        
+
         scm {
             url = "https://github.com/tddworks/openai-kotlin"
             connection = "scm:git:git://github.com/tddworks/openai-kotlin.git"
