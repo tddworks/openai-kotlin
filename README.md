@@ -1,177 +1,389 @@
+# OpenAI Kotlin
+
 ![CI](https://github.com/tddworks/openai-kotlin/actions/workflows/main.yml/badge.svg)
 [![codecov](https://codecov.io/gh/tddworks/openai-kotlin/graph/badge.svg?token=ZHqC4RjnCf)](https://codecov.io/gh/tddworks/openai-kotlin)
-[![Kotlin](https://img.shields.io/badge/kotlin-2.0.0-blue.svg?logo=kotlin)](http://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/kotlin-2.2.10-blue.svg?logo=kotlin)](http://kotlinlang.org)
 [![Maven Central](https://img.shields.io/maven-central/v/com.tddworks/openai-client-core/0.2.2)](https://central.sonatype.com/artifact/com.tddworks/openai-client-jvm)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
+A comprehensive Kotlin Multiplatform library providing unified access to multiple AI/LLM providers including OpenAI, Anthropic Claude, Google Gemini, and Ollama. Built with modern Kotlin practices and designed for seamless integration across JVM, Android, iOS, and native platforms.
 
-# openai-kotlin powered by kotlin multiplatform
+## ✨ Features
 
-**Getting Started:**
+- 🔗 **Multi-Provider Support**: OpenAI, Anthropic Claude, Google Gemini, Ollama, and custom providers
+- 🌐 **Kotlin Multiplatform**: JVM, Android, iOS, macOS, and other Kotlin/Native targets
+- 🚀 **Streaming Support**: Real-time chat completions with Flow-based streaming
+- 🔄 **Unified Gateway**: Switch between providers seamlessly with a single interface
+- 📱 **Platform-Optimized**: Native HTTP clients for each platform (Ktor CIO, NSURLSession)
+- 🎯 **Type-Safe**: Fully typed APIs with comprehensive data classes
+- 📦 **Modular Design**: Use only what you need with granular dependencies
+- 🧪 **Well-Tested**: Comprehensive test coverage with integration tests
 
-To get started, simply add the following dependency to your Kotlin project:
+## 🚀 Quick Start
 
-**OpenAI API**
+### Basic OpenAI Client
 
+Add the dependency:
 ```kotlin
 implementation("com.tddworks:openai-client-jvm:0.2.2")
 ```
-**Then, configure the OpenAI with your API keys and settings:**
- - Default values are provided for the baseUrl, but you can override them with your own values.
- - OpenAI
-   - default baseUrl is `api.openai.com`
 
-**Example:**
 ```kotlin
-import com.tddworks.openai.api.chat.api.ChatCompletionRequest
-import com.tddworks.openai.api.chat.api.ChatMessage
-import com.tddworks.openai.api.chat.api.Model
+import com.tddworks.openai.api.OpenAIConfig
+import com.tddworks.openai.api.chat.api.*
 import com.tddworks.openai.di.initOpenAI
 
-val openAI = initOpenAI(OpenAIConfig(
-   baseUrl = { "YOUR_BASE_URL" },
-   apiKey = { "YOUR_API_KEY" }
-))
+val openAI = initOpenAI(
+    OpenAIConfig(
+        apiKey = { "your-api-key" }
+    )
+)
 
-// stream completions
+// Chat completion
+val response = openAI.chatCompletions(
+    ChatCompletionRequest(
+        messages = listOf(ChatMessage.UserMessage("Hello, world!")),
+        model = Model.GPT_4O,
+        maxTokens = 1000
+    )
+)
+
+// Streaming chat completion
 openAI.streamChatCompletions(
-   ChatCompletionRequest(
-      messages = listOf(ChatMessage.UserMessage("hello")),
-      maxTokens = 1024,
-      model = Model.GPT_3_5_TURBO
-   )
-).collect {
-   println(it)
+    ChatCompletionRequest(
+        messages = listOf(ChatMessage.UserMessage("Tell me a story")),
+        model = Model.GPT_4O
+    )
+).collect { chunk ->
+    print(chunk.choices?.firstOrNull()?.delta?.content ?: "")
 }
-
-// chat completions
-val chatCompletion = openAI.chatCompletions(
-   ChatCompletionRequest(
-      messages = listOf(ChatMessage.UserMessage("hello")),
-      maxTokens = 1024,
-      model = Model.GPT_3_5_TURBO
-   )
-)
-
-// completions(legacy)
-val completion = openAI.completions(
-   CompletionRequest(
-      prompt = "Once upon a time",
-      suffix = "The end",
-      maxTokens = 10,
-      temperature = 0.5
-   )
-)
 ```
 
+### Multi-Provider Gateway
 
-
-**OpenAI Gateway**
+For applications requiring multiple AI providers:
 
 ```kotlin
 implementation("com.tddworks:openai-gateway-jvm:0.2.2")
 ```
 
-**Then, configure the OpenAIGateway with your API keys and settings:**
- - Default values are provided for the baseUrl, but you can override them with your own values.
- - OpenAI
-   - default baseUrl is `https://api.openai.com`
- - Anthropic 
-   - default baseUrl is `https://api.anthropic.com`
-   - default anthropicVersion is `2023-06-01`
- - Ollama
-   - default baseUrl is `localhost`
-   - default protocol is `http`
-   - default port is `11434`
- 
-**Example:**
 ```kotlin
-import com.tddworks.anthropic.api.AnthropicConfig
-import com.tddworks.ollama.api.OllamaConfig
-import com.tddworks.ollama.api.OllamaModel
-import com.tddworks.openai.api.chat.api.ChatCompletionRequest
-import com.tddworks.openai.api.OpenAIConfig
-import com.tddworks.openai.api.chat.api.ChatMessage
-import com.tddworks.openai.api.chat.api.Model
-import com.tddworks.openai.gateway.api.OpenAIGateway
 import com.tddworks.openai.gateway.di.initOpenAIGateway
+import com.tddworks.openai.gateway.api.*
 
-
-initOpenAIGateway(
-   DefaultOpenAIProviderConfig(
-      baseUrl = { "YOUR_OPENAI_BASE_URL" }, // Replace with the base URL for the OpenAI API
-      apiKey = { "YOUR_OPENAI_API_KEY" } // Replace with your OpenAI API key
-   ),
-   AnthropicOpenAIProviderConfig(
-      baseUrl = { "YOUR_ANTHROPIC_BASE_URL" }, // Replace with the base URL for the Anthropic service
-      apiKey = { "YOUR_ANTHROPIC_API_KEY" }, // Replace with your Anthropic API key
-      anthropicVersion = { "ANTHROPIC_API_VERSION" } // Replace with the version of Anthropic API you want to use
-   ),
-   OllamaOpenAIProviderConfig(
-      protocol = { "PROTOCOL" }, // Replace with the protocol (e.g., 'http' or 'https')
-      baseUrl = { "YOUR_OLLAMA_BASE_URL" }, // Replace with the base URL for the Ollama service
-      port = { "PORT_NUMBER" } // Replace with the port number if required
-   ),
-   GeminiOpenAIProviderConfig(
-      baseUrl = { "YOUR_GEMINI_BASE_URL" }, // Replace with the base URL for the Gemini service
-      apiKey = { "YOUR_GEMINI_API_KEY" } // Replace with your Gemini API key
-   )
-).apply {
-   addProvider(
-      DefaultOpenAIProvider(
-         config = DefaultOpenAIProviderConfig(
-            baseUrl = { "YOUR_MOONSHOT_BASE_URL" }, // Replace with the base URL for the Moonshot service
-            apiKey = { "YOUR_MOONSHOT_API_KEY" } // Replace with your Moonshot API key
-         ),
-         models = moonshotmodels.map { // Replace with the models you wish to use with the Moonshot service
-            OpenAIModel(it.name) // Define the models you wish to use with the Moonshot service
-         }
-      )
-   )
-
-   addProvider(
-      DefaultOpenAIProvider(
-         config = DefaultOpenAIProviderConfig(
-            baseUrl = { "YOUR_DEEPSEEK_BASE_URL" }, // Replace with the base URL for the Deepseek service
-            apiKey = { "YOUR_DEEPSEEK_API_KEY" } // Replace with your Deepseek API key
-         ),
-         models = deepseekModels.map { // Replace with the models you wish to use with the Deepseek service
-            OpenAIModel(it.name) // Define the models you wish to use with the Deepseek service
-         }
-      )
-   )
-}.also {
-   Logger.d("OpenAI Gateway initialized") // Log the initialization of the OpenAI Gateway
-}
-
-
-// stream completions
-openAIGateway.streamChatCompletions(
-   ChatCompletionRequest(
-      messages = listOf(ChatMessage.UserMessage("hello")),
-      maxTokens = 1024,
-      model = Model(OllamaModel.LLAMA2.value)
-   )
-).collect {
-   println(it)
-}
-
-// chat completions
-val chatCompletion = openAIGateway.chatCompletions(
-   ChatCompletionRequest(
-      messages = listOf(ChatMessage.UserMessage("hello")),
-      maxTokens = 1024,
-      model = Model(Model.GPT_3_5_TURBO.value)
-   )
+val gateway = initOpenAIGateway(
+    defaultProvider = DefaultOpenAIProviderConfig(
+        apiKey = { "openai-api-key" }
+    ),
+    anthropicProvider = AnthropicOpenAIProviderConfig(
+        apiKey = { "anthropic-api-key" }
+    ),
+    ollamaProvider = OllamaOpenAIProviderConfig(
+        baseUrl = { "localhost" },
+        port = { 11434 }
+    )
 )
 
-// completions(legacy)
-val completion = openAIGateway.completions(
-   CompletionRequest(
-        prompt = "Once upon a time",
-         suffix = "The end",
-         maxTokens = 10,
-         temperature = 0.5
-   )
+// Use any provider with the same interface
+val response = gateway.chatCompletions(
+    ChatCompletionRequest(
+        messages = listOf(ChatMessage.UserMessage("Compare AI models")),
+        model = Model("claude-3-sonnet") // or "llama2", "gpt-4", etc.
+    )
 )
+```
+
+## 📦 Installation
+
+### Gradle (Kotlin DSL)
+
+For multiplatform projects:
+```kotlin
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation("com.tddworks:openai-client-core:0.2.2")
+            implementation("com.tddworks:openai-gateway-core:0.2.2")
+        }
+    }
+}
+```
+
+For JVM/Android projects:
+```kotlin
+dependencies {
+    implementation("com.tddworks:openai-client-jvm:0.2.2")
+    implementation("com.tddworks:anthropic-client-jvm:0.2.2")
+    implementation("com.tddworks:ollama-client-jvm:0.2.2")
+    implementation("com.tddworks:gemini-client-jvm:0.2.2")
+    implementation("com.tddworks:openai-gateway-jvm:0.2.2")
+}
+```
+
+### Maven
+
+```xml
+<dependency>
+    <groupId>com.tddworks</groupId>
+    <artifactId>openai-client-jvm</artifactId>
+    <version>0.2.2</version>
+</dependency>
+```
+
+### Available Modules
+
+| Module | Description | Platforms |
+|--------|-------------|-----------|
+| `openai-client-*` | OpenAI API client (chat, images, completions) | JVM, iOS, macOS |
+| `anthropic-client-*` | Anthropic Claude API client | JVM, iOS, macOS |
+| `ollama-client-*` | Ollama local LLM client | JVM, iOS, macOS |
+| `gemini-client-*` | Google Gemini API client | JVM, iOS, macOS |
+| `openai-gateway-*` | Multi-provider gateway | JVM, iOS, macOS |
+| `common` | Shared networking utilities | All platforms |
+
+## 💡 Usage Examples
+
+### Image Generation
+
+```kotlin
+val images = openAI.images(
+    ImageCreate(
+        prompt = "A beautiful sunset over mountains",
+        size = Size.SIZE_1024x1024,
+        quality = Quality.HD,
+        n = 1
+    )
+)
+```
+
+### Vision (Image Analysis)
+
+```kotlin
+val response = openAI.chatCompletions(
+    ChatCompletionRequest(
+        messages = listOf(
+            ChatMessage.UserMessage(
+                content = listOf(
+                    VisionMessageContent.TextContent("What's in this image?"),
+                    VisionMessageContent.ImageContent(
+                        imageUrl = ImageUrl("data:image/jpeg;base64,${base64Image}")
+                    )
+                )
+            )
+        ),
+        model = Model.GPT_4_VISION,
+        maxTokens = 1000
+    )
+)
+```
+
+### Anthropic Claude
+
+```kotlin
+val claude = initAnthropic(
+    AnthropicConfig(apiKey = { "your-anthropic-key" })
+)
+
+val message = claude.messages(
+    CreateMessageRequest(
+        messages = listOf(
+            Message(
+                role = Role.USER,
+                content = listOf(ContentMessage.TextContent("Explain quantum computing"))
+            )
+        ),
+        model = AnthropicModel.CLAUDE_3_SONNET,
+        maxTokens = 1000
+    )
+)
+```
+
+### Local Ollama
+
+```kotlin
+val ollama = initOllama(
+    OllamaConfig(baseUrl = "localhost", port = 11434)
+)
+
+val response = ollama.chat(
+    OllamaChatRequest(
+        model = OllamaModel.LLAMA2.value,
+        messages = listOf(
+            OllamaChatMessage(
+                role = "user",
+                content = "What is the capital of France?"
+            )
+        )
+    )
+)
+```
+
+## 🏗️ Architecture
+
+This library follows a clean, modular architecture:
 
 ```
+┌─────────────────────┐
+│   Applications      │ (Your Kotlin/Java/Swift apps)
+├─────────────────────┤
+│   OpenAI Gateway    │ (Unified interface for all providers)
+├─────────────────────┤
+│   Provider Clients  │ (OpenAI, Anthropic, Ollama, Gemini)
+├─────────────────────┤
+│   Common Networking │ (HTTP abstraction, serialization)
+└─────────────────────┘
+```
+
+### Core Components
+
+- **HttpRequester**: Cross-platform HTTP client abstraction using Ktor
+- **Provider Configs**: Type-safe configuration for each AI provider
+- **Streaming Support**: Flow-based streaming for real-time responses
+- **Error Handling**: Comprehensive exception hierarchy with detailed error information
+- **Dependency Injection**: Koin-based DI for clean separation of concerns
+
+## 🌍 Platform Support
+
+### Supported Platforms
+
+- ✅ **JVM** (Java 8+, Android API 21+)
+- ✅ **iOS** (iOS 14+)
+- ✅ **macOS** (macOS 11+)
+- 🚧 **watchOS** (planned)
+- 🚧 **tvOS** (planned)
+- 🚧 **Linux** (planned)
+- 🚧 **Windows** (planned)
+
+### Platform-Specific Features
+
+| Platform | HTTP Client | Streaming | Local Storage |
+|----------|-------------|-----------|---------------|
+| JVM      | Ktor CIO    | ✅        | File System  |
+| Android  | Ktor CIO    | ✅        | File System  |
+| iOS      | NSURLSession| ✅        | UserDefaults |
+| macOS    | NSURLSession| ✅        | UserDefaults |
+
+## 🔧 Configuration
+
+### Environment Variables
+
+Set these environment variables or provide them programmatically:
+
+```bash
+OPENAI_API_KEY=your-openai-key
+ANTHROPIC_API_KEY=your-anthropic-key
+GEMINI_API_KEY=your-gemini-key
+```
+
+### Configuration Examples
+
+#### OpenAI with Custom Base URL
+
+```kotlin
+val openAI = initOpenAI(
+    OpenAIConfig(
+        baseUrl = { "https://api.openai.com/v1" },
+        apiKey = { System.getenv("OPENAI_API_KEY") },
+        organization = { "your-org-id" } // optional
+    )
+)
+```
+
+#### Anthropic with Custom Headers
+
+```kotlin
+val anthropic = initAnthropic(
+    AnthropicConfig(
+        apiKey = { System.getenv("ANTHROPIC_API_KEY") },
+        anthropicVersion = { "2023-06-01" },
+        baseUrl = { "https://api.anthropic.com" }
+    )
+)
+```
+
+## 🧪 Testing
+
+### Unit Tests
+```bash
+./gradlew test
+```
+
+### Integration Tests
+```bash
+./gradlew integrationTest
+```
+
+### Code Coverage
+```bash
+./gradlew koverHtmlReport
+open build/reports/kover/html/index.html
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+### Development Setup
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/tddworks/openai-kotlin.git
+   cd openai-kotlin
+   ```
+
+2. **Build the project**:
+   ```bash
+   ./gradlew build
+   ```
+
+3. **Run tests**:
+   ```bash
+   ./gradlew allTests
+   ```
+
+4. **Format code**:
+   ```bash
+   ./gradlew spotlessApply
+   ```
+
+### Code Style
+
+This project uses [Spotless](https://github.com/diffplug/spotless) for code formatting. Please run `./gradlew spotlessApply` before submitting PRs.
+
+## 📄 License
+
+```
+Copyright 2024 TDD Works
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
+
+## 🙋 Support
+
+- 📖 [Documentation](https://tddworks.github.io/openai-kotlin)
+- 💬 [GitHub Discussions](https://github.com/tddworks/openai-kotlin/discussions)
+- 🐛 [Issue Tracker](https://github.com/tddworks/openai-kotlin/issues)
+- 📧 Email: support@tddworks.com
+
+## 🌟 Acknowledgments
+
+- [OpenAI](https://openai.com) for their powerful APIs
+- [Anthropic](https://anthropic.com) for Claude AI
+- [Ollama](https://ollama.ai) for local LLM support  
+- [Google](https://ai.google.dev) for Gemini API
+- [JetBrains](https://jetbrains.com) for Kotlin Multiplatform
+- [Ktor](https://ktor.io) for cross-platform HTTP client
+
+---
+
+Made with ❤️ by [TDD Works](https://github.com/tddworks)
