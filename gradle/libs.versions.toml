@@ -1,152 +1,128 @@
 # Version catalog for OpenAI Kotlin SDK
 # Organized for maintainability and modern Gradle practices
-
 [versions]
-# Core language and frameworks
-kotlin = "2.2.10"
-kotlinx-serialization = "1.9.0"
-kotlinx-coroutines = "1.10.2"
-ksp = "2.2.10-2.0.2"
-
-# HTTP and networking
-ktor = "3.2.3"
-
-# Testing framework
-junit = "5.13.4"
-mockito-junit-jupiter = "5.19.0"
-mockito-kotlin = "6.0.0"
-assertj-core = "3.27.4"
-app-cash-turbine = "1.0.0"
-org-skyscreamer-jsonassert = "1.5.3"
-
-# Dependency Injection
-koin-core = "4.1.0"
-koin-annotations = "2.1.0"
-
-# Code quality and coverage
-kover = "0.9.1"
-spotless = "7.2.1"
-dependency-analysis = "3.0.0"
-
-# Documentation
-dokka = "2.0.0"
-
 # Mobile development
 agp = "8.12.1"
-android-compileSdk = "34"
-android-minSdk = "24"
-touchlab-kmmbridge = "1.2.1"
-touchlab-skie = "0.10.6"
-
-# Logging
-napier = "2.7.1"
-
+app-cash-turbine = "1.2.1"
+assertj-core = "3.27.4"
+central-publisher = "0.0.6"
 # Gradle plugins
 com-linecorp-build-recipe-plugin = "1.1.1"
+dependency-analysis = "3.0.0"
+# Documentation
+dokka = "2.0.0"
 gradle-kotlinter = "5.2.0"
+# Testing framework
+junit = "5.13.4"
+koin-annotations = "2.1.0"
+# Dependency Injection
+koin-core = "4.1.0"
+# Core language and frameworks
+kotlin = "2.2.10"
 kotlinx-binary-validator = "0.18.1"
+kotlinx-coroutines = "1.10.2"
+kotlinx-serialization = "1.9.0"
+# Code quality and coverage
+kover = "0.9.1"
+ksp = "2.2.10-2.0.2"
+# HTTP and networking
+ktor = "3.2.3"
+mockito-junit-jupiter = "5.19.0"
+mockito-kotlin = "6.0.0"
+# Logging
+napier = "2.7.1"
+org-skyscreamer-jsonassert = "1.5.3"
+spotless = "7.2.1"
+touchlab-kmmbridge = "1.2.1"
+touchlab-skie = "0.10.6"
 version-catalog-update = "1.0.0"
-central-publisher = "0.2.0-alpha.1"
 
 [libraries]
-# Core Kotlin libraries
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-
-# HTTP and networking
-ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
-ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
-ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
-ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
-ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-
-# Platform-specific HTTP clients
-ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
-ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
-ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
-
+app-cash-turbine = { module = "app.cash.turbine:turbine", version.ref = "app-cash-turbine" }
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj-core" }
+# Code quality tools
+gradle-kotlinter = { module = "org.jmailen.gradle:kotlinter-gradle", version.ref = "gradle-kotlinter" }
+juinit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
 # Testing libraries
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
-juinit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
-assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj-core" }
-mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito-junit-jupiter" }
-mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
-ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
-app-cash-turbine = { module = "app.cash.turbine:turbine", version.ref = "app-cash-turbine" }
-org-skyscreamer-jsonassert = { module = "org.skyscreamer:jsonassert", version.ref = "org-skyscreamer-jsonassert" }
-
+koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin-annotations" }
 # Dependency Injection
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin-core" }
 koin-core-jvm = { module = "io.insert-koin:koin-core-jvm", version.ref = "koin-core" }
+koin-ksp-compiler = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-annotations" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin-core" }
 koin-test-junit5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "koin-core" }
-koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin-annotations" }
-koin-ksp-compiler = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-annotations" }
-
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+# Core Kotlin libraries
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
+# Platform-specific HTTP clients
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+# HTTP and networking
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito-junit-jupiter" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
 # Logging
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
-
-# Code quality tools
-gradle-kotlinter = { module = "org.jmailen.gradle:kotlinter-gradle", version.ref = "gradle-kotlinter" }
+org-skyscreamer-jsonassert = { module = "org.skyscreamer:jsonassert", version.ref = "org-skyscreamer-jsonassert" }
 
 [bundles]
-# HTTP client bundle
-ktor-client = [
-    "ktor-client-core",
-    "ktor-client-auth", 
-    "ktor-client-content-negotiation",
-    "ktor-client-logging",
-    "ktor-serialization-kotlinx-json"
-]
-
 # Testing bundle for JVM projects
 jvm-test = [
+    "assertj-core",
     "juinit-jupiter",
-    "assertj-core", 
+    "ktor-client-mock",
     "mockito-junit-jupiter",
     "mockito-kotlin",
-    "ktor-client-mock"
 ]
-
+# Dependency injection bundle
+koin = [
+    "koin-annotations",
+    "koin-core",
+]
 # Kotlin testing bundle
 kotlin-test = [
     "kotlin-test",
     "kotlin-test-junit",
-    "kotlinx-coroutines-test"
+    "kotlinx-coroutines-test",
 ]
-
-# Dependency injection bundle
-koin = [
-    "koin-core",
-    "koin-annotations"
+# HTTP client bundle
+ktor-client = [
+    "ktor-client-auth",
+    "ktor-client-content-negotiation",
+    "ktor-client-core",
+    "ktor-client-logging",
+    "ktor-serialization-kotlinx-json",
 ]
 
 [plugins]
-# Kotlin plugins
-kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-
 # Mobile development
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
-touchlab-kmmbridge = { id = "co.touchlab.kmmbridge.github", version.ref = "touchlab-kmmbridge" }
-touchlab-skie = { id = "co.touchlab.skie", version.ref = "touchlab-skie" }
-
 # Documentation
 build-dokka-plugin = { id = "org.jetbrains.dokka", version.ref = "dokka" }
-
-# Code quality and coverage
-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
-dependency-analysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependency-analysis" }
-gradle-kotlinter = { id = "org.jmailen.kotlinter", version.ref = "gradle-kotlinter" }
-
+central-publisher = { id = "com.tddworks.central-publisher", version.ref = "central-publisher" }
 # Build tools
 com-linecorp-build-recipe = { id = "com.linecorp.build-recipe-plugin", version.ref = "com-linecorp-build-recipe-plugin" }
+dependency-analysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependency-analysis" }
+gradle-kotlinter = { id = "org.jmailen.kotlinter", version.ref = "gradle-kotlinter" }
+# Kotlin plugins
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinx-binary-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "kotlinx-binary-validator" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+# Code quality and coverage
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+touchlab-kmmbridge = { id = "co.touchlab.kmmbridge.github", version.ref = "touchlab-kmmbridge" }
+touchlab-skie = { id = "co.touchlab.skie", version.ref = "touchlab-skie" }
 version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
-central-publisher = { id = "com.tddworks.central-publisher", version.ref = "central-publisher" }
