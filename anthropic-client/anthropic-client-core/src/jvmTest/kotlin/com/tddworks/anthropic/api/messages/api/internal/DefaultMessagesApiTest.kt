@@ -42,9 +42,7 @@ class DefaultMessagesApiTest : KoinTest {
         val chatsApi =
             DefaultMessagesApi(
                 requester =
-                    DefaultHttpRequester(
-                        httpClient = mockHttpClient("invalid json response")
-                    )
+                    DefaultHttpRequester(httpClient = mockHttpClient("invalid json response"))
             )
 
         val request = CreateMessageRequest.streamRequest(listOf(Message.user(("hello"))))

@@ -202,18 +202,19 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
     }
 
     @Test
-    fun `should not return chat stream completion response when it's empty response`() = runBlocking {
-        httpClient = mockHttpClient("")
+    fun `should not return chat stream completion response when it's empty response`() =
+        runBlocking {
+            httpClient = mockHttpClient("")
 
-        val requester = DefaultHttpRequester(httpClient)
+            val requester = DefaultHttpRequester(httpClient)
 
-        requester
-            .streamRequest<StreamResponse> { url(path = "/v1/chat/completions") }
-            .test {
-                expectNoEvents()
-                cancel()
-            }
-    }
+            requester
+                .streamRequest<StreamResponse> { url(path = "/v1/chat/completions") }
+                .test {
+                    expectNoEvents()
+                    cancel()
+                }
+        }
 
     @Test
     fun `should return chat stream completion response`() = runTest {
