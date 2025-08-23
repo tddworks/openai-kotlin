@@ -4,7 +4,6 @@ import app.cash.turbine.test
 import com.tddworks.anthropic.api.messages.api.*
 import com.tddworks.anthropic.api.mockHttpClient
 import com.tddworks.common.network.api.ktor.internal.DefaultHttpRequester
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -38,13 +37,13 @@ class DefaultMessagesApiTest : KoinTest {
     }
 
     @Test
-    fun `should return nothing stream data when not json response`() = runBlocking {
+    fun `should return nothing stream data when not json response`() = runTest {
         // Given
         val chatsApi =
             DefaultMessagesApi(
                 requester =
                     DefaultHttpRequester(
-                        httpClient = mockHttpClient("{\"type\": \"message_stop\"}")
+                        httpClient = mockHttpClient("invalid json response")
                     )
             )
 
