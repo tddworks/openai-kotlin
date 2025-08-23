@@ -14,7 +14,6 @@ plugins {
     alias(libs.plugins.central.publisher)
     alias(libs.plugins.spotless)
     alias(libs.plugins.dependency.analysis)
-    alias(libs.plugins.central.publisher)
 }
 
 dependencies {
