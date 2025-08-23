@@ -14,8 +14,7 @@ plugins {
     alias(libs.plugins.central.publisher)
     alias(libs.plugins.spotless)
     alias(libs.plugins.dependency.analysis)
-
-    id("com.tddworks.central-publisher")
+    alias(libs.plugins.central.publisher)
 }
 
 dependencies {
