@@ -30,7 +30,7 @@ A comprehensive Kotlin Multiplatform library providing unified access to multipl
 
 Add the dependency:
 ```kotlin
-implementation("com.tddworks:openai-client-jvm:0.2.2")
+implementation("com.tddworks:openai-client-jvm:0.2.3")
 ```
 
 ```kotlin
@@ -69,7 +69,7 @@ openAI.streamChatCompletions(
 For applications requiring multiple AI providers:
 
 ```kotlin
-implementation("com.tddworks:openai-gateway-jvm:0.2.2")
+implementation("com.tddworks:openai-gateway-jvm:0.2.3")
 ```
 
 ```kotlin
@@ -107,8 +107,8 @@ For multiplatform projects:
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("com.tddworks:openai-client-core:0.2.2")
-            implementation("com.tddworks:openai-gateway-core:0.2.2")
+            implementation("com.tddworks:openai-client-core:0.2.3")
+            implementation("com.tddworks:openai-gateway-core:0.2.3")
         }
     }
 }
@@ -117,11 +117,11 @@ kotlin {
 For JVM/Android projects:
 ```kotlin
 dependencies {
-    implementation("com.tddworks:openai-client-jvm:0.2.2")
-    implementation("com.tddworks:anthropic-client-jvm:0.2.2")
-    implementation("com.tddworks:ollama-client-jvm:0.2.2")
-    implementation("com.tddworks:gemini-client-jvm:0.2.2")
-    implementation("com.tddworks:openai-gateway-jvm:0.2.2")
+    implementation("com.tddworks:openai-client-jvm:0.2.3")
+    implementation("com.tddworks:anthropic-client-jvm:0.2.3")
+    implementation("com.tddworks:ollama-client-jvm:0.2.3")
+    implementation("com.tddworks:gemini-client-jvm:0.2.3")
+    implementation("com.tddworks:openai-gateway-jvm:0.2.3")
 }
 ```
 
@@ -131,7 +131,7 @@ dependencies {
 <dependency>
     <groupId>com.tddworks</groupId>
     <artifactId>openai-client-jvm</artifactId>
-    <version>0.2.2</version>
+    <version>0.2.3</version>
 </dependency>
 ```
 
