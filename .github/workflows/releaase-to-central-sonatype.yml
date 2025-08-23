@@ -28,6 +28,11 @@ jobs:
     permissions:
       contents: write
       actions: read
+    env:
+      SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+      SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+      SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -75,8 +80,3 @@ jobs:
           
       - name: Publish to Maven Central via Sonatype Portal
         run: ./gradlew publishToCentral -PLIBRARY_VERSION=${{ inputs.version }}
-        env:
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
