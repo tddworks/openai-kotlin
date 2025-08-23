@@ -11,13 +11,8 @@ class ChatCompletionRequestTest {
 
     @Test
     fun `should return to correct stream json`() {
-        val chatCompletionRequest = ChatCompletionRequest(
-            messages = listOf(
-                ChatMessage.user("hello")
-            ),
-            stream = true
-        )
-
+        val chatCompletionRequest =
+            ChatCompletionRequest(messages = listOf(ChatMessage.user("hello")), stream = true)
 
         val result = prettyJson.encodeToString(chatCompletionRequest)
 
@@ -33,21 +28,19 @@ class ChatCompletionRequestTest {
               "model": "gpt-3.5-turbo",
               "stream": true
             }
-            """.trimIndent(),
-            result
+            """
+                .trimIndent(),
+            result,
         )
     }
 
     @Test
     fun `should return to correct json`() {
-        val chatCompletionRequest = ChatCompletionRequest(
-            messages = listOf(
-                ChatMessage.user("hello")
-            )
-        )
+        val chatCompletionRequest =
+            ChatCompletionRequest(messages = listOf(ChatMessage.user("hello")))
 
-
-        val result = prettyJson.encodeToString(ChatCompletionRequest.serializer(), chatCompletionRequest)
+        val result =
+            prettyJson.encodeToString(ChatCompletionRequest.serializer(), chatCompletionRequest)
 
         assertEquals(
             """
@@ -60,8 +53,9 @@ class ChatCompletionRequestTest {
               ],
               "model": "gpt-3.5-turbo"
             }
-            """.trimIndent(),
-            result
+            """
+                .trimIndent(),
+            result,
         )
     }
 }

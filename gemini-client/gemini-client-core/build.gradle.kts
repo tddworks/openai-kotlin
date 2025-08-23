@@ -1,7 +1,5 @@
 import com.google.devtools.ksp.gradle.KspAATask
 import com.google.devtools.ksp.gradle.KspTaskMetadata
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
 
 plugins {
     alias(libs.plugins.kotlinx.serialization)
@@ -33,13 +31,9 @@ kotlin {
             api(projects.common)
         }
 
-        macosMain.dependencies {
-            api(libs.ktor.client.darwin)
-        }
+        macosMain.dependencies { api(libs.ktor.client.darwin) }
 
-        jvmMain.dependencies {
-            api(libs.ktor.client.cio)
-        }
+        jvmMain.dependencies { api(libs.ktor.client.cio) }
 
         jvmTest.dependencies {
             implementation(project.dependencies.platform(libs.junit.bom))
@@ -57,16 +51,14 @@ kotlin {
 }
 
 // KSP Tasks
-dependencies {
-    add("kspCommonMainMetadata", libs.koin.ksp.compiler)
-}
+dependencies { add("kspCommonMainMetadata", libs.koin.ksp.compiler) }
 
 // WORKAROUND: ADD this dependsOn("kspCommonMainKotlinMetadata") instead of above dependencies
-//tasks.withType<KotlinCompile>().configureEach {
+// tasks.withType<KotlinCompile>().configureEach {
 //    if (name != "kspCommonMainKotlinMetadata") {
 //        dependsOn("kspCommonMainKotlinMetadata")
 //    }
-//}
+// }
 
 // Add dependency for native compilation tasks as well
 tasks.withType<KspAATask>().configureEach {
@@ -74,10 +66,9 @@ tasks.withType<KspAATask>().configureEach {
         dependsOn("kspCommonMainKotlinMetadata")
     }
 }
+
 // `tasks.sourcesJar` is not exists, so `tasks.metadataSourcesJar`
-tasks.sourcesJar.configure {
-    dependsOn("kspCommonMainKotlinMetadata")
-}
+tasks.sourcesJar.configure { dependsOn("kspCommonMainKotlinMetadata") }
 
 ksp {
     arg("KOIN_DEFAULT_MODULE", "false")
@@ -85,8 +76,4 @@ ksp {
     arg("KOIN_CONFIG_CHECK", "false")
 }
 
-tasks {
-    named<Test>("jvmTest") {
-        useJUnitPlatform()
-    }
-}
+tasks { named<Test>("jvmTest") { useJUnitPlatform() } }

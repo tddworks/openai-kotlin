@@ -1,9 +1,9 @@
 package com.tddworks.common.network.api.ktor.api
 
+import kotlin.test.assertEquals
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
 class AnySerializerTest {
 
@@ -30,7 +30,7 @@ class AnySerializerTest {
         // Then
         assertEquals(
             AnySerialObject(mapOf("key" to mapOf("nestedKey" to "nestedValue"))),
-            deserialized
+            deserialized,
         )
     }
 
@@ -79,10 +79,7 @@ class AnySerializerTest {
         val deserialized = Json.decodeFromString(AnySerialObject.serializer(), serialized)
 
         // Then
-        assertEquals(
-            AnySerialObject(mapOf("key" to listOf("value1", "value2"))),
-            deserialized
-        )
+        assertEquals(AnySerialObject(mapOf("key" to listOf("value1", "value2"))), deserialized)
     }
 
     @Test
@@ -124,8 +121,7 @@ class AnySerializerTest {
     @Test
     fun `should serialize map object`() {
         // Given
-        val testObject =
-            AnySerialObject(mapOf("key" to mapOf("nestedKey" to "nestedValue")))
+        val testObject = AnySerialObject(mapOf("key" to mapOf("nestedKey" to "nestedValue")))
 
         // When
         val serialized = Json.encodeToString(AnySerialObject.serializer(), testObject)
@@ -133,7 +129,6 @@ class AnySerializerTest {
         // Then
         assertEquals("{\"any\":{\"key\":{\"nestedKey\":\"nestedValue\"}}}", serialized)
     }
-
 
     @Test
     fun `should serialize boolean object`() {
@@ -170,10 +165,6 @@ class AnySerializerTest {
         // Then
         assertEquals("{\"any\":{\"key\":1}}", serialized)
     }
-
 }
 
-@Serializable
-data class AnySerialObject(val any: Map<String, AnySerial>)
-
-
+@Serializable data class AnySerialObject(val any: Map<String, AnySerial>)

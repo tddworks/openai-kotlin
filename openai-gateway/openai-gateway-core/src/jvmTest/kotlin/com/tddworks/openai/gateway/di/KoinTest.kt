@@ -19,8 +19,8 @@ class OpenAIGatewayKoinTest : KoinTest {
         val geminiConfig = GeminiOpenAIProviderConfig(apiKey = { "" })
 
         koinApplication {
-            initOpenAIGateway(openAIConfig, anthropicConfig, ollamaConfig, geminiConfig)
-        }.checkModules()
+                initOpenAIGateway(openAIConfig, anthropicConfig, ollamaConfig, geminiConfig)
+            }
+            .checkModules()
     }
 }
-

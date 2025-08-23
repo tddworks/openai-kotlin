@@ -5,8 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Usage(
-    @SerialName("input_tokens")
-    val inputTokens: Int? = null,
-    @SerialName("output_tokens")
-    val outputTokens: Int? = null,
+    @SerialName("input_tokens") val inputTokens: Int? = null,
+    @SerialName("output_tokens") val outputTokens: Int? = null,
 )

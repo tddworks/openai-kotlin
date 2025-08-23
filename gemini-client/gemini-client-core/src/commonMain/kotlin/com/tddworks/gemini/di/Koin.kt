@@ -9,11 +9,8 @@ import org.koin.dsl.KoinAppDeclaration
 fun initGemini(
     config: GeminiConfig,
     enableNetworkLogs: Boolean = false,
-    appDeclaration: KoinAppDeclaration = {}
+    appDeclaration: KoinAppDeclaration = {},
 ) = startKoin {
     appDeclaration()
-    modules(
-        commonModule(enableNetworkLogs),
-        geminiModules(config)
-    )
+    modules(commonModule(enableNetworkLogs), geminiModules(config))
 }

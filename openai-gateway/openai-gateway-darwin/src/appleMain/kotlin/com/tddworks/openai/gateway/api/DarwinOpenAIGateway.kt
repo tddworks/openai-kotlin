@@ -9,9 +9,7 @@ import com.tddworks.openai.gateway.api.internal.gemini
 import com.tddworks.openai.gateway.api.internal.ollama
 import com.tddworks.openai.gateway.di.initOpenAIGateway
 
-/**
- * An object for initializing and configuring the OpenAI Gateway.
- */
+/** An object for initializing and configuring the OpenAI Gateway. */
 object DarwinOpenAIGateway {
 
     /**
@@ -24,8 +22,8 @@ object DarwinOpenAIGateway {
      * @param anthropicVersion function that provides the version for Anthropic services
      * @param ollamaBaseUrl function that provides the base URL for Ollama services
      * @param ollamaPort function that provides the port for Ollama services
-     * @param ollamaProtocol function that provides the protocol (e.g. http, https) for Ollama services
-     *
+     * @param ollamaProtocol function that provides the protocol (e.g. http, https) for Ollama
+     *   services
      * @return a new instance of OpenAIGateway initialized with the provided configurations
      */
     fun openAIGateway(
@@ -36,20 +34,18 @@ object DarwinOpenAIGateway {
         anthropicVersion: () -> String = { Anthropic.ANTHROPIC_VERSION },
         ollamaBaseUrl: () -> String = { Ollama.BASE_URL },
         geminiBaseUrl: () -> String = { "api.gemini.com" },
-        geminiKey: () -> String = { "CONFIGURE_ME" }
-    ) = initOpenAIGateway(
-        openAIConfig = OpenAIProviderConfig.default(
-            baseUrl = openAIBaseUrl, apiKey = openAIKey
-        ), anthropicConfig = OpenAIProviderConfig.anthropic(
-            baseUrl = anthropicBaseUrl,
-            apiKey = anthropicKey,
-            anthropicVersion = anthropicVersion
-        ), ollamaConfig = OpenAIProviderConfig.ollama(
-            baseUrl = ollamaBaseUrl,
-        ),
-        geminiConfig = OpenAIProviderConfig.gemini(
-            baseUrl = geminiBaseUrl,
-            apiKey = geminiKey
+        geminiKey: () -> String = { "CONFIGURE_ME" },
+    ) =
+        initOpenAIGateway(
+            openAIConfig =
+                OpenAIProviderConfig.default(baseUrl = openAIBaseUrl, apiKey = openAIKey),
+            anthropicConfig =
+                OpenAIProviderConfig.anthropic(
+                    baseUrl = anthropicBaseUrl,
+                    apiKey = anthropicKey,
+                    anthropicVersion = anthropicVersion,
+                ),
+            ollamaConfig = OpenAIProviderConfig.ollama(baseUrl = ollamaBaseUrl),
+            geminiConfig = OpenAIProviderConfig.gemini(baseUrl = geminiBaseUrl, apiKey = geminiKey),
         )
-    )
 }

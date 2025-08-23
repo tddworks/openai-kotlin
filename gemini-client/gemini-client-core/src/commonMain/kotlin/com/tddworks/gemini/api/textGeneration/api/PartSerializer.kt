@@ -7,22 +7,11 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonObject
 
 /**
- * {
- *   "contents": [{
- *     "parts":[
- *       {"text": "Tell me about this instrument"},
- *       {
- *         "inline_data": {
- *           "mime_type":"image/jpeg",
- *           "data": "$(cat "$TEMP_B64")"
- *         }
- *       }
- *     ]
- *   }]
- * }
+ * { "contents":
+ * [{ "parts":[ {"text": "Tell me about this instrument"}, { "inline_data": { "mime_type":"image/jpeg", "data": "$(cat "$TEMP_B64")" } } ]
+ * }] }
  */
-object PartSerializer :
-    JsonContentPolymorphicSerializer<Part>(Part::class) {
+object PartSerializer : JsonContentPolymorphicSerializer<Part>(Part::class) {
     override fun selectDeserializer(element: JsonElement): KSerializer<out Part> {
         val jsonObject = element.jsonObject
         return when {

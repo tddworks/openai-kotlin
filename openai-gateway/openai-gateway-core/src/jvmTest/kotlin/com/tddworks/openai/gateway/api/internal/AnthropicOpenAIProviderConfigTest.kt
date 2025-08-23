@@ -9,11 +9,12 @@ class AnthropicOpenAIProviderConfigTest {
     @Test
     fun `should create anthropic openai config`() {
         // When
-        val r = OpenAIProviderConfig.anthropic(
-            apiKey = { "apiKey" },
-            baseUrl = { "baseUrl" },
-            anthropicVersion = { "2023-06-01" }
-        )
+        val r =
+            OpenAIProviderConfig.anthropic(
+                apiKey = { "apiKey" },
+                baseUrl = { "baseUrl" },
+                anthropicVersion = { "2023-06-01" },
+            )
 
         // Then
         assertEquals("apiKey", r.apiKey())
@@ -24,11 +25,12 @@ class AnthropicOpenAIProviderConfigTest {
     @Test
     fun `should convert to anthropic openai config`() {
         // Given
-        val anthropicOpenAIProviderConfig = AnthropicOpenAIProviderConfig(
-            anthropicVersion = { "2023-06-01" },
-            apiKey = { "apiKey" },
-            baseUrl = { "baseUrl" }
-        )
+        val anthropicOpenAIProviderConfig =
+            AnthropicOpenAIProviderConfig(
+                anthropicVersion = { "2023-06-01" },
+                apiKey = { "apiKey" },
+                baseUrl = { "baseUrl" },
+            )
 
         // When
         val anthropicConfig = anthropicOpenAIProviderConfig.toAnthropicOpenAIConfig()

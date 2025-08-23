@@ -9,7 +9,7 @@ import com.tddworks.ollama.api.generate.OllamaGenerate
 class OllamaApi(
     private val config: OllamaConfig,
     private val ollamaChat: OllamaChat,
-    private val ollamaGenerate: OllamaGenerate
+    private val ollamaGenerate: OllamaGenerate,
 ) : Ollama, OllamaChat by ollamaChat, OllamaGenerate by ollamaGenerate {
 
     override fun baseUrl(): String {
@@ -28,11 +28,7 @@ class OllamaApi(
 fun Ollama.Companion.create(
     config: OllamaConfig,
     ollamaChat: OllamaChat = getInstance(),
-    ollamaGenerate: OllamaGenerate = getInstance()
+    ollamaGenerate: OllamaGenerate = getInstance(),
 ): Ollama {
-    return OllamaApi(
-        config = config,
-        ollamaChat = ollamaChat,
-        ollamaGenerate = ollamaGenerate
-    )
+    return OllamaApi(config = config, ollamaChat = ollamaChat, ollamaGenerate = ollamaGenerate)
 }

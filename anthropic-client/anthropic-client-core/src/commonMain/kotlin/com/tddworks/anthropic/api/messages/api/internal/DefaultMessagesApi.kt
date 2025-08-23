@@ -13,8 +13,8 @@ import io.ktor.http.*
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Anthropic Messages API - https://docs.anthropic.com/claude/reference/messages_post
- * All requests to the Anthropic API must include an x-api-key header with your API key
+ * Anthropic Messages API - https://docs.anthropic.com/claude/reference/messages_post All requests
+ * to the Anthropic API must include an x-api-key header with your API key
  */
 class DefaultMessagesApi(
     private val anthropicConfig: AnthropicConfig = AnthropicConfig(),
@@ -39,7 +39,9 @@ class DefaultMessagesApi(
 
     /**
      * Create a message.
-     * @param request Send a structured list of input messages with text and/or image content, and the model will generate the next message in the conversation.
+     *
+     * @param request Send a structured list of input messages with text and/or image content, and
+     *   the model will generate the next message in the conversation.
      * @return The chat completion.
      */
     override suspend fun create(request: CreateMessageRequest): CreateMessageResponse {
@@ -59,5 +61,4 @@ class DefaultMessagesApi(
     companion object {
         const val MESSAGE_API_PATH = "/v1/messages"
     }
-
 }

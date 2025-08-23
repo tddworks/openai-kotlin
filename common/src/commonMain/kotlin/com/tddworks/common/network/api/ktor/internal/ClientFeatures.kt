@@ -5,5 +5,5 @@ import kotlinx.serialization.json.Json
 data class ClientFeatures(
     val json: Json = Json,
     val queryParams: () -> Map<String, String> = { emptyMap() },
-    val expectSuccess: Boolean = true
+    val expectSuccess: Boolean = true,
 )

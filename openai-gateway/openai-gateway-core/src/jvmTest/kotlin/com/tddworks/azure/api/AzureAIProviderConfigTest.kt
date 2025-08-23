@@ -8,12 +8,13 @@ class AzureAIProviderConfigTest {
 
     @Test
     fun `should create AzureAIProviderConfig`() {
-        val config = OpenAIProviderConfig.azure(
-            apiKey = { "api-key" },
-            baseUrl = { "YOUR_RESOURCE_NAME.openai.azure.com" },
-            deploymentId = { "deployment-id" },
-            apiVersion = { "api-version" }
-        )
+        val config =
+            OpenAIProviderConfig.azure(
+                apiKey = { "api-key" },
+                baseUrl = { "YOUR_RESOURCE_NAME.openai.azure.com" },
+                deploymentId = { "deployment-id" },
+                apiVersion = { "api-version" },
+            )
 
         assertEquals("api-key", config.apiKey())
         assertEquals("YOUR_RESOURCE_NAME.openai.azure.com", config.baseUrl())

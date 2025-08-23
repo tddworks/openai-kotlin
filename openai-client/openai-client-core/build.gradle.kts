@@ -16,17 +16,11 @@ kotlin {
             api(projects.common)
         }
 
-        commonTest.dependencies {
-            implementation(libs.ktor.client.mock)
-        }
+        commonTest.dependencies { implementation(libs.ktor.client.mock) }
 
-        macosMain.dependencies {
-            api(libs.ktor.client.darwin)
-        }
+        macosMain.dependencies { api(libs.ktor.client.darwin) }
 
-        jvmMain.dependencies {
-            api(libs.ktor.client.cio)
-        }
+        jvmMain.dependencies { api(libs.ktor.client.cio) }
 
         jvmTest.dependencies {
             implementation(project.dependencies.platform(libs.junit.bom))
@@ -42,8 +36,4 @@ kotlin {
     }
 }
 
-tasks {
-    named<Test>("jvmTest") {
-        useJUnitPlatform()
-    }
-}
+tasks { named<Test>("jvmTest") { useJUnitPlatform() } }

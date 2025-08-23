@@ -3,16 +3,11 @@ package com.tddworks.ollama.api
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-
 class OllamaConfigTest {
 
     @Test
     fun `should return overridden settings`() {
-        val target = OllamaConfig(
-            baseUrl = { "some-url" },
-            port = { 8080 },
-            protocol = { "https" }
-        )
+        val target = OllamaConfig(baseUrl = { "some-url" }, port = { 8080 }, protocol = { "https" })
 
         assertEquals("some-url", target.baseUrl())
 

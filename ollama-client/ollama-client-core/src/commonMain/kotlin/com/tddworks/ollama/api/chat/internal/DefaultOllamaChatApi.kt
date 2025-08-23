@@ -11,9 +11,7 @@ import io.ktor.http.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.json.Json
 
-class DefaultOllamaChatApi(
-    private val requester: HttpRequester
-) : OllamaChat {
+class DefaultOllamaChatApi(private val requester: HttpRequester) : OllamaChat {
     override fun stream(request: OllamaChatRequest): Flow<OllamaChatResponse> {
         return requester.streamRequest<OllamaChatResponse> {
             method = HttpMethod.Post
@@ -41,4 +39,3 @@ class DefaultOllamaChatApi(
         const val CHAT_API_PATH = "/api/chat"
     }
 }
-

@@ -1,8 +1,8 @@
 package com.tddworks.openai.api.chat.api
 
+import kotlin.jvm.JvmInline
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlin.jvm.JvmInline
 
 /**
  * Data class representing a chat completion option.
@@ -16,17 +16,18 @@ data class ChatChunk(
     val delta: ChatDelta,
     val index: Int,
     val logprobs: String? = null,
-    @SerialName("finish_reason")
-    val finishReason: String?,
+    @SerialName("finish_reason") val finishReason: String?,
 ) {
     companion object {
-        fun fake() = ChatChunk(
-            delta = ChatDelta.fake(),
-            index = 0,
-            finishReason = null,
-        )
-    }
+        fun fake() = ChatChunk(delta = ChatDelta.fake(), index = 0, finishReason = null)
 
+        fun error(message: String?) =
+            ChatChunk(
+                delta = ChatDelta(content = message, role = Role.System),
+                index = 0,
+                finishReason = "error",
+            )
+    }
 }
 
 /**
@@ -36,42 +37,31 @@ data class ChatChunk(
  * @property chatRole The role of the message sender (user or assistant).
  */
 @Serializable
-data class ChatDelta(
-    val content: String? = null,
-    val role: Role? = null,
-) {
+data class ChatDelta(val content: String? = null, val role: Role? = null) {
     companion object {
-        fun fake() = ChatDelta(
-            content = "fake-content",
-            role = Role.Assistant,
-        )
+        fun fake() = ChatDelta(content = "fake-content", role = Role.Assistant)
     }
-
 }
 
 @Serializable
 data class ChatChoice(
-    /**
-     * Chat choice index.
-     */
+    /** Chat choice index. */
     @SerialName("index") val index: Int,
-    /**
-     * The generated chat message.
-     */
+    /** The generated chat message. */
     @Serializable(with = ChatMessageSerializer::class)
-    @SerialName("message") val message: ChatMessage,
+    @SerialName("message")
+    val message: ChatMessage,
 
-    /**
-     * The reason why OpenAI stopped generating.
-     */
+    /** The reason why OpenAI stopped generating. */
     @SerialName("finish_reason") val finishReason: FinishReason? = null,
 ) {
     companion object {
-        fun dummy() = ChatChoice(
-            index = 0,
-            message = ChatMessage.SystemMessage("Hello! How can I assist you today?"),
-            finishReason = FinishReason.Stop
-        )
+        fun dummy() =
+            ChatChoice(
+                index = 0,
+                message = ChatMessage.SystemMessage("Hello! How can I assist you today?"),
+                finishReason = FinishReason.Stop,
+            )
     }
 }
 

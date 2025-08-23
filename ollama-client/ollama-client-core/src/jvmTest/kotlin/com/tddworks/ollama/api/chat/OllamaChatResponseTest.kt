@@ -8,7 +8,8 @@ class OllamaChatResponseTest {
 
     @Test
     fun `should decode response to non-streaming OllamaChatResponse`() {
-        val response = """
+        val response =
+            """
                 {
                   "model": "registry.ollama.ai/library/llama2:latest",
                   "created_at": "2023-12-12T14:13:43.416799Z",
@@ -24,7 +25,8 @@ class OllamaChatResponseTest {
                   "eval_count": 298,
                   "eval_duration": 4799921000
                 }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         JsonLenient.decodeFromString<OllamaChatResponse>(response).apply {
             assertEquals("registry.ollama.ai/library/llama2:latest", model)
@@ -43,7 +45,8 @@ class OllamaChatResponseTest {
 
     @Test
     fun `should decode response to Final OllamaChatResponse`() {
-        val response = """
+        val response =
+            """
                 {
                   "model": "llama2",
                   "created_at": "2023-08-04T19:22:45.499127Z",
@@ -55,7 +58,8 @@ class OllamaChatResponseTest {
                   "eval_count": 282,
                   "eval_duration": 4535599000
                 }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         JsonLenient.decodeFromString<OllamaChatResponse>(response).apply {
             assertEquals("llama2", model)
@@ -72,7 +76,8 @@ class OllamaChatResponseTest {
 
     @Test
     fun `should decode response to OllamaChatResponse`() {
-        val response = """
+        val response =
+            """
             {
               "model": "llama2",
               "created_at": "2023-08-04T08:52:19.385406455-07:00",
@@ -83,7 +88,8 @@ class OllamaChatResponseTest {
               },
               "done": false
             }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         JsonLenient.decodeFromString<OllamaChatResponse>(response).apply {
             assertEquals("llama2", model)

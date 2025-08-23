@@ -7,36 +7,32 @@ import com.tddworks.anthropic.api.messages.api.internal.JsonLenient
 import com.tddworks.common.network.api.ktor.api.HttpRequester
 import com.tddworks.common.network.api.ktor.internal.*
 
-/**
- * Interface for interacting with the Anthropic API.
- */
+/** Interface for interacting with the Anthropic API. */
 interface Anthropic : Messages {
 
-    /**
-     * Companion object containing a constant variable for the base URL of the API.
-     */
+    /** Companion object containing a constant variable for the base URL of the API. */
     companion object {
         const val BASE_URL = "https://api.anthropic.com"
         const val ANTHROPIC_VERSION = "2023-06-01"
 
         /**
          * Creates an instance of Anthropic API with the provided configurations.
+         *
          * @return an instance of Anthropic API configured with the provided settings.
          */
         fun create(anthropicConfig: AnthropicConfig): Anthropic {
 
-            val requester = HttpRequester.default(
-                createHttpClient(
-                    connectionConfig = UrlBasedConnectionConfig(anthropicConfig.baseUrl),
-                    authConfig = AuthConfig(anthropicConfig.apiKey),
-                    // get from commonModule
-                    features = ClientFeatures(json = JsonLenient)
+            val requester =
+                HttpRequester.default(
+                    createHttpClient(
+                        connectionConfig = UrlBasedConnectionConfig(anthropicConfig.baseUrl),
+                        authConfig = AuthConfig(anthropicConfig.apiKey),
+                        // get from commonModule
+                        features = ClientFeatures(json = JsonLenient),
+                    )
                 )
-            )
-            val messages = DefaultMessagesApi(
-                anthropicConfig = anthropicConfig,
-                requester = requester
-            )
+            val messages =
+                DefaultMessagesApi(anthropicConfig = anthropicConfig, requester = requester)
 
             return AnthropicApi(anthropicConfig = anthropicConfig, messages = messages)
         }
@@ -57,9 +53,8 @@ interface Anthropic : Messages {
     fun baseUrl(): String
 
     /**
-     * Returns the anthropic version of the provided class.
-     * The anthropic version is a String representation of the class name with "Anthropic"
-     * prefixed to it.
+     * Returns the anthropic version of the provided class. The anthropic version is a String
+     * representation of the class name with "Anthropic" prefixed to it.
      *
      * @return The anthropic version of the class as a String.
      */

@@ -9,19 +9,18 @@ class BlockMessageContentTest {
     @Test
     fun `should serialize image message content`() {
         // Given
-        val messageContent = BlockMessageContent.ImageContent(
-            source = BlockMessageContent.ImageContent.Source(
-                mediaType = "image1_media_type",
-                data = "image1_data",
-                type = "base64",
-            ),
-        )
+        val messageContent =
+            BlockMessageContent.ImageContent(
+                source =
+                    BlockMessageContent.ImageContent.Source(
+                        mediaType = "image1_media_type",
+                        data = "image1_data",
+                        type = "base64",
+                    )
+            )
 
         // When
-        val result = Json.encodeToString(
-            BlockMessageContent.serializer(),
-            messageContent
-        )
+        val result = Json.encodeToString(BlockMessageContent.serializer(), messageContent)
 
         // Then
         JSONAssert.assertEquals(
@@ -34,24 +33,20 @@ class BlockMessageContentTest {
                     "data": "image1_data"
                 }
             }
-            """.trimIndent(),
+            """
+                .trimIndent(),
             result,
-            false
+            false,
         )
     }
 
     @Test
     fun `should serialize message content`() {
         // Given
-        val messageContent = BlockMessageContent.TextContent(
-            text = "some-text",
-        )
+        val messageContent = BlockMessageContent.TextContent(text = "some-text")
 
         // When
-        val result = Json.encodeToString(
-            BlockMessageContent.serializer(),
-            messageContent
-        )
+        val result = Json.encodeToString(BlockMessageContent.serializer(), messageContent)
 
         // Then
         JSONAssert.assertEquals(
@@ -60,9 +55,10 @@ class BlockMessageContentTest {
                 "text": "some-text",
                 "type": "text"
             }
-            """.trimIndent(),
+            """
+                .trimIndent(),
             result,
-            false
+            false,
         )
     }
 }

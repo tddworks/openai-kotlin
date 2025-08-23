@@ -1,10 +1,10 @@
 package com.tddworks.openai.api.chat.internal
 
 import app.cash.turbine.test
-import com.tddworks.openai.api.chat.api.*
-import com.tddworks.openai.api.common.mockHttpClient
 import com.tddworks.common.network.api.ktor.internal.DefaultHttpRequester
 import com.tddworks.di.initKoin
+import com.tddworks.openai.api.chat.api.*
+import com.tddworks.openai.api.common.mockHttpClient
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -25,10 +25,13 @@ class DefaultChatApiTest : AutoCloseKoinTest() {
         val request =
             ChatCompletionRequest.chatCompletionsRequest(listOf(ChatMessage.UserMessage("hello")))
 
-        val chat = DefaultChatApi(
-            requester = DefaultHttpRequester(
-                httpClient = mockHttpClient(
-                    """
+        val chat =
+            DefaultChatApi(
+                requester =
+                    DefaultHttpRequester(
+                        httpClient =
+                            mockHttpClient(
+                                """
                     {
                       "id": "chatcmpl-8Zu4AF8QMK3zFgdzXIPjFS4VkWErX",
                       "object": "chat.completion",
@@ -52,11 +55,11 @@ class DefaultChatApiTest : AutoCloseKoinTest() {
                       },
                       "system_fingerprint": null
                     }
-                """.trimIndent()
-                )
+                """
+                                    .trimIndent()
+                            )
+                    )
             )
-        )
-
 
         val r = chat.chatCompletions(request)
 
@@ -72,16 +75,19 @@ class DefaultChatApiTest : AutoCloseKoinTest() {
 
     @Test
     fun `should return stream of completions`() = runBlocking {
-
-
         val request =
             ChatCompletionRequest.chatCompletionsRequest(listOf(ChatMessage.UserMessage("hello")))
 
-        val chat = DefaultChatApi(
-            requester = DefaultHttpRequester(
-                httpClient = mockHttpClient("data: {\"id\":\"chatcmpl-8ZtRSZzsijxilL2lDBN7ERQc0Zi7Q\",\"object\":\"chat.completion.chunk\",\"created\":1703565290,\"model\":\"gpt-3.5-turbo-0613\",\"system_fingerprint\":null,\"choices\":[{\"index\":0,\"delta\":{\"content\":\" there\"},\"logprobs\":null,\"finish_reason\":null}]}")
+        val chat =
+            DefaultChatApi(
+                requester =
+                    DefaultHttpRequester(
+                        httpClient =
+                            mockHttpClient(
+                                "data: {\"id\":\"chatcmpl-8ZtRSZzsijxilL2lDBN7ERQc0Zi7Q\",\"object\":\"chat.completion.chunk\",\"created\":1703565290,\"model\":\"gpt-3.5-turbo-0613\",\"system_fingerprint\":null,\"choices\":[{\"index\":0,\"delta\":{\"content\":\" there\"},\"logprobs\":null,\"finish_reason\":null}]}"
+                            )
+                    )
             )
-        )
 
         chat.streamChatCompletions(request).test {
             assertEquals(
@@ -90,16 +96,16 @@ class DefaultChatApiTest : AutoCloseKoinTest() {
                     `object` = "chat.completion.chunk",
                     created = 1703565290,
                     model = "gpt-3.5-turbo-0613",
-                    choices = listOf(
-                        ChatChunk(
-                            index = 0,
-                            delta = ChatDelta(
-                                content = " there"
-                            ),
-                            finishReason = null
-                        )
-                    )
-                ), awaitItem()
+                    choices =
+                        listOf(
+                            ChatChunk(
+                                index = 0,
+                                delta = ChatDelta(content = " there"),
+                                finishReason = null,
+                            )
+                        ),
+                ),
+                awaitItem(),
             )
             awaitComplete()
         }

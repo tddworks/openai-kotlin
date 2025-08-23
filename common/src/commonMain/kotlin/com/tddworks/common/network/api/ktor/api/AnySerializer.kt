@@ -19,28 +19,30 @@ object AnySerializer : KSerializer<Any> {
         jsonEncoder.encodeJsonElement(jsonElement)
     }
 
-    private fun serializeAny(value: Any?): JsonElement = when (value) {
-        is Map<*, *> -> {
-            val mapContents = value.entries.associate { mapEntry ->
-                mapEntry.key.toString() to serializeAny(mapEntry.value)
+    private fun serializeAny(value: Any?): JsonElement =
+        when (value) {
+            is Map<*, *> -> {
+                val mapContents =
+                    value.entries.associate { mapEntry ->
+                        mapEntry.key.toString() to serializeAny(mapEntry.value)
+                    }
+                JsonObject(mapContents)
             }
-            JsonObject(mapContents)
-        }
 
-        is Array<*> -> {
-            val arrayContents = value.map { arrayEntry -> serializeAny(arrayEntry) }
-            JsonArray(arrayContents)
-        }
+            is Array<*> -> {
+                val arrayContents = value.map { arrayEntry -> serializeAny(arrayEntry) }
+                JsonArray(arrayContents)
+            }
 
-        is List<*> -> {
-            val arrayContents = value.map { listEntry -> serializeAny(listEntry) }
-            JsonArray(arrayContents)
-        }
+            is List<*> -> {
+                val arrayContents = value.map { listEntry -> serializeAny(listEntry) }
+                JsonArray(arrayContents)
+            }
 
-        is Number -> JsonPrimitive(value)
-        is Boolean -> JsonPrimitive(value)
-        else -> JsonPrimitive(value.toString())
-    }
+            is Number -> JsonPrimitive(value)
+            is Boolean -> JsonPrimitive(value)
+            else -> JsonPrimitive(value.toString())
+        }
 
     override fun deserialize(decoder: Decoder): Any {
         val jsonDecoder = decoder as JsonDecoder
@@ -49,21 +51,21 @@ object AnySerializer : KSerializer<Any> {
         return deserializeJsonElement(element)
     }
 
-    private fun deserializeJsonElement(element: JsonElement): Any = when (element) {
-        is JsonObject -> {
-            element.mapValues { deserializeJsonElement(it.value) }
-        }
+    private fun deserializeJsonElement(element: JsonElement): Any =
+        when (element) {
+            is JsonObject -> {
+                element.mapValues { deserializeJsonElement(it.value) }
+            }
 
-        is JsonArray -> {
-            element.map { deserializeJsonElement(it) }
-        }
+            is JsonArray -> {
+                element.map { deserializeJsonElement(it) }
+            }
 
-        is JsonPrimitive -> {
-            if (element.isString) element.contentOrNull!!
-            else if (element.booleanOrNull != null) element.boolean
-            else if (element.intOrNull != null) element.int
-            else if (element.doubleOrNull != null) element.double
-            else element.toString()
+            is JsonPrimitive -> {
+                if (element.isString) element.contentOrNull!!
+                else if (element.booleanOrNull != null) element.boolean
+                else if (element.intOrNull != null) element.int
+                else if (element.doubleOrNull != null) element.double else element.toString()
+            }
         }
-    }
 }

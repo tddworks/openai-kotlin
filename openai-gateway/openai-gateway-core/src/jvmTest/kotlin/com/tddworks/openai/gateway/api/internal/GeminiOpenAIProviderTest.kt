@@ -11,12 +11,10 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
-import kotlin.test.assertFalse
 
 @OptIn(ExperimentalSerializationApi::class)
 class GeminiOpenAIProviderTest {
@@ -29,10 +27,7 @@ class GeminiOpenAIProviderTest {
     fun setUp() {
         client = mock()
         config = mock()
-        provider = OpenAIProvider.gemini(
-            client = client,
-            config = config
-        )
+        provider = OpenAIProvider.gemini(client = client, config = config)
     }
 
     @Test
@@ -41,42 +36,43 @@ class GeminiOpenAIProviderTest {
         val request = ImageCreate.create("A cute baby sea otter", OpenAIModel.DALL_E_3)
 
         runCatching {
-            // when
-            provider.generate(request)
-        }.onFailure {
-            // then
-            assertEquals("Not supported", it.message)
-        }
+                // when
+                provider.generate(request)
+            }
+            .onFailure {
+                // then
+                assertEquals("Not supported", it.message)
+            }
     }
 
     @Test
     fun `should throw not supported when invoke completions`() = runTest {
         // given
-        val request = CompletionRequest(
-            prompt = "Once upon a time",
-            suffix = "The end",
-            maxTokens = 10,
-            temperature = 0.5
-        )
+        val request =
+            CompletionRequest(
+                prompt = "Once upon a time",
+                suffix = "The end",
+                maxTokens = 10,
+                temperature = 0.5,
+            )
 
         runCatching {
-            // when
-            provider.completions(request)
-        }.onFailure {
-            // then
-            assertEquals("Not supported", it.message)
-        }
+                // when
+                provider.completions(request)
+            }
+            .onFailure {
+                // then
+                assertEquals("Not supported", it.message)
+            }
     }
 
     @Test
     fun `should fetch chat completions from OpenAI API`() = runTest {
         // given
-        val request =
-            ChatCompletionRequest.dummy(OpenAIModel(GeminiModel.GEMINI_1_5_FLASH.value))
+        val request = ChatCompletionRequest.dummy(OpenAIModel(GeminiModel.GEMINI_1_5_FLASH.value))
         val response = GenerateContentResponse.dummy()
-        whenever(client.generateContent(request.toGeminiGenerateContentRequest())).thenReturn(
-            response
-        )
+        whenever(client.generateContent(request.toGeminiGenerateContentRequest()))
+            .thenReturn(response)
 
         // when
         val completions = provider.chatCompletions(request)
@@ -88,30 +84,21 @@ class GeminiOpenAIProviderTest {
     @Test
     fun `should stream chat completions for chat`() = runTest {
         // given
-        val request =
-            ChatCompletionRequest.dummy(OpenAIModel(GeminiModel.GEMINI_1_5_FLASH.value))
+        val request = ChatCompletionRequest.dummy(OpenAIModel(GeminiModel.GEMINI_1_5_FLASH.value))
 
         val response = GenerateContentResponse.dummy()
         whenever(
-            client.streamGenerateContent(
-                request.toGeminiGenerateContentRequest().copy(stream = true)
-            )
-        ).thenReturn(
-            flow {
-                emit(
-                    response
+                client.streamGenerateContent(
+                    request.toGeminiGenerateContentRequest().copy(stream = true)
                 )
-            })
+            )
+            .thenReturn(flow { emit(response) })
 
         // when
         provider.streamChatCompletions(request).test {
             // then
-            assertEquals(
-                response.toOpenAIChatCompletionChunk(),
-                awaitItem()
-            )
+            assertEquals(response.toOpenAIChatCompletionChunk(), awaitItem())
             awaitComplete()
         }
-
     }
 }

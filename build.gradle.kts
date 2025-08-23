@@ -1,26 +1,22 @@
 import nl.littlerobots.vcu.plugin.resolver.VersionSelectors
 
 plugins {
+
     `maven-publish`
-    //trick: for the same plugin versions in all sub-modules
+    // trick: for the same plugin versions in all sub-modules
     alias(libs.plugins.androidLibrary).apply(false)
     alias(libs.plugins.kotlinMultiplatform).apply(false)
     alias(libs.plugins.kover)
     alias(libs.plugins.com.linecorp.build.recipe)
     alias(libs.plugins.build.dokka.plugin)
-
     alias(libs.plugins.kotlinx.binary.validator) apply false
-    id("nl.littlerobots.version-catalog-update") version "1.0.0"
-    id("com.tddworks.central-portal-publisher") version "0.0.5"
-}
+    alias(libs.plugins.version.catalog.update)
+    alias(libs.plugins.central.publisher)
+    alias(libs.plugins.spotless)
+    alias(libs.plugins.dependency.analysis)
 
-sonatypePortalPublisher {
-    settings {
-        autoPublish = false
-        aggregation = true
-    }
+    id("com.tddworks.central-publisher")
 }
-
 
 dependencies {
     kover(projects.openaiClient.openaiClientCore)
@@ -31,23 +27,19 @@ dependencies {
     kover(projects.common)
 }
 
-versionCatalogUpdate {
-    versionSelector(VersionSelectors.STABLE)
-}
+versionCatalogUpdate { versionSelector(VersionSelectors.STABLE) }
 
-val autoVersion = project.property(
-    if (project.hasProperty("AUTO_VERSION")) {
-        "AUTO_VERSION"
-    } else {
-        "LIBRARY_VERSION"
-    }
-) as String
+val autoVersion =
+    project.property(
+        if (project.hasProperty("AUTO_VERSION")) {
+            "AUTO_VERSION"
+        } else {
+            "LIBRARY_VERSION"
+        }
+    ) as String
 
 subprojects {
-    /**
-     * Working with runtime properties
-     * https://docs.gradle.org/current/userguide/kotlin_dsl.html
-     */
+    /** Working with runtime properties https://docs.gradle.org/current/userguide/kotlin_dsl.html */
     val GROUP: String by project
     group = GROUP
     version = autoVersion
@@ -55,29 +47,66 @@ subprojects {
     apply(plugin = rootProject.libs.plugins.build.dokka.plugin.get().pluginId)
 }
 
+// Spotless code formatting
+spotless {
+    kotlin {
+        target("**/*.kt")
+        ktfmt().kotlinlangStyle()
+    }
+    kotlinGradle {
+        target("**/*.gradle.kts")
+        ktfmt().kotlinlangStyle()
+    }
+}
+
 kover {
     reports {
         filters {
             excludes {
                 classes(
-                    "com.tddworks.**.*\$*$*", // Lambda functions like - LemonSqueezyLicenseApi$activeLicense$activationResult$1
-                    "com.tddworks.**.*\$Companion", // Lambda functions like - LemonSqueezyLicenseApi$activeLicense$activationResult$1
+                    "com.tddworks.**.*\$*$*", // Lambda functions like -
+                    // LemonSqueezyLicenseApi$activeLicense$activationResult$1
+                    "com.tddworks.**.*\$Companion", // Lambda functions like -
+                    // LemonSqueezyLicenseApi$activeLicense$activationResult$1
                     "*.*\$\$serializer", // Kotlinx serializer)
                 )
-//            inheritedFrom("org.koin.core.component.KoinComponent")
-//            annotatedBy("kotlinx.serialization.Serializable")
+                //            inheritedFrom("org.koin.core.component.KoinComponent")
+                //            annotatedBy("kotlinx.serialization.Serializable")
             }
-            includes {
-                classes("com.tddworks.*")
-            }
+            includes { classes("com.tddworks.*") }
         }
 
-        verify {
-            rule {
-                bound {
-                    minValue = 86
-                }
-            }
+        verify { rule { bound { minValue = 86 } } }
+    }
+}
+
+
+centralPublisher {
+    credentials {
+        username = project.findProperty("SONATYPE_USERNAME")?.toString() ?: ""
+        password = project.findProperty("SONATYPE_PASSWORD")?.toString() ?: ""
+    }
+    
+    projectInfo {
+        name = "openai-kotlin"
+        description = "penai-kotlin powered by kotlin multiplatform"
+        url = "https://github.com/tddworks/openai-kotlin"
+        
+        license {
+            name = "The Apache Software License, Version 2.0"
+            url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        }
+        
+        developer {
+            id = "tddworks"
+            name = "itshan"
+            email = "itshan@tddworks.com"
+        }
+        
+        scm {
+            url = "https://github.com/tddworks/openai-kotlin"
+            connection = "scm:git:git://github.com/tddworks/openai-kotlin.git"
+            developerConnection = "scm:git:ssh://github.com/tddworks/openai-kotlin.git"
         }
     }
 }

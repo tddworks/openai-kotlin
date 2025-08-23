@@ -1,6 +1,5 @@
 package com.tddworks.openai.api.chat.api
 
-
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

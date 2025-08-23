@@ -7,7 +7,6 @@ interface Gemini : TextGeneration {
         const val HOST = "generativelanguage.googleapis.com"
         const val BASE_URL = "https://$HOST"
 
-
         fun default(): Gemini {
             return object : Gemini, TextGeneration by getInstance() {}
         }

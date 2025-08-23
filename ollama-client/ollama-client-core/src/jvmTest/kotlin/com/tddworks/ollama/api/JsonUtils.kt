@@ -9,15 +9,13 @@ val prettyJson = Json { // this returns the JsonBuilder
     // optional: specify indent
     prettyPrintIndent = "  "
 
-    /**
-     * When this flag is disabled properties with null values without default are not encoded.
-     */
+    /** When this flag is disabled properties with null values without default are not encoded. */
     explicitNulls = false
 
     /**
-     * Controls whether the target property is serialized when its value is equal to a default value,
-     * regardless of the format settings.
-     * Does not affect decoding and deserialization process.
+     * Controls whether the target property is serialized when its value is equal to a default
+     * value, regardless of the format settings. Does not affect decoding and deserialization
+     * process.
      *
      * Example of usage:
      * ```
@@ -41,10 +39,13 @@ val prettyJson = Json { // this returns the JsonBuilder
 /**
  * Represents a JSON object that allows for leniency and ignores unknown keys.
  *
- * @property isLenient Removes JSON specification restriction (RFC-4627) and makes parser more liberal to the malformed input. In lenient mode quoted boolean literals, and unquoted string literals are allowed.
- * Its relaxations can be expanded in the future, so that lenient parser becomes even more permissive to invalid value in the input, replacing them with defaults.
- * false by default.
- * @property ignoreUnknownKeys Specifies whether encounters of unknown properties in the input JSON should be ignored instead of throwing SerializationException. false by default..
+ * @property isLenient Removes JSON specification restriction (RFC-4627) and makes parser more
+ *   liberal to the malformed input. In lenient mode quoted boolean literals, and unquoted string
+ *   literals are allowed. Its relaxations can be expanded in the future, so that lenient parser
+ *   becomes even more permissive to invalid value in the input, replacing them with defaults. false
+ *   by default.
+ * @property ignoreUnknownKeys Specifies whether encounters of unknown properties in the input JSON
+ *   should be ignored instead of throwing SerializationException. false by default..
  */
 internal val JsonLenient = Json {
     isLenient = true

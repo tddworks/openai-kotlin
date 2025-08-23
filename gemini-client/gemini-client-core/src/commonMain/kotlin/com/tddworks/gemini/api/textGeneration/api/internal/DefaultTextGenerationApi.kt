@@ -12,20 +12,15 @@ import kotlinx.coroutines.flow.Flow
 import org.koin.core.annotation.Single
 
 @Single
-class DefaultTextGenerationApi(
-    private val requester: HttpRequester
-) : TextGeneration {
+class DefaultTextGenerationApi(private val requester: HttpRequester) : TextGeneration {
     override suspend fun generateContent(request: GenerateContentRequest): GenerateContentResponse {
-        return requester.performRequest<GenerateContentResponse> {
-            configureRequest(request)
-        }
+        return requester.performRequest<GenerateContentResponse> { configureRequest(request) }
     }
 
-
-    override fun streamGenerateContent(request: GenerateContentRequest): Flow<GenerateContentResponse> {
-        return requester.streamRequest<GenerateContentResponse> {
-            configureRequest(request)
-        }
+    override fun streamGenerateContent(
+        request: GenerateContentRequest
+    ): Flow<GenerateContentResponse> {
+        return requester.streamRequest<GenerateContentResponse> { configureRequest(request) }
     }
 
     private fun HttpRequestBuilder.configureRequest(request: GenerateContentRequest) {

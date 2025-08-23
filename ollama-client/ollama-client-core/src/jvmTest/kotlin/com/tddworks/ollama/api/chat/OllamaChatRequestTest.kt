@@ -1,15 +1,16 @@
 package com.tddworks.ollama.api.chat
 
 import com.tddworks.ollama.api.json.JsonLenient
-import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
 
 class OllamaChatRequestTest {
 
     @Test
     fun `should convert json to object`() {
         // given
-        val json = """
+        val json =
+            """
         {
             "model": "llama3",
             "messages": [{
@@ -25,7 +26,8 @@ class OllamaChatRequestTest {
                 "stop": ["\n", "user:"]
             }
         }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         // when
         val request = JsonLenient.decodeFromString(OllamaChatRequest.serializer(), json)
@@ -54,5 +56,4 @@ class OllamaChatRequestTest {
         assertEquals("user", request.messages[0].role)
         assertEquals("Hello!", request.messages[0].content)
     }
-
 }

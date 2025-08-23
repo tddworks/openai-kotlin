@@ -8,11 +8,12 @@ internal class AzureChatApi(
     private val chatCompletionPath: String,
     private val requester: HttpRequester,
     private val extraHeaders: Map<String, String> = mapOf(),
-    private val chatApi: Chat = Chat.default(
-        requester = requester,
-        chatCompletionPath = chatCompletionPath,
-        extraHeaders = extraHeaders
-    )
+    private val chatApi: Chat =
+        Chat.default(
+            requester = requester,
+            chatCompletionPath = chatCompletionPath,
+            extraHeaders = extraHeaders,
+        ),
 ) : Chat by chatApi {
     companion object {
         const val BASE_URL = "https://YOUR_RESOURCE_NAME.openai.azure.com"
@@ -24,8 +25,9 @@ fun Chat.Companion.azure(
     apiKey: () -> String,
     requester: HttpRequester,
     chatCompletionPath: String = AzureChatApi.CHAT_COMPLETIONS,
-): Chat = AzureChatApi(
-    requester = requester,
-    chatCompletionPath = chatCompletionPath,
-    extraHeaders = mapOf("api-key" to apiKey())
-)
+): Chat =
+    AzureChatApi(
+        requester = requester,
+        chatCompletionPath = chatCompletionPath,
+        extraHeaders = mapOf("api-key" to apiKey()),
+    )

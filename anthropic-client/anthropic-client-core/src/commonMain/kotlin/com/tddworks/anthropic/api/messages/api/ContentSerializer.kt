@@ -17,30 +17,55 @@ object ContentSerializer : KSerializer<Content> {
         return when (jsonElement) {
             is JsonPrimitive -> Content.TextContent(jsonElement.content)
             is JsonArray -> {
-                val items = jsonElement.map { element ->
-                    val jsonObj = element.jsonObject
+                val items =
+                    jsonElement.map { element ->
+                        val jsonObj = element.jsonObject
 
-                    when (jsonObj["type"]?.jsonPrimitive?.content) {
-                        "text" -> BlockMessageContent.TextContent(
-                            text = jsonObj["text"]?.jsonPrimitive?.content
-                                ?: throw IllegalArgumentException("Missing text")
-                        )
+                        when (jsonObj["type"]?.jsonPrimitive?.content) {
+                            "text" ->
+                                BlockMessageContent.TextContent(
+                                    text =
+                                        jsonObj["text"]?.jsonPrimitive?.content
+                                            ?: throw IllegalArgumentException("Missing text")
+                                )
 
-                        "image" -> BlockMessageContent.ImageContent(
-                            source = BlockMessageContent.ImageContent.Source(
-                                mediaType = jsonObj["source"]?.jsonObject?.get("media_type")?.jsonPrimitive?.content
-                                    ?: throw IllegalArgumentException("Missing media_type"),
-                                data = jsonObj["source"]?.jsonObject?.get("data")?.jsonPrimitive?.content
-                                    ?: throw IllegalArgumentException("Missing data"),
-                                type = jsonObj["source"]?.jsonObject?.get("type")?.jsonPrimitive?.content
-                                    ?: throw IllegalArgumentException("Missing type")
-                            )
-                        )
+                            "image" ->
+                                BlockMessageContent.ImageContent(
+                                    source =
+                                        BlockMessageContent.ImageContent.Source(
+                                            mediaType =
+                                                jsonObj["source"]
+                                                    ?.jsonObject
+                                                    ?.get("media_type")
+                                                    ?.jsonPrimitive
+                                                    ?.content
+                                                    ?: throw IllegalArgumentException(
+                                                        "Missing media_type"
+                                                    ),
+                                            data =
+                                                jsonObj["source"]
+                                                    ?.jsonObject
+                                                    ?.get("data")
+                                                    ?.jsonPrimitive
+                                                    ?.content
+                                                    ?: throw IllegalArgumentException(
+                                                        "Missing data"
+                                                    ),
+                                            type =
+                                                jsonObj["source"]
+                                                    ?.jsonObject
+                                                    ?.get("type")
+                                                    ?.jsonPrimitive
+                                                    ?.content
+                                                    ?: throw IllegalArgumentException(
+                                                        "Missing type"
+                                                    ),
+                                        )
+                                )
 
-                        else -> throw IllegalArgumentException("Unsupported content block type")
+                            else -> throw IllegalArgumentException("Unsupported content block type")
+                        }
                     }
-
-                }
                 Content.BlockContent(blocks = items)
             }
 
@@ -51,9 +76,11 @@ object ContentSerializer : KSerializer<Content> {
     override fun serialize(encoder: Encoder, value: Content) {
         when (value) {
             is Content.TextContent -> encoder.encodeString(value.text)
-            is Content.BlockContent -> encoder.encodeSerializableValue(
-                ListSerializer(BlockMessageContent.serializer()), value.blocks
-            )
+            is Content.BlockContent ->
+                encoder.encodeSerializableValue(
+                    ListSerializer(BlockMessageContent.serializer()),
+                    value.blocks,
+                )
         }
     }
 }

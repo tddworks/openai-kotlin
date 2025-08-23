@@ -16,38 +16,33 @@ interface OpenAI : Chat, Images, Completions {
         const val BASE_URL = "https://api.openai.com"
 
         fun default(config: OpenAIConfig): OpenAI {
-            val requester = HttpRequester.default(
-                createHttpClient(
-                    connectionConfig = UrlBasedConnectionConfig(config.baseUrl),
-                    authConfig = AuthConfig(config.apiKey),
-                    features = ClientFeatures(json = createJson())
+            val requester =
+                HttpRequester.default(
+                    createHttpClient(
+                        connectionConfig = UrlBasedConnectionConfig(config.baseUrl),
+                        authConfig = AuthConfig(config.apiKey),
+                        features = ClientFeatures(json = createJson()),
+                    )
                 )
-            )
             return default(requester)
         }
 
         fun default(
             requester: HttpRequester,
-            chatCompletionPath: String = Chat.CHAT_COMPLETIONS_PATH
+            chatCompletionPath: String = Chat.CHAT_COMPLETIONS_PATH,
         ): OpenAI {
-            val chatApi = Chat.default(
-                requester = requester,
-                chatCompletionPath = chatCompletionPath
-            )
+            val chatApi =
+                Chat.default(requester = requester, chatCompletionPath = chatCompletionPath)
 
-            val imagesApi = Images.default(
-                requester = requester
-            )
+            val imagesApi = Images.default(requester = requester)
 
-            val completionsApi = Completions.default(
-                requester = requester
-            )
+            val completionsApi = Completions.default(requester = requester)
 
-            return object : OpenAI, Chat by chatApi, Images by imagesApi,
-                Completions by completionsApi {}
+            return object :
+                OpenAI, Chat by chatApi, Images by imagesApi, Completions by completionsApi {}
         }
     }
 }
 
-class OpenAIApi : OpenAI, Chat by getInstance(), Images by getInstance(),
-    Completions by getInstance()
+class OpenAIApi :
+    OpenAI, Chat by getInstance(), Images by getInstance(), Completions by getInstance()

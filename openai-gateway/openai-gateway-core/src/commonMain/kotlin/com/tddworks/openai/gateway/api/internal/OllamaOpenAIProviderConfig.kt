@@ -7,7 +7,7 @@ data class OllamaOpenAIProviderConfig(
     val port: () -> Int = { 11434 },
     val protocol: () -> String = { "http" },
     override val baseUrl: () -> String = { "http//:localhost:11434" },
-    override val apiKey: () -> String = { "ollama-ignore-this" }
+    override val apiKey: () -> String = { "ollama-ignore-this" },
 ) : OpenAIProviderConfig
 
 fun OllamaOpenAIProviderConfig.toOllamaConfig() =
@@ -17,5 +17,5 @@ fun OpenAIProviderConfig.Companion.ollama(
     apiKey: () -> String = { "ollama-ignore-this" },
     baseUrl: () -> String = { "localhost" },
     protocol: () -> String = { "http" },
-    port: () -> Int = { 11434 }
+    port: () -> Int = { 11434 },
 ) = OllamaOpenAIProviderConfig(port, protocol, baseUrl, apiKey)

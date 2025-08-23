@@ -1,15 +1,16 @@
 package com.tddworks.gemini.api.textGeneration.api
 
+import kotlin.test.assertEquals
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
 class GenerateContentResponseTest {
 
     @Test
     fun `should deserialize GenerateContentResponse`() {
         // Given
-        val json = """
+        val json =
+            """
             {
               "candidates": [
                 {
@@ -32,7 +33,8 @@ class GenerateContentResponseTest {
               },
               "modelVersion": "gemini-1.5-flash"
             }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         // When
         val response = Json.decodeFromString<GenerateContentResponse>(json)

@@ -3,7 +3,6 @@ package com.tddworks.anthropic.api.messages.api
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-
 class CreateMessageResponseTest {
 
     @Test
@@ -20,8 +19,7 @@ class CreateMessageResponseTest {
         assertEquals(Usage(25, 1), dummyResponse.usage)
         assertEquals(
             listOf(ContentMessage("Hi! My name is Claude.", "text")),
-            dummyResponse.content
+            dummyResponse.content,
         )
     }
-
 }

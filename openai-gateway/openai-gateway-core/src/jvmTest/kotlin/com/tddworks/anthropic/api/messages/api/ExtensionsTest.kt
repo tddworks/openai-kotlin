@@ -1,10 +1,10 @@
 package com.tddworks.anthropic.api.messages.api
 
-import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.anthropic.api.AnthropicModel
+import com.tddworks.openai.api.chat.api.ChatCompletionRequest
 import com.tddworks.openai.api.chat.api.ChatMessage
-import com.tddworks.openai.api.chat.api.Role.Companion.Assistant
 import com.tddworks.openai.api.chat.api.OpenAIModel as OpenAIModel
+import com.tddworks.openai.api.chat.api.Role.Companion.Assistant
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -14,10 +14,11 @@ class ExtensionsTest {
     @Test
     fun `should convert openai request to anthropic request with user message`() {
         // Given
-        val chatCompletionRequest = ChatCompletionRequest(
-            listOf(ChatMessage.UserMessage("hello")),
-            model = OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value)
-        )
+        val chatCompletionRequest =
+            ChatCompletionRequest(
+                listOf(ChatMessage.UserMessage("hello")),
+                model = OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value),
+            )
 
         // When
         val anthropicRequest = chatCompletionRequest.toAnthropicRequest()
@@ -33,21 +34,23 @@ class ExtensionsTest {
                 }
               ]
             }
-        """.trimIndent(),
-            prettyJson.encodeToString(CreateMessageRequest.serializer(), anthropicRequest)
+        """
+                .trimIndent(),
+            prettyJson.encodeToString(CreateMessageRequest.serializer(), anthropicRequest),
         )
     }
 
     @Test
     fun `should convert openai request to anthropic request with system role message`() {
         // Given
-        val chatCompletionRequest = ChatCompletionRequest(
-            listOf(
-                ChatMessage.SystemMessage("You act as a system message"),
-                ChatMessage.UserMessage("hello")
-            ),
-            model = OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value)
-        )
+        val chatCompletionRequest =
+            ChatCompletionRequest(
+                listOf(
+                    ChatMessage.SystemMessage("You act as a system message"),
+                    ChatMessage.UserMessage("hello"),
+                ),
+                model = OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value),
+            )
 
         // When
         val anthropicRequest = chatCompletionRequest.toAnthropicRequest()
@@ -64,10 +67,10 @@ class ExtensionsTest {
               ],
               "system": "You act as a system message"
             }
-        """.trimIndent(),
-            prettyJson.encodeToString(CreateMessageRequest.serializer(), anthropicRequest)
+        """
+                .trimIndent(),
+            prettyJson.encodeToString(CreateMessageRequest.serializer(), anthropicRequest),
         )
-
     }
 
     @Test
@@ -127,14 +130,12 @@ class ExtensionsTest {
     @Test
     fun `should convert to finish reason null when content block delta`() {
         // Given
-        val response = ContentBlockDelta(
-            type = "content_block_delta",
-            index = 0,
-            delta = Delta(
-                type = "text_delta",
-                text = "Hello"
+        val response =
+            ContentBlockDelta(
+                type = "content_block_delta",
+                index = 0,
+                delta = Delta(type = "text_delta", text = "Hello"),
             )
-        )
 
         val model = "gpt-3.5-turbo-0125"
 
@@ -154,15 +155,12 @@ class ExtensionsTest {
     @Test
     fun `should convert to finish reason null when content block start`() {
         // Given
-        val response = ContentBlockStart(
-            type = "content_block_start",
-            index = 0,
-            contentBlock = ContentBlock(
-                type = "text",
-                text = ""
+        val response =
+            ContentBlockStart(
+                type = "content_block_start",
+                index = 0,
+                contentBlock = ContentBlock(type = "text", text = ""),
             )
-
-        )
         val model = "gpt-3.5-turbo-0125"
 
         // When
@@ -181,10 +179,7 @@ class ExtensionsTest {
     @Test
     fun `should convert to open chat completion chunk when message delta`() {
         // Given
-        val response = MessageDelta(
-            type = "chat.completion.chunk",
-            delta = Delta.dummy()
-        )
+        val response = MessageDelta(type = "chat.completion.chunk", delta = Delta.dummy())
         val model = "gpt-3.5-turbo-0125"
 
         // When
@@ -203,10 +198,11 @@ class ExtensionsTest {
     @Test
     fun `should convert assistantMessage to anthropic stream request`() {
         // Given
-        val chatCompletionRequest = ChatCompletionRequest(
-            listOf(ChatMessage.AssistantMessage("Hello! How can I assist you today?")),
-            model = OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value)
-        )
+        val chatCompletionRequest =
+            ChatCompletionRequest(
+                listOf(ChatMessage.AssistantMessage("Hello! How can I assist you today?")),
+                model = OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value),
+            )
 
         // When
         val anthropicRequest = chatCompletionRequest.toAnthropicStreamRequest()
@@ -223,18 +219,20 @@ class ExtensionsTest {
               ],
               "stream": true
             }
-        """.trimIndent(),
-            prettyJson.encodeToString(CreateMessageRequest.serializer(), anthropicRequest)
+        """
+                .trimIndent(),
+            prettyJson.encodeToString(CreateMessageRequest.serializer(), anthropicRequest),
         )
     }
 
     @Test
     fun `should convert assistantMessage to anthropic request`() {
         // Given
-        val chatCompletionRequest = ChatCompletionRequest(
-            listOf(ChatMessage.AssistantMessage("Hello! How can I assist you today?")),
-            model = OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value)
-        )
+        val chatCompletionRequest =
+            ChatCompletionRequest(
+                listOf(ChatMessage.AssistantMessage("Hello! How can I assist you today?")),
+                model = OpenAIModel(AnthropicModel.CLAUDE_3_HAIKU.value),
+            )
 
         // When
         val anthropicRequest = chatCompletionRequest.toAnthropicRequest()
@@ -250,8 +248,9 @@ class ExtensionsTest {
                 }
               ]
             }
-        """.trimIndent(),
-            prettyJson.encodeToString(CreateMessageRequest.serializer(), anthropicRequest)
+        """
+                .trimIndent(),
+            prettyJson.encodeToString(CreateMessageRequest.serializer(), anthropicRequest),
         )
     }
 
@@ -275,8 +274,9 @@ class ExtensionsTest {
                 }
               ]
             }
-        """.trimIndent(),
-            prettyJson.encodeToString(CreateMessageRequest.serializer(), anthropicRequest)
+        """
+                .trimIndent(),
+            prettyJson.encodeToString(CreateMessageRequest.serializer(), anthropicRequest),
         )
     }
 
@@ -286,5 +286,4 @@ class ExtensionsTest {
         // optional: specify indent
         prettyPrintIndent = "  "
     }
-
 }

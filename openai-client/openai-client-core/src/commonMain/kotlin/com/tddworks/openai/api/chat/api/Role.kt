@@ -1,11 +1,11 @@
 package com.tddworks.openai.api.chat.api
 
-import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmInline
+import kotlinx.serialization.Serializable
 
 /**
- * Representing the available message sender roles.
- * deprecated or obsolete role like `Function` is removed.
+ * Representing the available message sender roles. deprecated or obsolete role like `Function` is
+ * removed.
  */
 @JvmInline
 @Serializable

@@ -22,10 +22,11 @@ class GeminiModule {
                 HttpRequester.default(
                     createHttpClient(
                         connectionConfig = UrlBasedConnectionConfig(config.baseUrl),
-                        features = ClientFeatures(
-                            json = createJson(),
-                            queryParams = { mapOf("key" to config.apiKey()) }
-                        )
+                        features =
+                            ClientFeatures(
+                                json = createJson(),
+                                queryParams = { mapOf("key" to config.apiKey()) },
+                            ),
                     )
                 )
             }
@@ -36,4 +37,3 @@ class GeminiModule {
         }
     }
 }
-

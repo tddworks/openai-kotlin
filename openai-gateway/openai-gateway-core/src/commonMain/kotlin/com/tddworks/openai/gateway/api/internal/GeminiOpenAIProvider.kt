@@ -5,7 +5,6 @@ import com.tddworks.gemini.api.textGeneration.api.*
 import com.tddworks.openai.api.chat.api.ChatCompletion
 import com.tddworks.openai.api.chat.api.ChatCompletionChunk
 import com.tddworks.openai.api.chat.api.ChatCompletionRequest
-import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.api.images.api.Image
 import com.tddworks.openai.api.images.api.ImageCreate
 import com.tddworks.openai.api.legacy.completions.api.Completion
@@ -20,7 +19,7 @@ class GeminiOpenAIProvider(
     override val id: String = "gemini",
     override val name: String = "Gemini",
     override val config: GeminiOpenAIProviderConfig,
-    val client: Gemini
+    val client: Gemini,
 ) : OpenAIProvider {
 
     override suspend fun chatCompletions(request: ChatCompletionRequest): ChatCompletion {
@@ -46,9 +45,9 @@ class GeminiOpenAIProvider(
 }
 
 fun OpenAIProvider.Companion.gemini(
-    id: String = "gemini", config: GeminiOpenAIProviderConfig, client: Gemini
+    id: String = "gemini",
+    config: GeminiOpenAIProviderConfig,
+    client: Gemini,
 ): OpenAIProvider {
-    return GeminiOpenAIProvider(
-        id = id, config = config, client = client
-    )
+    return GeminiOpenAIProvider(id = id, config = config, client = client)
 }

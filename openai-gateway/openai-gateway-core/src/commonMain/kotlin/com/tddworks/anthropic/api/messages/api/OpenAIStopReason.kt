@@ -5,5 +5,5 @@ enum class OpenAIStopReason {
     Length,
     FunctionCall,
     ToolCalls,
-    Other
+    Other,
 }

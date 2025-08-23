@@ -1,14 +1,6 @@
-plugins {
-    `maven-publish`
-}
+plugins { `maven-publish` }
 
 kotlin {
     jvm()
-    sourceSets {
-        commonMain {
-            dependencies {
-                api(projects.ollamaClient.ollamaClientCore)
-            }
-        }
-    }
+    sourceSets { commonMain { dependencies { api(projects.ollamaClient.ollamaClientCore) } } }
 }

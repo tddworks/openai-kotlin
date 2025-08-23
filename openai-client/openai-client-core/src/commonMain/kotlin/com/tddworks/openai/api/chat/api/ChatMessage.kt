@@ -7,7 +7,6 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 
-
 /**
  * Data class representing a user message.
  *
@@ -22,7 +21,9 @@ sealed interface ChatMessage {
 
     companion object {
         fun system(content: String) = SystemMessage(content)
+
         fun user(content: String) = UserMessage(content)
+
         fun assistant(content: String) = AssistantMessage(content)
 
         fun vision(content: List<VisionMessageContent>) = VisionMessage(content)
@@ -30,8 +31,7 @@ sealed interface ChatMessage {
 
     @Serializable
     data class SystemMessage(
-        @SerialName("content")
-        override val content: String,
+        @SerialName("content") override val content: String,
         @SerialName("role")
         @EncodeDefault(EncodeDefault.Mode.ALWAYS)
         override val role: Role = Role.System,
@@ -39,8 +39,7 @@ sealed interface ChatMessage {
 
     @Serializable
     data class UserMessage(
-        @SerialName("content")
-        override val content: String,
+        @SerialName("content") override val content: String,
         @EncodeDefault(EncodeDefault.Mode.ALWAYS)
         @SerialName("role")
         override val role: Role = Role.User,
@@ -48,34 +47,28 @@ sealed interface ChatMessage {
 
     @Serializable
     data class AssistantMessage(
-        @SerialName("content")
-        override val content: String,
+        @SerialName("content") override val content: String,
         @SerialName("role")
         @EncodeDefault(EncodeDefault.Mode.ALWAYS)
         override val role: Role = Role.Assistant,
     ) : ChatMessage
 
     /**
-     * @see [Learn how to use GPT-4 to understand images](https://platform.openai.com/docs/guides/vision)
+     * @see
+     *   [Learn how to use GPT-4 to understand images](https://platform.openai.com/docs/guides/vision)
      */
     @Serializable
     data class VisionMessage(
-        /**
-         * The contents of the tool message.
-         */
-        @SerialName("content")
-        override val content: List<VisionMessageContent>,
-        /**
-         * The role of the messages author, in this case tool.
-         */
+        /** The contents of the tool message. */
+        @SerialName("content") override val content: List<VisionMessageContent>,
+        /** The role of the messages author, in this case tool. */
         @EncodeDefault(EncodeDefault.Mode.ALWAYS)
         @SerialName("role")
         override val role: Role = Role.User,
     ) : ChatMessage
 }
 
-object ChatMessageSerializer :
-    JsonContentPolymorphicSerializer<ChatMessage>(ChatMessage::class) {
+object ChatMessageSerializer : JsonContentPolymorphicSerializer<ChatMessage>(ChatMessage::class) {
     override fun selectDeserializer(element: JsonElement): KSerializer<out ChatMessage> {
         val type = element.jsonObject["role"]?.jsonPrimitive?.content
 

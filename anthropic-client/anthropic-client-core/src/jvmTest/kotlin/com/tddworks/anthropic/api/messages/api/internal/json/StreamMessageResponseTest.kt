@@ -10,41 +10,52 @@ class StreamMessageResponseTest {
 
     @Test
     fun `should throw IllegalArgumentException when type is null`() {
-        val json = """
+        val json =
+            """
             {
                 "type": "null"
             }
-        """.trimIndent()
+        """
+                .trimIndent()
 
-        val e = assertThrows(IllegalArgumentException::class.java) {
-            Json.decodeFromString<StreamMessageResponse>(json)
-        }
+        val e =
+            assertThrows(IllegalArgumentException::class.java) {
+                Json.decodeFromString<StreamMessageResponse>(json)
+            }
 
         assertEquals("Unknown type of message", e.message)
     }
 
     @Test
     fun `should throw IllegalArgumentException when type is not JsonPrimitive`() {
-        val json = """
+        val json =
+            """
             {
                 "type": {}
             }
-        """.trimIndent()
+        """
+                .trimIndent()
 
-        val e = assertThrows(IllegalArgumentException::class.java) {
-            Json.decodeFromString<StreamMessageResponse>(json)
-        }
+        val e =
+            assertThrows(IllegalArgumentException::class.java) {
+                Json.decodeFromString<StreamMessageResponse>(json)
+            }
 
-        assertEquals("Element class kotlinx.serialization.json.JsonObject is not a JsonPrimitive", e.message)
+        assertEquals(
+            "Element class kotlinx.serialization.json.JsonObject is not a JsonPrimitive",
+            e.message,
+        )
     }
 
     @Test
     fun `should throw IllegalArgumentException when from invalid json`() {
-        val json = """
+        val json =
+            """
             {
                 "type": { "not-jsonPrimitive":"" }
             }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         assertThrows(IllegalArgumentException::class.java) {
             Json.decodeFromString<StreamMessageResponse>(json)
@@ -53,11 +64,13 @@ class StreamMessageResponseTest {
 
     @Test
     fun `should throw IllegalArgumentException when from json without type`() {
-        val json = """
+        val json =
+            """
             {
                 "index": 1
             }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         assertThrows(IllegalArgumentException::class.java) {
             Json.decodeFromString<StreamMessageResponse>(json)
@@ -66,12 +79,14 @@ class StreamMessageResponseTest {
 
     @Test
     fun `should return the ContentBlockStop from json`() {
-        val json = """
+        val json =
+            """
             {
                 "type": "content_block_stop",
                 "index": 1
             }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         val contentBlockStop = Json.decodeFromString<StreamMessageResponse>(json)
 
@@ -82,11 +97,13 @@ class StreamMessageResponseTest {
 
     @Test
     fun `should throw IllegalArgumentException for unknown message type`() {
-        val json = """
+        val json =
+            """
             {
                 "type": "unknown"
             }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         assertThrows(IllegalArgumentException::class.java) {
             Json.decodeFromString<StreamMessageResponse>(json)

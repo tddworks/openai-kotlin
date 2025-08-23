@@ -30,26 +30,23 @@ class DefaultOllamaGenerateTest : KoinTest {
     // }
     @JvmField
     @RegisterExtension
-    val koinTestExtension = KoinTestExtension.create {
-        modules(
-            module {
-                single<Json> { JsonLenient }
-            })
-    }
+    val koinTestExtension =
+        KoinTestExtension.create { modules(module { single<Json> { JsonLenient } }) }
 
     @Test
     fun `should return stream of JSON response and done`() = runTest {
         // Given
-        val request = OllamaGenerateRequest(
-            model = "llama2",
-            prompt = "why is the sky blue?"
-        )
+        val request = OllamaGenerateRequest(model = "llama2", prompt = "why is the sky blue?")
 
-        val api = DefaultOllamaGenerateApi(
-            DefaultHttpRequester(
-                httpClient = mockHttpClient("data: {\"model\":\"deepseek-coder:6.7b\",\"created_at\":\"2024-06-19T04:21:28.204638Z\",\"response\":\"\",\"done\":true,\"done_reason\":\"length\",\"total_duration\":7864500542,\"load_duration\":5949281959,\"prompt_eval_count\":181,\"prompt_eval_duration\":308480000,\"eval_count\":100,\"eval_duration\":1603405000}")
+        val api =
+            DefaultOllamaGenerateApi(
+                DefaultHttpRequester(
+                    httpClient =
+                        mockHttpClient(
+                            "data: {\"model\":\"deepseek-coder:6.7b\",\"created_at\":\"2024-06-19T04:21:28.204638Z\",\"response\":\"\",\"done\":true,\"done_reason\":\"length\",\"total_duration\":7864500542,\"load_duration\":5949281959,\"prompt_eval_count\":181,\"prompt_eval_duration\":308480000,\"eval_count\":100,\"eval_duration\":1603405000}"
+                        )
+                )
             )
-        )
 
         // When
         val responses = api.stream(request).toList()
@@ -68,25 +65,28 @@ class DefaultOllamaGenerateTest : KoinTest {
                     promptEvalCount = 181,
                     promptEvalDuration = 308480000,
                     evalCount = 100,
-                    evalDuration = 1603405000
+                    evalDuration = 1603405000,
                 )
-            ), responses
+            ),
+            responses,
         )
     }
 
     @Test
     fun `should return stream of JSON response and not done`() = runTest {
         // Given
-        val request = OllamaGenerateRequest(
-            model = "deepseek-coder:6.7b",
-            prompt = "why is the sky blue?"
-        )
+        val request =
+            OllamaGenerateRequest(model = "deepseek-coder:6.7b", prompt = "why is the sky blue?")
 
-        val api = DefaultOllamaGenerateApi(
-            DefaultHttpRequester(
-                httpClient = mockHttpClient("data: {\"model\":\"deepseek-coder:6.7b\",\"created_at\":\"2024-06-19T04:21:28.188452Z\",\"response\":\"\\n\",\"done\":false}")
+        val api =
+            DefaultOllamaGenerateApi(
+                DefaultHttpRequester(
+                    httpClient =
+                        mockHttpClient(
+                            "data: {\"model\":\"deepseek-coder:6.7b\",\"created_at\":\"2024-06-19T04:21:28.188452Z\",\"response\":\"\\n\",\"done\":false}"
+                        )
+                )
             )
-        )
 
         // When
         val responses = api.stream(request).toList()
@@ -98,25 +98,24 @@ class DefaultOllamaGenerateTest : KoinTest {
                     model = "deepseek-coder:6.7b",
                     createdAt = "2024-06-19T04:21:28.188452Z",
                     response = "\n",
-                    done = false
+                    done = false,
                 )
-            ), responses
+            ),
+            responses,
         )
     }
 
     @Test
     fun `should return single JSON response`() = runTest {
         // Given
-        val request = OllamaGenerateRequest(
-            model = "llama2",
-            prompt = "why is the sky blue?"
-        )
+        val request = OllamaGenerateRequest(model = "llama2", prompt = "why is the sky blue?")
 
-
-        val api = DefaultOllamaGenerateApi(
-            DefaultHttpRequester(
-                httpClient = mockHttpClient(
-                    """
+        val api =
+            DefaultOllamaGenerateApi(
+                DefaultHttpRequester(
+                    httpClient =
+                        mockHttpClient(
+                            """
                      {
                       "model": "llama3",
                       "created_at": "2023-08-04T19:22:45.499127Z",
@@ -134,10 +133,11 @@ class DefaultOllamaGenerateTest : KoinTest {
                       "eval_count": 259,
                       "eval_duration": 4232710000
                     }
-                """.trimIndent()
+                """
+                                .trimIndent()
+                        )
                 )
             )
-        )
 
         // When
         val response = api.request(request)
@@ -155,9 +155,9 @@ class DefaultOllamaGenerateTest : KoinTest {
                 promptEvalCount = 26,
                 promptEvalDuration = 130079000,
                 evalCount = 259,
-                evalDuration = 4232710000L
-            ), response
+                evalDuration = 4232710000L,
+            ),
+            response,
         )
     }
 }
-

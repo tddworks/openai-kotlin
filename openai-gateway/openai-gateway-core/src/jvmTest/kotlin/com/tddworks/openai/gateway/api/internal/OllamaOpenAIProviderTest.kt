@@ -36,12 +36,13 @@ class OllamaOpenAIProviderTest {
     @Test
     fun `should return completions response from OpenAI API`() = runTest {
         // given
-        val request = CompletionRequest(
-            prompt = "Once upon a time",
-            suffix = "The end",
-            maxTokens = 10,
-            temperature = 0.5
-        )
+        val request =
+            CompletionRequest(
+                prompt = "Once upon a time",
+                suffix = "The end",
+                maxTokens = 10,
+                temperature = 0.5,
+            )
         val response = OllamaGenerateResponse.dummy()
         whenever(client.request(request.toOllamaGenerateRequest())).thenReturn(response)
 
@@ -55,12 +56,13 @@ class OllamaOpenAIProviderTest {
     @Test
     fun `should return chat completions response from OpenAI API`() = runTest {
         // given
-        val request = CompletionRequest(
-            prompt = "Once upon a time",
-            suffix = "The end",
-            maxTokens = 10,
-            temperature = 0.5
-        )
+        val request =
+            CompletionRequest(
+                prompt = "Once upon a time",
+                suffix = "The end",
+                maxTokens = 10,
+                temperature = 0.5,
+            )
         val response = OllamaGenerateResponse.dummy()
         whenever(client.request(request.toOllamaGenerateRequest())).thenReturn(response)
 
@@ -91,21 +93,13 @@ class OllamaOpenAIProviderTest {
         val request = ChatCompletionRequest.dummy(OpenAIModel(OllamaModel.LLAMA2.value))
 
         val response = OllamaChatResponse.dummy()
-        whenever(client.stream(request.toOllamaChatRequest())).thenReturn(flow {
-            emit(
-                response
-            )
-        })
+        whenever(client.stream(request.toOllamaChatRequest())).thenReturn(flow { emit(response) })
 
         // when
         provider.streamChatCompletions(request).test {
             // then
-            assertEquals(
-                response.toOpenAIChatCompletionChunk(),
-                awaitItem()
-            )
+            assertEquals(response.toOpenAIChatCompletionChunk(), awaitItem())
             awaitComplete()
         }
-
     }
 }

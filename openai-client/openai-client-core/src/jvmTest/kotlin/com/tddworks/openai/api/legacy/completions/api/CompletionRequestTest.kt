@@ -5,14 +5,11 @@ import kotlinx.serialization.encodeToString
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-
 class CompletionRequestTest {
     @Test
     fun `should return to correct stream json`() {
-        val chatCompletionRequest = CompletionRequest.asStream(
-            prompt = "some-prompt",
-            suffix = "some-suffix"
-        )
+        val chatCompletionRequest =
+            CompletionRequest.asStream(prompt = "some-prompt", suffix = "some-suffix")
 
         val result = prettyJson.encodeToString(chatCompletionRequest)
 
@@ -24,8 +21,9 @@ class CompletionRequestTest {
               "stream": true,
               "suffix": "some-suffix"
             }
-            """.trimIndent(),
-            result
+            """
+                .trimIndent(),
+            result,
         )
     }
 }

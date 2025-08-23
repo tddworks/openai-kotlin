@@ -15,11 +15,12 @@ class HttpClientTest {
 
     private val mockEngine = MockEngine { request ->
         when (request.url.toString()) {
-            "https://some-host" -> respond(
-                content = ByteReadChannel("""{"ip":"127.0.0.1"}"""),
-                status = HttpStatusCode.OK,
-                headers = headersOf(HttpHeaders.ContentType, "application/json")
-            )
+            "https://some-host" ->
+                respond(
+                    content = ByteReadChannel("""{"ip":"127.0.0.1"}"""),
+                    status = HttpStatusCode.OK,
+                    headers = headersOf(HttpHeaders.ContentType, "application/json"),
+                )
 
             else -> respond("", HttpStatusCode.NotFound)
         }
@@ -28,18 +29,18 @@ class HttpClientTest {
     @Test
     fun `should return correct response with host and port based config with query parameters`() =
         runTest {
-            val apiClient = createHttpClient(
-                connectionConfig = HostPortConnectionConfig(
-                    protocol = { "https" },
-                    port = { 443 },
-                    host = { "some-host" }
-                ),
-                httpClientEngine = mockEngine,
-                authConfig = AuthConfig(authToken = { "token" }),
-                features = ClientFeatures(
-                    queryParams = { mapOf("key" to "value") },
+            val apiClient =
+                createHttpClient(
+                    connectionConfig =
+                        HostPortConnectionConfig(
+                            protocol = { "https" },
+                            port = { 443 },
+                            host = { "some-host" },
+                        ),
+                    httpClientEngine = mockEngine,
+                    authConfig = AuthConfig(authToken = { "token" }),
+                    features = ClientFeatures(queryParams = { mapOf("key" to "value") }),
                 )
-            )
 
             val body = apiClient.get("https://some-host").body<String>()
             assertEquals("""{"ip":"127.0.0.1"}""", body)
@@ -47,14 +48,16 @@ class HttpClientTest {
 
     @Test
     fun `should return correct response with host and port based config`() = runTest {
-        val apiClient = createHttpClient(
-            connectionConfig = HostPortConnectionConfig(
-                protocol = { "https" },
-                port = { 443 },
-                host = { "some-host" }
-            ),
-            httpClientEngine = mockEngine
-        )
+        val apiClient =
+            createHttpClient(
+                connectionConfig =
+                    HostPortConnectionConfig(
+                        protocol = { "https" },
+                        port = { 443 },
+                        host = { "some-host" },
+                    ),
+                httpClientEngine = mockEngine,
+            )
 
         val body = apiClient.get("https://some-host").body<String>()
         assertEquals("""{"ip":"127.0.0.1"}""", body)
@@ -62,10 +65,11 @@ class HttpClientTest {
 
     @Test
     fun `should return correct response with url based config`() = runTest {
-        val apiClient = createHttpClient(
-            connectionConfig = UrlBasedConnectionConfig { "https://some-host" },
-            httpClientEngine = mockEngine
-        )
+        val apiClient =
+            createHttpClient(
+                connectionConfig = UrlBasedConnectionConfig { "https://some-host" },
+                httpClientEngine = mockEngine,
+            )
 
         val body = apiClient.get("https://some-host").body<String>()
         assertEquals("""{"ip":"127.0.0.1"}""", body)
@@ -84,5 +88,4 @@ class HttpClientTest {
         val httpClientEngine = httpClientEngine()
         assertTrue(httpClientEngine is OkHttpEngine)
     }
-
 }

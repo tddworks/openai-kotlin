@@ -15,5 +15,4 @@ class AnthropicTest {
 
         assertEquals("2023-06-01", anthropic.anthropicVersion())
     }
-
 }

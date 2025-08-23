@@ -11,6 +11,7 @@ import com.tddworks.openai.api.chat.api.OpenAIModel
 import com.tddworks.openai.gateway.api.LLMProvider
 import com.tddworks.openai.gateway.api.OpenAIProvider
 import com.tddworks.openai.gateway.api.OpenAIProviderConfig
+import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -18,53 +19,50 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
-import kotlin.test.assertEquals
 
 @OptIn(ExperimentalSerializationApi::class)
 class DefaultOpenAIGatewayTest {
 
-    private val anthropic = mock<OpenAIProvider> {
-        on(it.id).thenReturn("anthropic")
-        on(it.name).thenReturn("Anthropic")
-    }
+    private val anthropic =
+        mock<OpenAIProvider> {
+            on(it.id).thenReturn("anthropic")
+            on(it.name).thenReturn("Anthropic")
+        }
 
-    private val ollama = mock<OpenAIProvider> {
-        on(it.id).thenReturn("ollama")
-        on(it.name).thenReturn("Ollama")
-    }
+    private val ollama =
+        mock<OpenAIProvider> {
+            on(it.id).thenReturn("ollama")
+            on(it.name).thenReturn("Ollama")
+        }
 
-    private val default = mock<OpenAIProvider> {
-        on(it.id).thenReturn("default")
-        on(it.name).thenReturn("Default")
-    }
+    private val default =
+        mock<OpenAIProvider> {
+            on(it.id).thenReturn("default")
+            on(it.name).thenReturn("Default")
+        }
 
-    private val azure = mock<OpenAIProvider> {
-        on(it.id).thenReturn("azure")
-        on(it.name).thenReturn("azure")
-    }
+    private val azure =
+        mock<OpenAIProvider> {
+            on(it.id).thenReturn("azure")
+            on(it.name).thenReturn("azure")
+        }
 
-    private val providers: List<OpenAIProvider> = listOf(
-        default,
-        anthropic,
-        ollama,
-        azure
-    )
+    private val providers: List<OpenAIProvider> = listOf(default, anthropic, ollama, azure)
 
-    private val openAIGateway = DefaultOpenAIGateway(
-        providers,
-    )
+    private val openAIGateway = DefaultOpenAIGateway(providers)
 
     @Test
     fun `should update azure provider`() {
         // Given
         val id = "default"
         val name = "new Default"
-        val config = AzureAIProviderConfig(
-            apiKey = { "new api key" },
-            baseUrl = { "new endpoint" },
-            deploymentId = { "new deployment id" },
-            apiVersion = { "new api version" }
-        )
+        val config =
+            AzureAIProviderConfig(
+                apiKey = { "new api key" },
+                baseUrl = { "new endpoint" },
+                deploymentId = { "new deployment id" },
+                apiVersion = { "new api version" },
+            )
 
         // When
         openAIGateway.updateProvider(id, name, config)
@@ -81,10 +79,8 @@ class DefaultOpenAIGatewayTest {
         // Given
         val id = "default"
         val name = "new Default"
-        val config = OpenAIProviderConfig.default(
-            baseUrl = { "api.openai.com" },
-            apiKey = { "new api key" }
-        )
+        val config =
+            OpenAIProviderConfig.default(baseUrl = { "api.openai.com" }, apiKey = { "new api key" })
 
         // When
         openAIGateway.updateProvider(id, name, config)
@@ -118,9 +114,7 @@ class DefaultOpenAIGatewayTest {
         // Given
         val id = "anthropic"
         val name = "new Anthropic"
-        val config = OpenAIProviderConfig.anthropic(
-            apiKey = { "" },
-        )
+        val config = OpenAIProviderConfig.anthropic(apiKey = { "" })
 
         // When
         openAIGateway.updateProvider(id, name, config)
@@ -146,11 +140,7 @@ class DefaultOpenAIGatewayTest {
         val provider = mock<OpenAIProvider>()
 
         // When
-        val gateway = DefaultOpenAIGateway(
-            providers,
-        ).run {
-            addProvider(provider)
-        }
+        val gateway = DefaultOpenAIGateway(providers).run { addProvider(provider) }
 
         // Then
         assertEquals(5, gateway.getProviders().size)
@@ -178,16 +168,13 @@ class DefaultOpenAIGatewayTest {
         val request = ChatCompletionRequest.dummy(OpenAIModel(model.value))
 
         val chatCompletionChunk = ChatCompletionChunk.dummy()
-        whenever(ollama.streamChatCompletions(request)).thenReturn(flow {
-            emit(chatCompletionChunk)
-        })
+        whenever(ollama.streamChatCompletions(request))
+            .thenReturn(flow { emit(chatCompletionChunk) })
 
         // When
         openAIGateway.streamChatCompletions(request, LLMProvider.OLLAMA).test {
             // Then
-            assertEquals(
-                chatCompletionChunk, awaitItem()
-            )
+            assertEquals(chatCompletionChunk, awaitItem())
             awaitComplete()
         }
     }
@@ -212,16 +199,13 @@ class DefaultOpenAIGatewayTest {
         val request = ChatCompletionRequest.dummy(OpenAIModel(model.value))
 
         val chatCompletionChunk = ChatCompletionChunk.dummy()
-        whenever(anthropic.streamChatCompletions(request)).thenReturn(flow {
-            emit(chatCompletionChunk)
-        })
+        whenever(anthropic.streamChatCompletions(request))
+            .thenReturn(flow { emit(chatCompletionChunk) })
 
         // When
         openAIGateway.streamChatCompletions(request, LLMProvider.ANTHROPIC).test {
             // Then
-            assertEquals(
-                chatCompletionChunk, awaitItem()
-            )
+            assertEquals(chatCompletionChunk, awaitItem())
             awaitComplete()
         }
     }

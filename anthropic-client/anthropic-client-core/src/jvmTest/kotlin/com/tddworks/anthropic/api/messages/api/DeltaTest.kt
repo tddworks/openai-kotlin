@@ -3,7 +3,6 @@ package com.tddworks.anthropic.api.messages.api
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-
 class DeltaTest {
 
     @Test
@@ -15,5 +14,4 @@ class DeltaTest {
         assertEquals(null, delta.stopSequence)
         assertEquals(Usage(outputTokens = 15), delta.usage)
     }
-
 }

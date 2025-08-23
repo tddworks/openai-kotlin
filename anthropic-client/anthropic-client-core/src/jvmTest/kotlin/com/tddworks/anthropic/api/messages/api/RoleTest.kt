@@ -3,7 +3,6 @@ package com.tddworks.anthropic.api.messages.api
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-
 class RoleTest {
 
     @Test

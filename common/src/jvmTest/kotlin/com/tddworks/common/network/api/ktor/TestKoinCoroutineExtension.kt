@@ -9,8 +9,9 @@ import org.junit.jupiter.api.extension.AfterEachCallback
 import org.junit.jupiter.api.extension.BeforeEachCallback
 import org.junit.jupiter.api.extension.ExtensionContext
 
-class TestKoinCoroutineExtension(private val testDispatcher: TestDispatcher = StandardTestDispatcher()) :
-    BeforeEachCallback, AfterEachCallback {
+class TestKoinCoroutineExtension(
+    private val testDispatcher: TestDispatcher = StandardTestDispatcher()
+) : BeforeEachCallback, AfterEachCallback {
     override fun beforeEach(context: ExtensionContext?) {
         Dispatchers.setMain(testDispatcher)
     }

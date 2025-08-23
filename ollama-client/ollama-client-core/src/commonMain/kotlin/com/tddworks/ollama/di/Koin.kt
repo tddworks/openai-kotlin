@@ -18,41 +18,30 @@ import org.koin.dsl.module
 
 fun initOllama(config: OllamaConfig, appDeclaration: KoinAppDeclaration = {}): Ollama {
     return startKoin {
-        appDeclaration()
-        modules(commonModule(false) + ollamaModules(config))
-    }.koin.get<Ollama>()
+            appDeclaration()
+            modules(commonModule(false) + ollamaModules(config))
+        }
+        .koin
+        .get<Ollama>()
 }
 
-fun ollamaModules(
-    config: OllamaConfig,
-) = module {
-
-    single<Ollama> {
-        Ollama.create(ollamaConfig = config)
-    }
+fun ollamaModules(config: OllamaConfig) = module {
+    single<Ollama> { Ollama.create(ollamaConfig = config) }
 
     single<Json>(named("ollamaJson")) { JsonLenient }
 
     single<HttpRequester>(named("ollamaHttpRequester")) {
         HttpRequester.default(
             createHttpClient(
-                connectionConfig = UrlBasedConnectionConfig(
-                    baseUrl = config.baseUrl,
-                ),
-                features = ClientFeatures(json = get(named("ollamaJson")))
+                connectionConfig = UrlBasedConnectionConfig(baseUrl = config.baseUrl),
+                features = ClientFeatures(json = get(named("ollamaJson"))),
             )
         )
     }
 
-    single<OllamaChat> {
-        DefaultOllamaChatApi(
-            requester = get(named("ollamaHttpRequester"))
-        )
-    }
+    single<OllamaChat> { DefaultOllamaChatApi(requester = get(named("ollamaHttpRequester"))) }
 
     single<OllamaGenerate> {
-        DefaultOllamaGenerateApi(
-            requester = get(named("ollamaHttpRequester"))
-        )
+        DefaultOllamaGenerateApi(requester = get(named("ollamaHttpRequester")))
     }
 }

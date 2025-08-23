@@ -45,21 +45,15 @@ class DefaultOpenAIProvider(
 fun OpenAIProvider.Companion.openAI(
     id: String = "openai",
     config: OpenAIProviderConfig,
-    openAI: OpenAI = OpenAI.default(config.toOpenAIConfig())
+    openAI: OpenAI = OpenAI.default(config.toOpenAIConfig()),
 ): OpenAIProvider {
-    return DefaultOpenAIProvider(
-        id = id,
-        config = config, openAI = openAI
-    )
+    return DefaultOpenAIProvider(id = id, config = config, openAI = openAI)
 }
 
 fun OpenAIProvider.Companion.azure(
     id: String = "azure",
     config: OpenAIProviderConfig,
-    openAI: OpenAI = OpenAI.azure(config as AzureAIProviderConfig)
+    openAI: OpenAI = OpenAI.azure(config as AzureAIProviderConfig),
 ): OpenAIProvider {
-    return DefaultOpenAIProvider(
-        id = id,
-        config = config, openAI = openAI
-    )
+    return DefaultOpenAIProvider(id = id, config = config, openAI = openAI)
 }

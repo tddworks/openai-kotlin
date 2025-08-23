@@ -17,21 +17,17 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
-
 fun initOpenAI(config: OpenAIConfig, appDeclaration: KoinAppDeclaration = {}): OpenAI {
     return startKoin {
-        appDeclaration()
-        modules(commonModule(false) + openAIModules(config))
-    }.koin.get<OpenAI>()
+            appDeclaration()
+            modules(commonModule(false) + openAIModules(config))
+        }
+        .koin
+        .get<OpenAI>()
 }
 
-fun openAIModules(
-    config: OpenAIConfig,
-) = module {
-
-    single<OpenAI> {
-        OpenAIApi()
-    }
+fun openAIModules(config: OpenAIConfig) = module {
+    single<OpenAI> { OpenAIApi() }
 
     single<HttpRequester>(named("openAIHttpRequester")) {
         HttpRequester.default(
@@ -39,26 +35,14 @@ fun openAIModules(
                 connectionConfig = UrlBasedConnectionConfig(config.baseUrl),
                 authConfig = AuthConfig(config.apiKey),
                 // get from commonModule
-                features = ClientFeatures(json = get())
+                features = ClientFeatures(json = get()),
             )
         )
     }
 
-    single<Chat> {
-        DefaultChatApi(
-            requester = get(named("openAIHttpRequester"))
-        )
-    }
+    single<Chat> { DefaultChatApi(requester = get(named("openAIHttpRequester"))) }
 
-    single<Images> {
-        DefaultImagesApi(
-            requester = get(named("openAIHttpRequester"))
-        )
-    }
+    single<Images> { DefaultImagesApi(requester = get(named("openAIHttpRequester"))) }
 
-    single<Completions> {
-        DefaultCompletionsApi(
-            requester = get(named("openAIHttpRequester"))
-        )
-    }
+    single<Completions> { DefaultCompletionsApi(requester = get(named("openAIHttpRequester"))) }
 }

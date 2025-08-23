@@ -2,9 +2,9 @@ package com.tddworks.ollama.api.generate
 
 import com.tddworks.ollama.api.json.JsonLenient
 import com.tddworks.ollama.api.prettyJson
+import kotlin.test.assertFalse
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import kotlin.test.assertFalse
 
 class OllamaGenerateResponseTest {
 
@@ -24,13 +24,13 @@ class OllamaGenerateResponseTest {
         assertEquals(10, response.promptEvalCount)
         assertEquals(1000, response.evalDuration)
         assertEquals(1000, response.promptEvalDuration)
-
     }
 
     @Test
     fun `should convert to generate response from stream json with done`() {
         // Given
-        val json = """
+        val json =
+            """
             {
                 "model": "deepseek-coder:6.7b",
                 "created_at": "2024-06-19T04:21:28.204638Z",
@@ -44,11 +44,11 @@ class OllamaGenerateResponseTest {
                 "eval_count": 100,
                 "eval_duration": 1603405000
             }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         // When
-        val response =
-            JsonLenient.decodeFromString(OllamaGenerateResponse.serializer(), json)
+        val response = JsonLenient.decodeFromString(OllamaGenerateResponse.serializer(), json)
 
         // Then
         assertEquals("deepseek-coder:6.7b", response.model)
@@ -67,18 +67,19 @@ class OllamaGenerateResponseTest {
     @Test
     fun `should convert to generate response from stream json with not done`() {
         // Given
-        val json = """
+        val json =
+            """
             {
                 "model": "deepseek-coder:6.7b",
                 "created_at": "2024-06-19T04:21:27.735135Z",
                 "response": "Media",
                 "done": false
             }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         // When
-        val response =
-            JsonLenient.decodeFromString(OllamaGenerateResponse.serializer(), json)
+        val response = JsonLenient.decodeFromString(OllamaGenerateResponse.serializer(), json)
 
         // Then
         assertEquals("deepseek-coder:6.7b", response.model)
@@ -90,23 +91,23 @@ class OllamaGenerateResponseTest {
     @Test
     fun `should convert to json from OllamaGenerateResponse`() {
         // Given
-        val response = OllamaGenerateResponse(
-            model = "llama3",
-            createdAt = "2023-08-04T19:22:45.499127Z",
-            response = "",
-            done = true,
-            context = listOf(1, 2, 3),
-            totalDuration = 10706818083,
-            loadDuration = 6338219291,
-            promptEvalCount = 26,
-            promptEvalDuration = 130079000,
-            evalCount = 259,
-            evalDuration = 4232710000
-        )
+        val response =
+            OllamaGenerateResponse(
+                model = "llama3",
+                createdAt = "2023-08-04T19:22:45.499127Z",
+                response = "",
+                done = true,
+                context = listOf(1, 2, 3),
+                totalDuration = 10706818083,
+                loadDuration = 6338219291,
+                promptEvalCount = 26,
+                promptEvalDuration = 130079000,
+                evalCount = 259,
+                evalDuration = 4232710000,
+            )
 
         // When
-        val json =
-            prettyJson.encodeToString(OllamaGenerateResponse.serializer(), response)
+        val json = prettyJson.encodeToString(OllamaGenerateResponse.serializer(), response)
 
         // Then
         assertEquals(
@@ -128,15 +129,17 @@ class OllamaGenerateResponseTest {
               "eval_count": 259,
               "eval_duration": 4232710000
             }
-            """.trimIndent(),
-            json
+            """
+                .trimIndent(),
+            json,
         )
     }
 
     @Test
     fun `should convert json to OllamaGenerateResponse`() {
         // Given
-        val json = """
+        val json =
+            """
             {
               "model": "llama3",
               "created_at": "2023-08-04T19:22:45.499127Z",
@@ -150,11 +153,11 @@ class OllamaGenerateResponseTest {
               "eval_count": 259,
               "eval_duration": 4232710000
             }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         // When
-        val response =
-            JsonLenient.decodeFromString(OllamaGenerateResponse.serializer(), json)
+        val response = JsonLenient.decodeFromString(OllamaGenerateResponse.serializer(), json)
 
         // Then
         assertEquals("llama3", response.model)

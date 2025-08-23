@@ -14,16 +14,14 @@ fun initKoin(enableNetworkLogs: Boolean = false, appDeclaration: KoinAppDeclarat
         modules(commonModule(enableNetworkLogs = enableNetworkLogs))
     }
 
-//TODO - enableNetworkLogs is not used
-fun commonModule(enableNetworkLogs: Boolean) = module {
-    singleOf(::createJson)
-}
+// TODO - enableNetworkLogs is not used
+fun commonModule(enableNetworkLogs: Boolean) = module { singleOf(::createJson) }
 
 fun createJson() = JsonLenient
 
-
 inline fun <reified T> getInstance(): T {
     return object : KoinComponent {
-        val value: T by inject()
-    }.value
+            val value: T by inject()
+        }
+        .value
 }

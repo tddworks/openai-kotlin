@@ -10,46 +10,47 @@ class OllamaGenerateRequestTest {
     @Test
     fun `should convert to json from object`() {
         // given
-        val request = OllamaGenerateRequest(
-            model = "llama3",
-            prompt = "Why is the sky blue?",
-            stream = false,
-            raw = true,
-            options = mapOf(
-                "num_keep" to 5,
-                "seed" to 42,
-                "num_predict" to 100,
-                "top_k" to 20,
-                "top_p" to 0.9,
-                "tfs_z" to 0.5,
-                "typical_p" to 0.7,
-                "repeat_last_n" to 33,
-                "temperature" to 0.8,
-                "repeat_penalty" to 1.2,
-                "presence_penalty" to 1.5,
-                "frequency_penalty" to 1.0,
-                "mirostat" to 1,
-                "mirostat_tau" to 0.8,
-                "mirostat_eta" to 0.6,
-                "penalize_newline" to true,
-                "stop" to listOf("\n", "user:"),
-                "numa" to false,
-                "num_ctx" to 1024,
-                "num_batch" to 2,
-                "num_gpu" to 1,
-                "main_gpu" to 0,
-                "low_vram" to false,
-                "f16_kv" to true,
-                "vocab_only" to false,
-                "use_mmap" to true,
-                "use_mlock" to false,
-                "num_thread" to 8
+        val request =
+            OllamaGenerateRequest(
+                model = "llama3",
+                prompt = "Why is the sky blue?",
+                stream = false,
+                raw = true,
+                options =
+                    mapOf(
+                        "num_keep" to 5,
+                        "seed" to 42,
+                        "num_predict" to 100,
+                        "top_k" to 20,
+                        "top_p" to 0.9,
+                        "tfs_z" to 0.5,
+                        "typical_p" to 0.7,
+                        "repeat_last_n" to 33,
+                        "temperature" to 0.8,
+                        "repeat_penalty" to 1.2,
+                        "presence_penalty" to 1.5,
+                        "frequency_penalty" to 1.0,
+                        "mirostat" to 1,
+                        "mirostat_tau" to 0.8,
+                        "mirostat_eta" to 0.6,
+                        "penalize_newline" to true,
+                        "stop" to listOf("\n", "user:"),
+                        "numa" to false,
+                        "num_ctx" to 1024,
+                        "num_batch" to 2,
+                        "num_gpu" to 1,
+                        "main_gpu" to 0,
+                        "low_vram" to false,
+                        "f16_kv" to true,
+                        "vocab_only" to false,
+                        "use_mmap" to true,
+                        "use_mlock" to false,
+                        "num_thread" to 8,
+                    ),
             )
-        )
 
         // when
-        val json =
-            prettyJson.encodeToString(OllamaGenerateRequest.serializer(), request)
+        val json = prettyJson.encodeToString(OllamaGenerateRequest.serializer(), request)
 
         // then
         assertEquals(
@@ -93,14 +94,17 @@ class OllamaGenerateRequestTest {
                     "num_thread": 8
                   }
                 }
-            """.trimIndent(), json
+            """
+                .trimIndent(),
+            json,
         )
     }
 
     @Test
     fun `should convert json to object`() {
         // given
-        val json = """
+        val json =
+            """
         {
             "model": "llama3",
             "prompt": "Why is the sky blue?",
@@ -137,11 +141,11 @@ class OllamaGenerateRequestTest {
                 "num_thread": 8
             }
         }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         // when
-        val request =
-            JsonLenient.decodeFromString(OllamaGenerateRequest.serializer(), json)
+        val request = JsonLenient.decodeFromString(OllamaGenerateRequest.serializer(), json)
 
         // then
         assertEquals("llama3", request.model)
@@ -178,6 +182,5 @@ class OllamaGenerateRequestTest {
             assertEquals(false, this?.get("use_mlock"))
             assertEquals(8, this?.get("num_thread"))
         }
-
     }
 }

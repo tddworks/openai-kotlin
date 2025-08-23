@@ -14,22 +14,17 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
-fun iniAnthropic(
-    config: AnthropicConfig,
-    appDeclaration: KoinAppDeclaration = {}
-): Anthropic {
+fun iniAnthropic(config: AnthropicConfig, appDeclaration: KoinAppDeclaration = {}): Anthropic {
     return startKoin {
-        appDeclaration()
-        modules(commonModule(false) + anthropicModules(config))
-    }.koin.get<Anthropic>()
+            appDeclaration()
+            modules(commonModule(false) + anthropicModules(config))
+        }
+        .koin
+        .get<Anthropic>()
 }
 
-fun anthropicModules(
-    config: AnthropicConfig,
-) = module {
-    single<Anthropic> {
-        Anthropic.create(anthropicConfig = config)
-    }
+fun anthropicModules(config: AnthropicConfig) = module {
+    single<Anthropic> { Anthropic.create(anthropicConfig = config) }
 
     single<Json>(named("anthropicJson")) { JsonLenient }
 
@@ -39,7 +34,7 @@ fun anthropicModules(
                 connectionConfig = UrlBasedConnectionConfig(config.baseUrl),
                 authConfig = AuthConfig(config.apiKey),
                 // get from commonModule
-                features = ClientFeatures(json = get(named("anthropicJson")))
+                features = ClientFeatures(json = get(named("anthropicJson"))),
             )
         )
     }
@@ -47,7 +42,7 @@ fun anthropicModules(
     single<Messages> {
         DefaultMessagesApi(
             anthropicConfig = config,
-            requester = get(named("anthropicHttpRequester"))
+            requester = get(named("anthropicHttpRequester")),
         )
     }
 }

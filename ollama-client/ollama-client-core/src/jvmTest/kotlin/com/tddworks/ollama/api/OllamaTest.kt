@@ -14,14 +14,16 @@ class OllamaTestTest : AutoCloseKoinTest() {
     @BeforeEach
     fun setUp() {
         koinApplication {
-            initOllama(
-                config = OllamaConfig(
-                    baseUrl = { "127.0.0.1" },
-                    port = { 8080 },
-                    protocol = { "https" }
+                initOllama(
+                    config =
+                        OllamaConfig(
+                            baseUrl = { "127.0.0.1" },
+                            port = { 8080 },
+                            protocol = { "https" },
+                        )
                 )
-            )
-        }.checkModules()
+            }
+            .checkModules()
     }
 
     @Test
@@ -45,5 +47,4 @@ class OllamaTestTest : AutoCloseKoinTest() {
 
         assertEquals("http", target.protocol())
     }
-
 }

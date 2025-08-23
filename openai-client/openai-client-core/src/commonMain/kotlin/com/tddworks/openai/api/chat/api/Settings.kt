@@ -1,8 +1,8 @@
 package com.tddworks.openai.api.chat.api
 
-//import com.snacks.openai.api.OpenAISettings
+// import com.snacks.openai.api.OpenAISettings
 //
 //
-//interface Settings {
+// interface Settings {
 //    fun settings(): OpenAISettings
-//}
+// }

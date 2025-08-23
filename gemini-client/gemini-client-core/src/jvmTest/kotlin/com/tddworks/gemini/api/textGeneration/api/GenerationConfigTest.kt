@@ -9,16 +9,11 @@ class GenerationConfigTest {
     @Test
     fun `should return correct generation config`() {
         // Given
-        val generationConfig = GenerationConfig(
-            temperature = 1.0f,
-            responseMimeType = "application/json"
-        )
+        val generationConfig =
+            GenerationConfig(temperature = 1.0f, responseMimeType = "application/json")
 
         // When
-        val result = Json.encodeToString(
-            GenerationConfig.serializer(),
-            generationConfig
-        )
+        val result = Json.encodeToString(GenerationConfig.serializer(), generationConfig)
 
         // Then
         JSONAssert.assertEquals(
@@ -27,9 +22,10 @@ class GenerationConfigTest {
                 "temperature": 1.0,
                 "response_mime_type": "application/json"
             }
-            """.trimIndent(),
+            """
+                .trimIndent(),
             result,
-            false
+            false,
         )
     }
 }

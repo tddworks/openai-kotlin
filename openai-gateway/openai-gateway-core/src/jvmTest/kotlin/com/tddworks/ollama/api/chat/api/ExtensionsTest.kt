@@ -20,10 +20,11 @@ class ExtensionsTest {
 
     @Test
     fun `should convert CompletionRequest to OllamaGenerateRequest with required fields`() {
-        val completionRequest = CompletionRequest(
-            model = OpenAIModel(OllamaModel.CODE_LLAMA.value),
-            prompt = "Once upon a time",
-        )
+        val completionRequest =
+            CompletionRequest(
+                model = OpenAIModel(OllamaModel.CODE_LLAMA.value),
+                prompt = "Once upon a time",
+            )
 
         val ollamaGenerateRequest = completionRequest.toOllamaGenerateRequest()
         assertEquals("codellama", ollamaGenerateRequest.model)
@@ -37,18 +38,17 @@ class ExtensionsTest {
 
     @Test
     fun `should convert CompletionRequest to OllamaGenerateRequest with all fields`() {
-        val completionRequest = CompletionRequest(
-            model = OpenAIModel(OllamaModel.CODE_LLAMA.value),
-            prompt = "Once upon a time",
-            suffix = "The end",
-            maxTokens = 10,
-            temperature = 0.5,
-            stream = false,
-            stop = "<EOT>,<EOL>",
-            streamOptions = mapOf(
-                "raw" to true
+        val completionRequest =
+            CompletionRequest(
+                model = OpenAIModel(OllamaModel.CODE_LLAMA.value),
+                prompt = "Once upon a time",
+                suffix = "The end",
+                maxTokens = 10,
+                temperature = 0.5,
+                stream = false,
+                stop = "<EOT>,<EOL>",
+                streamOptions = mapOf("raw" to true),
             )
-        )
 
         val ollamaGenerateRequest = completionRequest.toOllamaGenerateRequest()
         assertEquals("codellama", ollamaGenerateRequest.model)
@@ -69,12 +69,13 @@ class ExtensionsTest {
 
     @Test
     fun `should convert OllamaGenerateResponse to OpenAICompletion with required fields`() {
-        val ollamaGenerateResponse = OllamaGenerateResponse(
-            model = "some-model",
-            createdAt = "createdAt",
-            response = "response",
-            done = false,
-        )
+        val ollamaGenerateResponse =
+            OllamaGenerateResponse(
+                model = "some-model",
+                createdAt = "createdAt",
+                response = "response",
+                done = false,
+            )
         val openAICompletion = ollamaGenerateResponse.toOpenAICompletion()
         assertEquals("createdAt", openAICompletion.id)
         assertEquals(1, openAICompletion.created)
@@ -88,16 +89,17 @@ class ExtensionsTest {
 
     @Test
     fun `should convert OllamaGenerateResponse to OpenAICompletion without promptEvalCount`() {
-        val ollamaGenerateResponse = OllamaGenerateResponse(
-            model = "some-model",
-            createdAt = "createdAt",
-            response = "response",
-            done = false,
-            evalCount = 10,
-            evalDuration = 1000,
-            loadDuration = 1000,
-            promptEvalDuration = 1000,
-        )
+        val ollamaGenerateResponse =
+            OllamaGenerateResponse(
+                model = "some-model",
+                createdAt = "createdAt",
+                response = "response",
+                done = false,
+                evalCount = 10,
+                evalDuration = 1000,
+                loadDuration = 1000,
+                promptEvalDuration = 1000,
+            )
         val openAICompletion = ollamaGenerateResponse.toOpenAICompletion()
         assertEquals("createdAt", openAICompletion.id)
         assertEquals(1, openAICompletion.created)
@@ -107,11 +109,8 @@ class ExtensionsTest {
         assertEquals(0, openAICompletion.choices[0].index)
         assertEquals("", openAICompletion.choices[0].finishReason)
         assertEquals(
-            Usage(
-                promptTokens = null,
-                completionTokens = 10,
-                totalTokens = 10
-            ), openAICompletion.usage
+            Usage(promptTokens = null, completionTokens = 10, totalTokens = 10),
+            openAICompletion.usage,
         )
     }
 
@@ -133,11 +132,8 @@ class ExtensionsTest {
 
     @Test
     fun `should convert OllamaChatResponse to OpenAIChatCompletion without message`() {
-        val ollamaChatResponse = OllamaChatResponse(
-            createdAt = "123",
-            model = "llama2",
-            done = false
-        )
+        val ollamaChatResponse =
+            OllamaChatResponse(createdAt = "123", model = "llama2", done = false)
         val openAIChatCompletion = ollamaChatResponse.toOpenAIChatCompletion()
         assertEquals("123", openAIChatCompletion.id)
         assertEquals(1L, openAIChatCompletion.created)
@@ -147,16 +143,18 @@ class ExtensionsTest {
 
     @Test
     fun `should convert OllamaChatResponse to OpenAIChatCompletion with all fields`() {
-        val ollamaChatResponse = OllamaChatResponse(
-            createdAt = "123",
-            model = "llama2",
-            message = OllamaChatMessage(
-                content = "Hi there",
-                role = "assistant",
-                images = emptyList()
-            ),
-            done = true
-        )
+        val ollamaChatResponse =
+            OllamaChatResponse(
+                createdAt = "123",
+                model = "llama2",
+                message =
+                    OllamaChatMessage(
+                        content = "Hi there",
+                        role = "assistant",
+                        images = emptyList(),
+                    ),
+                done = true,
+            )
         val openAIChatCompletion = ollamaChatResponse.toOpenAIChatCompletion()
         assertEquals("123", openAIChatCompletion.id)
         assertEquals(1L, openAIChatCompletion.created)
@@ -168,12 +166,11 @@ class ExtensionsTest {
 
     @Test
     fun `should throw IllegalArgumentException when message not recognized`() {
-        val chatCompletionRequest = ChatCompletionRequest(
-            model = OpenAIModel(OllamaModel.LLAMA2.value),
-            messages = listOf(
-                ChatMessage.vision(emptyList())
+        val chatCompletionRequest =
+            ChatCompletionRequest(
+                model = OpenAIModel(OllamaModel.LLAMA2.value),
+                messages = listOf(ChatMessage.vision(emptyList())),
             )
-        )
 
         assertThrows(IllegalArgumentException::class.java) {
             chatCompletionRequest.toOllamaChatRequest()
@@ -182,15 +179,11 @@ class ExtensionsTest {
 
     @Test
     fun `should throw IllegalArgumentException when role not recognized`() {
-        val chatCompletionRequest = ChatCompletionRequest(
-            model = OpenAIModel(OllamaModel.LLAMA2.value),
-            messages = listOf(
-                ChatMessage.UserMessage(
-                    content = "Hello",
-                    role = Role.Tool
-                )
+        val chatCompletionRequest =
+            ChatCompletionRequest(
+                model = OpenAIModel(OllamaModel.LLAMA2.value),
+                messages = listOf(ChatMessage.UserMessage(content = "Hello", role = Role.Tool)),
             )
-        )
 
         assertThrows(IllegalArgumentException::class.java) {
             chatCompletionRequest.toOllamaChatRequest()
@@ -199,14 +192,16 @@ class ExtensionsTest {
 
     @Test
     fun `should convert ChatCompletionRequest to OllamaChatRequest`() {
-        val chatCompletionRequest = ChatCompletionRequest(
-            model = OpenAIModel(OllamaModel.LLAMA2.value),
-            messages = listOf(
-                ChatMessage.UserMessage("Hello"),
-                ChatMessage.AssistantMessage("Hi there"),
-                ChatMessage.SystemMessage("How are you?")
+        val chatCompletionRequest =
+            ChatCompletionRequest(
+                model = OpenAIModel(OllamaModel.LLAMA2.value),
+                messages =
+                    listOf(
+                        ChatMessage.UserMessage("Hello"),
+                        ChatMessage.AssistantMessage("Hi there"),
+                        ChatMessage.SystemMessage("How are you?"),
+                    ),
             )
-        )
         val ollamaChatRequest = chatCompletionRequest.toOllamaChatRequest()
         assertEquals("llama2", ollamaChatRequest.model)
         assertEquals(3, ollamaChatRequest.messages.size)

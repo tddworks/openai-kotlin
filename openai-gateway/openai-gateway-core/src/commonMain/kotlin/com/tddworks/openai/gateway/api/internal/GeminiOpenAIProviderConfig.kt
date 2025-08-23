@@ -6,14 +6,10 @@ import com.tddworks.openai.gateway.api.OpenAIProviderConfig
 
 class GeminiOpenAIProviderConfig(
     override val apiKey: () -> String,
-    override val baseUrl: () -> String = { Gemini.BASE_URL }
+    override val baseUrl: () -> String = { Gemini.BASE_URL },
 ) : OpenAIProviderConfig
 
-fun OpenAIProviderConfig.toGeminiConfig() =
-    GeminiConfig(
-        apiKey = apiKey,
-        baseUrl = baseUrl,
-    )
+fun OpenAIProviderConfig.toGeminiConfig() = GeminiConfig(apiKey = apiKey, baseUrl = baseUrl)
 
 fun OpenAIProviderConfig.Companion.gemini(
     apiKey: () -> String,

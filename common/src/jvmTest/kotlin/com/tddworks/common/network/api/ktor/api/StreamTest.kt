@@ -8,6 +8,7 @@ import io.ktor.client.engine.mock.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.utils.io.*
+import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
@@ -16,18 +17,13 @@ import org.junit.jupiter.api.extension.RegisterExtension
 import org.koin.dsl.module
 import org.koin.test.junit5.AutoCloseKoinTest
 import org.koin.test.junit5.KoinTestExtension
-import kotlin.test.assertEquals
 
 class StreamTest : AutoCloseKoinTest() {
 
     @JvmField
     @RegisterExtension
-    val koinTestExtension = KoinTestExtension.create {
-        modules(
-            module {
-                single<Json> { JsonLenient }
-            })
-    }
+    val koinTestExtension =
+        KoinTestExtension.create { modules(module { single<Json> { JsonLenient } }) }
 
     @Test
     fun `test streamEventsFrom with stream response`(): Unit = runBlocking {
@@ -35,10 +31,7 @@ class StreamTest : AutoCloseKoinTest() {
         val mockEngine = MockEngine { request ->
             when (request.url.toString()) {
                 "http://example.com/stream" ->
-                    respond(
-                        content = channel,
-                        status = HttpStatusCode.OK
-                    )
+                    respond(content = channel, status = HttpStatusCode.OK)
 
                 else -> respond("", HttpStatusCode.NotFound)
             }
@@ -46,11 +39,10 @@ class StreamTest : AutoCloseKoinTest() {
 
         val client = HttpClient(mockEngine)
 
-        val content = flow<StreamResponse> {
-            client.preparePost("http://example.com/stream").execute {
-                streamEventsFrom(it)
+        val content =
+            flow<StreamResponse> {
+                client.preparePost("http://example.com/stream").execute { streamEventsFrom(it) }
             }
-        }
 
         channel.writeStringUtf8("Hello world!\n")
         channel.writeStringUtf8("data: {\"content\": \"some-content-1\"}\n")

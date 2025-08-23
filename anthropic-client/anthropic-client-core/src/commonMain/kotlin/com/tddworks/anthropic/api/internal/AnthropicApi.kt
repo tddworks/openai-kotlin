@@ -5,9 +5,9 @@ import com.tddworks.anthropic.api.AnthropicConfig
 import com.tddworks.anthropic.api.messages.api.Messages
 import com.tddworks.di.getInstance
 
-
 /**
- * The Anthropic API class encapsulates the necessary properties and methods to interact with the Anthropic API.
+ * The Anthropic API class encapsulates the necessary properties and methods to interact with the
+ * Anthropic API.
  *
  * @property apiKey the unique identifier for your Anthropic API account
  * @property apiURL the base URL for making API requests to the Anthropic API
@@ -15,7 +15,7 @@ import com.tddworks.di.getInstance
  */
 class AnthropicApi(
     private val anthropicConfig: AnthropicConfig,
-    private val messages: Messages = getInstance()
+    private val messages: Messages = getInstance(),
 ) : Anthropic, Messages by messages {
     /**
      * Gets the API key.
@@ -43,13 +43,11 @@ class AnthropicApi(
     override fun anthropicVersion(): String {
         return anthropicConfig.anthropicVersion()
     }
-
 }
 
 fun Anthropic.Companion.create(
-    anthropicConfig: AnthropicConfig, messages: Messages = getInstance()
+    anthropicConfig: AnthropicConfig,
+    messages: Messages = getInstance(),
 ): Anthropic {
-    return AnthropicApi(
-        anthropicConfig = anthropicConfig, messages = messages
-    )
+    return AnthropicApi(anthropicConfig = anthropicConfig, messages = messages)
 }

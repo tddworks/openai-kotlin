@@ -16,49 +16,50 @@ import org.koin.test.junit5.KoinTestExtension
 class DefaultTextGenerationTest : KoinTest {
     @JvmField
     @RegisterExtension
-    val koinTestExtension = KoinTestExtension.create {
-        modules(
-            module {
-                single<Json> { JsonLenient }
-            })
-    }
+    val koinTestExtension =
+        KoinTestExtension.create { modules(module { single<Json> { JsonLenient } }) }
 
     @Test
     fun `should return correct streamGenerateContent response`() = runTest {
         // Given
         val jsonResponse =
             """data: {"candidates": [{"content": {"parts": [{"text": "some-text"}],"role": "model"},"finishReason": "STOP"}],"usageMetadata": {"promptTokenCount": 4,"candidatesTokenCount": 724,"totalTokenCount": 728},"modelVersion": "gemini-1.5-flash"}"""
-        val textGenerationApi = DefaultTextGenerationApi(
-            requester = DefaultHttpRequester(
-                httpClient = mockHttpClient(jsonResponse)
+        val textGenerationApi =
+            DefaultTextGenerationApi(
+                requester = DefaultHttpRequester(httpClient = mockHttpClient(jsonResponse))
             )
-        )
-        val request = GenerateContentRequest(
-            contents = listOf(Content(parts = listOf(Part.TextPart("some-text")), role = "model")),
-            stream = true
-        )
+        val request =
+            GenerateContentRequest(
+                contents =
+                    listOf(Content(parts = listOf(Part.TextPart("some-text")), role = "model")),
+                stream = true,
+            )
 
         // When
         textGenerationApi.streamGenerateContent(request).test {
             // Then
             assertEquals(
                 GenerateContentResponse(
-                    candidates = listOf(
-                        Candidate(
-                            content = Content(
-                                parts = listOf(Part.TextPart("some-text")),
-                                role = "model"
-                            ),
-                            finishReason = "STOP"
-                        )
-                    ),
-                    usageMetadata = UsageMetadata(
-                        promptTokenCount = 4,
-                        candidatesTokenCount = 724,
-                        totalTokenCount = 728
-                    ),
-                    modelVersion = "gemini-1.5-flash"
-                ), awaitItem()
+                    candidates =
+                        listOf(
+                            Candidate(
+                                content =
+                                    Content(
+                                        parts = listOf(Part.TextPart("some-text")),
+                                        role = "model",
+                                    ),
+                                finishReason = "STOP",
+                            )
+                        ),
+                    usageMetadata =
+                        UsageMetadata(
+                            promptTokenCount = 4,
+                            candidatesTokenCount = 724,
+                            totalTokenCount = 728,
+                        ),
+                    modelVersion = "gemini-1.5-flash",
+                ),
+                awaitItem(),
             )
             awaitComplete()
         }
@@ -67,7 +68,8 @@ class DefaultTextGenerationTest : KoinTest {
     @Test
     fun `should return correct generateContent response`() = runTest {
         // Given
-        val jsonResponse = """
+        val jsonResponse =
+            """
              {
               "candidates": [
                 {
@@ -90,15 +92,17 @@ class DefaultTextGenerationTest : KoinTest {
               },
               "modelVersion": "gemini-1.5-flash"
             }
-        """.trimIndent()
-        val textGenerationApi = DefaultTextGenerationApi(
-            requester = DefaultHttpRequester(
-                httpClient = mockHttpClient(jsonResponse)
+        """
+                .trimIndent()
+        val textGenerationApi =
+            DefaultTextGenerationApi(
+                requester = DefaultHttpRequester(httpClient = mockHttpClient(jsonResponse))
             )
-        )
-        val request = GenerateContentRequest(
-            contents = listOf(Content(parts = listOf(Part.TextPart("some-text")), role = "model")),
-        )
+        val request =
+            GenerateContentRequest(
+                contents =
+                    listOf(Content(parts = listOf(Part.TextPart("some-text")), role = "model"))
+            )
 
         // When
         val response = textGenerationApi.generateContent(request)
@@ -114,5 +118,4 @@ class DefaultTextGenerationTest : KoinTest {
         assertEquals(715, response.usageMetadata.candidatesTokenCount)
         assertEquals(719, response.usageMetadata.totalTokenCount)
     }
-
 }

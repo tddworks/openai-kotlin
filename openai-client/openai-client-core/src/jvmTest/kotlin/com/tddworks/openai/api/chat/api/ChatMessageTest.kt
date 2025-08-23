@@ -15,14 +15,13 @@ class ChatMessageTest {
                 listOf(
                     VisionMessageContent.TextContent(content = "What is the name of this flower?"),
                     VisionMessageContent.ImageContent(
-                        imageUrl = ImageUrl(
-                            value = "https://example.com/image.jpg"
-                        )
-                    )
+                        imageUrl = ImageUrl(value = "https://example.com/image.jpg")
+                    ),
                 )
             )
 
-        val expectedJson = """
+        val expectedJson =
+            """
         {
           "content": [
             {
@@ -39,11 +38,12 @@ class ChatMessageTest {
           ],
           "role": "user"
         }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         assertEquals(
             expectedJson,
-            prettyJson.encodeToString(ChatMessage.VisionMessage.serializer(), message)
+            prettyJson.encodeToString(ChatMessage.VisionMessage.serializer(), message),
         )
     }
 
@@ -51,16 +51,18 @@ class ChatMessageTest {
     fun `should return correct json for assistant message`() {
         val message = ChatMessage.assistant("Hello, how may I assist you today?")
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "content": "Hello, how may I assist you today?",
               "role": "assistant"
             }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         assertEquals(
             expectedJson,
-            prettyJson.encodeToString(ChatMessage.AssistantMessage.serializer(), message)
+            prettyJson.encodeToString(ChatMessage.AssistantMessage.serializer(), message),
         )
     }
 
@@ -68,16 +70,18 @@ class ChatMessageTest {
     fun `should return correct json for user message`() {
         val message = ChatMessage.user("Hello, how may I assist you today?")
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "content": "Hello, how may I assist you today?",
               "role": "user"
             }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         assertEquals(
             expectedJson,
-            prettyJson.encodeToString(ChatMessage.UserMessage.serializer(), message)
+            prettyJson.encodeToString(ChatMessage.UserMessage.serializer(), message),
         )
     }
 
@@ -85,16 +89,18 @@ class ChatMessageTest {
     fun `should return correct json for system message`() {
         val message = ChatMessage.system("Hello, how may I assist you today?")
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "content": "Hello, how may I assist you today?",
               "role": "system"
             }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         assertEquals(
             expectedJson,
-            prettyJson.encodeToString(ChatMessage.SystemMessage.serializer(), message)
+            prettyJson.encodeToString(ChatMessage.SystemMessage.serializer(), message),
         )
     }
 }

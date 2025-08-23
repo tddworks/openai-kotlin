@@ -10,12 +10,8 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.flow.Flow
 
-/**
- * Default implementation of Ollama generate
- */
-class DefaultOllamaGenerateApi(
-    private val requester: HttpRequester
-) : OllamaGenerate {
+/** Default implementation of Ollama generate */
+class DefaultOllamaGenerateApi(private val requester: HttpRequester) : OllamaGenerate {
     override fun stream(request: OllamaGenerateRequest): Flow<OllamaGenerateResponse> {
         return requester.streamRequest<OllamaGenerateResponse> {
             method = HttpMethod.Post

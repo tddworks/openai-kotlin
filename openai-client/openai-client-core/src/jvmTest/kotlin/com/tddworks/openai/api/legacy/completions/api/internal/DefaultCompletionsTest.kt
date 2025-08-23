@@ -7,22 +7,25 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-
 class DefaultCompletionsTest {
 
     @Test
     fun `should return completion`() = runBlocking {
-        val request = CompletionRequest(
-            prompt = "Once upon a time",
-            suffix = "The end",
-            maxTokens = 10,
-            temperature = 0.5
-        )
+        val request =
+            CompletionRequest(
+                prompt = "Once upon a time",
+                suffix = "The end",
+                maxTokens = 10,
+                temperature = 0.5,
+            )
 
-        val completions = DefaultCompletionsApi(
-            requester = DefaultHttpRequester(
-                httpClient = mockHttpClient(
-                    """
+        val completions =
+            DefaultCompletionsApi(
+                requester =
+                    DefaultHttpRequester(
+                        httpClient =
+                            mockHttpClient(
+                                """
                 {
                   "id": "cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7",
                   "object": "text_completion",
@@ -43,11 +46,11 @@ class DefaultCompletionsTest {
                     "total_tokens": 12
                   }
                 }
-                """.trimIndent()
-                )
+                """
+                                    .trimIndent()
+                            )
+                    )
             )
-        )
-
 
         val r = completions.completions(request)
 

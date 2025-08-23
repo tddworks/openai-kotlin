@@ -12,6 +12,7 @@ import com.tddworks.di.initKoin
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -22,7 +23,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.koin.test.junit5.AutoCloseKoinTest
-import kotlin.time.Duration.Companion.seconds
 
 class DefaultHttpRequesterTest : AutoCloseKoinTest() {
     private lateinit var httpClient: HttpClient
@@ -32,9 +32,7 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
     // This extension is used to set the main dispatcher to a test dispatcher
     // launch coroutine eagerly
     // same scheduling behavior as would have in a real app/production
-    val testKoinCoroutineExtension =
-        TestKoinCoroutineExtension(StandardTestDispatcher())
-
+    val testKoinCoroutineExtension = TestKoinCoroutineExtension(StandardTestDispatcher())
 
     @BeforeEach
     fun setUp() {
@@ -43,7 +41,8 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
 
     @Test
     fun `should throw RateLimitException when status code is 401`(): Unit = runBlocking {
-        val mockResponse = """
+        val mockResponse =
+            """
         {
             "error": {
                 "code": null,
@@ -52,26 +51,26 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
                 "message": "You are accessing the API from an unsupported country, region, or territory."
             }
         }
-        """.trimIndent()
+        """
+                .trimIndent()
 
-
-        httpClient = mockHttpClient(
-            mockResponse = mockResponse,
-            mockHttpStatusCode = HttpStatusCode.Unauthorized
-        )
+        httpClient =
+            mockHttpClient(
+                mockResponse = mockResponse,
+                mockHttpStatusCode = HttpStatusCode.Unauthorized,
+            )
 
         val requester = HttpRequester.default(httpClient)
 
         assertThrows<AuthenticationException> {
-            requester.performRequest<String> {
-                url(path = "/v1/chat/completions")
-            }
+            requester.performRequest<String> { url(path = "/v1/chat/completions") }
         }
     }
 
     @Test
     fun `should throw RateLimitException when status code is 40x`(): Unit = runBlocking {
-        val mockResponse = """
+        val mockResponse =
+            """
         {
             "error": {
                 "code": null,
@@ -80,27 +79,26 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
                 "message": "You are accessing the API from an unsupported country, region, or territory."
             }
         }
-        """.trimIndent()
+        """
+                .trimIndent()
 
-
-        httpClient = mockHttpClient(
-            mockResponse = mockResponse,
-            mockHttpStatusCode = HttpStatusCode.BadRequest
-        )
+        httpClient =
+            mockHttpClient(
+                mockResponse = mockResponse,
+                mockHttpStatusCode = HttpStatusCode.BadRequest,
+            )
 
         val requester = HttpRequester.default(httpClient)
 
         assertThrows<InvalidRequestException> {
-            requester.performRequest<String> {
-                url(path = "/v1/chat/completions")
-            }
+            requester.performRequest<String> { url(path = "/v1/chat/completions") }
         }
     }
 
     @Test
-    fun `should throw RateLimitException when status code is unknown`(): Unit =
-        runBlocking {
-            val mockResponse = """
+    fun `should throw RateLimitException when status code is unknown`(): Unit = runBlocking {
+        val mockResponse =
+            """
         {
             "error": {
                 "code": null,
@@ -109,26 +107,26 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
                 "message": "You are accessing the API from an unsupported country, region, or territory."
             }
         }
-        """.trimIndent()
+        """
+                .trimIndent()
 
-
-            httpClient = mockHttpClient(
+        httpClient =
+            mockHttpClient(
                 mockResponse = mockResponse,
-                mockHttpStatusCode = HttpStatusCode.InternalServerError
+                mockHttpStatusCode = HttpStatusCode.InternalServerError,
             )
 
-            val requester = HttpRequester.default(httpClient)
+        val requester = HttpRequester.default(httpClient)
 
-            assertThrows<UnknownAPIException> {
-                requester.performRequest<String> {
-                    url(path = "/v1/chat/completions")
-                }
-            }
+        assertThrows<UnknownAPIException> {
+            requester.performRequest<String> { url(path = "/v1/chat/completions") }
         }
+    }
 
     @Test
     fun `should throw RateLimitException when status code is 429`(): Unit = runBlocking {
-        val mockResponse = """
+        val mockResponse =
+            """
         {
             "error": {
                 "code": null,
@@ -137,28 +135,27 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
                 "message": "You are accessing the API from an unsupported country, region, or territory."
             }
         }
-        """.trimIndent()
+        """
+                .trimIndent()
 
-
-        httpClient = mockHttpClient(
-            mockResponse = mockResponse,
-            mockHttpStatusCode = HttpStatusCode.TooManyRequests
-        )
+        httpClient =
+            mockHttpClient(
+                mockResponse = mockResponse,
+                mockHttpStatusCode = HttpStatusCode.TooManyRequests,
+            )
 
         val requester = HttpRequester.default(httpClient)
 
         assertThrows<RateLimitException> {
-            requester.performRequest<String> {
-                url(path = "/v1/chat/completions")
-            }
+            requester.performRequest<String> { url(path = "/v1/chat/completions") }
         }
     }
 
     @Test
     fun `should throw PermissionException when get 403 in stream`(): Unit = runBlocking {
-
-        httpClient = mockHttpClient(
-            """{
+        httpClient =
+            mockHttpClient(
+                """{
             "error": {
                 "code": null,
                 "type": "server_error",
@@ -166,21 +163,20 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
                 "message": "You are accessing the API from an unsupported country, region, or territory."
             }
         }""",
-            mockHttpStatusCode = HttpStatusCode.Forbidden
-        )
+                mockHttpStatusCode = HttpStatusCode.Forbidden,
+            )
 
         val requester = HttpRequester.default(httpClient)
 
-        requester.streamRequest<StreamResponse> { url(path = "/v1/chat/completions") }
-            .test(timeout = 10.seconds) {
-                assertTrue(awaitError() is PermissionException)
-            }
-
+        requester
+            .streamRequest<StreamResponse> { url(path = "/v1/chat/completions") }
+            .test(timeout = 10.seconds) { assertTrue(awaitError() is PermissionException) }
     }
 
     @Test
     fun `should throw PermissionException when get 403`(): Unit = runBlocking {
-        val mockResponse = """
+        val mockResponse =
+            """
         {
             "error": {
                 "code": null,
@@ -189,38 +185,35 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
                 "message": "You are accessing the API from an unsupported country, region, or territory."
             }
         }
-        """.trimIndent()
+        """
+                .trimIndent()
 
-
-        httpClient = mockHttpClient(
-            mockResponse = mockResponse,
-            mockHttpStatusCode = HttpStatusCode.Forbidden
-        )
+        httpClient =
+            mockHttpClient(
+                mockResponse = mockResponse,
+                mockHttpStatusCode = HttpStatusCode.Forbidden,
+            )
 
         val requester = HttpRequester.default(httpClient)
 
         assertThrows<PermissionException> {
-            requester.performRequest<String> {
-                url(path = "/v1/chat/completions")
-            }
+            requester.performRequest<String> { url(path = "/v1/chat/completions") }
         }
     }
 
     @Test
-    fun `should not return chat stream completion response when it's empty response`() =
-        runTest {
+    fun `should not return chat stream completion response when it's empty response`() = runTest {
+        httpClient = mockHttpClient("")
 
-            httpClient = mockHttpClient("")
+        val requester = DefaultHttpRequester(httpClient)
 
-            val requester = DefaultHttpRequester(httpClient)
-
-            requester.streamRequest<StreamResponse> {
-                url(path = "/v1/chat/completions")
-            }.test {
+        requester
+            .streamRequest<StreamResponse> { url(path = "/v1/chat/completions") }
+            .test {
                 expectNoEvents()
                 cancel()
             }
-        }
+    }
 
     @Test
     fun `should return chat stream completion response`() = runTest {
@@ -230,20 +223,18 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
 
         val requester = DefaultHttpRequester(httpClient)
 
-        requester.streamRequest<StreamResponse> {
-            url(path = "/v1/chat/completions")
-        }.test {
-            assertEquals(
-                mockResponse,
-                awaitItem()
-            )
-            awaitComplete()
-        }
+        requester
+            .streamRequest<StreamResponse> { url(path = "/v1/chat/completions") }
+            .test {
+                assertEquals(mockResponse, awaitItem())
+                awaitComplete()
+            }
     }
 
     @Test
     fun `should return chat completion response`() = runBlocking {
-        val mockResponse = """
+        val mockResponse =
+            """
             {
               "id": "chatcmpl-123",
               "object": "chat.completion",
@@ -265,15 +256,14 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
                 "total_tokens": 21
               }
             }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         httpClient = mockHttpClient(mockResponse)
 
         val requester = DefaultHttpRequester(httpClient)
 
-        val result = requester.performRequest<String> {
-            url(path = "/v1/chat/completions")
-        }
+        val result = requester.performRequest<String> { url(path = "/v1/chat/completions") }
 
         assertEquals(mockResponse, result)
     }

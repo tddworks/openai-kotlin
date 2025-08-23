@@ -18,18 +18,27 @@ data class ChatCompletionChunk(
     val `object`: String,
     val created: Long,
     val model: String,
-    @SerialName("system_fingerprint")
-    val systemFingerprint: String? = null,
+    @SerialName("system_fingerprint") val systemFingerprint: String? = null,
     val choices: List<ChatChunk>,
 ) {
     companion object {
-        fun dummy() = ChatCompletionChunk(
-            id = "fake-id",
-            `object` = "text",
-            created = 0,
-            model = "fake-model",
-            choices = listOf(ChatChunk.fake()),
-        )
+        fun dummy() =
+            ChatCompletionChunk(
+                id = "fake-id",
+                `object` = "text",
+                created = 0,
+                model = "fake-model",
+                choices = listOf(ChatChunk.fake()),
+            )
+
+        fun error(exception: Throwable) =
+            ChatCompletionChunk(
+                id = "error-id",
+                `object` = "error",
+                created = 0,
+                model = "error-model",
+                choices = listOf(ChatChunk.error(exception.message)),
+            )
     }
 
     fun content() = choices.joinToString(separator = "") { it.delta.content ?: "" }

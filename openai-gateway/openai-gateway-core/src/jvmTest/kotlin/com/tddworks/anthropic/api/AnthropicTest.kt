@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.koin.test.junit5.AutoCloseKoinTest
 
-
 class AnthropicTest : AutoCloseKoinTest() {
 
     @BeforeEach

@@ -25,14 +25,16 @@ class OllamaOpenAIProvider(
     override val id: String = "ollama",
     override val name: String = "Ollama",
     override val config: OllamaOpenAIProviderConfig,
-    private val client: Ollama = Ollama.create(
-        ollamaConfig = OllamaConfig(baseUrl = config.baseUrl)
-    )
+    private val client: Ollama =
+        Ollama.create(ollamaConfig = OllamaConfig(baseUrl = config.baseUrl)),
 ) : OpenAIProvider {
 
     /**
-     * Override function to fetch completions from OpenAI API based on the given ChatCompletionRequest
-     * @param request the ChatCompletionRequest object containing information needed to generate completions
+     * Override function to fetch completions from OpenAI API based on the given
+     * ChatCompletionRequest
+     *
+     * @param request the ChatCompletionRequest object containing information needed to generate
+     *   completions
      * @return OpenAIChatCompletion object containing completions generated from the OpenAI API
      */
     override suspend fun chatCompletions(request: ChatCompletionRequest): ChatCompletion {
@@ -47,10 +49,9 @@ class OllamaOpenAIProvider(
      * @return A Flow of OpenAIChatCompletionChunk objects representing the completions
      */
     override fun streamChatCompletions(request: ChatCompletionRequest): Flow<ChatCompletionChunk> {
-        return client.stream(request.toOllamaChatRequest())
-            .transform {
-                emit(it.toOpenAIChatCompletionChunk())
-            }
+        return client.stream(request.toOllamaChatRequest()).transform {
+            emit(it.toOpenAIChatCompletionChunk())
+        }
     }
 
     override suspend fun completions(request: CompletionRequest): Completion {
@@ -65,13 +66,7 @@ class OllamaOpenAIProvider(
 fun OpenAIProvider.Companion.ollama(
     id: String = "ollama",
     config: OllamaOpenAIProviderConfig,
-    client: Ollama = Ollama.create(
-        ollamaConfig = OllamaConfig(baseUrl = config.baseUrl)
-    )
+    client: Ollama = Ollama.create(ollamaConfig = OllamaConfig(baseUrl = config.baseUrl)),
 ): OpenAIProvider {
-    return OllamaOpenAIProvider(
-        id = id,
-        config = config,
-        client = client
-    )
+    return OllamaOpenAIProvider(id = id, config = config, client = client)
 }

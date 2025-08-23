@@ -8,7 +8,8 @@ class ChatChoiceTest {
 
     @Test
     fun `should return chat choice from json`() {
-        val json = """
+        val json =
+            """
             {
               "index": 0,
               "message": {
@@ -18,7 +19,8 @@ class ChatChoiceTest {
               "logprobs": null,
               "finish_reason": "stop"
             }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         val chatChoice = prettyJson.decodeFromString(ChatChoice.serializer(), json)
 

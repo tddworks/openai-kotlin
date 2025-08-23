@@ -11,20 +11,23 @@ class ImageCreateTest {
     @Test
     fun `should create image with custom model setting`() {
         // Given
-        val json = """
+        val json =
+            """
         {
           "prompt": "some prompt",
           "model": "dall-e-3"
         }
-        """.trimIndent()
+        """
+                .trimIndent()
 
-        val createImage = ImageCreate.create(
-            prompt = "some prompt",
-            size = null,
-            style = null,
-            quality = null,
-            model = OpenAIModel.DALL_E_3,
-        )
+        val createImage =
+            ImageCreate.create(
+                prompt = "some prompt",
+                size = null,
+                style = null,
+                quality = null,
+                model = OpenAIModel.DALL_E_3,
+            )
 
         // When
         val result = prettyJson.encodeToString(createImage)
@@ -36,7 +39,8 @@ class ImageCreateTest {
     @Test
     fun `should create image with all custom settings`() {
         // Given
-        val json = """
+        val json =
+            """
         {
           "prompt": "some prompt",
           "model": "dall-e-3",
@@ -45,16 +49,18 @@ class ImageCreateTest {
           "style": "vivid",
           "quality": "hd"
         }
-        """.trimIndent()
+        """
+                .trimIndent()
 
-        val createImage = ImageCreate.create(
-            prompt = "some prompt",
-            model = OpenAIModel.DALL_E_3,
-            size = Size.size1024x1024,
-            style = Style.vivid,
-            quality = Quality.hd,
-            format = ResponseFormat.url,
-        )
+        val createImage =
+            ImageCreate.create(
+                prompt = "some prompt",
+                model = OpenAIModel.DALL_E_3,
+                size = Size.size1024x1024,
+                style = Style.vivid,
+                quality = Quality.hd,
+                format = ResponseFormat.url,
+            )
 
         // When
         val result = prettyJson.encodeToString(createImage)
@@ -66,16 +72,16 @@ class ImageCreateTest {
     @Test
     fun `should create image with default settings`() {
         // Given
-        val json = """
+        val json =
+            """
             {
               "prompt": "A cute baby sea otter",
               "model": "dall-e-3"
             }
-        """.trimIndent()
+        """
+                .trimIndent()
 
-        val createImage = ImageCreate.create(
-            prompt = "A cute baby sea otter",
-        )
+        val createImage = ImageCreate.create(prompt = "A cute baby sea otter")
 
         // When
         val result = prettyJson.encodeToString(createImage)
@@ -83,5 +89,4 @@ class ImageCreateTest {
         // Then
         assertEquals(json, result)
     }
-
 }

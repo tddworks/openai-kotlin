@@ -9,9 +9,7 @@ import com.tddworks.ollama.api.generate.internal.DefaultOllamaGenerateApi
 import com.tddworks.ollama.api.internal.OllamaApi
 import com.tddworks.ollama.api.json.JsonLenient
 
-/**
- * Interface for interacting with the Ollama API.
- */
+/** Interface for interacting with the Ollama API. */
 interface Ollama : OllamaChat, OllamaGenerate {
 
     companion object {
@@ -20,24 +18,26 @@ interface Ollama : OllamaChat, OllamaGenerate {
         const val PROTOCOL = "http"
 
         fun create(ollamaConfig: OllamaConfig): Ollama {
-            val requester = HttpRequester.default(
-                createHttpClient(
-                    connectionConfig = HostPortConnectionConfig(
-                        protocol = ollamaConfig.protocol,
-                        port = ollamaConfig.port,
-                        host = ollamaConfig.baseUrl
-                    ),
-                    // get from commonModule
-                    features = ClientFeatures(json = JsonLenient)
+            val requester =
+                HttpRequester.default(
+                    createHttpClient(
+                        connectionConfig =
+                            HostPortConnectionConfig(
+                                protocol = ollamaConfig.protocol,
+                                port = ollamaConfig.port,
+                                host = ollamaConfig.baseUrl,
+                            ),
+                        // get from commonModule
+                        features = ClientFeatures(json = JsonLenient),
+                    )
                 )
-            )
             val ollamaChat = DefaultOllamaChatApi(requester = requester)
             val ollamaGenerate = DefaultOllamaGenerateApi(requester = requester)
 
             return OllamaApi(
                 config = ollamaConfig,
                 ollamaChat = ollamaChat,
-                ollamaGenerate = ollamaGenerate
+                ollamaGenerate = ollamaGenerate,
             )
         }
     }

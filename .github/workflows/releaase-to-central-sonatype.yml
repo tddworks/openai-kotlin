@@ -1,29 +1,82 @@
-name: build and publish a release to Central Sonatype
+name: Release to Central Sonatype
 
-#on:
-#  release:
-#    types: [published]
+# Release workflow for publishing OpenAI Kotlin SDK to Maven Central via Sonatype Portal
+#
+# Triggers:
+# - Manual trigger with version input (e.g., 1.0.0, 1.1.0-beta.1)
+# - Automatically creates git tag and GitHub release
+# - Publishes to Maven Central via Central Sonatype Portal
+#
+# Process:
+# 1. Validate version format (semantic versioning)
+# 2. Build and test with specified version
+# 3. Create git tag and GitHub release
+# 4. Publish to Maven Central via Sonatype Portal
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., 1.0.0, 1.1.0-beta.1)'
+        required: true
+        type: string
 
 jobs:
-  build:
+  # Build, test and publish the SDK to Maven Central
+  release:
     runs-on: macOS-latest
-    env:
-      SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-      SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-      SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+    permissions:
+      contents: write
+      actions: read
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: zulu
+          distribution: 'temurin'
           java-version: 17
+          
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v3
-      - name: Release to Central Sonatype with Gradle
-        run: ./gradlew build publishAggregationPublicationsToSonatypePortalRepository
+        uses: gradle/actions/setup-gradle@v4
+        
+      - name: Validate version format
+        run: |
+          if [[ ! "${{ inputs.version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.-]+)?$ ]]; then
+            echo "❌ Invalid version format. Use semantic versioning (e.g., 1.0.0, 1.1.0-beta.1)"
+            exit 1
+          fi
+          echo "✅ Version format is valid: ${{ inputs.version }}"
+          
+      - name: Build and test with release version
+        run: ./gradlew clean build koverVerify -PLIBRARY_VERSION=${{ inputs.version }}
+        
+      - name: Code quality checks
+        run: ./gradlew spotlessCheck buildHealth -PLIBRARY_VERSION=${{ inputs.version }}
+        
+      - name: Create git tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "v${{ inputs.version }}" -m "Release v${{ inputs.version }}"
+          git push origin "v${{ inputs.version }}"
+          
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ inputs.version }}
+          name: v${{ inputs.version }}
+          draft: false
+          prerelease: ${{ contains(inputs.version, '-') }}
+          generate_release_notes: true
+          
+      - name: Publish to Maven Central via Sonatype Portal
+        run: ./gradlew publishToCentral -PLIBRARY_VERSION=${{ inputs.version }}
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}

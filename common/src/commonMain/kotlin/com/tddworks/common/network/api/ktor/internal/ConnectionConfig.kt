@@ -16,7 +16,9 @@ private fun DefaultRequest.DefaultRequestBuilder.setupUrl(connectionConfig: Conn
     }
 }
 
-private fun DefaultRequest.DefaultRequestBuilder.setupHostPortConnectionConfig(config: HostPortConnectionConfig) {
+private fun DefaultRequest.DefaultRequestBuilder.setupHostPortConnectionConfig(
+    config: HostPortConnectionConfig
+) {
     url {
         protocol = config.protocol()?.let { URLProtocol.createOrDefault(it) } ?: URLProtocol.HTTPS
         host = config.host()

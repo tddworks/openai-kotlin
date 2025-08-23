@@ -27,9 +27,7 @@ import org.mockito.kotlin.whenever
 
 @ExtendWith(MockitoExtension::class)
 class DefaultOpenAIProviderTest {
-    @Mock
-    lateinit var client: OpenAI
-
+    @Mock lateinit var client: OpenAI
 
     private lateinit var provider: OpenAIProvider
 
@@ -37,10 +35,8 @@ class DefaultOpenAIProviderTest {
     fun setUp() {
         provider =
             OpenAIProvider.openAI(
-                config = OpenAIProviderConfig.default(
-                    apiKey = { "" },
-                ),
-                openAI = client
+                config = OpenAIProviderConfig.default(apiKey = { "" }),
+                openAI = client,
             )
     }
 
@@ -62,12 +58,13 @@ class DefaultOpenAIProviderTest {
     @Test
     fun `should return completions from OpenAI API`() = runTest {
         // given
-        val request = CompletionRequest(
-            prompt = "Once upon a time",
-            suffix = "The end",
-            maxTokens = 10,
-            temperature = 0.5
-        )
+        val request =
+            CompletionRequest(
+                prompt = "Once upon a time",
+                suffix = "The end",
+                maxTokens = 10,
+                temperature = 0.5,
+            )
         val response = Completion.dummy()
         whenever(client.completions(request)).thenReturn(response)
 
@@ -98,21 +95,13 @@ class DefaultOpenAIProviderTest {
         val request = ChatCompletionRequest.dummy(OpenAIModel(OllamaModel.LLAMA2.value))
 
         val response = ChatCompletionChunk.dummy()
-        whenever(client.streamChatCompletions(request)).thenReturn(flow {
-            emit(
-                response
-            )
-        })
+        whenever(client.streamChatCompletions(request)).thenReturn(flow { emit(response) })
 
         // when
         provider.streamChatCompletions(request).test {
             // then
-            assertEquals(
-                response,
-                awaitItem()
-            )
+            assertEquals(response, awaitItem())
             awaitComplete()
         }
-
     }
 }

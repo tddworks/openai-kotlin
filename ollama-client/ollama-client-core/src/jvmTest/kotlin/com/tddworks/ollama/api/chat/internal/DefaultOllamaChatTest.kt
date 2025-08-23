@@ -1,9 +1,9 @@
 import com.tddworks.common.network.api.ktor.internal.DefaultHttpRequester
+import com.tddworks.ollama.api.TestKoinCoroutineExtension
 import com.tddworks.ollama.api.chat.OllamaChatMessage
 import com.tddworks.ollama.api.chat.OllamaChatRequest
 import com.tddworks.ollama.api.chat.OllamaChatResponse
 import com.tddworks.ollama.api.chat.internal.DefaultOllamaChatApi
-import com.tddworks.ollama.api.TestKoinCoroutineExtension
 import com.tddworks.ollama.api.json.JsonLenient
 import com.tddworks.ollama.api.mockHttpClient
 import kotlinx.coroutines.flow.toList
@@ -30,31 +30,28 @@ class DefaultOllamaChatTest : KoinTest {
     // }
     @JvmField
     @RegisterExtension
-    val koinTestExtension = KoinTestExtension.create {
-        modules(
-            module {
-                single<Json> { JsonLenient }
-            })
-    }
+    val koinTestExtension =
+        KoinTestExtension.create { modules(module { single<Json> { JsonLenient } }) }
 
     @Test
     fun `should return stream of JSON response`() = runTest {
         // Given
-        val request = OllamaChatRequest(
-            model = "llama2",
-            messages = listOf(
-                OllamaChatMessage(
-                    role = "user",
-                    content = "why is the sky blue?"
+        val request =
+            OllamaChatRequest(
+                model = "llama2",
+                messages =
+                    listOf(OllamaChatMessage(role = "user", content = "why is the sky blue?")),
+            )
+
+        val api =
+            DefaultOllamaChatApi(
+                DefaultHttpRequester(
+                    httpClient =
+                        mockHttpClient(
+                            "data: { \"model\": \"llama2\", \"created_at\": \"2023-08-04T08:52:19.385406455-07:00\", \"message\": { \"role\": \"assistant\", \"content\": \"The\", \"images\": null }, \"done\": false }"
+                        )
                 )
             )
-        )
-
-        val api = DefaultOllamaChatApi(
-            DefaultHttpRequester(
-                httpClient = mockHttpClient("data: { \"model\": \"llama2\", \"created_at\": \"2023-08-04T08:52:19.385406455-07:00\", \"message\": { \"role\": \"assistant\", \"content\": \"The\", \"images\": null }, \"done\": false }")
-            )
-        )
 
         // When
         val responses = api.stream(request).toList()
@@ -65,33 +62,30 @@ class DefaultOllamaChatTest : KoinTest {
                 OllamaChatResponse(
                     model = "llama2",
                     createdAt = "2023-08-04T08:52:19.385406455-07:00",
-                    message = OllamaChatMessage(
-                        role = "assistant",
-                        content = "The"
-                    ),
-                    done = false
+                    message = OllamaChatMessage(role = "assistant", content = "The"),
+                    done = false,
                 )
-            ), responses
+            ),
+            responses,
         )
     }
 
     @Test
     fun `should return single JSON response`() = runTest {
         // Given
-        val request = OllamaChatRequest(
-            model = "llama2",
-            messages = listOf(
-                OllamaChatMessage(
-                    role = "user",
-                    content = "why is the sky blue?"
-                )
+        val request =
+            OllamaChatRequest(
+                model = "llama2",
+                messages =
+                    listOf(OllamaChatMessage(role = "user", content = "why is the sky blue?")),
             )
-        )
 
-        val api = DefaultOllamaChatApi(
-            DefaultHttpRequester(
-                httpClient = mockHttpClient(
-                    """
+        val api =
+            DefaultOllamaChatApi(
+                DefaultHttpRequester(
+                    httpClient =
+                        mockHttpClient(
+                            """
                     {
                       "model": "llama2",
                       "created_at": "2023-12-12T14:13:43.416799Z",
@@ -107,10 +101,11 @@ class DefaultOllamaChatTest : KoinTest {
                       "eval_count": 298,
                       "eval_duration": 4799921000
                     }
-                """.trimIndent()
+                """
+                                .trimIndent()
+                        )
                 )
             )
-        )
 
         // When
         val response = api.request(request)
@@ -120,19 +115,17 @@ class DefaultOllamaChatTest : KoinTest {
             OllamaChatResponse(
                 model = "llama2",
                 createdAt = "2023-12-12T14:13:43.416799Z",
-                message = OllamaChatMessage(
-                    role = "assistant",
-                    content = "Hello! How are you today?"
-                ),
+                message =
+                    OllamaChatMessage(role = "assistant", content = "Hello! How are you today?"),
                 done = true,
                 totalDuration = 5191566416,
                 loadDuration = 2154458,
                 promptEvalCount = 26,
                 promptEvalDuration = 383809000,
                 evalCount = 298,
-                evalDuration = 4799921000
-            ), response
+                evalDuration = 4799921000,
+            ),
+            response,
         )
     }
 }
-

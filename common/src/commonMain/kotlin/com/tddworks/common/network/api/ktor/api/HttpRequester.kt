@@ -6,9 +6,7 @@ import io.ktor.util.reflect.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-/**
- * Interface for performing HTTP requests.
- */
+/** Interface for performing HTTP requests. */
 interface HttpRequester {
     suspend fun <T : Any> performRequest(info: TypeInfo, builder: HttpRequestBuilder.() -> Unit): T
 
@@ -27,23 +25,19 @@ interface HttpRequester {
 
 /**
  * Perform an HTTP request and retrieve a result.
+ *
  * @param builder The HttpRequestBuilder that contains the HTTP request details.
  * @return The result of the HTTP request.
  */
-suspend inline fun <reified T> HttpRequester.performRequest(noinline builder: HttpRequestBuilder.() -> Unit): T {
+suspend inline fun <reified T> HttpRequester.performRequest(
+    noinline builder: HttpRequestBuilder.() -> Unit
+): T {
     return performRequest(typeInfo<T>(), builder)
 }
 
-
-/**
- * Perform an HTTP request and get a result
- */
+/** Perform an HTTP request and get a result */
 inline fun <reified T : Any> HttpRequester.streamRequest(
-    noinline builder: HttpRequestBuilder.() -> Unit,
+    noinline builder: HttpRequestBuilder.() -> Unit
 ): Flow<T> {
-    return flow {
-        streamRequest(builder) { response ->
-            streamEventsFrom(response)
-        }
-    }
+    return flow { streamRequest(builder) { response -> streamEventsFrom(response) } }
 }

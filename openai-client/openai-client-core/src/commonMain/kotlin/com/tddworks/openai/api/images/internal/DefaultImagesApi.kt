@@ -22,5 +22,4 @@ internal class DefaultImagesApi(private val requester: HttpRequester) : Images {
     }
 }
 
-fun Images.Companion.default(requester: HttpRequester): Images =
-    DefaultImagesApi(requester)
+fun Images.Companion.default(requester: HttpRequester): Images = DefaultImagesApi(requester)

@@ -6,5 +6,5 @@ enum class LLMProvider {
     GEMINI,
     MOONSHOT,
     OLLAMA,
-    OPENAI
+    OPENAI,
 }

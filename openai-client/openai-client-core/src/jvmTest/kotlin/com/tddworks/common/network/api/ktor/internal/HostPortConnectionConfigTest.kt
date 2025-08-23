@@ -18,11 +18,8 @@ class HostPortConnectionConfigTest {
     fun `should able to specified protocol and port`() {
         val protocol: () -> String? = { "http" }
         val port: () -> Int? = { 8080 }
-        val config = HostPortConnectionConfig(
-            protocol = protocol,
-            port = port,
-            host = { "example.com" }
-        )
+        val config =
+            HostPortConnectionConfig(protocol = protocol, port = port, host = { "example.com" })
 
         assertEquals("http", config.protocol(), "Protocol should be 'http'")
         assertEquals(8080, config.port(), "Port should be 8080")

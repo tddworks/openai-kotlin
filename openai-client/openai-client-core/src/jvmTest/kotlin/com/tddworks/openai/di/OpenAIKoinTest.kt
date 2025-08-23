@@ -13,15 +13,17 @@ class OpenAIKoinTest : AutoCloseKoinTest() {
     @Test
     fun `should initialize common koin modules`() {
         koinApplication {
-            initOpenAI(OpenAIConfig(
-                baseUrl = { OpenAI.BASE_URL },
-                apiKey = { System.getenv("OPENAI_API_KEY") ?: "CONFIGURE_ME" }
-            ))
-        }.checkModules()
+                initOpenAI(
+                    OpenAIConfig(
+                        baseUrl = { OpenAI.BASE_URL },
+                        apiKey = { System.getenv("OPENAI_API_KEY") ?: "CONFIGURE_ME" },
+                    )
+                )
+            }
+            .checkModules()
 
         val json = getInstance<Json>()
 
         kotlin.test.assertNotNull(json)
     }
 }
-

@@ -22,17 +22,13 @@ class CompletionTest {
 
     @Test
     fun `should return completion with required fields`() {
-        val completion = Completion(
-            id = "cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7",
-            choices = listOf(
-                CompletionChoice(
-                    text = "\n\nThis is indeed a test",
-                    index = 0
-                )
-            ),
-            created = 1589478378,
-            model = "gpt-3.5-turbo-instruct"
-        )
+        val completion =
+            Completion(
+                id = "cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7",
+                choices = listOf(CompletionChoice(text = "\n\nThis is indeed a test", index = 0)),
+                created = 1589478378,
+                model = "gpt-3.5-turbo-instruct",
+            )
 
         with(completion) {
             assertEquals("cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7", id)
@@ -49,7 +45,8 @@ class CompletionTest {
 
     @Test
     fun `should return completion`() {
-        val completionJson = """
+        val completionJson =
+            """
             {
               "id": "cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7",
               "object": "text_completion",
@@ -70,10 +67,10 @@ class CompletionTest {
                 "total_tokens": 12
               }
             }
-        """.trimIndent()
+        """
+                .trimIndent()
 
         val completion = prettyJson.decodeFromString<Completion>(completionJson)
-
 
         with(completion) {
             assertEquals("cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7", id)
