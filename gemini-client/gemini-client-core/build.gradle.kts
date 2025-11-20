@@ -1,4 +1,5 @@
 import com.google.devtools.ksp.gradle.KspAATask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.kotlinx.serialization)
@@ -49,6 +50,13 @@ kotlin {
 // KSP Tasks
 // https://insert-koin.io/docs/reference/koin-annotations/kmp
 dependencies { add("kspCommonMainMetadata", libs.koin.ksp.compiler) }
+
+// WORKAROUND: ADD this dependsOn("kspCommonMainKotlinMetadata") instead of above dependencies
+tasks.withType<KotlinCompile>().configureEach {
+    if (name != "kspCommonMainKotlinMetadata") {
+        dependsOn("kspCommonMainKotlinMetadata")
+    }
+}
 
 // Add dependency for native compilation tasks as well
 tasks.withType<KspAATask>().configureEach {
