@@ -33,7 +33,7 @@ class GenerateContentResponseTest {
               },
               "modelVersion": "gemini-1.5-flash"
             }
-        """
+            """
                 .trimIndent()
 
         // When

@@ -92,7 +92,7 @@ class DefaultTextGenerationTest : KoinTest {
               },
               "modelVersion": "gemini-1.5-flash"
             }
-        """
+            """
                 .trimIndent()
         val textGenerationApi =
             DefaultTextGenerationApi(

@@ -34,7 +34,7 @@ class ExtensionsTest {
                 }
               ]
             }
-        """
+            """
                 .trimIndent(),
             prettyJson.encodeToString(CreateMessageRequest.serializer(), anthropicRequest),
         )
@@ -67,7 +67,7 @@ class ExtensionsTest {
               ],
               "system": "You act as a system message"
             }
-        """
+            """
                 .trimIndent(),
             prettyJson.encodeToString(CreateMessageRequest.serializer(), anthropicRequest),
         )
@@ -219,7 +219,7 @@ class ExtensionsTest {
               ],
               "stream": true
             }
-        """
+            """
                 .trimIndent(),
             prettyJson.encodeToString(CreateMessageRequest.serializer(), anthropicRequest),
         )
@@ -248,7 +248,7 @@ class ExtensionsTest {
                 }
               ]
             }
-        """
+            """
                 .trimIndent(),
             prettyJson.encodeToString(CreateMessageRequest.serializer(), anthropicRequest),
         )
@@ -274,7 +274,7 @@ class ExtensionsTest {
                 }
               ]
             }
-        """
+            """
                 .trimIndent(),
             prettyJson.encodeToString(CreateMessageRequest.serializer(), anthropicRequest),
         )

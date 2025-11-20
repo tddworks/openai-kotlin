@@ -32,15 +32,15 @@ class OpenAITest {
             )
         assertEquals(
             """
+            {
+              "created": 1707567219,
+              "data": [
                 {
-                  "created": 1707567219,
-                  "data": [
-                    {
-                      "revised_prompt": "Visualize a charming baby sea otter. The otter is surfacing from the turquoise water with its tender, furry body. Its eyes are from coal-black, sparkling with curiosity and its tiny whiskers twitching slightly. The sunbeam pierces through the cloudy sky, causing slight variations in the water color. Nearby, gentle waves are crashing on the shore creating an enjoyable and harmonious maritime backdrop.",
-                      "url": "https://..."
-                    }
-                  ]
+                  "revised_prompt": "Visualize a charming baby sea otter. The otter is surfacing from the turquoise water with its tender, furry body. Its eyes are from coal-black, sparkling with curiosity and its tiny whiskers twitching slightly. The sunbeam pierces through the cloudy sky, causing slight variations in the water color. Nearby, gentle waves are crashing on the shore creating an enjoyable and harmonious maritime backdrop.",
+                  "url": "https://..."
                 }
+              ]
+            }
             """
                 .trimIndent(),
             response,

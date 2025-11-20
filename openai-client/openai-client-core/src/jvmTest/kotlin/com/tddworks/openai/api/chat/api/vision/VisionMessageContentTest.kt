@@ -16,7 +16,7 @@ class VisionMessageContentTest {
                 "type": ["text"],
                 "text": "Hello, how may I assist you today?"
             }
-        """
+            """
                 .trimIndent()
 
         assertThrows<IllegalArgumentException> {
@@ -31,7 +31,7 @@ class VisionMessageContentTest {
             {
               "text": "Hello, how may I assist you today?"
             }
-        """
+            """
                 .trimIndent()
 
         assertThrows<IllegalArgumentException> {
@@ -47,7 +47,7 @@ class VisionMessageContentTest {
               "type": "unknown",
               "text": "Hello, how may I assist you today?"
             }
-        """
+            """
                 .trimIndent()
 
         assertThrows<IllegalArgumentException> {
@@ -66,7 +66,7 @@ class VisionMessageContentTest {
                 "detail": "auto"
               }
             }
-        """
+            """
                 .trimIndent()
 
         val visionMessageContent =
@@ -86,7 +86,7 @@ class VisionMessageContentTest {
               "type": "text",
               "text": "Hello, how may I assist you today?"
             }
-        """
+            """
                 .trimIndent()
 
         val visionMessageContent =
@@ -104,14 +104,14 @@ class VisionMessageContentTest {
         val imageContent = VisionMessageContent.ImageContent(imageUrl = imageUrl)
         val expectedJson =
             """
-        {
-          "type": "image_url",
-          "image_url": {
-            "url": "https://example.com/image.jpg",
-            "detail": "auto"
-          }
-        }
-        """
+            {
+              "type": "image_url",
+              "image_url": {
+                "url": "https://example.com/image.jpg",
+                "detail": "auto"
+              }
+            }
+            """
                 .trimIndent()
 
         assertEquals(expectedJson, prettyJson.encodeToString(imageContent))
@@ -127,7 +127,7 @@ class VisionMessageContentTest {
               "type": "text",
               "text": "Hello, how may I assist you today?"
             }
-        """
+            """
                 .trimIndent()
 
         assertEquals(expectedJson, prettyJson.encodeToString(textContent))

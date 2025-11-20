@@ -22,23 +22,23 @@ class ChatMessageTest {
 
         val expectedJson =
             """
-        {
-          "content": [
             {
-              "type": "text",
-              "text": "What is the name of this flower?"
-            },
-            {
-              "type": "image_url",
-              "image_url": {
-                "url": "https://example.com/image.jpg",
-                "detail": "auto"
-              }
+              "content": [
+                {
+                  "type": "text",
+                  "text": "What is the name of this flower?"
+                },
+                {
+                  "type": "image_url",
+                  "image_url": {
+                    "url": "https://example.com/image.jpg",
+                    "detail": "auto"
+                  }
+                }
+              ],
+              "role": "user"
             }
-          ],
-          "role": "user"
-        }
-        """
+            """
                 .trimIndent()
 
         assertEquals(
@@ -57,7 +57,7 @@ class ChatMessageTest {
               "content": "Hello, how may I assist you today?",
               "role": "assistant"
             }
-        """
+            """
                 .trimIndent()
 
         assertEquals(
@@ -76,7 +76,7 @@ class ChatMessageTest {
               "content": "Hello, how may I assist you today?",
               "role": "user"
             }
-        """
+            """
                 .trimIndent()
 
         assertEquals(
@@ -95,7 +95,7 @@ class ChatMessageTest {
               "content": "Hello, how may I assist you today?",
               "role": "system"
             }
-        """
+            """
                 .trimIndent()
 
         assertEquals(
