@@ -70,9 +70,8 @@ tasks.sourcesJar.configure { dependsOn("kspCommonMainKotlinMetadata") }
 
 // https://insert-koin.io/docs/reference/koin-annotations/options
 ksp {
-    arg("KOIN_DEFAULT_MODULE", "false")
     // https://insert-koin.io/docs/reference/koin-annotations/start#compile-safety---check-your-koin-config-at-compile-time-since-130
-    arg("KOIN_CONFIG_CHECK", "false")
+    arg("KOIN_CONFIG_CHECK", "true")
 }
 
 tasks { named<Test>("jvmTest") { useJUnitPlatform() } }
