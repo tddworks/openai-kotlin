@@ -49,9 +49,10 @@ class DefaultMessagesApiTest : KoinTest {
 
         // When
         chatsApi.stream(request).test {
-            // Then
-            expectNoEvents()
-            cancel()
+            // If items were emitted → you must call awaitItem() first →
+            // awaitComplete() alone would fail
+            // If no items → awaitComplete() succeeds
+            awaitComplete()
         }
     }
 
