@@ -32,30 +32,30 @@ class DefaultChatApiTest : AutoCloseKoinTest() {
                         httpClient =
                             mockHttpClient(
                                 """
-                    {
-                      "id": "chatcmpl-8Zu4AF8QMK3zFgdzXIPjFS4VkWErX",
-                      "object": "chat.completion",
-                      "created": 1703567690,
-                      "model": "gpt-3.5-turbo-0613",
-                      "choices": [
-                        {
-                          "index": 0,
-                          "message": {
-                            "role": "assistant",
-                            "content": "Hello! How can I assist you today?"
-                          },
-                          "logprobs": null,
-                          "finish_reason": "stop"
-                        }
-                      ],
-                      "usage": {
-                        "prompt_tokens": 8,
-                        "completion_tokens": 9,
-                        "total_tokens": 17
-                      },
-                      "system_fingerprint": null
-                    }
-                """
+                                {
+                                  "id": "chatcmpl-8Zu4AF8QMK3zFgdzXIPjFS4VkWErX",
+                                  "object": "chat.completion",
+                                  "created": 1703567690,
+                                  "model": "gpt-3.5-turbo-0613",
+                                  "choices": [
+                                    {
+                                      "index": 0,
+                                      "message": {
+                                        "role": "assistant",
+                                        "content": "Hello! How can I assist you today?"
+                                      },
+                                      "logprobs": null,
+                                      "finish_reason": "stop"
+                                    }
+                                  ],
+                                  "usage": {
+                                    "prompt_tokens": 8,
+                                    "completion_tokens": 9,
+                                    "total_tokens": 17
+                                  },
+                                  "system_fingerprint": null
+                                }
+                                """
                                     .trimIndent()
                             )
                     )

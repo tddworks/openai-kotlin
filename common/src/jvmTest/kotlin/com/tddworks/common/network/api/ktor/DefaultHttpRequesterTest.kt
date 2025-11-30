@@ -43,15 +43,15 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
     fun `should throw RateLimitException when status code is 401`(): Unit = runBlocking {
         val mockResponse =
             """
-        {
-            "error": {
-                "code": null,
-                "type": "server_error",
-                "param": null,
-                "message": "You are accessing the API from an unsupported country, region, or territory."
+            {
+                "error": {
+                    "code": null,
+                    "type": "server_error",
+                    "param": null,
+                    "message": "You are accessing the API from an unsupported country, region, or territory."
+                }
             }
-        }
-        """
+            """
                 .trimIndent()
 
         httpClient =
@@ -71,15 +71,15 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
     fun `should throw RateLimitException when status code is 40x`(): Unit = runBlocking {
         val mockResponse =
             """
-        {
-            "error": {
-                "code": null,
-                "type": "server_error",
-                "param": null,
-                "message": "You are accessing the API from an unsupported country, region, or territory."
+            {
+                "error": {
+                    "code": null,
+                    "type": "server_error",
+                    "param": null,
+                    "message": "You are accessing the API from an unsupported country, region, or territory."
+                }
             }
-        }
-        """
+            """
                 .trimIndent()
 
         httpClient =
@@ -99,15 +99,15 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
     fun `should throw RateLimitException when status code is unknown`(): Unit = runBlocking {
         val mockResponse =
             """
-        {
-            "error": {
-                "code": null,
-                "type": "server_error",
-                "param": null,
-                "message": "You are accessing the API from an unsupported country, region, or territory."
+            {
+                "error": {
+                    "code": null,
+                    "type": "server_error",
+                    "param": null,
+                    "message": "You are accessing the API from an unsupported country, region, or territory."
+                }
             }
-        }
-        """
+            """
                 .trimIndent()
 
         httpClient =
@@ -127,15 +127,15 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
     fun `should throw RateLimitException when status code is 429`(): Unit = runBlocking {
         val mockResponse =
             """
-        {
-            "error": {
-                "code": null,
-                "type": "server_error",
-                "param": null,
-                "message": "You are accessing the API from an unsupported country, region, or territory."
+            {
+                "error": {
+                    "code": null,
+                    "type": "server_error",
+                    "param": null,
+                    "message": "You are accessing the API from an unsupported country, region, or territory."
+                }
             }
-        }
-        """
+            """
                 .trimIndent()
 
         httpClient =
@@ -177,15 +177,15 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
     fun `should throw PermissionException when get 403`(): Unit = runBlocking {
         val mockResponse =
             """
-        {
-            "error": {
-                "code": null,
-                "type": "server_error",
-                "param": null,
-                "message": "You are accessing the API from an unsupported country, region, or territory."
+            {
+                "error": {
+                    "code": null,
+                    "type": "server_error",
+                    "param": null,
+                    "message": "You are accessing the API from an unsupported country, region, or territory."
+                }
             }
-        }
-        """
+            """
                 .trimIndent()
 
         httpClient =
@@ -211,8 +211,10 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
             requester
                 .streamRequest<StreamResponse> { url(path = "/v1/chat/completions") }
                 .test {
-                    expectNoEvents()
-                    cancel()
+                    //                  - If items were emitted → you must call awaitItem() first →
+                    // awaitComplete() alone would fail
+                    //                  - If no items → awaitComplete() succeeds
+                    awaitComplete()
                 }
         }
 
@@ -257,7 +259,7 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
                 "total_tokens": 21
               }
             }
-        """
+            """
                 .trimIndent()
 
         httpClient = mockHttpClient(mockResponse)

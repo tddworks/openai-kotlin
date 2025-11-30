@@ -47,10 +47,7 @@ sealed interface Part {
     @Serializable
     data class InlineDataPart(@SerialName("inline_data") val inlineData: InlineData) : Part {
         @Serializable
-        data class InlineData(
-            @SerialName("mime_type") val mimeType: String,
-            val data: Base64String,
-        )
+        data class InlineData(@SerialName("mime_type") val mimeType: String, val data: Base64String)
     }
 }
 

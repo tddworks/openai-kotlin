@@ -44,7 +44,7 @@ class OllamaGenerateResponseTest {
                 "eval_count": 100,
                 "eval_duration": 1603405000
             }
-        """
+            """
                 .trimIndent()
 
         // When
@@ -75,7 +75,7 @@ class OllamaGenerateResponseTest {
                 "response": "Media",
                 "done": false
             }
-        """
+            """
                 .trimIndent()
 
         // When
@@ -153,7 +153,7 @@ class OllamaGenerateResponseTest {
               "eval_count": 259,
               "eval_duration": 4232710000
             }
-        """
+            """
                 .trimIndent()
 
         // When

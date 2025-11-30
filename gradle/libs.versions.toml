@@ -2,40 +2,40 @@
 # Organized for maintainability and modern Gradle practices
 [versions]
 # Mobile development
-agp = "8.12.1"
+agp = "8.13.1"
 app-cash-turbine = "1.2.1"
-assertj-core = "3.27.4"
+assertj-core = "3.27.6"
 central-publisher = "0.2.0-alpha.1"
 # Gradle plugins
 com-linecorp-build-recipe-plugin = "1.1.1"
-dependency-analysis = "3.0.0"
+dependency-analysis = "3.5.1"
 # Documentation
-dokka = "2.0.0"
-gradle-kotlinter = "5.2.0"
+dokka = "2.1.0"
+gradle-kotlinter = "5.3.0"
 # Testing framework
-junit = "5.13.4"
-koin-annotations = "2.1.0"
+junit = "6.0.1"
+koin-annotations = "2.3.1"
 # Dependency Injection
-koin-core = "4.1.0"
+koin-core = "4.1.1"
 # Core language and frameworks
-kotlin = "2.2.10"
+kotlin = "2.2.21"
 kotlinx-binary-validator = "0.18.1"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"
 # Code quality and coverage
-kover = "0.9.1"
-ksp = "2.2.10-2.0.2"
+kover = "0.9.3"
+ksp = "2.3.3"
 # HTTP and networking
-ktor = "3.2.3"
-mockito-junit-jupiter = "5.19.0"
-mockito-kotlin = "6.0.0"
+ktor = "3.3.3"
+mockito-junit-jupiter = "5.20.0"
+mockito-kotlin = "6.1.0"
 # Logging
 napier = "2.7.1"
 org-skyscreamer-jsonassert = "1.5.3"
-spotless = "7.2.1"
+spotless = "8.1.0"
 touchlab-kmmbridge = "1.2.1"
-touchlab-skie = "0.10.6"
-version-catalog-update = "1.0.0"
+touchlab-skie = "0.10.8"
+version-catalog-update = "1.0.1"
 
 [libraries]
 app-cash-turbine = { module = "app.cash.turbine:turbine", version.ref = "app-cash-turbine" }

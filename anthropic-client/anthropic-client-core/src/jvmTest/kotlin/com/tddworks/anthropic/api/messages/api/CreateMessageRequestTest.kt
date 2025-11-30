@@ -19,29 +19,29 @@ class CreateMessageRequestTest {
     fun `should convert request to correct json with multiple messages`() {
         val json =
             """
-           {
-            "messages": [{
-                "role": "user",
-                "content": [{
-                        "type": "image",
-                        "source": {
-                            "type": "base64",
-                            "media_type": "123",
-                            "data": "23"
+               {
+                "messages": [{
+                    "role": "user",
+                    "content": [{
+                            "type": "image",
+                            "source": {
+                                "type": "base64",
+                                "media_type": "123",
+                                "data": "23"
+                            }
+                        },
+                        {
+                            "type": "text",
+                            "text": "Describe this image."
                         }
-                    },
-                    {
-                        "type": "text",
-                        "text": "Describe this image."
-                    }
-                ]
-            }],
-            "system": null,
-            "max_tokens": 1024,
-            "model": "claude-3-haiku-20240307",
-            "stream": null
-        }
-        """
+                    ]
+                }],
+                "system": null,
+                "max_tokens": 1024,
+                "model": "claude-3-haiku-20240307",
+                "stream": null
+            }
+            """
                 .trimIndent()
 
         val request =
@@ -95,7 +95,7 @@ class CreateMessageRequestTest {
               "model": "claude-3-haiku-20240307",
               "stream": null
             }
-        """
+            """
                 .trimIndent()
 
         val request =

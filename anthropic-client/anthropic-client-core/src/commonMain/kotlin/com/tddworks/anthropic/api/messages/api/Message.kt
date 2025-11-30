@@ -60,7 +60,5 @@ sealed interface BlockMessageContent {
         )
     }
 
-    @Serializable
-    @SerialName("text")
-    data class TextContent(val text: String) : BlockMessageContent
+    @Serializable @SerialName("text") data class TextContent(val text: String) : BlockMessageContent
 }

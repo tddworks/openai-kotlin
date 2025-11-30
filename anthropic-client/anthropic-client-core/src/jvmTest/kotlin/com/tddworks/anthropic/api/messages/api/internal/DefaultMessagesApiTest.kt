@@ -295,25 +295,25 @@ class DefaultMessagesApiTest : KoinTest {
                         httpClient =
                             mockHttpClient(
                                 """
-                    {
-                      "content": [
-                        {
-                          "text": "Hi! My name is Claude.",
-                          "type": "text"
-                        }
-                      ],
-                      "id": "msg_013Zva2CMHLNnXjNJJKqJ2EF",
-                      "model": "claude-3-opus-20240229",
-                      "role": "assistant",
-                      "stop_reason": "end_turn",
-                      "stop_sequence": null,
-                      "type": "message",
-                      "usage": {
-                        "input_tokens": 10,
-                        "output_tokens": 25
-                      }
-                    }
-                """
+                                {
+                                  "content": [
+                                    {
+                                      "text": "Hi! My name is Claude.",
+                                      "type": "text"
+                                    }
+                                  ],
+                                  "id": "msg_013Zva2CMHLNnXjNJJKqJ2EF",
+                                  "model": "claude-3-opus-20240229",
+                                  "role": "assistant",
+                                  "stop_reason": "end_turn",
+                                  "stop_sequence": null,
+                                  "type": "message",
+                                  "usage": {
+                                    "input_tokens": 10,
+                                    "output_tokens": 25
+                                  }
+                                }
+                                """
                                     .trimIndent()
                             )
                     )

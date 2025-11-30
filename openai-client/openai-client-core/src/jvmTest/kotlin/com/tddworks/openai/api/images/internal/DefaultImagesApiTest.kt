@@ -28,18 +28,18 @@ class DefaultImagesApiTest {
                         httpClient =
                             mockHttpClient(
                                 """
-                    {
-                      "created": 1589478378,
-                      "data": [
-                        {
-                          "url": "https://..."
-                        },
-                        {
-                          "url": "https://..."
-                        }
-                      ]
-                    }
-                """
+                                {
+                                  "created": 1589478378,
+                                  "data": [
+                                    {
+                                      "url": "https://..."
+                                    },
+                                    {
+                                      "url": "https://..."
+                                    }
+                                  ]
+                                }
+                                """
                                     .trimIndent()
                             )
                     )

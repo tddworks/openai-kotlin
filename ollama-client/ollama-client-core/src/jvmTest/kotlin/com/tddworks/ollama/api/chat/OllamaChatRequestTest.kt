@@ -11,22 +11,22 @@ class OllamaChatRequestTest {
         // given
         val json =
             """
-        {
-            "model": "llama3",
-            "messages": [{
-               "role": "user",
-               "content": "Why is the sky blue?"
-            }],
-            "format": "json",
-            "keep_alive": "5m",
-            "stream": false,
-            "options": {
-                "num_predict": 100,
-                "temperature": 0.8,
-                "stop": ["\n", "user:"]
+            {
+                "model": "llama3",
+                "messages": [{
+                   "role": "user",
+                   "content": "Why is the sky blue?"
+                }],
+                "format": "json",
+                "keep_alive": "5m",
+                "stream": false,
+                "options": {
+                    "num_predict": 100,
+                    "temperature": 0.8,
+                    "stop": ["\n", "user:"]
+                }
             }
-        }
-        """
+            """
                 .trimIndent()
 
         // when

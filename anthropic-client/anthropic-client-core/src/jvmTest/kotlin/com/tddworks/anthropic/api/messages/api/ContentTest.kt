@@ -38,20 +38,20 @@ class ContentTest {
         // Then
         JSONAssert.assertEquals(
             """
-             [
-                    {
-                        "source": {
-                            "data": "image1_data",
-                            "media_type": "image1_media_type",
-                            "type": "base64"
-                        },
-                        "type": "image"
-                    },
-                    {
-                        "text": "some-text",
-                        "type": "text"
-                    }
-                ]
+            [
+                   {
+                       "source": {
+                           "data": "image1_data",
+                           "media_type": "image1_media_type",
+                           "type": "base64"
+                       },
+                       "type": "image"
+                   },
+                   {
+                       "text": "some-text",
+                       "type": "text"
+                   }
+               ]
             """
                 .trimIndent(),
             result,

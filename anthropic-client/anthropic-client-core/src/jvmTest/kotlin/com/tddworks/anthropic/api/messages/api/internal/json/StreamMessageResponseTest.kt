@@ -15,7 +15,7 @@ class StreamMessageResponseTest {
             {
                 "type": "null"
             }
-        """
+            """
                 .trimIndent()
 
         val e =
@@ -33,7 +33,7 @@ class StreamMessageResponseTest {
             {
                 "type": {}
             }
-        """
+            """
                 .trimIndent()
 
         val e =
@@ -54,7 +54,7 @@ class StreamMessageResponseTest {
             {
                 "type": { "not-jsonPrimitive":"" }
             }
-        """
+            """
                 .trimIndent()
 
         assertThrows(IllegalArgumentException::class.java) {
@@ -69,7 +69,7 @@ class StreamMessageResponseTest {
             {
                 "index": 1
             }
-        """
+            """
                 .trimIndent()
 
         assertThrows(IllegalArgumentException::class.java) {
@@ -85,7 +85,7 @@ class StreamMessageResponseTest {
                 "type": "content_block_stop",
                 "index": 1
             }
-        """
+            """
                 .trimIndent()
 
         val contentBlockStop = Json.decodeFromString<StreamMessageResponse>(json)
@@ -102,7 +102,7 @@ class StreamMessageResponseTest {
             {
                 "type": "unknown"
             }
-        """
+            """
                 .trimIndent()
 
         assertThrows(IllegalArgumentException::class.java) {

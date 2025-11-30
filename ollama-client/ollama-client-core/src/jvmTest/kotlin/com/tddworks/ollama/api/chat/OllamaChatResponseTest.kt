@@ -10,22 +10,22 @@ class OllamaChatResponseTest {
     fun `should decode response to non-streaming OllamaChatResponse`() {
         val response =
             """
-                {
-                  "model": "registry.ollama.ai/library/llama2:latest",
-                  "created_at": "2023-12-12T14:13:43.416799Z",
-                  "message": {
-                    "role": "assistant",
-                    "content": "Hello! How are you today?"
-                  },
-                  "done": true,
-                  "total_duration": 5191566416,
-                  "load_duration": 2154458,
-                  "prompt_eval_count": 26,
-                  "prompt_eval_duration": 383809000,
-                  "eval_count": 298,
-                  "eval_duration": 4799921000
-                }
-        """
+            {
+              "model": "registry.ollama.ai/library/llama2:latest",
+              "created_at": "2023-12-12T14:13:43.416799Z",
+              "message": {
+                "role": "assistant",
+                "content": "Hello! How are you today?"
+              },
+              "done": true,
+              "total_duration": 5191566416,
+              "load_duration": 2154458,
+              "prompt_eval_count": 26,
+              "prompt_eval_duration": 383809000,
+              "eval_count": 298,
+              "eval_duration": 4799921000
+            }
+            """
                 .trimIndent()
 
         JsonLenient.decodeFromString<OllamaChatResponse>(response).apply {
@@ -47,18 +47,18 @@ class OllamaChatResponseTest {
     fun `should decode response to Final OllamaChatResponse`() {
         val response =
             """
-                {
-                  "model": "llama2",
-                  "created_at": "2023-08-04T19:22:45.499127Z",
-                  "done": true,
-                  "total_duration": 4883583458,
-                  "load_duration": 1334875,
-                  "prompt_eval_count": 26,
-                  "prompt_eval_duration": 342546000,
-                  "eval_count": 282,
-                  "eval_duration": 4535599000
-                }
-        """
+            {
+              "model": "llama2",
+              "created_at": "2023-08-04T19:22:45.499127Z",
+              "done": true,
+              "total_duration": 4883583458,
+              "load_duration": 1334875,
+              "prompt_eval_count": 26,
+              "prompt_eval_duration": 342546000,
+              "eval_count": 282,
+              "eval_duration": 4535599000
+            }
+            """
                 .trimIndent()
 
         JsonLenient.decodeFromString<OllamaChatResponse>(response).apply {
@@ -88,7 +88,7 @@ class OllamaChatResponseTest {
               },
               "done": false
             }
-        """
+            """
                 .trimIndent()
 
         JsonLenient.decodeFromString<OllamaChatResponse>(response).apply {

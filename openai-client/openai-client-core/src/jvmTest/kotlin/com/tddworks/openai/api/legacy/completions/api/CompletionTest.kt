@@ -67,7 +67,7 @@ class CompletionTest {
                 "total_tokens": 12
               }
             }
-        """
+            """
                 .trimIndent()
 
         val completion = prettyJson.decodeFromString<Completion>(completionJson)

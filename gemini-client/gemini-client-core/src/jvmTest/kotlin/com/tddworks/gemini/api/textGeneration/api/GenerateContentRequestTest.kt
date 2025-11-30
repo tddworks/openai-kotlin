@@ -70,19 +70,19 @@ class GenerateContentRequestTest {
         // Then
         JSONAssert.assertEquals(
             """
-                {
-                  "contents": [{
-                    "parts":[
-                      {"text": "hello"},
-                      {
-                        "inline_data": {
-                          "mime_type":"image/jpeg",
-                          "data": "base64"
-                        }
-                      }
-                    ]
-                  }]
-                }
+            {
+              "contents": [{
+                "parts":[
+                  {"text": "hello"},
+                  {
+                    "inline_data": {
+                      "mime_type":"image/jpeg",
+                      "data": "base64"
+                    }
+                  }
+                ]
+              }]
+            }
             """
                 .trimIndent(),
             result,

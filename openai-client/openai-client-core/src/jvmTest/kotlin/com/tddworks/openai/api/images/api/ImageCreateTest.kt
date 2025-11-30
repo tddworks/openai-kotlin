@@ -13,11 +13,11 @@ class ImageCreateTest {
         // Given
         val json =
             """
-        {
-          "prompt": "some prompt",
-          "model": "dall-e-3"
-        }
-        """
+            {
+              "prompt": "some prompt",
+              "model": "dall-e-3"
+            }
+            """
                 .trimIndent()
 
         val createImage =
@@ -41,15 +41,15 @@ class ImageCreateTest {
         // Given
         val json =
             """
-        {
-          "prompt": "some prompt",
-          "model": "dall-e-3",
-          "response_format": "url",
-          "size": "1024x1024",
-          "style": "vivid",
-          "quality": "hd"
-        }
-        """
+            {
+              "prompt": "some prompt",
+              "model": "dall-e-3",
+              "response_format": "url",
+              "size": "1024x1024",
+              "style": "vivid",
+              "quality": "hd"
+            }
+            """
                 .trimIndent()
 
         val createImage =
@@ -78,7 +78,7 @@ class ImageCreateTest {
               "prompt": "A cute baby sea otter",
               "model": "dall-e-3"
             }
-        """
+            """
                 .trimIndent()
 
         val createImage = ImageCreate.create(prompt = "A cute baby sea otter")

@@ -19,7 +19,7 @@ class ChatChoiceTest {
               "logprobs": null,
               "finish_reason": "stop"
             }
-        """
+            """
                 .trimIndent()
 
         val chatChoice = prettyJson.decodeFromString(ChatChoice.serializer(), json)
