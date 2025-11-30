@@ -9,11 +9,10 @@ import com.tddworks.gemini.api.textGeneration.api.TextGeneration
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.flow.Flow
-import org.koin.core.annotation.Provided
 import org.koin.core.annotation.Single
 
 @Single
-class DefaultTextGenerationApi(@Provided private val requester: HttpRequester) : TextGeneration {
+class DefaultTextGenerationApi(private val requester: HttpRequester) : TextGeneration {
     override suspend fun generateContent(request: GenerateContentRequest): GenerateContentResponse {
         return requester.performRequest<GenerateContentResponse> { configureRequest(request) }
     }
