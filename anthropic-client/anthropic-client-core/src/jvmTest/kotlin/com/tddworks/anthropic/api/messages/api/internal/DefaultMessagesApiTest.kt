@@ -50,8 +50,7 @@ class DefaultMessagesApiTest : KoinTest {
         // When
         chatsApi.stream(request).test {
             // Then
-            expectNoEvents()
-            cancel()
+            awaitComplete()
         }
     }
 

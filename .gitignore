@@ -42,3 +42,6 @@ bin/
 
 # Ignore .env file
 *.env
+
+# Generated files
+versions.properties
