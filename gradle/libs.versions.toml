@@ -8,7 +8,7 @@ assertj-core = "3.27.6"
 central-publisher = "0.2.0-alpha.1"
 # Gradle plugins
 com-linecorp-build-recipe-plugin = "1.1.1"
-dependency-analysis = "3.5.0"
+dependency-analysis = "3.5.1"
 # Documentation
 dokka = "2.1.0"
 gradle-kotlinter = "5.3.0"
@@ -24,9 +24,9 @@ kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"
 # Code quality and coverage
 kover = "0.9.3"
-ksp = "2.3.2"
+ksp = "2.3.3"
 # HTTP and networking
-ktor = "3.3.2"
+ktor = "3.3.3"
 mockito-junit-jupiter = "5.20.0"
 mockito-kotlin = "6.1.0"
 # Logging
