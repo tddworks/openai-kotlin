@@ -211,8 +211,8 @@ class DefaultHttpRequesterTest : AutoCloseKoinTest() {
             requester
                 .streamRequest<StreamResponse> { url(path = "/v1/chat/completions") }
                 .test {
-                    expectNoEvents()
-                    cancel()
+                    val events = cancelAndConsumeRemainingEvents()
+                    assertTrue(events.filterIsInstance<app.cash.turbine.Event.Item<*>>().isEmpty())
                 }
         }
 
