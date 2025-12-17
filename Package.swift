@@ -1,4 +1,4 @@
-// swift-tools-version:5.9
+// swift-tools-version:6.2
 import PackageDescription
 
 // BEGIN KMMBRIDGE VARIABLES BLOCK FOR 'OpenAIClient' (do not edit)
@@ -48,23 +48,23 @@ let package = Package(
         // Local development targets (using local XCFrameworks)
         .binaryTarget(
             name: openAIClientPackageName,
-            path: "./openai-client/openai-client-darwin/build/XCFrameworks/debug/\(openAIClientPackageName).xcframework"
+            path: "./openai-client/openai-client-darwin/build/XCFrameworks/release/\(openAIClientPackageName).xcframework"
         ),
         .binaryTarget(
             name: anthropicClientPackageName,
-            path: "./anthropic-client/anthropic-client-darwin/build/XCFrameworks/debug/\(anthropicClientPackageName).xcframework"
+            path: "./anthropic-client/anthropic-client-darwin/build/XCFrameworks/release/\(anthropicClientPackageName).xcframework"
         ),
         .binaryTarget(
             name: geminiClientPackageName,
-            path: "./gemini-client/gemini-client-darwin/build/XCFrameworks/debug/\(geminiClientPackageName).xcframework"
+            path: "./gemini-client/gemini-client-darwin/build/XCFrameworks/release/\(geminiClientPackageName).xcframework"
         ),
         .binaryTarget(
             name: ollamaClientPackageName,
-            path: "./ollama-client/ollama-client-darwin/build/XCFrameworks/debug/\(ollamaClientPackageName).xcframework"
+            path: "./ollama-client/ollama-client-darwin/build/XCFrameworks/release/\(ollamaClientPackageName).xcframework"
         ),
         .binaryTarget(
             name: openAIGatewayPackageName,
-            path: "./openai-gateway/openai-gateway-darwin/build/XCFrameworks/debug/\(openAIGatewayPackageName).xcframework"
+            path: "./openai-gateway/openai-gateway-darwin/build/XCFrameworks/release/\(openAIGatewayPackageName).xcframework"
         ),
         // Remote targets (uncomment when publishing)
         // .binaryTarget(name: openAIClientPackageName, url: remoteOpenAIClientUrl, checksum: remoteOpenAIClientChecksum),
