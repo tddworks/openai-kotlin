@@ -135,13 +135,13 @@ Or add via Xcode: File → Add Package Dependencies → Enter the repository URL
 import OpenAIClient
 
 // Simple configuration
-let openAI = OpenAIClient(apiKey: "your-api-key")
+let client = OpenAICompanion.shared.create(apiKey: "your-api-key")
 
 // With custom base URL
-let openAI = OpenAIClient(apiKey: "your-api-key", baseUrl: "https://custom.api.com")
+let client = OpenAICompanion.shared.create(apiKey: "your-api-key", baseUrl: "https://custom.api.com")
 
 // Dynamic configuration (values that may change at runtime)
-let openAI = OpenAIClient(
+let client = OpenAICompanion.shared.create(
     apiKey: { Settings.shared.apiKey },
     baseUrl: { Settings.shared.baseUrl }
 )
@@ -152,10 +152,10 @@ let openAI = OpenAIClient(
 ```swift
 import AnthropicClient
 
-let anthropic = AnthropicClient(apiKey: "your-api-key")
+let client = AnthropicCompanion.shared.create(apiKey: "your-api-key")
 
 // With custom configuration
-let anthropic = AnthropicClient(
+let client = AnthropicCompanion.shared.create(
     apiKey: "your-api-key",
     baseUrl: "https://api.anthropic.com",
     anthropicVersion: "2023-06-01"
@@ -167,7 +167,7 @@ let anthropic = AnthropicClient(
 ```swift
 import GeminiClient
 
-let gemini = GeminiClient(apiKey: "your-api-key")
+let client = GeminiCompanion.shared.create(apiKey: "your-api-key")
 ```
 
 #### Ollama (Local)
@@ -176,10 +176,10 @@ let gemini = GeminiClient(apiKey: "your-api-key")
 import OllamaClient
 
 // Default localhost:11434
-let ollama = OllamaClient()
+let client = OllamaCompanion.shared.create()
 
 // Custom host
-let ollama = OllamaClient(baseUrl: "192.168.1.100", port: 11434)
+let client = OllamaCompanion.shared.create(baseUrl: "192.168.1.100", port: 11434)
 ```
 
 #### Multi-Provider Gateway
@@ -187,14 +187,14 @@ let ollama = OllamaClient(baseUrl: "192.168.1.100", port: 11434)
 ```swift
 import OpenAIGateway
 
-let gateway = OpenAIGateway(
+let gateway = OpenAIGatewayCompanion.shared.create(
     openAIKey: "your-openai-key",
     anthropicKey: "your-anthropic-key",
     geminiKey: "your-gemini-key"
 )
 
 // Dynamic configuration
-let gateway = OpenAIGateway(
+let gateway = OpenAIGatewayCompanion.shared.create(
     openAIKey: { Settings.shared.openAIKey },
     anthropicKey: { Settings.shared.anthropicKey },
     geminiKey: { Settings.shared.geminiKey }
