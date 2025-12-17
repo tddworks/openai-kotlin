@@ -5,14 +5,30 @@ package com.tddworks.gemini.darwin.api
 import com.tddworks.gemini.api.textGeneration.api.Gemini
 
 /**
- * Re-exports for Swift consumers.
- * All factory methods are available via Gemini.Companion.
+ * Creates a Gemini client with the specified configuration.
  *
- * Usage:
+ * Swift usage:
  * ```swift
  * import GeminiClient
  *
- * let client = Gemini.create(apiKey: "your-api-key")
+ * let client = GeminiClient.create(apiKey: "your-api-key")
  * ```
  */
-typealias GeminiCompanion = Gemini.Companion
+object GeminiClient {
+    /**
+     * Creates a Gemini client with static configuration.
+     */
+    fun create(
+        apiKey: String,
+        baseUrl: String = Gemini.BASE_URL,
+    ): Gemini = Gemini.create(apiKey = apiKey, baseUrl = baseUrl)
+
+    /**
+     * Creates a Gemini client with dynamic configuration.
+     * Use this when your API key or base URL may change at runtime.
+     */
+    fun create(
+        apiKey: () -> String,
+        baseUrl: () -> String = { Gemini.BASE_URL },
+    ): Gemini = Gemini.create(apiKey = apiKey, baseUrl = baseUrl)
+}

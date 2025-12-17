@@ -34,14 +34,19 @@ implementation("com.tddworks:openai-client-jvm:0.2.3")
 ```
 
 ```kotlin
-import com.tddworks.openai.api.OpenAIConfig
+import com.tddworks.openai.api.OpenAI
 import com.tddworks.openai.api.chat.api.*
-import com.tddworks.openai.di.initOpenAI
 
-val openAI = initOpenAI(
-    OpenAIConfig(
-        apiKey = { "your-api-key" }
-    )
+// Simple - just provide your API key
+val openAI = OpenAI.create(apiKey = "your-api-key")
+
+// Or with custom base URL
+val openAI = OpenAI.create(apiKey = "your-api-key", baseUrl = "https://custom.api.com")
+
+// Dynamic configuration (values that may change at runtime)
+val openAI = OpenAI.create(
+    apiKey = { settings.apiKey },
+    baseUrl = { settings.baseUrl }
 )
 
 // Chat completion
@@ -73,20 +78,20 @@ implementation("com.tddworks:openai-gateway-jvm:0.2.3")
 ```
 
 ```kotlin
-import com.tddworks.openai.gateway.di.initOpenAIGateway
-import com.tddworks.openai.gateway.api.*
+import com.tddworks.openai.gateway.api.OpenAIGateway
 
-val gateway = initOpenAIGateway(
-    defaultProvider = DefaultOpenAIProviderConfig(
-        apiKey = { "openai-api-key" }
-    ),
-    anthropicProvider = AnthropicOpenAIProviderConfig(
-        apiKey = { "anthropic-api-key" }
-    ),
-    ollamaProvider = OllamaOpenAIProviderConfig(
-        baseUrl = { "localhost" },
-        port = { 11434 }
-    )
+// Simple - just provide your API keys
+val gateway = OpenAIGateway.create(
+    openAIKey = "openai-api-key",
+    anthropicKey = "anthropic-api-key",
+    geminiKey = "gemini-api-key"
+)
+
+// Dynamic configuration
+val gateway = OpenAIGateway.create(
+    openAIKey = { settings.openAIKey },
+    anthropicKey = { settings.anthropicKey },
+    geminiKey = { settings.geminiKey }
 )
 
 // Use any provider with the same interface
@@ -96,6 +101,128 @@ val response = gateway.chatCompletions(
         model = Model("claude-3-sonnet") // or "llama2", "gpt-4", etc.
     )
 )
+```
+
+## 🍎 Swift / iOS / macOS
+
+### Installation via Swift Package Manager
+
+Add the package to your `Package.swift` or via Xcode:
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/tddworks/openai-kotlin.git", from: "0.2.3")
+]
+```
+
+Or add via Xcode: File → Add Package Dependencies → Enter the repository URL.
+
+### Available Frameworks
+
+| Framework | Description |
+|-----------|-------------|
+| `OpenAIClient` | OpenAI API client |
+| `AnthropicClient` | Anthropic Claude API client |
+| `GeminiClient` | Google Gemini API client |
+| `OllamaClient` | Ollama local LLM client |
+| `OpenAIGateway` | Multi-provider unified gateway |
+
+### Swift Usage Examples
+
+#### OpenAI
+
+```swift
+import OpenAIClient
+
+// Simple configuration
+let openAI = OpenAIClient.shared.create(apiKey: "your-api-key")
+
+// With custom base URL
+let openAI = OpenAIClient.shared.create(apiKey: "your-api-key", baseUrl: "https://custom.api.com")
+
+// Dynamic configuration (values that may change at runtime)
+let openAI = OpenAIClient.shared.create(
+    apiKey: { Settings.shared.apiKey },
+    baseUrl: { Settings.shared.baseUrl }
+)
+```
+
+#### Anthropic Claude
+
+```swift
+import AnthropicClient
+
+let anthropic = AnthropicClient.shared.create(apiKey: "your-api-key")
+
+// With custom configuration
+let anthropic = AnthropicClient.shared.create(
+    apiKey: "your-api-key",
+    baseUrl: "https://api.anthropic.com",
+    anthropicVersion: "2023-06-01"
+)
+```
+
+#### Google Gemini
+
+```swift
+import GeminiClient
+
+let gemini = GeminiClient.shared.create(apiKey: "your-api-key")
+```
+
+#### Ollama (Local)
+
+```swift
+import OllamaClient
+
+// Default localhost:11434
+let ollama = OllamaClient.shared.create()
+
+// Custom host
+let ollama = OllamaClient.shared.create(baseUrl: "192.168.1.100", port: 11434)
+```
+
+#### Multi-Provider Gateway
+
+```swift
+import OpenAIGateway
+
+let gateway = OpenAIGateway.shared.create(
+    openAIKey: "your-openai-key",
+    anthropicKey: "your-anthropic-key",
+    geminiKey: "your-gemini-key"
+)
+
+// Dynamic configuration
+let gateway = OpenAIGateway.shared.create(
+    openAIKey: { Settings.shared.openAIKey },
+    anthropicKey: { Settings.shared.anthropicKey },
+    geminiKey: { Settings.shared.geminiKey }
+)
+```
+
+### Swift Chat Example
+
+```swift
+import OpenAIClient
+
+let openAI = OpenAIClient.shared.create(apiKey: "your-api-key")
+
+// Chat completion
+Task {
+    let response = try await openAI.chatCompletions(
+        request: ChatCompletionRequest(
+            messages: [ChatMessage.UserMessage(content: "Hello!")],
+            model: Model.gpt4o
+        )
+    )
+    print(response.choices?.first?.message?.content ?? "")
+}
+
+// Streaming
+for try await chunk in openAI.streamChatCompletions(request: request) {
+    print(chunk.choices?.first?.delta?.content ?? "", terminator: "")
+}
 ```
 
 ## 📦 Installation
@@ -185,9 +312,9 @@ val response = openAI.chatCompletions(
 ### Anthropic Claude
 
 ```kotlin
-val claude = initAnthropic(
-    AnthropicConfig(apiKey = { "your-anthropic-key" })
-)
+import com.tddworks.anthropic.api.Anthropic
+
+val claude = Anthropic.create(apiKey = "your-anthropic-key")
 
 val message = claude.messages(
     CreateMessageRequest(
@@ -206,9 +333,13 @@ val message = claude.messages(
 ### Local Ollama
 
 ```kotlin
-val ollama = initOllama(
-    OllamaConfig(baseUrl = "localhost", port = 11434)
-)
+import com.tddworks.ollama.api.Ollama
+
+// Default localhost:11434
+val ollama = Ollama.create()
+
+// Or custom host
+val ollama = Ollama.create(baseUrl = "192.168.1.100", port = 11434)
 
 val response = ollama.chat(
     OllamaChatRequest(
@@ -285,24 +416,25 @@ GEMINI_API_KEY=your-gemini-key
 #### OpenAI with Custom Base URL
 
 ```kotlin
-val openAI = initOpenAI(
-    OpenAIConfig(
-        baseUrl = { "https://api.openai.com/v1" },
-        apiKey = { System.getenv("OPENAI_API_KEY") },
-        organization = { "your-org-id" } // optional
-    )
+val openAI = OpenAI.create(
+    apiKey = System.getenv("OPENAI_API_KEY"),
+    baseUrl = "https://api.openai.com/v1"
+)
+
+// Or with dynamic configuration
+val openAI = OpenAI.create(
+    apiKey = { System.getenv("OPENAI_API_KEY") },
+    baseUrl = { settings.baseUrl }
 )
 ```
 
-#### Anthropic with Custom Headers
+#### Anthropic with Custom Version
 
 ```kotlin
-val anthropic = initAnthropic(
-    AnthropicConfig(
-        apiKey = { System.getenv("ANTHROPIC_API_KEY") },
-        anthropicVersion = { "2023-06-01" },
-        baseUrl = { "https://api.anthropic.com" }
-    )
+val anthropic = Anthropic.create(
+    apiKey = System.getenv("ANTHROPIC_API_KEY"),
+    baseUrl = "https://api.anthropic.com",
+    anthropicVersion = "2023-06-01"
 )
 ```
 
