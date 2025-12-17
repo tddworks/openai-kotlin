@@ -1,44 +1,44 @@
-@file:Suppress("unused")
-
 package com.tddworks.anthropic.darwin.api
 
 import com.tddworks.anthropic.api.Anthropic
 
 /**
- * Creates an Anthropic client with the specified configuration.
+ * Creates an Anthropic client with static configuration.
  *
  * Swift usage:
  * ```swift
  * import AnthropicClient
  *
- * let client = Anthropic.shared.create(apiKey: "your-api-key")
+ * let client = Anthropic(apiKey: "your-api-key")
  * ```
  */
-object Anthropic {
-    /**
-     * Creates an Anthropic client with static configuration.
-     */
-    fun create(
-        apiKey: String,
-        baseUrl: String = com.tddworks.anthropic.api.Anthropic.BASE_URL,
-        anthropicVersion: String = com.tddworks.anthropic.api.Anthropic.ANTHROPIC_VERSION,
-    ): Anthropic = com.tddworks.anthropic.api.Anthropic.create(
-        apiKey = apiKey,
-        baseUrl = baseUrl,
-        anthropicVersion = anthropicVersion
-    )
+fun Anthropic(
+    apiKey: String,
+    baseUrl: String = Anthropic.BASE_URL,
+    anthropicVersion: String = Anthropic.ANTHROPIC_VERSION,
+): Anthropic = Anthropic.create(
+    apiKey = apiKey,
+    baseUrl = baseUrl,
+    anthropicVersion = anthropicVersion
+)
 
-    /**
-     * Creates an Anthropic client with dynamic configuration.
-     * Use this when your API key or settings may change at runtime.
-     */
-    fun create(
-        apiKey: () -> String,
-        baseUrl: () -> String = { com.tddworks.anthropic.api.Anthropic.BASE_URL },
-        anthropicVersion: () -> String = { com.tddworks.anthropic.api.Anthropic.ANTHROPIC_VERSION },
-    ): com.tddworks.anthropic.api.Anthropic = com.tddworks.anthropic.api.Anthropic.create(
-        apiKey = apiKey,
-        baseUrl = baseUrl,
-        anthropicVersion = anthropicVersion
-    )
-}
+/**
+ * Creates an Anthropic client with dynamic configuration.
+ * Use this when your API key or settings may change at runtime.
+ *
+ * Swift usage:
+ * ```swift
+ * let client = Anthropic(
+ *     apiKey: { Settings.shared.apiKey }
+ * )
+ * ```
+ */
+fun Anthropic(
+    apiKey: () -> String,
+    baseUrl: () -> String = { Anthropic.BASE_URL },
+    anthropicVersion: () -> String = { Anthropic.ANTHROPIC_VERSION },
+): Anthropic = Anthropic.create(
+    apiKey = apiKey,
+    baseUrl = baseUrl,
+    anthropicVersion = anthropicVersion
+)

@@ -135,13 +135,13 @@ Or add via Xcode: File → Add Package Dependencies → Enter the repository URL
 import OpenAIClient
 
 // Simple configuration
-let openAI = OpenAI.shared.create(apiKey: "your-api-key")
+let openAI = OpenAI(apiKey: "your-api-key")
 
 // With custom base URL
-let openAI = OpenAI.shared.create(apiKey: "your-api-key", baseUrl: "https://custom.api.com")
+let openAI = OpenAI(apiKey: "your-api-key", baseUrl: "https://custom.api.com")
 
 // Dynamic configuration (values that may change at runtime)
-let openAI = OpenAI.shared.create(
+let openAI = OpenAI(
     apiKey: { Settings.shared.apiKey },
     baseUrl: { Settings.shared.baseUrl }
 )
@@ -152,10 +152,10 @@ let openAI = OpenAI.shared.create(
 ```swift
 import AnthropicClient
 
-let anthropic = Anthropic.shared.create(apiKey: "your-api-key")
+let anthropic = Anthropic(apiKey: "your-api-key")
 
 // With custom configuration
-let anthropic = Anthropic.shared.create(
+let anthropic = Anthropic(
     apiKey: "your-api-key",
     baseUrl: "https://api.anthropic.com",
     anthropicVersion: "2023-06-01"
@@ -167,7 +167,7 @@ let anthropic = Anthropic.shared.create(
 ```swift
 import GeminiClient
 
-let gemini = Gemini.shared.create(apiKey: "your-api-key")
+let gemini = Gemini(apiKey: "your-api-key")
 ```
 
 #### Ollama (Local)
@@ -176,10 +176,10 @@ let gemini = Gemini.shared.create(apiKey: "your-api-key")
 import OllamaClient
 
 // Default localhost:11434
-let ollama = Ollama.shared.create()
+let ollama = Ollama()
 
 // Custom host
-let ollama = Ollama.shared.create(baseUrl: "192.168.1.100", port: 11434)
+let ollama = Ollama(baseUrl: "192.168.1.100", port: 11434)
 ```
 
 #### Multi-Provider Gateway
@@ -187,14 +187,14 @@ let ollama = Ollama.shared.create(baseUrl: "192.168.1.100", port: 11434)
 ```swift
 import OpenAIGateway
 
-let gateway = Gateway.shared.create(
+let gateway = Gateway(
     openAIKey: "your-openai-key",
     anthropicKey: "your-anthropic-key",
     geminiKey: "your-gemini-key"
 )
 
 // Dynamic configuration
-let gateway = Gateway.shared.create(
+let gateway = Gateway(
     openAIKey: { Settings.shared.openAIKey },
     anthropicKey: { Settings.shared.anthropicKey },
     geminiKey: { Settings.shared.geminiKey }
