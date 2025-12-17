@@ -11,18 +11,18 @@ import com.tddworks.anthropic.api.Anthropic
  * ```swift
  * import AnthropicClient
  *
- * let client = AnthropicClient.create(apiKey: "your-api-key")
+ * let client = Anthropic.shared.create(apiKey: "your-api-key")
  * ```
  */
-object AnthropicClient {
+object Anthropic {
     /**
      * Creates an Anthropic client with static configuration.
      */
     fun create(
         apiKey: String,
-        baseUrl: String = Anthropic.BASE_URL,
-        anthropicVersion: String = Anthropic.ANTHROPIC_VERSION,
-    ): Anthropic = Anthropic.create(
+        baseUrl: String = com.tddworks.anthropic.api.Anthropic.BASE_URL,
+        anthropicVersion: String = com.tddworks.anthropic.api.Anthropic.ANTHROPIC_VERSION,
+    ): Anthropic = com.tddworks.anthropic.api.Anthropic.create(
         apiKey = apiKey,
         baseUrl = baseUrl,
         anthropicVersion = anthropicVersion
@@ -34,9 +34,9 @@ object AnthropicClient {
      */
     fun create(
         apiKey: () -> String,
-        baseUrl: () -> String = { Anthropic.BASE_URL },
-        anthropicVersion: () -> String = { Anthropic.ANTHROPIC_VERSION },
-    ): Anthropic = Anthropic.create(
+        baseUrl: () -> String = { com.tddworks.anthropic.api.Anthropic.BASE_URL },
+        anthropicVersion: () -> String = { com.tddworks.anthropic.api.Anthropic.ANTHROPIC_VERSION },
+    ): com.tddworks.anthropic.api.Anthropic = com.tddworks.anthropic.api.Anthropic.create(
         apiKey = apiKey,
         baseUrl = baseUrl,
         anthropicVersion = anthropicVersion

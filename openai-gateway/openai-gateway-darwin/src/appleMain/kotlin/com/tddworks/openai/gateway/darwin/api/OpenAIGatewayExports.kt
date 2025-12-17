@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package com.tddworks.openai.gateway.darwin.api
 
 import com.tddworks.anthropic.api.Anthropic
@@ -15,14 +13,14 @@ import com.tddworks.openai.gateway.api.OpenAIGateway as CoreOpenAIGateway
  * ```swift
  * import OpenAIGateway
  *
- * let gateway = OpenAIGateway.create(
+ * let gateway = Gateway.shared.create(
  *     openAIKey: "your-openai-key",
  *     anthropicKey: "your-anthropic-key",
  *     geminiKey: "your-gemini-key"
  * )
  * ```
  */
-object OpenAIGateway {
+object Gateway {
     /**
      * Creates an OpenAI Gateway with static configuration.
      */

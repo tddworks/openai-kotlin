@@ -1,8 +1,4 @@
-@file:Suppress("unused")
-
 package com.tddworks.openai.darwin.api
-
-import com.tddworks.openai.api.OpenAI
 
 /**
  * Creates an OpenAI client with the specified API key and base URL.
@@ -11,18 +7,18 @@ import com.tddworks.openai.api.OpenAI
  * ```swift
  * import OpenAIClient
  *
- * let client = OpenAIClient.create(apiKey: "your-api-key")
- * let client = OpenAIClient.create(apiKey: "your-api-key", baseUrl: "https://custom.api.com")
+ * let client = OpenAI.shared.create(apiKey: "your-api-key")
+ * let client = OpenAI.shared.create(apiKey: "your-api-key", baseUrl: "https://custom.api.com")
  * ```
  */
-object OpenAIClient {
+object OpenAI {
     /**
      * Creates an OpenAI client with static configuration.
      */
     fun create(
         apiKey: String,
-        baseUrl: String = OpenAI.BASE_URL,
-    ): OpenAI = OpenAI.create(apiKey = apiKey, baseUrl = baseUrl)
+        baseUrl: String = com.tddworks.openai.api.OpenAI.BASE_URL,
+    ): com.tddworks.openai.api.OpenAI = com.tddworks.openai.api.OpenAI.create(apiKey = apiKey, baseUrl = baseUrl)
 
     /**
      * Creates an OpenAI client with dynamic configuration.
@@ -30,6 +26,6 @@ object OpenAIClient {
      */
     fun create(
         apiKey: () -> String,
-        baseUrl: () -> String = { OpenAI.BASE_URL },
-    ): OpenAI = OpenAI.create(apiKey = apiKey, baseUrl = baseUrl)
+        baseUrl: () -> String = { com.tddworks.openai.api.OpenAI.BASE_URL },
+    ): com.tddworks.openai.api.OpenAI = com.tddworks.openai.api.OpenAI.create(apiKey = apiKey, baseUrl = baseUrl)
 }

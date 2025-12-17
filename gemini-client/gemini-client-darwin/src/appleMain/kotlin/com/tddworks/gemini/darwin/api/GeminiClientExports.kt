@@ -11,17 +11,18 @@ import com.tddworks.gemini.api.textGeneration.api.Gemini
  * ```swift
  * import GeminiClient
  *
- * let client = GeminiClient.create(apiKey: "your-api-key")
+ * let client = Gemini.shared.create(apiKey: "your-api-key")
  * ```
  */
-object GeminiClient {
+object Gemini {
     /**
      * Creates a Gemini client with static configuration.
      */
     fun create(
         apiKey: String,
-        baseUrl: String = Gemini.BASE_URL,
-    ): Gemini = Gemini.create(apiKey = apiKey, baseUrl = baseUrl)
+        baseUrl: String = com.tddworks.gemini.api.textGeneration.api.Gemini.BASE_URL,
+    ): com.tddworks.gemini.api.textGeneration.api.Gemini =
+        com.tddworks.gemini.api.textGeneration.api.Gemini.create(apiKey = apiKey, baseUrl = baseUrl)
 
     /**
      * Creates a Gemini client with dynamic configuration.
@@ -29,6 +30,7 @@ object GeminiClient {
      */
     fun create(
         apiKey: () -> String,
-        baseUrl: () -> String = { Gemini.BASE_URL },
-    ): Gemini = Gemini.create(apiKey = apiKey, baseUrl = baseUrl)
+        baseUrl: () -> String = { com.tddworks.gemini.api.textGeneration.api.Gemini.BASE_URL },
+    ): com.tddworks.gemini.api.textGeneration.api.Gemini =
+        com.tddworks.gemini.api.textGeneration.api.Gemini.create(apiKey = apiKey, baseUrl = baseUrl)
 }

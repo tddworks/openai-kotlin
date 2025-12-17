@@ -1,8 +1,4 @@
-@file:Suppress("unused")
-
 package com.tddworks.ollama.darwin.api
-
-import com.tddworks.ollama.api.Ollama
 
 /**
  * Creates an Ollama client with the specified configuration.
@@ -11,19 +7,20 @@ import com.tddworks.ollama.api.Ollama
  * ```swift
  * import OllamaClient
  *
- * let client = OllamaClient.create()
- * let client = OllamaClient.create(baseUrl: "192.168.1.100", port: 11434)
+ * let client = Ollama.shared.create()
+ * let client = Ollama.shared.create(baseUrl: "192.168.1.100", port: 11434)
  * ```
  */
-object OllamaClient {
+object Ollama {
     /**
      * Creates an Ollama client with static configuration.
      */
     fun create(
-        baseUrl: String = Ollama.BASE_URL,
-        port: Int = Ollama.PORT,
-        protocol: String = Ollama.PROTOCOL,
-    ): Ollama = Ollama.create(baseUrl = baseUrl, port = port, protocol = protocol)
+        baseUrl: String = com.tddworks.ollama.api.Ollama.BASE_URL,
+        port: Int = com.tddworks.ollama.api.Ollama.PORT,
+        protocol: String = com.tddworks.ollama.api.Ollama.PROTOCOL,
+    ): com.tddworks.ollama.api.Ollama =
+        com.tddworks.ollama.api.Ollama.create(baseUrl = baseUrl, port = port, protocol = protocol)
 
     /**
      * Creates an Ollama client with dynamic configuration.
@@ -31,7 +28,8 @@ object OllamaClient {
      */
     fun create(
         baseUrl: () -> String,
-        port: () -> Int = { Ollama.PORT },
-        protocol: () -> String = { Ollama.PROTOCOL },
-    ): Ollama = Ollama.create(baseUrl = baseUrl, port = port, protocol = protocol)
+        port: () -> Int = { com.tddworks.ollama.api.Ollama.PORT },
+        protocol: () -> String = { com.tddworks.ollama.api.Ollama.PROTOCOL },
+    ): com.tddworks.ollama.api.Ollama =
+        com.tddworks.ollama.api.Ollama.create(baseUrl = baseUrl, port = port, protocol = protocol)
 }
