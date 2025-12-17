@@ -17,6 +17,64 @@ interface Ollama : OllamaChat, OllamaGenerate {
         const val PORT = 11434
         const val PROTOCOL = "http"
 
+        /**
+         * Creates an Ollama client with the specified configuration.
+         *
+         * Usage:
+         * ```kotlin
+         * // Kotlin
+         * val client = Ollama.create()  // Uses default localhost:11434
+         * val client = Ollama.create(baseUrl = "192.168.1.100", port = 11434)
+         * ```
+         * ```swift
+         * // Swift
+         * let client = Ollama.create()
+         * let client = Ollama.create(baseUrl: "192.168.1.100", port: 11434)
+         * ```
+         *
+         * @param baseUrl The host of the Ollama server. Defaults to "localhost".
+         * @param port The port of the Ollama server. Defaults to 11434.
+         * @param protocol The protocol (http/https). Defaults to "http".
+         * @return An Ollama client instance.
+         */
+        fun create(
+            baseUrl: String = BASE_URL,
+            port: Int = PORT,
+            protocol: String = PROTOCOL,
+        ): Ollama =
+            create(OllamaConfig(baseUrl = { baseUrl }, port = { port }, protocol = { protocol }))
+
+        /**
+         * Creates an Ollama client with dynamic configuration. Use this when your host or port may
+         * change at runtime.
+         *
+         * Usage:
+         * ```kotlin
+         * // Kotlin
+         * val client = Ollama.create(
+         *     baseUrl = { settings.ollamaHost },
+         *     port = { settings.ollamaPort }
+         * )
+         * ```
+         * ```swift
+         * // Swift
+         * let client = Ollama.create(
+         *     baseUrl: { Settings.shared.ollamaHost },
+         *     port: { Settings.shared.ollamaPort }
+         * )
+         * ```
+         *
+         * @param baseUrl A function that returns the host.
+         * @param port A function that returns the port.
+         * @param protocol A function that returns the protocol.
+         * @return An Ollama client instance.
+         */
+        fun create(
+            baseUrl: () -> String,
+            port: () -> Int = { PORT },
+            protocol: () -> String = { PROTOCOL },
+        ): Ollama = create(OllamaConfig(baseUrl = baseUrl, port = port, protocol = protocol))
+
         fun create(ollamaConfig: OllamaConfig): Ollama {
             val requester =
                 HttpRequester.default(

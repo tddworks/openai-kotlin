@@ -16,6 +16,80 @@ interface Anthropic : Messages {
         const val ANTHROPIC_VERSION = "2023-06-01"
 
         /**
+         * Creates an Anthropic client with the specified configuration.
+         *
+         * Usage:
+         * ```kotlin
+         * // Kotlin
+         * val client = Anthropic.create(apiKey = "your-api-key")
+         * val client = Anthropic.create(
+         *     apiKey = "your-api-key",
+         *     baseUrl = "https://custom.api.com",
+         *     anthropicVersion = "2023-06-01"
+         * )
+         * ```
+         * ```swift
+         * // Swift
+         * let client = Anthropic.create(apiKey: "your-api-key")
+         * ```
+         *
+         * @param apiKey The API key for authentication.
+         * @param baseUrl The base URL of the Anthropic API. Defaults to BASE_URL.
+         * @param anthropicVersion The Anthropic API version. Defaults to ANTHROPIC_VERSION.
+         * @return An Anthropic client instance.
+         */
+        fun create(
+            apiKey: String,
+            baseUrl: String = BASE_URL,
+            anthropicVersion: String = ANTHROPIC_VERSION,
+        ): Anthropic =
+            create(
+                AnthropicConfig(
+                    apiKey = { apiKey },
+                    baseUrl = { baseUrl },
+                    anthropicVersion = { anthropicVersion },
+                )
+            )
+
+        /**
+         * Creates an Anthropic client with dynamic configuration. Use this when your API key or
+         * settings may change at runtime.
+         *
+         * Usage:
+         * ```kotlin
+         * // Kotlin
+         * val client = Anthropic.create(
+         *     apiKey = { settings.apiKey },
+         *     baseUrl = { settings.baseUrl }
+         * )
+         * ```
+         * ```swift
+         * // Swift
+         * let client = Anthropic.create(
+         *     apiKey: { Settings.shared.apiKey },
+         *     baseUrl: { Settings.shared.baseUrl }
+         * )
+         * ```
+         *
+         * @param apiKey A function that returns the API key.
+         * @param baseUrl A function that returns the base URL.
+         * @param anthropicVersion A function that returns the API version.
+         * @return An Anthropic client instance.
+         */
+        fun create(
+            apiKey: () -> String,
+            baseUrl: () -> String = { BASE_URL },
+            anthropicVersion: () -> String = { ANTHROPIC_VERSION },
+        ): Anthropic =
+            create(
+                AnthropicConfig(
+                    apiKey = apiKey,
+                    baseUrl = baseUrl,
+                    anthropicVersion = anthropicVersion,
+                )
+            )
+
+        /**
          * Creates an instance of Anthropic API with the provided configurations.
          *
          * @return an instance of Anthropic API configured with the provided settings.

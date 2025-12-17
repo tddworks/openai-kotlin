@@ -15,6 +15,55 @@ interface OpenAI : Chat, Images, Completions {
     companion object {
         const val BASE_URL = "https://api.openai.com"
 
+        /**
+         * Creates an OpenAI client with the specified API key and base URL.
+         *
+         * Usage:
+         * ```kotlin
+         * // Kotlin
+         * val client = OpenAI.create(apiKey = "your-api-key")
+         * val client = OpenAI.create(apiKey = "your-api-key", baseUrl = "https://custom.api.com")
+         * ```
+         * ```swift
+         * // Swift
+         * let client = OpenAI.create(apiKey: "your-api-key")
+         * let client = OpenAI.create(apiKey: "your-api-key", baseUrl: "https://custom.api.com")
+         * ```
+         *
+         * @param apiKey The API key for authentication.
+         * @param baseUrl The base URL of the OpenAI API. Defaults to BASE_URL.
+         * @return An OpenAI client instance.
+         */
+        fun create(apiKey: String, baseUrl: String = BASE_URL): OpenAI =
+            default(OpenAIConfig(apiKey = { apiKey }, baseUrl = { baseUrl }))
+
+        /**
+         * Creates an OpenAI client with dynamic configuration. Use this when your API key or base
+         * URL may change at runtime.
+         *
+         * Usage:
+         * ```kotlin
+         * // Kotlin
+         * val client = OpenAI.create(
+         *     apiKey = { settings.apiKey },
+         *     baseUrl = { settings.baseUrl }
+         * )
+         * ```
+         * ```swift
+         * // Swift
+         * let client = OpenAI.create(
+         *     apiKey: { Settings.shared.apiKey },
+         *     baseUrl: { Settings.shared.baseUrl }
+         * )
+         * ```
+         *
+         * @param apiKey A function that returns the API key.
+         * @param baseUrl A function that returns the base URL.
+         * @return An OpenAI client instance.
+         */
+        fun create(apiKey: () -> String, baseUrl: () -> String = { BASE_URL }): OpenAI =
+            default(OpenAIConfig(apiKey = apiKey, baseUrl = baseUrl))
+
         fun default(config: OpenAIConfig): OpenAI {
             val requester =
                 HttpRequester.default(
