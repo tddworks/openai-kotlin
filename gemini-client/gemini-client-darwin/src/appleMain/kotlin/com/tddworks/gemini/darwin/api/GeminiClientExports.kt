@@ -9,10 +9,10 @@ import com.tddworks.gemini.api.textGeneration.api.Gemini
  * ```swift
  * import GeminiClient
  *
- * let client = Gemini(apiKey: "your-api-key")
+ * let client = GeminiClient(apiKey: "your-api-key")
  * ```
  */
-fun Gemini(
+fun GeminiClient(
     apiKey: String,
     baseUrl: String = Gemini.BASE_URL,
 ): Gemini = Gemini.create(apiKey = apiKey, baseUrl = baseUrl)
@@ -23,12 +23,12 @@ fun Gemini(
  *
  * Swift usage:
  * ```swift
- * let client = Gemini(
+ * let client = GeminiClient(
  *     apiKey: { Settings.shared.apiKey }
  * )
  * ```
  */
-fun Gemini(
+fun GeminiClient(
     apiKey: () -> String,
     baseUrl: () -> String = { Gemini.BASE_URL },
 ): Gemini = Gemini.create(apiKey = apiKey, baseUrl = baseUrl)

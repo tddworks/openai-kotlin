@@ -9,10 +9,10 @@ import com.tddworks.anthropic.api.Anthropic
  * ```swift
  * import AnthropicClient
  *
- * let client = Anthropic(apiKey: "your-api-key")
+ * let client = AnthropicClient(apiKey: "your-api-key")
  * ```
  */
-fun Anthropic(
+fun AnthropicClient(
     apiKey: String,
     baseUrl: String = Anthropic.BASE_URL,
     anthropicVersion: String = Anthropic.ANTHROPIC_VERSION,
@@ -28,12 +28,12 @@ fun Anthropic(
  *
  * Swift usage:
  * ```swift
- * let client = Anthropic(
+ * let client = AnthropicClient(
  *     apiKey: { Settings.shared.apiKey }
  * )
  * ```
  */
-fun Anthropic(
+fun AnthropicClient(
     apiKey: () -> String,
     baseUrl: () -> String = { Anthropic.BASE_URL },
     anthropicVersion: () -> String = { Anthropic.ANTHROPIC_VERSION },

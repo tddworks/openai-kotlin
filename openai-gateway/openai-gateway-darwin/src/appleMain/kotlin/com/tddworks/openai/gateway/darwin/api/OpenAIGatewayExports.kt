@@ -13,14 +13,14 @@ import com.tddworks.openai.gateway.api.OpenAIGateway
  * ```swift
  * import OpenAIGateway
  *
- * let gateway = Gateway(
+ * let gateway = OpenAIGateway(
  *     openAIKey: "your-openai-key",
  *     anthropicKey: "your-anthropic-key",
  *     geminiKey: "your-gemini-key"
  * )
  * ```
  */
-fun Gateway(
+fun OpenAIGateway(
     openAIKey: String = "CONFIGURE_ME",
     openAIBaseUrl: String = OpenAI.BASE_URL,
     anthropicKey: String = "CONFIGURE_ME",
@@ -46,14 +46,14 @@ fun Gateway(
  *
  * Swift usage:
  * ```swift
- * let gateway = Gateway(
+ * let gateway = OpenAIGateway(
  *     openAIKey: { Settings.shared.openAIKey },
  *     anthropicKey: { Settings.shared.anthropicKey },
  *     geminiKey: { Settings.shared.geminiKey }
  * )
  * ```
  */
-fun Gateway(
+fun OpenAIGateway(
     openAIKey: () -> String = { "CONFIGURE_ME" },
     openAIBaseUrl: () -> String = { OpenAI.BASE_URL },
     anthropicKey: () -> String = { "CONFIGURE_ME" },

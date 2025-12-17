@@ -9,11 +9,11 @@ import com.tddworks.openai.api.OpenAI
  * ```swift
  * import OpenAIClient
  *
- * let client = OpenAI(apiKey: "your-api-key")
- * let client = OpenAI(apiKey: "your-api-key", baseUrl: "https://custom.api.com")
+ * let client = OpenAIClient(apiKey: "your-api-key")
+ * let client = OpenAIClient(apiKey: "your-api-key", baseUrl: "https://custom.api.com")
  * ```
  */
-fun OpenAI(
+fun OpenAIClient(
     apiKey: String,
     baseUrl: String = OpenAI.BASE_URL,
 ): OpenAI = OpenAI.create(apiKey = apiKey, baseUrl = baseUrl)
@@ -24,13 +24,13 @@ fun OpenAI(
  *
  * Swift usage:
  * ```swift
- * let client = OpenAI(
+ * let client = OpenAIClient(
  *     apiKey: { Settings.shared.apiKey },
  *     baseUrl: { Settings.shared.baseUrl }
  * )
  * ```
  */
-fun OpenAI(
+fun OpenAIClient(
     apiKey: () -> String,
     baseUrl: () -> String = { OpenAI.BASE_URL },
 ): OpenAI = OpenAI.create(apiKey = apiKey, baseUrl = baseUrl)

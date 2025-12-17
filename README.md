@@ -135,13 +135,13 @@ Or add via Xcode: File → Add Package Dependencies → Enter the repository URL
 import OpenAIClient
 
 // Simple configuration
-let openAI = OpenAI(apiKey: "your-api-key")
+let openAI = OpenAIClient(apiKey: "your-api-key")
 
 // With custom base URL
-let openAI = OpenAI(apiKey: "your-api-key", baseUrl: "https://custom.api.com")
+let openAI = OpenAIClient(apiKey: "your-api-key", baseUrl: "https://custom.api.com")
 
 // Dynamic configuration (values that may change at runtime)
-let openAI = OpenAI(
+let openAI = OpenAIClient(
     apiKey: { Settings.shared.apiKey },
     baseUrl: { Settings.shared.baseUrl }
 )
@@ -152,10 +152,10 @@ let openAI = OpenAI(
 ```swift
 import AnthropicClient
 
-let anthropic = Anthropic(apiKey: "your-api-key")
+let anthropic = AnthropicClient(apiKey: "your-api-key")
 
 // With custom configuration
-let anthropic = Anthropic(
+let anthropic = AnthropicClient(
     apiKey: "your-api-key",
     baseUrl: "https://api.anthropic.com",
     anthropicVersion: "2023-06-01"
@@ -167,7 +167,7 @@ let anthropic = Anthropic(
 ```swift
 import GeminiClient
 
-let gemini = Gemini(apiKey: "your-api-key")
+let gemini = GeminiClient(apiKey: "your-api-key")
 ```
 
 #### Ollama (Local)
@@ -176,10 +176,10 @@ let gemini = Gemini(apiKey: "your-api-key")
 import OllamaClient
 
 // Default localhost:11434
-let ollama = Ollama()
+let ollama = OllamaClient()
 
 // Custom host
-let ollama = Ollama(baseUrl: "192.168.1.100", port: 11434)
+let ollama = OllamaClient(baseUrl: "192.168.1.100", port: 11434)
 ```
 
 #### Multi-Provider Gateway
@@ -187,14 +187,14 @@ let ollama = Ollama(baseUrl: "192.168.1.100", port: 11434)
 ```swift
 import OpenAIGateway
 
-let gateway = Gateway(
+let gateway = OpenAIGateway(
     openAIKey: "your-openai-key",
     anthropicKey: "your-anthropic-key",
     geminiKey: "your-gemini-key"
 )
 
 // Dynamic configuration
-let gateway = Gateway(
+let gateway = OpenAIGateway(
     openAIKey: { Settings.shared.openAIKey },
     anthropicKey: { Settings.shared.anthropicKey },
     geminiKey: { Settings.shared.geminiKey }
