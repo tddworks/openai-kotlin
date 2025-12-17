@@ -29,20 +29,21 @@ fun OpenAIGateway(
     ollamaBaseUrl: String = Ollama.BASE_URL,
     geminiKey: String = "CONFIGURE_ME",
     geminiBaseUrl: String = Gemini.BASE_URL,
-): OpenAIGateway = OpenAIGateway.create(
-    openAIKey = openAIKey,
-    openAIBaseUrl = openAIBaseUrl,
-    anthropicKey = anthropicKey,
-    anthropicBaseUrl = anthropicBaseUrl,
-    anthropicVersion = anthropicVersion,
-    ollamaBaseUrl = ollamaBaseUrl,
-    geminiKey = geminiKey,
-    geminiBaseUrl = geminiBaseUrl,
-)
+): OpenAIGateway =
+    OpenAIGateway.create(
+        openAIKey = openAIKey,
+        openAIBaseUrl = openAIBaseUrl,
+        anthropicKey = anthropicKey,
+        anthropicBaseUrl = anthropicBaseUrl,
+        anthropicVersion = anthropicVersion,
+        ollamaBaseUrl = ollamaBaseUrl,
+        geminiKey = geminiKey,
+        geminiBaseUrl = geminiBaseUrl,
+    )
 
 /**
- * Creates an OpenAI Gateway with dynamic configuration.
- * Use this when your API keys or settings may change at runtime.
+ * Creates an OpenAI Gateway with dynamic configuration. Use this when your API keys or settings may
+ * change at runtime.
  *
  * Swift usage:
  * ```swift
@@ -62,13 +63,14 @@ fun OpenAIGateway(
     ollamaBaseUrl: () -> String = { Ollama.BASE_URL },
     geminiKey: () -> String = { "CONFIGURE_ME" },
     geminiBaseUrl: () -> String = { Gemini.BASE_URL },
-): OpenAIGateway = OpenAIGateway.create(
-    openAIKey = openAIKey,
-    openAIBaseUrl = openAIBaseUrl,
-    anthropicKey = anthropicKey,
-    anthropicBaseUrl = anthropicBaseUrl,
-    anthropicVersion = anthropicVersion,
-    ollamaBaseUrl = ollamaBaseUrl,
-    geminiKey = geminiKey,
-    geminiBaseUrl = geminiBaseUrl,
-)
+): OpenAIGateway =
+    OpenAIGateway.create(
+        openAIKey = openAIKey,
+        openAIBaseUrl = openAIBaseUrl,
+        anthropicKey = anthropicKey,
+        anthropicBaseUrl = anthropicBaseUrl,
+        anthropicVersion = anthropicVersion,
+        ollamaBaseUrl = ollamaBaseUrl,
+        geminiKey = geminiKey,
+        geminiBaseUrl = geminiBaseUrl,
+    )

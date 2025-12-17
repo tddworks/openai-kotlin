@@ -20,8 +20,8 @@ fun OllamaClient(
 ): Ollama = Ollama.create(baseUrl = baseUrl, port = port, protocol = protocol)
 
 /**
- * Creates an Ollama client with dynamic configuration.
- * Use this when your host or port may change at runtime.
+ * Creates an Ollama client with dynamic configuration. Use this when your host or port may change
+ * at runtime.
  *
  * Swift usage:
  * ```swift

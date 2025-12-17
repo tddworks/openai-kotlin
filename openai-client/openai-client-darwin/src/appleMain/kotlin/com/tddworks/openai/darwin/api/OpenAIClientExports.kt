@@ -13,14 +13,12 @@ import com.tddworks.openai.api.OpenAI
  * let client = OpenAIClient(apiKey: "your-api-key", baseUrl: "https://custom.api.com")
  * ```
  */
-fun OpenAIClient(
-    apiKey: String,
-    baseUrl: String = OpenAI.BASE_URL,
-): OpenAI = OpenAI.create(apiKey = apiKey, baseUrl = baseUrl)
+fun OpenAIClient(apiKey: String, baseUrl: String = OpenAI.BASE_URL): OpenAI =
+    OpenAI.create(apiKey = apiKey, baseUrl = baseUrl)
 
 /**
- * Creates an OpenAI client with dynamic configuration.
- * Use this when your API key or base URL may change at runtime.
+ * Creates an OpenAI client with dynamic configuration. Use this when your API key or base URL may
+ * change at runtime.
  *
  * Swift usage:
  * ```swift
@@ -30,7 +28,5 @@ fun OpenAIClient(
  * )
  * ```
  */
-fun OpenAIClient(
-    apiKey: () -> String,
-    baseUrl: () -> String = { OpenAI.BASE_URL },
-): OpenAI = OpenAI.create(apiKey = apiKey, baseUrl = baseUrl)
+fun OpenAIClient(apiKey: () -> String, baseUrl: () -> String = { OpenAI.BASE_URL }): OpenAI =
+    OpenAI.create(apiKey = apiKey, baseUrl = baseUrl)

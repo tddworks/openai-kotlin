@@ -16,15 +16,12 @@ fun AnthropicClient(
     apiKey: String,
     baseUrl: String = Anthropic.BASE_URL,
     anthropicVersion: String = Anthropic.ANTHROPIC_VERSION,
-): Anthropic = Anthropic.create(
-    apiKey = apiKey,
-    baseUrl = baseUrl,
-    anthropicVersion = anthropicVersion
-)
+): Anthropic =
+    Anthropic.create(apiKey = apiKey, baseUrl = baseUrl, anthropicVersion = anthropicVersion)
 
 /**
- * Creates an Anthropic client with dynamic configuration.
- * Use this when your API key or settings may change at runtime.
+ * Creates an Anthropic client with dynamic configuration. Use this when your API key or settings
+ * may change at runtime.
  *
  * Swift usage:
  * ```swift
@@ -37,8 +34,5 @@ fun AnthropicClient(
     apiKey: () -> String,
     baseUrl: () -> String = { Anthropic.BASE_URL },
     anthropicVersion: () -> String = { Anthropic.ANTHROPIC_VERSION },
-): Anthropic = Anthropic.create(
-    apiKey = apiKey,
-    baseUrl = baseUrl,
-    anthropicVersion = anthropicVersion
-)
+): Anthropic =
+    Anthropic.create(apiKey = apiKey, baseUrl = baseUrl, anthropicVersion = anthropicVersion)

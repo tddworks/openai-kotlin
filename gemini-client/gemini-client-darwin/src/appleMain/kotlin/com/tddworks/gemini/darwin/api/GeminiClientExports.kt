@@ -12,14 +12,12 @@ import com.tddworks.gemini.api.textGeneration.api.Gemini
  * let client = GeminiClient(apiKey: "your-api-key")
  * ```
  */
-fun GeminiClient(
-    apiKey: String,
-    baseUrl: String = Gemini.BASE_URL,
-): Gemini = Gemini.create(apiKey = apiKey, baseUrl = baseUrl)
+fun GeminiClient(apiKey: String, baseUrl: String = Gemini.BASE_URL): Gemini =
+    Gemini.create(apiKey = apiKey, baseUrl = baseUrl)
 
 /**
- * Creates a Gemini client with dynamic configuration.
- * Use this when your API key or base URL may change at runtime.
+ * Creates a Gemini client with dynamic configuration. Use this when your API key or base URL may
+ * change at runtime.
  *
  * Swift usage:
  * ```swift
@@ -28,7 +26,5 @@ fun GeminiClient(
  * )
  * ```
  */
-fun GeminiClient(
-    apiKey: () -> String,
-    baseUrl: () -> String = { Gemini.BASE_URL },
-): Gemini = Gemini.create(apiKey = apiKey, baseUrl = baseUrl)
+fun GeminiClient(apiKey: () -> String, baseUrl: () -> String = { Gemini.BASE_URL }): Gemini =
+    Gemini.create(apiKey = apiKey, baseUrl = baseUrl)
