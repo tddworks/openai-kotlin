@@ -36,13 +36,9 @@ kmmbridge {
      * that are passed in from GitHub Actions.
      */
     mavenPublishArtifacts() // <- Publish using a Maven repo
-    /** https://github.com/touchlab/KMMBridge/issues/258 */
-    spm(
-        swiftToolVersion = "5.9"
-        //        useCustomPackageFile = true,
-        //        perModuleVariablesBlock = true
-    ) {
+    /** https://github.com/touchlab/KMMBridge/pull/251 - Multiple packages in same Package.swift */
+    spm(swiftToolVersion = "5.9", useCustomPackageFile = true, perModuleVariablesBlock = true) {
         iOS { v("15") }
-        //        macOS { v("15") }
+        macOS { v("15") }
     }
 }

@@ -8,7 +8,7 @@ plugins {
 kotlin {
     listOf(macosArm64(), iosArm64(), iosSimulatorArm64()).forEach { macosTarget ->
         macosTarget.binaries.framework {
-            baseName = "openai-gateway-darwin"
+            baseName = "OpenAIGateway"
             export(projects.openaiGateway.openaiGatewayCore)
             export(projects.openaiClient.openaiClientDarwin)
             export(projects.ollamaClient.ollamaClientDarwin)
@@ -42,14 +42,9 @@ kmmbridge {
      * that are passed in from GitHub Actions.
      */
     mavenPublishArtifacts() // <- Publish using a Maven repo
-
-    //    spm {
-    //        swiftToolsVersion = "5.9"
-    //        platforms {
-    //            iOS("14")
-    //            macOS("13")
-    //            watchOS("7")
-    //            tvOS("14")
-    //        }
-    //    }
+    /** https://github.com/touchlab/KMMBridge/pull/251 - Multiple packages in same Package.swift */
+    spm(swiftToolVersion = "5.9", useCustomPackageFile = true, perModuleVariablesBlock = true) {
+        iOS { v("15") }
+        macOS { v("15") }
+    }
 }
