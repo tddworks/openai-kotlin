@@ -2,32 +2,32 @@
 import PackageDescription
 
 // BEGIN KMMBRIDGE VARIABLES BLOCK FOR 'OpenAIClient' (do not edit)
-let remoteOpenAIClientUrl = ""
-let remoteOpenAIClientChecksum = ""
+let remoteOpenAIClientUrl = "https://api.github.com/repos/tddworks/openai-kotlin/releases/assets/330053145.zip"
+let remoteOpenAIClientChecksum = "fca94abb06405cd59bcd554be13d4132d4d5ca435a689d09fd5ea5c3c662cc93"
 let openAIClientPackageName = "OpenAIClient"
 // END KMMBRIDGE BLOCK FOR 'OpenAIClient'
 
 // BEGIN KMMBRIDGE VARIABLES BLOCK FOR 'AnthropicClient' (do not edit)
-let remoteAnthropicClientUrl = ""
-let remoteAnthropicClientChecksum = ""
+let remoteAnthropicClientUrl = "https://api.github.com/repos/tddworks/openai-kotlin/releases/assets/330054122.zip"
+let remoteAnthropicClientChecksum = "6f8fc328c7e2ddbd18210204bca66a11e1eb093271152be71ac785dd24cca396"
 let anthropicClientPackageName = "AnthropicClient"
 // END KMMBRIDGE BLOCK FOR 'AnthropicClient'
 
 // BEGIN KMMBRIDGE VARIABLES BLOCK FOR 'GeminiClient' (do not edit)
-let remoteGeminiClientUrl = ""
-let remoteGeminiClientChecksum = ""
+let remoteGeminiClientUrl = "https://api.github.com/repos/tddworks/openai-kotlin/releases/assets/330055475.zip"
+let remoteGeminiClientChecksum = "0edb298a982adc7a11cdac68e9ee5b01632e8189aca8c2ffa002ca04f99a4059"
 let geminiClientPackageName = "GeminiClient"
 // END KMMBRIDGE BLOCK FOR 'GeminiClient'
 
 // BEGIN KMMBRIDGE VARIABLES BLOCK FOR 'OllamaClient' (do not edit)
-let remoteOllamaClientUrl = ""
-let remoteOllamaClientChecksum = ""
+let remoteOllamaClientUrl = "https://api.github.com/repos/tddworks/openai-kotlin/releases/assets/330056394.zip"
+let remoteOllamaClientChecksum = "40634a40c992c491f7e39cee8541de57583ac8cf54f4ff03d207ca41e1910601"
 let ollamaClientPackageName = "OllamaClient"
 // END KMMBRIDGE BLOCK FOR 'OllamaClient'
 
 // BEGIN KMMBRIDGE VARIABLES BLOCK FOR 'OpenAIGateway' (do not edit)
-let remoteOpenAIGatewayUrl = ""
-let remoteOpenAIGatewayChecksum = ""
+let remoteOpenAIGatewayUrl = "https://api.github.com/repos/tddworks/openai-kotlin/releases/assets/330057180.zip"
+let remoteOpenAIGatewayChecksum = "399e3320723cacdff0b881b68866aa88515ad873e7e163e22bb0a0d81bba4bc8"
 let openAIGatewayPackageName = "OpenAIGateway"
 // END KMMBRIDGE BLOCK FOR 'OpenAIGateway'
 
