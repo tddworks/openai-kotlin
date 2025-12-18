@@ -5,31 +5,31 @@ import PackageDescription
 let remoteOpenAIClientUrl = ""
 let remoteOpenAIClientChecksum = ""
 let openAIClientPackageName = "OpenAIClient"
-// END KMMBRIDGE VARIABLES BLOCK FOR 'OpenAIClient'
+// END KMMBRIDGE BLOCK FOR 'OpenAIClient'
 
 // BEGIN KMMBRIDGE VARIABLES BLOCK FOR 'AnthropicClient' (do not edit)
 let remoteAnthropicClientUrl = ""
 let remoteAnthropicClientChecksum = ""
 let anthropicClientPackageName = "AnthropicClient"
-// END KMMBRIDGE VARIABLES BLOCK FOR 'AnthropicClient'
+// END KMMBRIDGE BLOCK FOR 'AnthropicClient'
 
 // BEGIN KMMBRIDGE VARIABLES BLOCK FOR 'GeminiClient' (do not edit)
 let remoteGeminiClientUrl = ""
 let remoteGeminiClientChecksum = ""
 let geminiClientPackageName = "GeminiClient"
-// END KMMBRIDGE VARIABLES BLOCK FOR 'GeminiClient'
+// END KMMBRIDGE BLOCK FOR 'GeminiClient'
 
 // BEGIN KMMBRIDGE VARIABLES BLOCK FOR 'OllamaClient' (do not edit)
 let remoteOllamaClientUrl = ""
 let remoteOllamaClientChecksum = ""
 let ollamaClientPackageName = "OllamaClient"
-// END KMMBRIDGE VARIABLES BLOCK FOR 'OllamaClient'
+// END KMMBRIDGE BLOCK FOR 'OllamaClient'
 
 // BEGIN KMMBRIDGE VARIABLES BLOCK FOR 'OpenAIGateway' (do not edit)
 let remoteOpenAIGatewayUrl = ""
 let remoteOpenAIGatewayChecksum = ""
 let openAIGatewayPackageName = "OpenAIGateway"
-// END KMMBRIDGE VARIABLES BLOCK FOR 'OpenAIGateway'
+// END KMMBRIDGE BLOCK FOR 'OpenAIGateway'
 
 let package = Package(
     name: "openai-kotlin",
