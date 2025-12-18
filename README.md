@@ -111,7 +111,7 @@ Add the package to your `Package.swift` or via Xcode:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/tddworks/openai-kotlin.git", from: "0.2.3")
+    .package(url: "https://github.com/tddworks/openai-kotlin.git", branch: "main")
 ]
 ```
 
