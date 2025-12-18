@@ -2,32 +2,32 @@
 import PackageDescription
 
 // BEGIN KMMBRIDGE VARIABLES BLOCK FOR 'OpenAIClient' (do not edit)
-let remoteOpenAIClientUrl = "https://github.com/tddworks/openai-kotlin/releases/download/0.2.3/OpenAIClient.xcframework.zip"
-let remoteOpenAIClientChecksum = "707f67cc87d4bd2fed15816ab1ae5a09f056608ce6002927a191cdd38811a5c6"
+let remoteOpenAIClientUrl = "https://api.github.com/repos/tddworks/openai-kotlin/releases/assets/330106385.zip"
+let remoteOpenAIClientChecksum = "cf581b8a05b2211883952ff848d2734c767543df00c4d86f121e0cc5ffd64d94"
 let openAIClientPackageName = "OpenAIClient"
 // END KMMBRIDGE BLOCK FOR 'OpenAIClient'
 
 // BEGIN KMMBRIDGE VARIABLES BLOCK FOR 'AnthropicClient' (do not edit)
-let remoteAnthropicClientUrl = "https://github.com/tddworks/openai-kotlin/releases/download/0.2.3/AnthropicClient.xcframework.zip"
-let remoteAnthropicClientChecksum = "26ae52d78bb9875e4fe4bbaac7be7993a653857c8454eb82e60e2ff20b818dcb"
+let remoteAnthropicClientUrl = "https://api.github.com/repos/tddworks/openai-kotlin/releases/assets/330107349.zip"
+let remoteAnthropicClientChecksum = "c57ecbb4c12e7d3e5dbb0505fc5ed7880b9dcc68e2c29842e61b2f66fa9e6bcb"
 let anthropicClientPackageName = "AnthropicClient"
 // END KMMBRIDGE BLOCK FOR 'AnthropicClient'
 
 // BEGIN KMMBRIDGE VARIABLES BLOCK FOR 'GeminiClient' (do not edit)
-let remoteGeminiClientUrl = "https://github.com/tddworks/openai-kotlin/releases/download/0.2.3/GeminiClient.xcframework.zip"
-let remoteGeminiClientChecksum = "7dfc3a205e79f3d605dc2f1a60748b7691ca98830c07be39bd96f746d8a9a596"
+let remoteGeminiClientUrl = "https://api.github.com/repos/tddworks/openai-kotlin/releases/assets/330108062.zip"
+let remoteGeminiClientChecksum = "f2982ec6362b60bc1ea8b33edf15e12ec229c458671215dd9d3bc9a96520e8fe"
 let geminiClientPackageName = "GeminiClient"
 // END KMMBRIDGE BLOCK FOR 'GeminiClient'
 
 // BEGIN KMMBRIDGE VARIABLES BLOCK FOR 'OllamaClient' (do not edit)
-let remoteOllamaClientUrl = "https://github.com/tddworks/openai-kotlin/releases/download/0.2.3/OllamaClient.xcframework.zip"
-let remoteOllamaClientChecksum = "dbc2800796452c73197d9355ee2e099e58d5464347c17da87db53136f56a43e2"
+let remoteOllamaClientUrl = "https://api.github.com/repos/tddworks/openai-kotlin/releases/assets/330108600.zip"
+let remoteOllamaClientChecksum = "9fac5388fbdbbe316a463f9d63038121d982e689fea8de2a7bf21419532f2e67"
 let ollamaClientPackageName = "OllamaClient"
 // END KMMBRIDGE BLOCK FOR 'OllamaClient'
 
 // BEGIN KMMBRIDGE VARIABLES BLOCK FOR 'OpenAIGateway' (do not edit)
-let remoteOpenAIGatewayUrl = "https://github.com/tddworks/openai-kotlin/releases/download/0.2.3/OpenAIGateway.xcframework.zip"
-let remoteOpenAIGatewayChecksum = "89b8c18bbccf5cbc3f2b180343a54e1d2d11166aec2007d134f754a399891da6"
+let remoteOpenAIGatewayUrl = "https://api.github.com/repos/tddworks/openai-kotlin/releases/assets/330109753.zip"
+let remoteOpenAIGatewayChecksum = "8931a4d77c7e6a240278059f42c40ae5beac1d7c12edf2ab240c028cbb13dae3"
 let openAIGatewayPackageName = "OpenAIGateway"
 // END KMMBRIDGE BLOCK FOR 'OpenAIGateway'
 
