@@ -1,0 +1,65 @@
+name: KMMBridge-Debug
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  kmmbridgepublish:
+    concurrency: "kmmbridgepublish-${{ github.repository }}"
+    runs-on: macos-latest
+    steps:
+      - name: Checkout the repo with tags
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - uses: touchlab/read-property@0.1
+        id: versionPropertyValue
+        with:
+          file: ./gradle.properties
+          property: LIBRARY_VERSION
+
+      - name: Print versionPropertyValue
+        run: echo "${{ steps.versionPropertyValue.outputs.propVal }}"
+
+      - name: Get short commit hash
+        id: trimcommit
+        run: echo "short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "adopt"
+          java-version: 17
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v4
+
+      - name: Cache build tooling
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.konan
+          key: ${{ runner.os }}-v4-${{ hashFiles('*.gradle.kts') }}
+
+      - name: Create or Find Artifact Release
+        id: devrelease
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          tag_name: "dev-${{ steps.versionPropertyValue.outputs.propVal }}"
+
+      - name: Build and Publish
+        run: ./gradlew kmmBridgePublish -PNATIVE_BUILD_TYPE=DEBUG -PGITHUB_ARTIFACT_RELEASE_ID=${{ steps.devrelease.outputs.id }} -PGITHUB_ARTIFACT_IDENTIFIER_NAME=${{ steps.trimcommit.outputs.short }} -PGITHUB_PUBLISH_TOKEN=${{ secrets.GITHUB_TOKEN }} -PGITHUB_REPO=${{ github.repository }} --no-configuration-cache --no-daemon --info --stacktrace
+        env:
+          GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m"
+
+      - uses: EndBug/add-and-commit@v9
+        with:
+          message: "KMP SPM package update"
+          committer_name: GitHub Actions
+          committer_email: 41898282+github-actions[bot]@users.noreply.github.com
