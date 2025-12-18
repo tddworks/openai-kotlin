@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform).apply(false)
     alias(libs.plugins.kover)
     alias(libs.plugins.com.linecorp.build.recipe)
+    alias(libs.plugins.touchlab.kmmbridge) apply false
     alias(libs.plugins.build.dokka.plugin)
     alias(libs.plugins.kotlinx.binary.validator) apply false
     alias(libs.plugins.version.catalog.update)

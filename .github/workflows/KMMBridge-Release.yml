@@ -57,6 +57,7 @@ jobs:
             :gemini-client:gemini-client-darwin:kmmBridgePublish \
             :ollama-client:ollama-client-darwin:kmmBridgePublish \
             :openai-gateway:openai-gateway-darwin:kmmBridgePublish \
+            -PENABLE_PUBLISHING=true \
             -PGITHUB_ARTIFACT_RELEASE_ID=${{ steps.devrelease.outputs.id }} \
             -PGITHUB_PUBLISH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
             -PGITHUB_REPO=${{ github.repository }} \
