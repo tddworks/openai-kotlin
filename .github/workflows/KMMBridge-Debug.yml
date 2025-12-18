@@ -54,7 +54,19 @@ jobs:
           tag_name: "dev-${{ steps.versionPropertyValue.outputs.propVal }}"
 
       - name: Build and Publish
-        run: ./gradlew kmmBridgePublish -PNATIVE_BUILD_TYPE=DEBUG -PGITHUB_ARTIFACT_RELEASE_ID=${{ steps.devrelease.outputs.id }} -PGITHUB_ARTIFACT_IDENTIFIER_NAME=${{ steps.trimcommit.outputs.short }} -PGITHUB_PUBLISH_TOKEN=${{ secrets.GITHUB_TOKEN }} -PGITHUB_REPO=${{ github.repository }} --no-configuration-cache --no-daemon --info --stacktrace
+        run: |
+          ./gradlew \
+            :openai-client:openai-client-darwin:kmmBridgePublish \
+            :anthropic-client:anthropic-client-darwin:kmmBridgePublish \
+            :gemini-client:gemini-client-darwin:kmmBridgePublish \
+            :ollama-client:ollama-client-darwin:kmmBridgePublish \
+            :openai-gateway:openai-gateway-darwin:kmmBridgePublish \
+            -PNATIVE_BUILD_TYPE=DEBUG \
+            -PGITHUB_ARTIFACT_RELEASE_ID=${{ steps.devrelease.outputs.id }} \
+            -PGITHUB_ARTIFACT_IDENTIFIER_NAME=${{ steps.trimcommit.outputs.short }} \
+            -PGITHUB_PUBLISH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+            -PGITHUB_REPO=${{ github.repository }} \
+            --no-configuration-cache --no-daemon --info --stacktrace
         env:
           GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m"
 
